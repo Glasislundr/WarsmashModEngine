@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CItemType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
@@ -85,6 +86,23 @@ public class RandomTypeHandler {
 		}
 		int i = game.getSeededRandom().nextInt(randomItems.size());
 		return randomItems.get(i);
+	}
+
+	public static CItemType getRandomItemType(CSimulation game, War3ID previousType, int level,
+			boolean ignoreValidTargetField, boolean ignoreRandomPoolField) {
+		List<CItemType> filtered = new ArrayList<>();
+		for (CItemType type : game.getItemData().getAllItemTypes()) {
+			if (!type.getTypeId().equals(previousType) && (level == -1 || level == type.getLevel())
+					&& (ignoreValidTargetField || type.isValidTargetForTransformation())
+					&& (ignoreRandomPoolField || type.isIncludeAsRandomChoice())) {
+				filtered.add(type);
+			}
+		}
+		if (filtered.size() == 0) {
+			return null;
+		}
+		int i = game.getSeededRandom().nextInt(filtered.size());
+		return filtered.get(i);
 	}
 
 }

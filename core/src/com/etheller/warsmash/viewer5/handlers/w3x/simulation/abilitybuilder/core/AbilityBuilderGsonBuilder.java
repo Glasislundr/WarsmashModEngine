@@ -383,6 +383,8 @@ public abstract class AbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetUnitType.class, "getUnitType")
 				.registerSubtype(ABCallbackGetNonCurrentTransformType.class, "getNonCurrentTransformType")
 
+				.registerSubtype(ABCallbackGetItemType.class, "getItemType")
+				
 				.registerSubtype(ABCallbackRandomMechanicalCritterId.class, "randomMechanicalCritterId")
 				.registerSubtype(ABCallbackRandomItemId.class, "randomItemId")
 				
@@ -459,6 +461,9 @@ public abstract class AbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetNeutralPassivePlayerId.class, "getNeutralPassivePlayerId")
 
 				.registerSubtype(ABCallbackGetItemSlot.class, "getItemSlot")
+				.registerSubtype(ABCallbackGetItemLevel.class, "getItemLevel")
+				.registerSubtype(ABCallbackGetItemCharges.class, "getItemCharges")
+				.registerSubtype(ABCallbackGetItemMaxCharges.class, "getItemMaxCharges")
 
 				.registerSubtype(ABCallbackPlayerToStateModValue.class, "playerToStateModValue")
 				.registerSubtype(ABCallbackDetectionDropdownConversion.class, "detectionDropdownConversion")
@@ -892,6 +897,7 @@ public abstract class AbilityBuilderGsonBuilder {
 
 				.registerSubtype(ABConditionIsItemAbility.class, "isItemAbility")
 				.registerSubtype(ABConditionItemHasCharges.class, "itemHasCharges")
+				.registerSubtype(ABConditionItemIsCharged.class, "itemIsCharged")
 
 				.registerSubtype(ABConditionIsTree.class, "isTree")
 				.registerSubtype(ABConditionDoesDestructableHaveBuff.class, "doesDestructableHaveBuff")
