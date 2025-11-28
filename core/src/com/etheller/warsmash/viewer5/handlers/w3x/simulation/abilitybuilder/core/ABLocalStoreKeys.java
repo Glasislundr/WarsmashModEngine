@@ -105,12 +105,7 @@ public class ABLocalStoreKeys {
 	public static final String EVENTTARGETEDLOCATION = "_eventTargetedLocation#";
 	
 	//Generic Attacks
-	public static final String BASEDAMAGEDEALT = "_baseDamageDealt#";
-	public static final String BONUSDAMAGEDEALT = "_bonusDamageDealt#";
-	public static final String TOTALDAMAGEDEALT = "_totalDamageDealt#";
-	public static final String WEAPONTYPE = "_weaponType#";
-	public static final String ATTACKTYPE = "_attackType#";
-	public static final String DAMAGETYPE = "_damageType#";
+	public static final String DAMAGECALC = "_damageCalc#";
 	
 	//Timers
 	public static final String LASTCREATEDTIMER = "_lastCreatedTimer";
@@ -157,24 +152,18 @@ public class ABLocalStoreKeys {
 
 	// AttackEvasionListener Names
 	public static final String LASTCREATEDAEL = "_lastCreatedAEL";
-	public static final String DAMAGEISATTACK = "_damageIsAttack#";
-	public static final String DAMAGEISRANGED = "_damageIsRanged#";
 
 	// AttackPostDamageListener Names
 	public static final String LASTCREATEDAPoDL = "_lastCreatedAPoDL";
-	public static final String LISTENERLOOP = "_listenerLoop#";
 
 	// AttackPreDamageListener Names
 	public static final String LASTCREATEDAPrDL = "_lastCreatedAPrDL";
-	public static final String PREDAMAGERESULT = "_preDamageResult#";
-	public static final String PREDAMAGESTACKING = "_preDamageStacking#";
 	
 	// DamageTakenListener Names
 	public static final String LASTCREATEDDTL = "_lastCreatedDTL";
 
 	// DamageTakenModificationListener Names
 	public static final String LASTCREATEDDTML = "_lastCreatedDTML";
-	public static final String DAMAGEMODRESULT = "_damageModResult#";
 
 	// DamageTakenModificationListener Names
 	public static final String LASTCREATEDFDTML = "_lastCreatedFDTML";

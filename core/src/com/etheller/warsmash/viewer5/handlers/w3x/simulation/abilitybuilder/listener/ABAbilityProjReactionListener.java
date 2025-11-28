@@ -33,17 +33,17 @@ public class ABAbilityProjReactionListener implements CUnitAbilityProjReactionLi
 			this.triggerId++;
 		}
 		localStore.put(ABLocalStoreKeys.REACTIONALLOWHIT+triggerId, true);
-		localStore.put(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId, source);
-		localStore.put(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId, target);
-		localStore.put(ABLocalStoreKeys.ABILITYPROJ+triggerId, projectile);
 		if (actions != null) {
+			localStore.put(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId, source);
+			localStore.put(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId, target);
+			localStore.put(ABLocalStoreKeys.ABILITYPROJ+triggerId, projectile);
 			for (ABAction action : actions) {
 				action.runAction(simulation, target, localStore, triggerId);
 			}
+			localStore.remove(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId);
+			localStore.remove(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId);
+			localStore.remove(ABLocalStoreKeys.ABILITYPROJ+triggerId);
 		}
-		localStore.remove(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId);
-		localStore.remove(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId);
-		localStore.remove(ABLocalStoreKeys.ABILITYPROJ+triggerId);
 		return (boolean) localStore.remove(ABLocalStoreKeys.REACTIONALLOWHIT+triggerId);
 	}
 

@@ -9,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.environment.PathingGrid.Moveme
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.inventory.CAbilityInventory;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
@@ -41,7 +42,7 @@ public class CItem extends CWidget {
 		this.droppable = itemTypeInstance.isCanBeDropped();
 		this.pawnable = itemTypeInstance.isPawnable();
 	}
-	
+
 	public void setTypeId(CSimulation game, War3ID typeId) {
 		int slot = 0;
 		if (this.containedInventory != null) {
@@ -54,12 +55,12 @@ public class CItem extends CWidget {
 		this.dropOnDeath = this.itemType.isDroppedWhenCarrierDies();
 		this.droppable = this.itemType.isCanBeDropped();
 		this.pawnable = this.itemType.isPawnable();
-		
+
 		game.updateItemModel(this);
 		if (this.containedInventory != null) {
 			this.containedInventory.giveItem(game, this.containedUnit, this, slot, false);
 		}
-		
+
 	}
 
 	@Override
@@ -91,10 +92,9 @@ public class CItem extends CWidget {
 	}
 
 	@Override
-	public float damage(final CSimulation simulation, final CUnit source, final CDamageFlags flags,
-			final CAttackType attackType, final CDamageType damageType, final String weaponSoundType,
-			final float damage, final float bonusDamage) {
-		return this.damage(simulation, source, flags, attackType, damageType, weaponSoundType, damage + bonusDamage);
+	public float damage(CSimulation simulation, CDamageCalculation damage) {
+		return this.damage(simulation, damage.getSource(), damage.getPrimaryDamageFlags(), damage.getAttackType(),
+				damage.getPrimaryDamageType(), damage.getWeaponSoundType(), damage.computeRawTotalDamage());
 	}
 
 	public void forceDropIfHeld(final CSimulation simulation) {

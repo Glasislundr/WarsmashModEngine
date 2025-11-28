@@ -43,6 +43,9 @@ public class ABAttackModifier implements CUnitAttackModifier {
 
 	@Override
 	public int getPriority(CSimulation simulation, CUnit source, AbilityTarget target, CUnitAttack attack) {
+		if (this.priority == null) {
+			return 0;
+		}
 		if (!this.useCastId) {
 			this.castId--;
 		}

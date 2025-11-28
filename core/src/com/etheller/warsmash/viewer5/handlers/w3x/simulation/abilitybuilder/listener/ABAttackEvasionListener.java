@@ -7,8 +7,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackEvasionListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
 
 public class ABAttackEvasionListener implements CUnitAttackEvasionListener {
 
@@ -28,24 +28,19 @@ public class ABAttackEvasionListener implements CUnitAttackEvasionListener {
 	}
 	
 	@Override
-	public boolean onAttack(CSimulation simulation, CUnit attacker, CUnit target, boolean isAttack, boolean isRanged,
-			CDamageType damageType) {
+	public boolean onAttack(CSimulation simulation, CUnit target, CDamageCalculation damage) {
 		boolean evade = false;
-		localStore.put(ABLocalStoreKeys.ATTACKINGUNIT+triggerId, attacker);
-		localStore.put(ABLocalStoreKeys.ATTACKTARGET+triggerId, target);
-		localStore.put(ABLocalStoreKeys.DAMAGEISATTACK+triggerId, isAttack);
-		localStore.put(ABLocalStoreKeys.DAMAGEISRANGED+triggerId, isRanged);
-		localStore.put(ABLocalStoreKeys.DAMAGETYPE+triggerId, damageType);
 		if (conditions != null) {
+			localStore.put(ABLocalStoreKeys.ATTACKINGUNIT+triggerId, damage.getSource());
+			localStore.put(ABLocalStoreKeys.ATTACKTARGET+triggerId, target);
+			localStore.put(ABLocalStoreKeys.DAMAGECALC+triggerId, damage);
 			for (ABCondition condition : conditions) {
 				evade = evade || condition.callback(simulation, target, localStore, triggerId);
 			}
+			localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT+triggerId);
+			localStore.remove(ABLocalStoreKeys.ATTACKTARGET+triggerId);
+			localStore.remove(ABLocalStoreKeys.DAMAGECALC+triggerId);
 		}
-		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT+triggerId);
-		localStore.remove(ABLocalStoreKeys.ATTACKTARGET+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGEISATTACK+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGEISRANGED+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGETYPE+triggerId);
 		if (!this.useCastId) {
 			this.triggerId++;
 		}

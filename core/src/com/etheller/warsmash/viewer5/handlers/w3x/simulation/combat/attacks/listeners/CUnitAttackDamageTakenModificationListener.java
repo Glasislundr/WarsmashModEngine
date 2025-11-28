@@ -2,10 +2,10 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.lis
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 
 public interface CUnitAttackDamageTakenModificationListener {
-	public CUnitAttackDamageTakenModificationListenerDamageModResult onDamage(final CSimulation simulation, CUnit attacker, CUnit target, final CDamageFlags flags, CAttackType attackType, CDamageType damageType, CUnitAttackDamageTakenModificationListenerDamageModResult previousDamage);
+	public int getPriority(CSimulation simulation, CUnit cUnit, CDamageCalculation damage);
+	
+	public void onDamage(CSimulation simulation, CUnit cUnit, CDamageCalculation damage);
 }

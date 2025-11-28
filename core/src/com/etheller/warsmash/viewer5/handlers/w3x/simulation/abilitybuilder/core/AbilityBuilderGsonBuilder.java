@@ -263,15 +263,6 @@ public abstract class AbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetStoredEvasionListenerByKey.class, "getStoredEvasionListenerByKey");
 	}
 
-	private static void registerFinalDamageTakenModificationListenerCallbacks(
-			RuntimeTypeAdapterFactory callbackTypeFactory) {
-		callbackTypeFactory
-				.registerSubtype(ABCallbackGetLastCreatedFinalDamageTakenModificationListener.class,
-						"getLastCreatedFinalDamageTakenModificationListener")
-				.registerSubtype(ABCallbackGetStoredFinalDamageTakenModificationListenerByKey.class,
-						"getStoredFinalDamageTakenModificationListenerByKey");
-	}
-
 	private static void registerFloatCallbacks(RuntimeTypeAdapterFactory callbackTypeFactory) {
 		callbackTypeFactory.registerSubtype(ABCallbackGetAbilityArea.class, "getAbilityArea")
 				.registerSubtype(ABCallbackGetAbilityDuration.class, "getAbilityDuration")
@@ -1147,11 +1138,6 @@ public abstract class AbilityBuilderGsonBuilder {
 				.registerSubtype(ABActionAddDamageTakenModificationListener.class, "addDamageTakenModificationListener")
 				.registerSubtype(ABActionRemoveDamageTakenModificationListener.class,
 						"removeDamageTakenModificationListener")
-				.registerSubtype(ABActionCreateFinalDamageTakenModificationListener.class,
-						"createFinalDamageTakenModificationListener")
-				.registerSubtype(ABActionAddFinalDamageTakenModificationListener.class, "addFinalDamageTakenModificationListener")
-				.registerSubtype(ABActionRemoveFinalDamageTakenModificationListener.class,
-						"removeFinalDamageTakenModificationListener")
 				.registerSubtype(ABActionCreateEvasionListener.class, "createEvasionListener")
 				.registerSubtype(ABActionAddEvasionListener.class, "addEvasionListener")
 				.registerSubtype(ABActionRemoveEvasionListener.class, "removeEvasionListener")
@@ -1311,7 +1297,6 @@ public abstract class AbilityBuilderGsonBuilder {
 		registerDestructableCallbacks(callbackTypeFactory);
 		registerDestructableBuffCallbacks(callbackTypeFactory);
 		registerEvasionListenerCallbacks(callbackTypeFactory);
-		registerFinalDamageTakenModificationListenerCallbacks(callbackTypeFactory);
 		registerFloatCallbacks(callbackTypeFactory);
 		registerGenericFloatCallbacks(callbackTypeFactory);
 		registerFxCallbacks(callbackTypeFactory);
@@ -1431,11 +1416,6 @@ public abstract class AbilityBuilderGsonBuilder {
 				.of(ABEvasionListenerCallback.class, "type");
 		registerEvasionListenerCallbacks(evasionListenerCallbackTypeFactory);
 		gsonBuilder.registerTypeAdapterFactory(evasionListenerCallbackTypeFactory);
-
-		final RuntimeTypeAdapterFactory<ABFinalDamageTakenModificationListenerCallback> finalDamageTakenModificationListenerCallbackTypeFactory = RuntimeTypeAdapterFactory
-				.of(ABFinalDamageTakenModificationListenerCallback.class, "type");
-		registerFinalDamageTakenModificationListenerCallbacks(finalDamageTakenModificationListenerCallbackTypeFactory);
-		gsonBuilder.registerTypeAdapterFactory(finalDamageTakenModificationListenerCallbackTypeFactory);
 
 		final RuntimeTypeAdapterFactory<ABFloatCallback> floatCallbackTypeFactory = RuntimeTypeAdapterFactory
 				.of(ABFloatCallback.class, "type");

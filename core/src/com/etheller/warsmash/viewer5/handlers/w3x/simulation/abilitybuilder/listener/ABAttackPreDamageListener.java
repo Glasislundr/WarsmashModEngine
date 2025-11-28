@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackEffectListenerStacking;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListenerDamageModResult;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.replacement.CUnitAttackSettings;
 
 public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
@@ -34,22 +32,17 @@ public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
 	}
 
 	@Override
-	public CUnitAttackEffectListenerStacking onAttack(CSimulation simulation, CUnit attacker, AbilityTarget target,
-			AbilityPointTarget attackImpactLocation, CUnitAttack attack, CUnitAttackSettings settings,
-			CUnitAttackPreDamageListenerDamageModResult damageResult) {
-		localStore.put(ABLocalStoreKeys.ATTACKINGUNIT + triggerId, attacker);
+	public void onAttack(CSimulation simulation, AbilityTarget target, AbilityPointTarget attackImpactLocation,
+			CUnitAttack attack, CUnitAttackSettings settings, CDamageCalculation calc) {
+		localStore.put(ABLocalStoreKeys.ATTACKINGUNIT + triggerId, calc.getSource());
 		localStore.put(ABLocalStoreKeys.ATTACKTARGET + triggerId, target);
 		localStore.put(ABLocalStoreKeys.ATTACKIMPACTLOCATION + triggerId, attackImpactLocation);
 		localStore.put(ABLocalStoreKeys.THEATTACK + triggerId, attack);
 		localStore.put(ABLocalStoreKeys.ATTACKSETTINGS + triggerId, settings);
-		localStore.put(ABLocalStoreKeys.BASEDAMAGEDEALT + triggerId, damageResult.getBaseDamage());
-		localStore.put(ABLocalStoreKeys.BONUSDAMAGEDEALT + triggerId, damageResult.getBonusDamage());
-		localStore.put(ABLocalStoreKeys.PREDAMAGERESULT + triggerId, damageResult);
-		CUnitAttackEffectListenerStacking stacking = new CUnitAttackEffectListenerStacking();
-		localStore.put(ABLocalStoreKeys.PREDAMAGESTACKING + triggerId, stacking);
+		localStore.put(ABLocalStoreKeys.DAMAGECALC + triggerId, calc);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(simulation, attacker, localStore, triggerId);
+				action.runAction(simulation, calc.getSource(), localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + triggerId);
@@ -57,14 +50,10 @@ public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
 		localStore.remove(ABLocalStoreKeys.ATTACKIMPACTLOCATION + triggerId);
 		localStore.remove(ABLocalStoreKeys.THEATTACK + triggerId);
 		localStore.remove(ABLocalStoreKeys.ATTACKSETTINGS + triggerId);
-		localStore.remove(ABLocalStoreKeys.BASEDAMAGEDEALT + triggerId);
-		localStore.remove(ABLocalStoreKeys.BONUSDAMAGEDEALT + triggerId);
-		localStore.remove(ABLocalStoreKeys.PREDAMAGERESULT + triggerId);
-		localStore.remove(ABLocalStoreKeys.PREDAMAGESTACKING + triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGECALC + triggerId);
 		if (!this.useCastId) {
 			this.triggerId++;
 		}
-		return stacking;
 	}
 
 }

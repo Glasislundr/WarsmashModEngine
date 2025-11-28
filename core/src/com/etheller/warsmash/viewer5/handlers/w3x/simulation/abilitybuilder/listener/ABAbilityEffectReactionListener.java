@@ -33,17 +33,17 @@ public class ABAbilityEffectReactionListener implements CUnitAbilityEffectReacti
 			this.triggerId++;
 		}
 		localStore.put(ABLocalStoreKeys.REACTIONALLOWHIT+triggerId, true);
-		localStore.put(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId, source);
-		localStore.put(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId, target);
-		localStore.put(ABLocalStoreKeys.REACTIONABILITY+triggerId, ability);
 		if (actions != null) {
+			localStore.put(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId, source);
+			localStore.put(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId, target);
+			localStore.put(ABLocalStoreKeys.REACTIONABILITY+triggerId, ability);
 			for (ABAction action : actions) {
 				action.runAction(simulation, target, localStore, triggerId);
 			}
+			localStore.remove(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId);
+			localStore.remove(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId);
+			localStore.remove(ABLocalStoreKeys.REACTIONABILITY+triggerId);
 		}
-		localStore.remove(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId);
-		localStore.remove(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId);
-		localStore.remove(ABLocalStoreKeys.REACTIONABILITY+triggerId);
 		return (boolean) localStore.remove(ABLocalStoreKeys.REACTIONALLOWHIT+triggerId);
 	}
 

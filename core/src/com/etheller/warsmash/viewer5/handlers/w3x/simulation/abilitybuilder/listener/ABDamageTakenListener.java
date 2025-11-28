@@ -5,40 +5,52 @@ import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackDamageTakenListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
 
 public class ABDamageTakenListener implements CUnitAttackDamageTakenListener {
 
 	private Map<String, Object> localStore;
+	private ABIntegerCallback priority;
 	private List<ABAction> actions;
 	
 	private int triggerId = 0;
 	private boolean useCastId;
 	
-	public ABDamageTakenListener(Map<String, Object> localStore, List<ABAction> actions, int castId, boolean useCastId) {
+	public ABDamageTakenListener(Map<String, Object> localStore,
+			ABIntegerCallback priority, List<ABAction> actions, int castId, boolean useCastId) {
 		this.localStore = localStore;
+		this.priority = priority;
 		this.actions = actions;
 		this.useCastId = useCastId;
 		if (useCastId) {
 			this.triggerId = castId;
 		}
 	}
+
+	@Override
+	public int getPriority(CSimulation simulation, CUnit target, CDamageCalculation damage) {
+		if (priority == null) {
+			return 0;
+		}
+		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT+triggerId, damage.getSource());
+		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT+triggerId, target);
+		localStore.put(ABLocalStoreKeys.DAMAGECALC+triggerId, damage);
+		int prio = this.priority.callback(simulation, target, this.localStore, this.triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT+triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT+triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGECALC+triggerId);
+		return prio;
+	}
 	
 	@Override
-	public void onDamage(CSimulation simulation, CUnit attacker, CUnit target, final CDamageFlags flags,
-			CDamageType damageType, float damage, float bonusDamage, float trueDamage) {
-		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT+triggerId, attacker);
+	public void onDamage(CSimulation simulation, CUnit target, CDamageCalculation damage) {
+		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT+triggerId, damage.getSource());
 		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT+triggerId, target);
-		localStore.put(ABLocalStoreKeys.DAMAGEISATTACK+triggerId, flags.isAttack());
-		localStore.put(ABLocalStoreKeys.DAMAGEISRANGED+triggerId, flags.isRanged());
-		localStore.put(ABLocalStoreKeys.DAMAGETYPE+triggerId, damageType);
-		localStore.put(ABLocalStoreKeys.BASEDAMAGEDEALT+triggerId, damage);
-		localStore.put(ABLocalStoreKeys.BONUSDAMAGEDEALT+triggerId, bonusDamage);
-		localStore.put(ABLocalStoreKeys.TOTALDAMAGEDEALT+triggerId, trueDamage);
+		localStore.put(ABLocalStoreKeys.DAMAGECALC+triggerId, damage);
 		if (actions != null) {
 			for (ABAction action : actions) {
 				action.runAction(simulation, target, localStore, triggerId);
@@ -46,12 +58,7 @@ public class ABDamageTakenListener implements CUnitAttackDamageTakenListener {
 		}
 		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT+triggerId);
 		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGEISATTACK+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGEISRANGED+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGETYPE+triggerId);
-		localStore.remove(ABLocalStoreKeys.BASEDAMAGEDEALT+triggerId);
-		localStore.remove(ABLocalStoreKeys.BONUSDAMAGEDEALT+triggerId);
-		localStore.remove(ABLocalStoreKeys.TOTALDAMAGEDEALT+triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGECALC+triggerId);
 		if (!this.useCastId) {
 			this.triggerId++;
 		}
