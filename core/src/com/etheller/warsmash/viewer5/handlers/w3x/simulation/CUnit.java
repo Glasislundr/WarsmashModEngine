@@ -3411,6 +3411,7 @@ public class CUnit extends CWidget {
 						priorityMask |= 1 << (prio < 31 ? prio : 31);
 					}
 					if (prio == i && !damage.isSkipCurrentLevel()) {
+						damage.applyMultiplier();
 						listener.onDamage(simulation, this, damage);
 					}
 				}

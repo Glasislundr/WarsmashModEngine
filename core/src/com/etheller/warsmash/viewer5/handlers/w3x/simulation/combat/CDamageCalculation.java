@@ -1,5 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,6 +71,19 @@ public class CDamageCalculation {
 		this.unlockMultiplier = true;
 	}
 
+	public void applyMultiplier() {
+		if (this.damageMultiplier == 1f) {
+			return;
+		}
+		this.primaryAmount *= this.damageMultiplier;
+		if (bonusDamages != null) {
+			for (CBonusDamage bonus : bonusDamages) {
+				bonus.applyMultiplier(this.damageMultiplier);
+			}
+		}
+		this.damageMultiplier = 1f;
+	}
+
 	public float computeFinalDamage(CSimulation simulation, CUnit unit) {
 		float trueDamage = 0;
 		if (!isImmuneToPrimaryDamage(simulation, unit)
@@ -80,7 +94,8 @@ public class CDamageCalculation {
 
 		if (bonusDamages != null) {
 			for (CBonusDamage bonus : bonusDamages) {
-				trueDamage += bonus.computeFinalDamage(simulation, unit, attackType, this.damageMultiplier, trueDamage);
+				trueDamage += bonus.computeFinalDamage(simulation, unit, this.attackType, this.primaryDamageType,
+						this.damageMultiplier, trueDamage);
 			}
 		}
 
@@ -324,27 +339,50 @@ public class CDamageCalculation {
 	}
 
 	public void subtractTotalDamageDealt(float reduction, float minimum) {
+		System.err.println("Reducing damage: start:" + this.primaryAmount + " reduction:" + reduction + " min:" + minimum);
 		float primMinus = this.primaryAmount - reduction;
 		if (primMinus > minimum) {
 			this.primaryAmount = primMinus;
 		} else {
 			if (this.bonusDamages != null) {
-				float remRed = reduction - this.primaryAmount;
+				float total = this.primaryAmount;
 				for (CBonusDamage bonus : this.bonusDamages) {
-					
+					total += bonus.getAmount();
+				}
+				float target = Math.max(minimum, total - reduction);
+				if (target < total) {
+					Iterator<CBonusDamage> reverse = this.bonusDamages.descendingIterator();
+					CBonusDamage bonus = null;
+					do {
+						bonus = reverse.next();
+						float cur = bonus.getAmount();
+						if (cur > target) {
+							bonus.setAmount(target);
+							target = 0;
+						} else {
+							target = Math.max(0, target - cur);
+						}
+					} while (reverse.hasNext());
+					this.primaryAmount = target;
 				}
 			} else {
 				this.primaryAmount = Math.max(minimum, primMinus);
 			}
 		}
+		System.err.println("Reduced damage: final:" + this.primaryAmount);
+		
 	}
 
-	public CBonusDamage addBonusDamage(float amount, CDamageType damageType, CDamageFlags flags) {
+	public CBonusDamage addBonusDamage(float amount, CAttackType attackType, CDamageType damageType,
+			CDamageFlags flags) {
 		if (bonusDamages == null) {
 			this.bonusDamages = new LinkedList<>();
 		}
 		CBonusDamage nb = new CBonusDamage();
 		nb.setAmount(amount);
+		if (attackType != null) {
+			nb.setAttackType(attackType);
+		}
 		if (damageType == null) {
 			nb.setDamageType(primaryDamageType);
 		} else {

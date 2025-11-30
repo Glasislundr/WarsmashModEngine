@@ -247,6 +247,13 @@
 						"value": {
 							"type": "getAbilityDataAsFloat",
 							"dataField": "C"
+						},
+						"damageType": {
+							"type": "getDamageTypeFromString",
+							"id": {
+								"type": "rawString",
+								"value": "FORCE"
+							}
 						}
 					},{
 						"type": "lockDamageModifications"

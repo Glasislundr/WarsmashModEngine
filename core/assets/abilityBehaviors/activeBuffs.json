@@ -582,6 +582,13 @@
 									"damage": {
 										"type": "getAbilityDataAsFloat",
 										"dataField": "B"
+									},
+									"damageType": {
+										"type": "getDamageTypeFromString",
+										"id": {
+											"type": "rawString",
+											"value": "DEATH"
+										}
 									}
 								}],
 								"delaySeconds": {

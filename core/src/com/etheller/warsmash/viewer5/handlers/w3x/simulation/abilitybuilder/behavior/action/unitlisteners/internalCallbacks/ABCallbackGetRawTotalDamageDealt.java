@@ -8,11 +8,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 
-public class ABCallbackGetTotalDamageDealt extends ABFloatCallback {
+public class ABCallbackGetRawTotalDamageDealt extends ABFloatCallback {
 	
 	@Override
 	public Float callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC+castId)).computeFinalDamage(game, caster);
+		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC+castId)).computeRawTotalDamage();
 	}
 
 }

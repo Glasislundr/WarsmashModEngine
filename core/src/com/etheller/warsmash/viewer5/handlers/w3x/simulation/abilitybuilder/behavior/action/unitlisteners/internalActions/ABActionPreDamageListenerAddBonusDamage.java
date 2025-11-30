@@ -6,11 +6,13 @@ import java.util.Map;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABAttackTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABDamageTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackDamageFlags;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
@@ -19,6 +21,7 @@ public class ABActionPreDamageListenerAddBonusDamage implements ABAction {
 
 	private ABFloatCallback value;
 	private ABDamageTypeCallback damageType;
+	private ABAttackTypeCallback attackType;
 
 	private ABBooleanCallback inheritFlags;
 	private ABBooleanCallback isRanged;
@@ -34,6 +37,10 @@ public class ABActionPreDamageListenerAddBonusDamage implements ABAction {
 		CDamageType theDamageType = null;
 		if (damageType != null) {
 			theDamageType = damageType.callback(game, caster, localStore, castId);
+		}
+		CAttackType theAttackType = null;
+		if (attackType != null) {
+			theAttackType = attackType.callback(game, caster, localStore, castId);
 		}
 
 		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
@@ -68,6 +75,6 @@ public class ABActionPreDamageListenerAddBonusDamage implements ABAction {
 			theFlags.setPassLimitedMagicImmune(isPassLimitedMagicImmune.callback(game, caster, localStore, castId));
 		}
 
-		damage.addBonusDamage(value.callback(game, caster, localStore, castId), theDamageType, theFlags);
+		damage.addBonusDamage(value.callback(game, caster, localStore, castId), theAttackType, theDamageType, theFlags);
 	}
 }

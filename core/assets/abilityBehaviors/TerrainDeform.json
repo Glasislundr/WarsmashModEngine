@@ -135,16 +135,16 @@
 							"target": {
 								"type": "getEnumUnit"
 							},
+							"damage": {
+								"type": "getAbilityDataAsFloat",
+								"dataField": "B"
+							},
 							"damageType": {
 								"type": "getDamageTypeFromString",
 								"id": {
 									"type": "rawString",
 									"value": "UNIVERSAL"
 								}
-							},
-							"damage": {
-								"type": "getAbilityDataAsFloat",
-								"dataField": "B"
 							}
 						}],
 						"elseActions": [{
@@ -1983,7 +1983,7 @@
 									"type": "getDamageTypeFromString",
 									"id": {
 										"type": "rawString",
-										"value": "DISEASE"
+										"value": "SONIC"
 									}
 								},
 								"damage": {

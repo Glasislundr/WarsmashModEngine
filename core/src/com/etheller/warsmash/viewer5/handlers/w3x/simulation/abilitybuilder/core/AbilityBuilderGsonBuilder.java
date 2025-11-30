@@ -311,7 +311,8 @@ public abstract class AbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetDistanceBetweenUnits.class, "getDistanceBetweenUnits")
 				.registerSubtype(ABCallbackTicksForDuration.class, "ticksForDuration")
 
-				.registerSubtype(ABCallbackGetTotalDamageDealt.class, "getTotalDamageDealt")
+				.registerSubtype(ABCallbackGetRawTotalDamageDealt.class, "getRawTotalDamageDealt")
+				.registerSubtype(ABCallbackGetFinalTotalDamageDealt.class, "getFinalTotalDamageDealt")
 				.registerSubtype(ABCallbackGetAttackBaseDamage.class, "getAttackBaseDamage")
 				.registerSubtype(ABCallbackGetReactionAttackProjectileDamage.class, "getReactionAttackProjectileDamage")
 

@@ -444,6 +444,13 @@
 								"damage": {
 									"type": "getAbilityDataAsFloat",
 									"dataField": "A"
+								},
+								"damageType": {
+									"type": "getDamageTypeFromString",
+									"id": {
+										"type": "rawString",
+										"value": "FIRE"
+									}
 								}
 							}],
 							"delaySeconds": {
@@ -593,6 +600,13 @@
 								"type": "rawString",
 								"value": "ratio"
 							}
+						}
+					},
+					"damageType": {
+						"type": "getDamageTypeFromString",
+						"id": {
+							"type": "rawString",
+							"value": "MAGIC"
 						}
 					}
 			}],
@@ -1085,6 +1099,13 @@
 								"damage": {
 									"type": "getAbilityDataAsFloat",
 									"dataField": "A"
+								},
+								"damageType": {
+									"type": "getDamageTypeFromString",
+									"id": {
+										"type": "rawString",
+										"value": "POISON"
+									}
 								}
 							}],
 							"delaySeconds": {

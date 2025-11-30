@@ -606,6 +606,13 @@
 									"damage": {
 										"type": "getAbilityDataAsFloat",
 										"dataField": "A"
+									},
+									"damageType": {
+										"type": "getDamageTypeFromString",
+										"id": {
+											"type": "rawString",
+											"value": "FIRE"
+										}
 									}
 								}],
 								"delaySeconds": {
