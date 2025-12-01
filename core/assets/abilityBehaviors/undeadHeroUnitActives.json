@@ -377,18 +377,18 @@
 							"target": {
 								"type": "getProjectileHitUnit"
 							},
-							"damageType": {
-								"type": "getDamageTypeFromString",
-								"id": {
-									"type": "rawString",
-									"value": "DISEASE"
-								}
-							},
 							"damage": {
 								"type": "getStoredFloatByKey",
 								"key": {
 									"type": "rawString",
 									"value": "dpt"
+								}
+							},
+							"damageType": {
+								"type": "getDamageTypeFromString",
+								"id": {
+									"type": "rawString",
+									"value": "SONIC"
 								}
 							}
 					}],
@@ -762,16 +762,16 @@
 								"target": {
 									"type": "getBuffedUnit"
 								},
+								"damage": {
+									"type": "getAbilityDataAsFloat",
+									"dataField": "C"
+								},
 								"damageType": {
 									"type": "getDamageTypeFromString",
 									"id": {
 										"type": "rawString",
-										"value": "MAGIC"
+										"value": "FORCE"
 									}
-								},
-								"damage": {
-									"type": "getAbilityDataAsFloat",
-									"dataField": "C"
 								}
 							},{
 								"type": "if",
