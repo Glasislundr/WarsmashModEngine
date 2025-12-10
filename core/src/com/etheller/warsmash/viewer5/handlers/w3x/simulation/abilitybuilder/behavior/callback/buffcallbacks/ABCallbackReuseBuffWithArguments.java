@@ -10,6 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 
 public class ABCallbackReuseBuffWithArguments extends ABBuffCallback {
@@ -18,7 +19,7 @@ public class ABCallbackReuseBuffWithArguments extends ABBuffCallback {
 	private Map<String, ABCallback> arguments;
 
 	@Override
-	public CBuff callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public CBuff callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
@@ -31,10 +32,11 @@ public class ABCallbackReuseBuffWithArguments extends ABBuffCallback {
 						localStore.put(ABLocalStoreKeys.combineArgumentKey(argKey), arguments.get(argKey));
 					}
 				}
-				
+
 				return ((ABBuffCallback) callback).callback(game, caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseBuffCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseBuffCallback, but key is missing or callback was the wrong type: " + keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseBuffCallback, but none defined");

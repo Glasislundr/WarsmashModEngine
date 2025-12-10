@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.abilitycallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -10,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 
 public class ABCallbackReuseAbility extends ABAbilityCallback {
@@ -17,7 +16,7 @@ public class ABCallbackReuseAbility extends ABAbilityCallback {
 	private ABStringCallback name;
 
 	@Override
-	public CAbility callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public CAbility callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
@@ -27,7 +26,9 @@ public class ABCallbackReuseAbility extends ABAbilityCallback {
 			if (callback != null && callback instanceof ABAbilityCallback) {
 				return ((ABAbilityCallback) callback).callback(game, caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseAbilityCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseAbilityCallback, but key is missing or callback was the wrong type: "
+								+ keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseAbilityCallback, but none defined");

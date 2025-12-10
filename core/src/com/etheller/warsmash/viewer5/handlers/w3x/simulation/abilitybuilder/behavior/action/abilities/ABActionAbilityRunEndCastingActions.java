@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.abilities;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -14,25 +12,26 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks.ABLocationCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionAbilityRunEndCastingActions implements ABSingleAction {
 
 	private ABAbilityCallback ability;
 	private ABUnitCallback caster;
-	
+
 	private ABLocationCallback targetLoc;
 	private ABUnitCallback targetUnit;
 	private ABItemCallback targetItem;
 	private ABDestructableCallback targetDest;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit originalCaster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit originalCaster, final LocalDataStore localStore,
 			final int castId) {
 		CUnit theCaster = originalCaster;
 		if (caster != null) {
 			theCaster = caster.callback(game, originalCaster, localStore, castId);
 		}
-		
+
 		AbilityTarget tar = null;
 		if (targetLoc != null) {
 			tar = targetLoc.callback(game, originalCaster, localStore, castId);
@@ -43,7 +42,7 @@ public class ABActionAbilityRunEndCastingActions implements ABSingleAction {
 		} else if (targetDest != null) {
 			tar = targetDest.callback(game, originalCaster, localStore, castId);
 		}
-		
+
 		final CAbility theAbility = this.ability.callback(game, originalCaster, localStore, castId);
 		if (theAbility instanceof AbilityBuilderActiveAbility) {
 			AbilityBuilderActiveAbility active = ((AbilityBuilderActiveAbility) theAbility);

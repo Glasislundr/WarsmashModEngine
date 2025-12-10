@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
@@ -9,6 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.BooleanAbilityTargetCheckReceiver;
 
 public class ABConditionIsUnitPassAllAbilityTargetChecks extends ABCondition {
@@ -17,7 +16,7 @@ public class ABConditionIsUnitPassAllAbilityTargetChecks extends ABCondition {
 	private ABUnitCallback target;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = casterUnit;
 		CUnit theTarget = target.callback(game, casterUnit, localStore, castId);
 		if (theTarget == null) {

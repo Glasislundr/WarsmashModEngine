@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.numeric;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABConditionIntegerLt extends ABCondition {
 
@@ -14,7 +13,7 @@ public class ABConditionIntegerLt extends ABCondition {
 	private ABIntegerCallback value2;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		Integer v1 = value1.callback(game, caster, localStore, castId);
 		Integer v2 = value2.callback(game, caster, localStore, castId);
 		return v1 < v2;

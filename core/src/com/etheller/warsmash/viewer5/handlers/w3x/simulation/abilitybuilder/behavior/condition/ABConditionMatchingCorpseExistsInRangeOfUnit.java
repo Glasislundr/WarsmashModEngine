@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition;
 
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
@@ -11,6 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.UnitAndRange;
 
 public class ABConditionMatchingCorpseExistsInRangeOfUnit extends ABCondition {
@@ -21,7 +21,7 @@ public class ABConditionMatchingCorpseExistsInRangeOfUnit extends ABCondition {
 	private List<ABCondition> conditions;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit originUnitTarget = originUnit.callback(game, caster, localStore, castId);
 		Float rangeVal = range.callback(game, caster, localStore, castId);
 		

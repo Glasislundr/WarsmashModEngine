@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABCallbackRawString;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuffType;
 
 public class ABCallbackGetNonStackingStatBuffTypeFromString extends ABNonStackingStatBuffTypeCallback {
@@ -15,7 +14,7 @@ public class ABCallbackGetNonStackingStatBuffTypeFromString extends ABNonStackin
 
 	@Override
 	public NonStackingStatBuffType callback(final CSimulation game, final CUnit caster,
-			final Map<String, Object> localStore, final int castId) {
+			final LocalDataStore localStore, final int castId) {
 		return NonStackingStatBuffType.valueOf(this.id.callback(game, caster, localStore, castId));
 	}
 

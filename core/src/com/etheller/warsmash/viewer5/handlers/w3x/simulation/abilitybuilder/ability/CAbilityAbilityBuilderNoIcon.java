@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abi
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.etheller.warsmash.units.GameObject;
@@ -19,6 +18,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.def
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
@@ -30,7 +30,7 @@ public class CAbilityAbilityBuilderNoIcon extends AbstractGenericNoIconAbility i
 
 	protected List<CAbilityTypeAbilityBuilderLevelData> levelData;
 	protected AbilityBuilderConfiguration config;
-	protected Map<String, Object> localStore;
+	protected LocalDataStore localStore;
 
 	protected CItem item = null;
 	
@@ -44,7 +44,7 @@ public class CAbilityAbilityBuilderNoIcon extends AbstractGenericNoIconAbility i
 	private int visibleMenuId = 0;
 
 	public CAbilityAbilityBuilderNoIcon(int handleId, War3ID code, War3ID alias, List<CAbilityTypeAbilityBuilderLevelData> levelData,
-			AbilityBuilderConfiguration config, Map<String, Object> localStore) {
+			AbilityBuilderConfiguration config, LocalDataStore localStore) {
 		super(handleId, code, alias);
 		this.levelData = levelData;
 		this.config = config;
@@ -125,7 +125,7 @@ public class CAbilityAbilityBuilderNoIcon extends AbstractGenericNoIconAbility i
 	}
 
 	@Override
-	public Map<String, Object> getLocalStore() {
+	public LocalDataStore getLocalStore() {
 		return this.localStore;
 	}
 

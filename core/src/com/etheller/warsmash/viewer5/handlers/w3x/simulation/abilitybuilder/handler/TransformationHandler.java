@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.han
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.PrimaryTag;
@@ -18,6 +17,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedTransformationBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.AltitudeAdjustmentTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.DelayTimerTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.TransformationMorphAnimationTimer;
@@ -26,13 +26,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
 
 public class TransformationHandler {
 
-	public static void setUnitID(final CSimulation game, final Map<String, Object> localStore, final CUnit unit,
+	public static void setUnitID(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
 			final CUnitType newType, final boolean keepRatios, final boolean addAlternateTagAfter,
 			final OnTransformationActions actions, final CAbility ability) {
 		setUnitID(game, localStore, unit, newType, keepRatios, addAlternateTagAfter, actions, ability, false);
 	}
 
-	public static void setUnitID(final CSimulation game, final Map<String, Object> localStore, final CUnit unit,
+	public static void setUnitID(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
 			final CUnitType newType, final boolean keepRatios, final boolean addAlternateTagAfter,
 			final OnTransformationActions actions, final CAbility ability, final boolean updateArt) {
 		final CPlayer pl = game.getPlayer(unit.getPlayerIndex());
@@ -99,7 +99,7 @@ public class TransformationHandler {
 				addAlternateTagAfter ? EnumSet.of(SecondaryTag.ALTERNATE) : SequenceUtils.EMPTY, 1.0f, true);
 	}
 
-	public static void beginTakingOff(final CSimulation game, final Map<String, Object> localStore, final CUnit unit,
+	public static void beginTakingOff(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
 			final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final CAbility ability, final boolean addAlternateTagAfter, final boolean immediateTakeoff,
 			final float altitudeAdjustmentDelay, final float altitudeAdjustmentDuration) {
@@ -124,7 +124,7 @@ public class TransformationHandler {
 		}
 	}
 
-	public static void beginLanding(final CSimulation game, final Map<String, Object> localStore, final CUnit unit,
+	public static void beginLanding(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
 			final CUnitType newType, final boolean addAlternateTagAfter, final boolean immediateLanding,
 			final float landingDelay, final float altitudeAdjustmentDuration) {
 		unit.setFacing(225);
@@ -144,7 +144,7 @@ public class TransformationHandler {
 		localStore.put(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT, timer);
 	}
 
-	public static void startSlowTransformation(final CSimulation game, final Map<String, Object> localStore,
+	public static void startSlowTransformation(final CSimulation game, final LocalDataStore localStore,
 			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final CAbility ability, final boolean addAlternateTagAfter, final boolean takingOff, final boolean landing,
 			final boolean immediateTakeoff, final boolean immediateLanding, final float altitudeAdjustmentDelay,
@@ -171,7 +171,7 @@ public class TransformationHandler {
 		}
 	}
 
-	public static void finishSlowTransformation(final CSimulation game, final Map<String, Object> localStore,
+	public static void finishSlowTransformation(final CSimulation game, final LocalDataStore localStore,
 			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final boolean addAlternateTagAfter, final boolean permanent,
 			final boolean takingOff) {
@@ -184,7 +184,7 @@ public class TransformationHandler {
 		}
 	}
 
-	public static void instantTransformation(final CSimulation game, final Map<String, Object> localStore,
+	public static void instantTransformation(final CSimulation game, final LocalDataStore localStore,
 			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final boolean addAlternateTagAfter, final boolean permanent,
 			final boolean playMorph) {
@@ -200,7 +200,7 @@ public class TransformationHandler {
 		}
 	}
 
-	public static void createSlowTransformBackBuff(final CSimulation game, CUnit sourceUnit, final Map<String, Object> localStore,
+	public static void createSlowTransformBackBuff(final CSimulation game, CUnit sourceUnit, final LocalDataStore localStore,
 			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final War3ID buffId, final boolean addAlternateTagAfter,
 			final float transformationTime, final float duration, final boolean permanent, final boolean takingOff,
@@ -215,7 +215,7 @@ public class TransformationHandler {
 		}
 	}
 
-	public static void createInstantTransformBackBuff(final CSimulation game, CUnit sourceUnit, final Map<String, Object> localStore,
+	public static void createInstantTransformBackBuff(final CSimulation game, CUnit sourceUnit, final LocalDataStore localStore,
 			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final War3ID buffId, final boolean addAlternateTagAfter,
 			final float transformationTime, final float duration, final boolean permanent) {

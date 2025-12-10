@@ -1,9 +1,7 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.destructable;
 
-import java.util.Map;
-
-import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.PrimaryTag;
+import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructable;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -15,6 +13,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks.ABLocationCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionCreateDestructable implements ABAction {
 
@@ -27,7 +26,7 @@ public class ABActionCreateDestructable implements ABAction {
 	private ABBooleanCallback playBirthAnim;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		float theFacing = 0;
 		float theScale = 1;
 		int theVariation = 0;

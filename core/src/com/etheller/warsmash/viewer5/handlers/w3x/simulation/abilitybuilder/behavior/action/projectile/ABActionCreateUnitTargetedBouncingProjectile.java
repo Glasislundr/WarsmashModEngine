@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -24,6 +23,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABNearestUnitComparator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitComparator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CAbilityProjectileListener;
@@ -56,7 +56,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 	private ABBooleanCallback allowMultipleBouncesPerUnit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		CUnit theSource = caster;
 		if (source != null) {
@@ -143,7 +143,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
 	}
 
-	private void startPerformJump(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	private void startPerformJump(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId, final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (remainingJumps <= 0) {
@@ -164,12 +164,11 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 			runner.setTimeoutTime(delay);
 			runner.start(game);
 		} else {
-			performJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
-					remainingJumps);
+			performJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits, remainingJumps);
 		}
 	}
 
-	private void performJump(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	private void performJump(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId, final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (originUnitTarget == null) {

@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.ability;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
@@ -10,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.widget.ABWidgetCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
 
 public class ABActionSendStartCastingEvents implements ABAction {
@@ -17,7 +16,8 @@ public class ABActionSendStartCastingEvents implements ABAction {
 	private ABUnitCallback caster;
 	private ABWidgetCallback target;
 	@Override
-	public void runAction(final CSimulation game, final CUnit basecaster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit basecaster,
+			final LocalDataStore localStore,
 			final int castId) {
 		CUnit theUnit = basecaster;
 		CWidget theTarget = null;

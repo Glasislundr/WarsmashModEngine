@@ -19,6 +19,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.StateModBuff;
@@ -52,7 +53,8 @@ public class ABActionCreateTimedTickingBuff implements ABSingleAction {
 	private Map<ABStringCallback, ABCallback> uniqueValues;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		boolean showTimedLife = false;
 		if (this.showTimedLifeBar != null) {
@@ -95,7 +97,8 @@ public class ABActionCreateTimedTickingBuff implements ABSingleAction {
 		} else {
 			ability = new ABTimedTickingBuff(game.getHandleIdAllocator().createId(),
 					buffId.callback(game, caster, localStore, castId), localStore,
-					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
+					(CAbility) localStore.get(
+							ABLocalStoreKeys.ABILITY), caster,
 					duration.callback(game, caster, localStore, castId), showTimedLife, onAddActions, onRemoveActions,
 					onExpireActions, onTickActions, castId, isLeveled, isPositive, isDispellable);
 		}

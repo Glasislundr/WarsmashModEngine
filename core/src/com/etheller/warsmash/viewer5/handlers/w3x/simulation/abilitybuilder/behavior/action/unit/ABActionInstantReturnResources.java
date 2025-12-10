@@ -1,13 +1,12 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.harvest.CAbilityHarvest;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.ResourceType;
 
@@ -16,7 +15,7 @@ public class ABActionInstantReturnResources implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (this.unit != null) {
 			targetUnit = this.unit.callback(game, caster, localStore, castId);
@@ -61,8 +60,7 @@ public class ABActionInstantReturnResources implements ABSingleAction {
 		String targetExpression;
 		if (this.unit != null) {
 			targetExpression = this.unit.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			targetExpression = jassTextGenerator.getCaster();
 		}
 		return "UnitInstantReturnResources(" + targetExpression + ")";

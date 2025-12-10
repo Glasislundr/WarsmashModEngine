@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.vision;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
@@ -10,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.player.ABPlayerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.vision.CCircleFogModifier;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.vision.CFogModifier;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.vision.CTimedCircleFogModifier;
@@ -23,7 +22,7 @@ public class ABActionCreateLocationVisionModifier implements ABAction {
 	private ABPlayerCallback player;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, Map<String, Object> localStore, int castId) {
+	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
 		CFogModifier vision;
 		final AbilityPointTarget loc = this.location.callback(game, caster, localStore, castId);
 		if (this.duration == null) {

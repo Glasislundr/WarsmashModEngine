@@ -1,27 +1,27 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.listener;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackDamageTakenListener;
 
 public class ABDamageTakenListener implements CUnitAttackDamageTakenListener {
 
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private ABIntegerCallback priority;
 	private List<ABAction> actions;
-	
+
 	private int triggerId = 0;
 	private boolean useCastId;
-	
-	public ABDamageTakenListener(Map<String, Object> localStore,
-			ABIntegerCallback priority, List<ABAction> actions, int castId, boolean useCastId) {
+
+	public ABDamageTakenListener(LocalDataStore localStore, ABIntegerCallback priority, List<ABAction> actions,
+			int castId, boolean useCastId) {
 		this.localStore = localStore;
 		this.priority = priority;
 		this.actions = actions;
@@ -36,29 +36,29 @@ public class ABDamageTakenListener implements CUnitAttackDamageTakenListener {
 		if (priority == null) {
 			return 0;
 		}
-		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT+triggerId, damage.getSource());
-		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT+triggerId, target);
-		localStore.put(ABLocalStoreKeys.DAMAGECALC+triggerId, damage);
+		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT + triggerId, damage.getSource());
+		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT + triggerId, target);
+		localStore.put(ABLocalStoreKeys.DAMAGECALC + triggerId, damage);
 		int prio = this.priority.callback(simulation, target, this.localStore, this.triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGECALC+triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT + triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT + triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGECALC + triggerId);
 		return prio;
 	}
-	
+
 	@Override
 	public void onDamage(CSimulation simulation, CUnit target, CDamageCalculation damage) {
-		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT+triggerId, damage.getSource());
-		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT+triggerId, target);
-		localStore.put(ABLocalStoreKeys.DAMAGECALC+triggerId, damage);
+		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT + triggerId, damage.getSource());
+		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT + triggerId, target);
+		localStore.put(ABLocalStoreKeys.DAMAGECALC + triggerId, damage);
 		if (actions != null) {
 			for (ABAction action : actions) {
 				action.runAction(simulation, target, localStore, triggerId);
 			}
 		}
-		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT+triggerId);
-		localStore.remove(ABLocalStoreKeys.DAMAGECALC+triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT + triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT + triggerId);
+		localStore.remove(ABLocalStoreKeys.DAMAGECALC + triggerId);
 		if (!this.useCastId) {
 			this.triggerId++;
 		}

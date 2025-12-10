@@ -2,10 +2,10 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackListSorted<T extends Comparable<? super T>> extends ABSortableListCallback<T> {
 
@@ -14,7 +14,7 @@ public class ABCallbackListSorted<T extends Comparable<? super T>> extends ABSor
 	
 	@Override
 	public List<T> callback(final CSimulation game, final CUnit caster,
-			final Map<String, Object> localStore, final int castId) {
+			final LocalDataStore localStore, final int castId) {
 		List<T> theList = list.callback(game, caster, localStore, castId);
 		switch(sort){
 		case DSC:

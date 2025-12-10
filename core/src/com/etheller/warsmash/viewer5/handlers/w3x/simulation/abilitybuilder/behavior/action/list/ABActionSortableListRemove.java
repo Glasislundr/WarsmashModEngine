@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.list;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -9,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.list.ABSortableListCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionSortableListRemove implements ABAction {
 
@@ -17,7 +17,8 @@ public class ABActionSortableListRemove implements ABAction {
 	private ABCallback object;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		final List<?> l = this.list.callback(game, caster, localStore, castId);
 		if (object != null) {

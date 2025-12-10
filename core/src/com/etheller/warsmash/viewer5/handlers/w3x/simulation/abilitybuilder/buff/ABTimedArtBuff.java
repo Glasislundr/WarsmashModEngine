@@ -1,11 +1,10 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingFx;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.SimulationRenderComponent;
@@ -16,14 +15,14 @@ public class ABTimedArtBuff extends ABGenericTimedBuff {
 	private SimulationRenderComponent lsfx;
 	private CEffectType artType = CEffectType.TARGET;
 
-	public ABTimedArtBuff(int handleId, War3ID alias, Map<String, Object> localStore, CAbility sourceAbility,
+	public ABTimedArtBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, float duration, boolean showIcon, boolean leveled, boolean positive,
 			boolean dispellable) {
 		this(handleId, alias, localStore, sourceAbility, sourceUnit, duration, leveled, positive, dispellable);
 		this.setIconShowing(showIcon);
 	}
 
-	public ABTimedArtBuff(int handleId, War3ID alias, Map<String, Object> localStore, CAbility sourceAbility,
+	public ABTimedArtBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, float duration, boolean leveled, boolean positive, boolean dispellable) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, false, leveled, positive, dispellable);
 	}

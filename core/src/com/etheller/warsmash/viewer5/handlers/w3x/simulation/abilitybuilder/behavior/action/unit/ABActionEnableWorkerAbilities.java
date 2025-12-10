@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -20,6 +18,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.harvest.C
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.harvest.CAbilityWispHarvest;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionEnableWorkerAbilities implements ABSingleAction {
 
@@ -27,7 +26,7 @@ public class ABActionEnableWorkerAbilities implements ABSingleAction {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void runAction(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (this.unit != null) {
 			targetUnit = this.unit.callback(game, caster, localStore, castId);
@@ -52,8 +51,7 @@ public class ABActionEnableWorkerAbilities implements ABSingleAction {
 		String casterExpression;
 		if (this.unit != null) {
 			casterExpression = this.unit.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			casterExpression = jassTextGenerator.getCaster();
 		}
 

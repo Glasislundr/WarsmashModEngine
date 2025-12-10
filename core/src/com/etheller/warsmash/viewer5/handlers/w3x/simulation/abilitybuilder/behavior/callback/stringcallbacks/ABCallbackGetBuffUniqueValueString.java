@@ -1,22 +1,21 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.buffcallbacks.ABBuffCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackGetBuffUniqueValueString extends ABStringCallback {
 
 	private ABBuffCallback buff;
 	private ABStringCallback key;
-	
+
 	private ABBooleanCallback allowNull;
 
 	@Override
-	public String callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public String callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final String keyS = key.callback(game, caster, localStore, castId);
 		final CBuff theBuff = buff.callback(game, caster, localStore, castId);

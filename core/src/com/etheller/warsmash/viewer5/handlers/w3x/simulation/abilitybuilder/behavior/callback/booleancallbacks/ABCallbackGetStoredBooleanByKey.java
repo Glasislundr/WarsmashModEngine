@@ -1,13 +1,12 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackGetStoredBooleanByKey extends ABCondition {
 
@@ -15,7 +14,7 @@ public class ABCallbackGetStoredBooleanByKey extends ABCondition {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
 			return (Boolean) localStore.get(ABLocalStoreKeys
 					.combineUserInstanceKey(this.key.callback(game, caster, localStore, castId), castId));

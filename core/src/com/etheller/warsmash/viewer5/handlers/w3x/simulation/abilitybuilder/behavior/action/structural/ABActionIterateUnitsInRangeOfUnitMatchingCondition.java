@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
@@ -16,6 +15,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionIterateUnitsInRangeOfUnitMatchingCondition implements ABAction {
 
@@ -27,7 +27,7 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingCondition implements ABAct
 	private ABFloatCallback range;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final CUnit originUnitTarget = this.originUnit.callback(game, caster, localStore, castId);
 		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
@@ -38,9 +38,9 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingCondition implements ABAct
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal)) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT+castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
 					if (condition == null || condition.callback(game, caster, localStore, castId)) {
-						localStore.put(ABLocalStoreKeys.ENUMUNIT+castId, enumUnit);
+						localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
 						for (ABAction iterationAction : iterationActions) {
 							iterationAction.runAction(game, caster, localStore, castId);
 						}

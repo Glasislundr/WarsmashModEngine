@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.listener;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -9,16 +8,17 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.listeners.CUnitAbilityEffectReactionListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABAbilityEffectReactionListener implements CUnitAbilityEffectReactionListener {
 
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private List<ABAction> actions;
 	
 	private int triggerId = 0;
 	private boolean useCastId;
 	
-	public ABAbilityEffectReactionListener(Map<String, Object> localStore, List<ABAction> actions, int castId, boolean useCastId) {
+	public ABAbilityEffectReactionListener(LocalDataStore localStore, List<ABAction> actions, int castId, boolean useCastId) {
 		this.localStore = localStore;
 		this.actions = actions;
 		this.useCastId = useCastId;

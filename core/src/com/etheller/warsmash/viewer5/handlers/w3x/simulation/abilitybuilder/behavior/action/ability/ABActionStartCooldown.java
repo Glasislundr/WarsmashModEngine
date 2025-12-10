@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.ability;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
 import com.etheller.warsmash.util.War3ID;
@@ -14,6 +12,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionStartCooldown implements ABSingleAction {
 
@@ -22,7 +21,8 @@ public class ABActionStartCooldown implements ABSingleAction {
 	private ABFloatCallback cooldown;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		CUnit theUnit = caster;
 		if (this.unit != null) {
@@ -32,21 +32,18 @@ public class ABActionStartCooldown implements ABSingleAction {
 			final War3ID aliasId = this.alias.callback(game, caster, localStore, castId);
 			if (this.cooldown != null) {
 				theUnit.beginCooldown(game, aliasId, this.cooldown.callback(game, caster, localStore, castId));
-			}
-			else {
+			} else {
 				final AbilityBuilderAbility abil = theUnit
 						.getAbility(GetABAbilityByRawcodeVisitor.getInstance().reset(aliasId));
 				if (abil != null) {
 					abil.startCooldown(game, theUnit);
 				}
 			}
-		}
-		else {
+		} else {
 			if (this.cooldown != null) {
 				final War3ID aliasId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 				theUnit.beginCooldown(game, aliasId, this.cooldown.callback(game, caster, localStore, castId));
-			}
-			else {
+			} else {
 				final AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 				abil.startCooldown(game, theUnit);
 			}
@@ -58,8 +55,7 @@ public class ABActionStartCooldown implements ABSingleAction {
 		String unitExpression;
 		if (this.unit != null) {
 			unitExpression = this.unit.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			unitExpression = jassTextGenerator.getCaster();
 		}
 		if (this.alias != null) {
@@ -67,21 +63,17 @@ public class ABActionStartCooldown implements ABSingleAction {
 			if (this.cooldown != null) {
 				return "StartUnitAbilityCooldown(" + unitExpression + ", " + aliasExpression + ", "
 						+ this.cooldown.generateJassEquivalent(jassTextGenerator) + ")";
-			}
-			else {
+			} else {
 				return "StartUnitAbilityDefaultCooldown(" + unitExpression + ", " + aliasExpression + ")";
 			}
-		}
-		else {
+		} else {
 			if (this.cooldown != null) {
 				return "StartUnitAbilityCooldown(" + unitExpression + ", "
 						+ jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ALIAS", JassTextGeneratorType.Integer)
 						+ ", " + this.cooldown.generateJassEquivalent(jassTextGenerator) + ")";
-			}
-			else {
-				return "StartAbilityDefaultCooldown(" + unitExpression + ", "
-						+ jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY", JassTextGeneratorType.AbilityHandle)
-						+ ")";
+			} else {
+				return "StartAbilityDefaultCooldown(" + unitExpression + ", " + jassTextGenerator
+						.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY", JassTextGeneratorType.AbilityHandle) + ")";
 			}
 		}
 	}

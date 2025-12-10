@@ -1,13 +1,12 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit.art;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionDivideUnitAlpha implements ABSingleAction {
 
@@ -15,7 +14,7 @@ public class ABActionDivideUnitAlpha implements ABSingleAction {
 	private ABFloatCallback value;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		final CUnit targetUnit = this.unit.callback(game, caster, localStore, castId);
 		final float[] color = game.getUnitVertexColor(targetUnit);
 

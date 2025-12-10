@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.longcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -9,6 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 
 public class ABCallbackReuseLong extends ABLongCallback {
@@ -16,7 +15,7 @@ public class ABCallbackReuseLong extends ABLongCallback {
 	private ABStringCallback name;
 
 	@Override
-	public Long callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public Long callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
@@ -26,7 +25,8 @@ public class ABCallbackReuseLong extends ABLongCallback {
 			if (callback != null && callback instanceof ABLongCallback) {
 				return ((ABLongCallback) callback).callback(game, caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseLongCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseLongCallback, but key is missing or callback was the wrong type: " + keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseLongCallback, but none defined");

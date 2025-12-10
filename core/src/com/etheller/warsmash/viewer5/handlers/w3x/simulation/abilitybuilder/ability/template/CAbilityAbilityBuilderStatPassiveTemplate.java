@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.template;
 
 import java.util.List;
-import java.util.Map;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -9,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.A
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABPermanentPassiveBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.template.StatBuffFromDataField;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
@@ -17,7 +17,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingSta
 public class CAbilityAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIconPassiveAbility {
 
 	private List<CAbilityTypeAbilityBuilderLevelData> levelData;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 
 	private War3ID buffId;
 	private CBuff buff;
@@ -29,7 +29,7 @@ public class CAbilityAbilityBuilderStatPassiveTemplate extends AbilityGenericSin
 	private List<StatBuffFromDataField> statBuffDataFields;
 
 	public CAbilityAbilityBuilderStatPassiveTemplate(int handleId, War3ID code, War3ID alias,
-			List<CAbilityTypeAbilityBuilderLevelData> levelData, Map<String, Object> localStore,
+			List<CAbilityTypeAbilityBuilderLevelData> levelData, LocalDataStore localStore,
 			List<StatBuffFromDataField> statBuffDataFields) {
 		super(code, alias, handleId);
 		this.levelData = levelData;

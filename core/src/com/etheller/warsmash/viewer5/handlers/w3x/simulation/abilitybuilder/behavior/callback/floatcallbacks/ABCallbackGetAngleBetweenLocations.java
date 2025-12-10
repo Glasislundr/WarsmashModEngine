@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks.ABLocationCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackGetAngleBetweenLocations extends ABFloatCallback {
 
@@ -14,7 +13,7 @@ public class ABCallbackGetAngleBetweenLocations extends ABFloatCallback {
 	private ABLocationCallback target;
 
 	@Override
-	public Float callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Float callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		final AbilityPointTarget o = this.origin.callback(game, caster, localStore, castId);
 		final AbilityPointTarget t = this.target.callback(game, caster, localStore, castId);
 

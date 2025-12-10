@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitgroup;
 
-import java.util.Map;
 import java.util.Set;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
@@ -10,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitgroupcallbacks.ABUnitGroupCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionAddUnitToGroup implements ABSingleAction {
 
@@ -17,7 +17,7 @@ public class ABActionAddUnitToGroup implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final Set<CUnit> groupSet = this.group.callback(game, caster, localStore, castId);
 		final CUnit rUnit = this.unit.callback(game, caster, localStore, castId);

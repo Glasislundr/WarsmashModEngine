@@ -1,12 +1,9 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityGenericDoNothing;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityMove;
@@ -33,7 +30,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.upgrade.C
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedInstantTransformationBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedTransformationBuff;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
 
 public class GetInstantTransformationBuffVisitor implements CAbilityVisitor<ABBuff> {
@@ -45,7 +42,7 @@ public class GetInstantTransformationBuffVisitor implements CAbilityVisitor<ABBu
 
 	private CSimulation game;
 	private CUnit caster;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private CUnitType newType;
 	private boolean keepRatios;
 	private OnTransformationActions actions;
@@ -55,7 +52,7 @@ public class GetInstantTransformationBuffVisitor implements CAbilityVisitor<ABBu
 	private float duration;
 	private boolean permanent;
 
-	public GetInstantTransformationBuffVisitor reset(CSimulation game, CUnit caster, Map<String, Object> localStore,
+	public GetInstantTransformationBuffVisitor reset(CSimulation game, CUnit caster, LocalDataStore localStore,
 			CUnitType newType, final boolean keepRatios, OnTransformationActions actions, War3ID buffId,
 			boolean addAlternateTagAfter, float transformationTime, float duration, boolean permanent) {
 		this.game = game;

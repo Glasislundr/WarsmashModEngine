@@ -1,8 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.units.GameObject;
 import com.etheller.warsmash.util.War3ID;
@@ -16,6 +14,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.template.CAbilityAbilityBuilderStatAuraTemplate;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.template.CAbilityAbilityBuilderStatPassiveTemplate;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.MapLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderParser;
 
 public class CAbilityTypeAbilityTemplateBuilder extends CAbilityType<CAbilityTypeAbilityBuilderLevelData>  {
@@ -31,7 +31,7 @@ public class CAbilityTypeAbilityTemplateBuilder extends CAbilityType<CAbilityTyp
 
 	@Override
 	public CAbility createAbility(int handleId) {
-		Map<String, Object> localStore = new HashMap<>();
+		LocalDataStore localStore = new MapLocalDataStore();
 		localStore.put(ABLocalStoreKeys.ABILITYEDITORDATA, this.abilityEditorData);
 		localStore.put(ABLocalStoreKeys.LEVELDATA, getLevelData());
 		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, 1);

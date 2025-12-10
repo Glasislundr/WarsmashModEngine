@@ -2,14 +2,15 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackEmptyIntegerList extends ABIntegerListCallback {
 
 	@Override
-	public List<Integer> callback(CSimulation game, CUnit caster, Map<String, Object> localStore, int castId) {
+	public List<Integer> callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
 		return new ArrayList<>();
 	}
 

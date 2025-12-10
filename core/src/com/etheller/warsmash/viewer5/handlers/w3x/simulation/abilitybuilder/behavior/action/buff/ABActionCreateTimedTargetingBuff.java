@@ -15,6 +15,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionCreateTimedTargetingBuff implements ABSingleAction {
 
@@ -27,7 +28,7 @@ public class ABActionCreateTimedTargetingBuff implements ABSingleAction {
 	private Map<String, ABCallback> uniqueValues;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final ABTimedTargetingBuff ability = new ABTimedTargetingBuff(game.getHandleIdAllocator().createId(),
 				this.buffId.callback(game, caster, localStore, castId), localStore,

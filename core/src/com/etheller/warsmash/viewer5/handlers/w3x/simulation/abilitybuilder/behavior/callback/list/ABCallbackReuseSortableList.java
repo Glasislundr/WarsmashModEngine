@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.list;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
@@ -10,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 
 public class ABCallbackReuseSortableList<T extends Comparable<? super T>> extends ABSortableListCallback<T> {
@@ -18,7 +18,7 @@ public class ABCallbackReuseSortableList<T extends Comparable<? super T>> extend
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public List<T> callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
@@ -28,7 +28,9 @@ public class ABCallbackReuseSortableList<T extends Comparable<? super T>> extend
 			if (callback != null && callback instanceof ABListCallback) {
 				return ((ABListCallback<T>) callback).callback(game, caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseLocationCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseLocationCallback, but key is missing or callback was the wrong type: "
+								+ keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseLocationCallback, but none defined");

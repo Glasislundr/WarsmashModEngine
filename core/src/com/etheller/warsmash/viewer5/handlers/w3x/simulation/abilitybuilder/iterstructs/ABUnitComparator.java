@@ -1,22 +1,22 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs;
 
 import java.util.Comparator;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABUnitComparator implements Comparator<CUnit> {
 	
 	private CSimulation game;
 	private CUnit caster;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private int castId;
 	private ABIntegerCallback comparison;
 
-	public ABUnitComparator(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public ABUnitComparator(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId, ABIntegerCallback comparison) {
 		this.game = game;
 		this.caster = caster;

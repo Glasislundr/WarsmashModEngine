@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abi
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.etheller.warsmash.units.GameObject;
@@ -36,6 +35,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.ManaDepletedCheckTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
@@ -54,7 +54,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		implements AbilityBuilderActiveAbility {
 	protected List<CAbilityTypeAbilityBuilderLevelData> levelData;
 	protected AbilityBuilderConfiguration config;
-	protected Map<String, Object> localStore;
+	protected LocalDataStore localStore;
 	protected int orderId;
 	protected int unorderId = 0;
 	protected int autoCastOnId = 0;
@@ -102,7 +102,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 
 	public CAbilityAbilityBuilderGenericActive(int handleId, War3ID code, War3ID alias,
 			List<CAbilityTypeAbilityBuilderLevelData> levelData, AbilityBuilderConfiguration config,
-			Map<String, Object> localStore) {
+			LocalDataStore localStore) {
 		super(handleId, code, alias);
 		this.levelData = levelData;
 		this.config = config;
@@ -464,7 +464,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		return this.config;
 	}
 
-	public Map<String, Object> getLocalStore() {
+	public LocalDataStore getLocalStore() {
 		return this.localStore;
 	}
 

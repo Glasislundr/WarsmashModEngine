@@ -1,12 +1,12 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.unit;
 
-import java.util.Map;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.player.ABPlayerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayer;
 
 public class ABConditionSuccessfullyChargeResources extends ABCondition {
@@ -20,7 +20,7 @@ public class ABConditionSuccessfullyChargeResources extends ABCondition {
 	private ABIntegerCallback food;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
 			theUnit = unit.callback(game, caster, localStore, castId);
@@ -55,7 +55,7 @@ public class ABConditionSuccessfullyChargeResources extends ABCondition {
 
 		if (manaCost > 0)
 			theUnit.chargeMana(manaCost);
-			theUnit.notifyAbilitiesChanged();
+		theUnit.notifyAbilitiesChanged();
 		if (goldCost > 0 || lumberCost > 0)
 			thePlayer.charge(goldCost, lumberCost);
 		if (foodCost > 0)

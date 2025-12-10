@@ -1,19 +1,18 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackRandomInteger extends ABIntegerCallback {
 
 	private ABIntegerCallback lowerBound;
 	private ABIntegerCallback upperBound;
-	
+
 	private ABIntegerCallback bound;
-	
+
 	@Override
-	public Integer callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Integer callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		if (bound != null) {
 			return game.getSeededRandom().nextInt(bound.callback(game, caster, localStore, castId));
 		}
@@ -26,7 +25,7 @@ public class ABCallbackRandomInteger extends ABIntegerCallback {
 		if (lowerBound != null) {
 			low = lowerBound.callback(game, caster, localStore, castId);
 		}
-		return game.getSeededRandom().nextInt(low,high);
+		return game.getSeededRandom().nextInt(low, high);
 	}
 
 }

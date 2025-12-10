@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitlisteners.internalConditions;
 
 import java.util.EnumSet;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -10,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttackMissileSplash;
@@ -22,18 +22,18 @@ public class ABConditionIsUnitValidSplashDamageTarget extends ABCondition {
 	private ABBooleanCallback targetedEffect;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = casterUnit;
 
 		EnumSet<CTargetType> targetsAllowed = null;
-		
-		CUnitAttack atk = (CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK+castId);
+
+		CUnitAttack atk = (CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK + castId);
 		if (atk instanceof CUnitAttackMissileSplash) {
-			targetsAllowed = ((CUnitAttackMissileSplash)atk).getAreaOfEffectTargets();
+			targetsAllowed = ((CUnitAttackMissileSplash) atk).getAreaOfEffectTargets();
 		} else {
 			return false;
 		}
-		
+
 		if (targetsAllowed.isEmpty()) {
 			return true;
 		}

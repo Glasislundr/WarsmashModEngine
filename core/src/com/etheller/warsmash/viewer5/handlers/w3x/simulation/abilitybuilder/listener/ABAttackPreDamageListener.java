@@ -1,13 +1,13 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.listener;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListener;
@@ -15,13 +15,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.repl
 
 public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
 
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private List<ABAction> actions;
 
 	private int triggerId = 0;
 	private boolean useCastId;
 
-	public ABAttackPreDamageListener(Map<String, Object> localStore, List<ABAction> actions, int castId,
+	public ABAttackPreDamageListener(LocalDataStore localStore, List<ABAction> actions, int castId,
 			boolean useCastId) {
 		this.localStore = localStore;
 		this.actions = actions;

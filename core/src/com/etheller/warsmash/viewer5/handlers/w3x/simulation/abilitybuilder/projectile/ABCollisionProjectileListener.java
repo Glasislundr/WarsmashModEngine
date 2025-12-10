@@ -13,6 +13,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CAbilityCollisionProjectileListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CProjectile;
 
@@ -24,11 +25,11 @@ public class ABCollisionProjectileListener implements CAbilityCollisionProjectil
 	private List<ABAction> onHit;
 	
 	private CUnit caster;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private int castId;
 
 	public ABCollisionProjectileListener(List<ABAction> onLaunch, List<ABAction> onPreHits, List<ABCondition> canHitTarget, List<ABAction> onHit, CUnit caster,
-			Map<String, Object> localStore, int castId) {
+			LocalDataStore localStore, int castId) {
 		super();
 		this.onLaunch = onLaunch;
 		this.onPreHits = onPreHits;

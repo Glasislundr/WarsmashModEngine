@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.util.WarsmashConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.environment.PathingGrid.MovementType;
@@ -11,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
@@ -20,7 +19,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEve
 
 public class CBehaviorFinishTransformation implements CBehavior {
 	private CUnit sourceUnit;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private OnTransformationActions actions;
 	private CUnit unit;
 	private AbilityBuilderAbility ability;
@@ -49,7 +48,7 @@ public class CBehaviorFinishTransformation implements CBehavior {
 
 	private int castStartTick = 0;
 
-	public CBehaviorFinishTransformation(CUnit sourceUnit, Map<String, Object> localStore, final CUnit unit,
+	public CBehaviorFinishTransformation(CUnit sourceUnit, LocalDataStore localStore, final CUnit unit,
 			AbilityBuilderAbility ability, CUnitType newType, final boolean keepRatios, OnTransformationActions actions,
 			boolean addAlternateTagAfter, final int visibleOrderId, boolean permanent, float duration,
 			float transformationTime, float landingDelay, float altitudeAdjustmentDelay,
@@ -106,14 +105,15 @@ public class CBehaviorFinishTransformation implements CBehavior {
 					ability, addAlternateTagAfter, permanent, takingOff);
 
 			if (instantTransformAtDurationEnd) {
-				TransformationHandler.createInstantTransformBackBuff(game, sourceUnit, localStore, unit, baseTypeForDuration,
-						keepRatios, actions.createUntransformActions(), ability, buffId, addAlternateTagAfter,
-						transformationTime, duration, permanent);
+				TransformationHandler.createInstantTransformBackBuff(game, sourceUnit, localStore, unit,
+						baseTypeForDuration, keepRatios, actions.createUntransformActions(), ability, buffId,
+						addAlternateTagAfter, transformationTime, duration, permanent);
 			} else {
-				TransformationHandler.createSlowTransformBackBuff(game, sourceUnit, localStore, unit, baseTypeForDuration,
-						keepRatios, actions.createUntransformActions(), ability, buffId, addAlternateTagAfter,
-						transformationTime, duration, permanent, takingOff, landing, immediateTakeoff, immediateLanding,
-						altitudeAdjustmentDelay, landingDelay, altitudeAdjustmentDuration);
+				TransformationHandler.createSlowTransformBackBuff(game, sourceUnit, localStore, unit,
+						baseTypeForDuration, keepRatios, actions.createUntransformActions(), ability, buffId,
+						addAlternateTagAfter, transformationTime, duration, permanent, takingOff, landing,
+						immediateTakeoff, immediateLanding, altitudeAdjustmentDelay, landingDelay,
+						altitudeAdjustmentDuration);
 			}
 
 			this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.ability, null);

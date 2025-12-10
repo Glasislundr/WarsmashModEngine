@@ -19,13 +19,14 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.A
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CLevelingAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
 
 public class CAbilityAbilityBuilderSimpleAuraTemplate extends AbilityGenericSingleIconPassiveAbility {
 
 	private List<CAbilityTypeAbilityBuilderLevelData> levelData;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 
 	private Set<CUnit> auraGroup;
 	private int lastSeenLevel = 0;
@@ -48,7 +49,7 @@ public class CAbilityAbilityBuilderSimpleAuraTemplate extends AbilityGenericSing
 	private final int RESET_GROUP_TICKS = LEAVE_GROUP_TICKS * 2;
 	
 	public CAbilityAbilityBuilderSimpleAuraTemplate(int handleId, War3ID code, War3ID alias,
-			List<CAbilityTypeAbilityBuilderLevelData> levelData, Map<String, Object> localStore,
+			List<CAbilityTypeAbilityBuilderLevelData> levelData, LocalDataStore localStore,
 			Map<Integer,List<War3ID>> abilityIdsToAddPerLevel, List<War3ID> levellingAbilityIdsToAdd) {
 		super(code, alias, handleId);
 		this.levelData = levelData;

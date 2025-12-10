@@ -1,19 +1,19 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.event;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation.TimeOfDayEvent;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABTimeOfDayEvent implements TimeOfDayEvent {
 
 	private CSimulation game;
 	private CUnit caster;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private int castId;
 
 	private List<ABAction> actions;
@@ -22,7 +22,7 @@ public class ABTimeOfDayEvent implements TimeOfDayEvent {
 
 	private String equalityId;
 
-	public ABTimeOfDayEvent(CSimulation game, CUnit caster, Map<String, Object> localStore, int castId,
+	public ABTimeOfDayEvent(CSimulation game, CUnit caster, LocalDataStore localStore, int castId,
 			List<ABAction> actions, float startTime, float endTime, String equalityId) {
 		super();
 		this.game = game;

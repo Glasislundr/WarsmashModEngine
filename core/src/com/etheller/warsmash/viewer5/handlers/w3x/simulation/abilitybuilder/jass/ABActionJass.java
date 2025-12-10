@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.jas
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.interpreter.ast.execution.JassThread;
 import com.etheller.interpreter.ast.scope.GlobalScope;
@@ -13,6 +12,7 @@ import com.etheller.warsmash.parsers.jass.scope.CommonTriggerExecutionScope;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionJass implements ABAction {
 	private final CodeJassValue jassFunction;
@@ -22,7 +22,7 @@ public class ABActionJass implements ABAction {
 	}
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final GlobalScope globalScope = game.getGlobalScope();
 		final JassThread thread = globalScope.createThread(this.jassFunction,

@@ -1,15 +1,14 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public abstract class ABIDCallback implements ABCallback {
 
 	@Override
-	abstract public War3ID callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	abstract public War3ID callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId);
 }

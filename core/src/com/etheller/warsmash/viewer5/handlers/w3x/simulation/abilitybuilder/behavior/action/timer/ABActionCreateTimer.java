@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.timer;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
@@ -11,6 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.ABTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
 
@@ -23,7 +23,7 @@ public class ABActionCreateTimer implements ABSingleAction {
 	private ABFloatCallback delay;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 
 		final CTimer timer = new ABTimer(caster, localStore, this.actions, castId);
@@ -35,14 +35,12 @@ public class ABActionCreateTimer implements ABSingleAction {
 			if ((this.startTimer == null) || this.startTimer.callback(game, caster, localStore, castId)) {
 				if (this.delay != null) {
 					timer.startRepeatingTimerWithDelay(game, this.delay.callback(game, caster, localStore, castId));
-				}
-				else {
+				} else {
 					timer.start(game);
 				}
 				localStore.put(ABLocalStoreKeys.LASTSTARTEDTIMER, timer);
 			}
-		}
-		else {
+		} else {
 			if ((this.startTimer == null) || this.startTimer.callback(game, caster, localStore, castId)) {
 				timer.start(game);
 				localStore.put(ABLocalStoreKeys.LASTSTARTEDTIMER, timer);
@@ -71,8 +69,7 @@ public class ABActionCreateTimer implements ABSingleAction {
 
 		if (this.delay != null) {
 			return "CreateTimerDelayedAU(" + args + ", " + this.delay.generateJassEquivalent(jassTextGenerator) + ")";
-		}
-		else {
+		} else {
 			return "CreateTimerAU(" + args + ")";
 		}
 	}

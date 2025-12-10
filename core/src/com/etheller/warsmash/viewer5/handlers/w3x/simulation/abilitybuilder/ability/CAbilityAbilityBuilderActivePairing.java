@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abi
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -20,6 +19,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorSendOrder;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.UnitAndRange;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
@@ -50,7 +50,7 @@ public class CAbilityAbilityBuilderActivePairing extends CAbilityAbilityBuilderG
 
 	public CAbilityAbilityBuilderActivePairing(int handleId, War3ID code, War3ID alias,
 			List<CAbilityTypeAbilityBuilderLevelData> levelData, AbilityBuilderConfiguration config,
-			Map<String, Object> localStore) {
+			LocalDataStore localStore) {
 		super(handleId, code, alias, levelData, config, localStore);
 
 		if (this.castingPrimaryTag == null) {

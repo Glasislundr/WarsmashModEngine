@@ -7,6 +7,7 @@ import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingFx;
 
@@ -15,7 +16,7 @@ public class ABGenericAuraBuff extends ABBuff {
 
 	private CUnit caster;
 
-	public ABGenericAuraBuff(int handleId, War3ID alias, Map<String, Object> localStore, CAbility sourceAbility,
+	public ABGenericAuraBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
 			CUnit caster, boolean leveled, boolean positive) {
 		super(handleId, alias, alias, localStore, sourceAbility, caster);
 		this.caster = caster;

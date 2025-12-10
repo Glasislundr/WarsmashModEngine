@@ -1,11 +1,10 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingFx;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
@@ -23,7 +22,7 @@ public class ABBuffSlow extends ABGenericTimedBuff {
 	private SimulationRenderComponent sfx;
 	private SimulationRenderComponent lsfx;
 
-	public ABBuffSlow(final CSimulation game, final int handleId, final War3ID alias, Map<String, Object> localStore,
+	public ABBuffSlow(final CSimulation game, final int handleId, final War3ID alias, LocalDataStore localStore,
 			CAbility sourceAbility, CUnit sourceUnit, final float duration, boolean leveled) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, false, leveled, false, false);
 		if (STANDARD_ATTACK_DEBUFF == null) {
@@ -38,7 +37,7 @@ public class ABBuffSlow extends ABGenericTimedBuff {
 		this.moveSpeedDebuff = STANDARD_MOVE_DEBUFF;
 	}
 
-	public ABBuffSlow(final int handleId, final War3ID alias, Map<String, Object> localStore, CAbility sourceAbility,
+	public ABBuffSlow(final int handleId, final War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, final float duration, final float attackSpeedReductionPercent,
 			final float moveSpeedReductionPercent, boolean leveled) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, false, leveled, false, false);

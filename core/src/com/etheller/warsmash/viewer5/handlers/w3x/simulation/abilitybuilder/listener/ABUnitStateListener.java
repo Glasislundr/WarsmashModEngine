@@ -1,19 +1,19 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.listener;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitStateListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABUnitStateListener implements CUnitStateListener {
 	private CSimulation game;
 	private CUnit caster;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private int castId;
-	
+
 	private List<ABAction> onLifeChanged = null;
 	private List<ABAction> onManaChanged = null;
 	private List<ABAction> onOrdersChanged = null;
@@ -26,8 +26,8 @@ public class ABUnitStateListener implements CUnitStateListener {
 	private List<ABAction> onAbilitiesChanged = null;
 	private List<ABAction> onUpgradesChanged = null;
 	private List<ABAction> onHideStateChanged = null;
-	
-	public ABUnitStateListener(CSimulation game, CUnit caster, Map<String, Object> localStore, int castId,
+
+	public ABUnitStateListener(CSimulation game, CUnit caster, LocalDataStore localStore, int castId,
 			List<ABAction> onLifeChanged, List<ABAction> onManaChanged, List<ABAction> onOrdersChanged,
 			List<ABAction> onQueueChanged, List<ABAction> onRallyPointChanged, List<ABAction> onWaypointsChanged,
 			List<ABAction> onHeroStatsChanged, List<ABAction> onInventoryChanged, List<ABAction> onAttacksChanged,

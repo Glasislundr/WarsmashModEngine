@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.listener;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -10,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.replacement.CUnitAttackModifier;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.replacement.CUnitPriorityLoopData;
@@ -22,11 +22,11 @@ public class ABAttackModifier implements CUnitAttackModifier {
 	private ABCondition condition;
 	private List<ABAction> modification;
 
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private int castId = Integer.MAX_VALUE;
 	private boolean useCastId;
 
-	public ABAttackModifier(Map<String, Object> localStore, int castId, ABIntegerCallback priority,
+	public ABAttackModifier(LocalDataStore localStore, int castId, ABIntegerCallback priority,
 			ABCondition preLaunchCondition, List<ABAction> preLaunchModification, ABCondition condition,
 			List<ABAction> modification, boolean useCastId) {
 		this.localStore = localStore;

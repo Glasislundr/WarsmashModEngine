@@ -1,13 +1,12 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderPassiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.DelayInstantTransformationTimer;
@@ -24,7 +23,7 @@ public class ABTimedInstantTransformationBuff extends ABGenericTimedBuff {
 	private float dur;
 	private float transTime;
 
-	public ABTimedInstantTransformationBuff(int handleId, Map<String, Object> localStore, CAbility sourceAbility,
+	public ABTimedInstantTransformationBuff(int handleId, LocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, OnTransformationActions actions, War3ID alias, float duration,
 			AbilityBuilderPassiveAbility ability, CUnitType newType, final boolean keepRatios,
 			boolean addAlternateTagAfter, boolean permanent, float transformationDuration) {

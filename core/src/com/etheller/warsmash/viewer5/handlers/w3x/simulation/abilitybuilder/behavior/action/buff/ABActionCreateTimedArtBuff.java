@@ -15,6 +15,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 
 public class ABActionCreateTimedArtBuff implements ABSingleAction {
@@ -34,7 +35,8 @@ public class ABActionCreateTimedArtBuff implements ABSingleAction {
 	private List<ABStringCallback> uniqueFlags;
 	private Map<String, ABCallback> uniqueValues;
 
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		boolean isLeveled = false;
 		if (leveled != null) {
@@ -56,7 +58,8 @@ public class ABActionCreateTimedArtBuff implements ABSingleAction {
 		ABTimedArtBuff ability;
 		if (showIcon != null) {
 			ability = new ABTimedArtBuff(game.getHandleIdAllocator().createId(),
-					buffId.callback(game, caster, localStore, castId), localStore,
+					buffId.callback(game, caster,
+							localStore, castId), localStore,
 					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
 					duration.callback(game, caster, localStore, castId),
 					showIcon.callback(game, caster, localStore, castId), isLeveled, isPositive, isDispellable);

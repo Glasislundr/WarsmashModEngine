@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.structural;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -13,6 +11,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionStoreValueLocally implements ABSingleAction {
 
@@ -21,13 +20,12 @@ public class ABActionStoreValueLocally implements ABSingleAction {
 	private ABCallback valueToStore;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
 			localStore.put(ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(game, caster, localStore, castId),
 					castId), this.valueToStore.callback(game, caster, localStore, castId));
-		}
-		else {
+		} else {
 			localStore.put(ABLocalStoreKeys.combineUserKey(this.key.callback(game, caster, localStore, castId), castId),
 					this.valueToStore.callback(game, caster, localStore, castId));
 		}
@@ -42,44 +40,35 @@ public class ABActionStoreValueLocally implements ABSingleAction {
 		if (this.valueToStore instanceof ABStringCallback) {
 			if (this.instanceValue == null) {
 				return "SetLocalStoreUserCastStringAU(" + args + ")";
-			}
-			else {
+			} else {
 				return "StoreStringLocallyAU(" + args + ", "
 						+ this.instanceValue.generateJassEquivalent(jassTextGenerator) + ")";
 			}
-		}
-		else if ((this.valueToStore instanceof ABIntegerCallback) || (this.valueToStore instanceof ABIDCallback)) {
+		} else if ((this.valueToStore instanceof ABIntegerCallback) || (this.valueToStore instanceof ABIDCallback)) {
 			if (this.instanceValue == null) {
 				return "SetLocalStoreUserCastIntegerAU(" + args + ")";
-			}
-			else {
+			} else {
 				return "StoreIntegerLocallyAU(" + args + ", "
 						+ this.instanceValue.generateJassEquivalent(jassTextGenerator) + ")";
 			}
-		}
-		else if (this.valueToStore instanceof ABBooleanCallback) {
+		} else if (this.valueToStore instanceof ABBooleanCallback) {
 			if (this.instanceValue == null) {
 				return "SetLocalStoreUserCastBooleanAU(" + args + ")";
-			}
-			else {
+			} else {
 				return "StoreBooleanLocallyAU(" + args + ", "
 						+ this.instanceValue.generateJassEquivalent(jassTextGenerator) + ")";
 			}
-		}
-		else if (this.valueToStore instanceof ABFloatCallback) {
+		} else if (this.valueToStore instanceof ABFloatCallback) {
 			if (this.instanceValue == null) {
 				return "SetLocalStoreUserCastRealAU(" + args + ")";
-			}
-			else {
+			} else {
 				return "StoreRealLocallyAU(" + args + ", "
 						+ this.instanceValue.generateJassEquivalent(jassTextGenerator) + ")";
 			}
-		}
-		else {
+		} else {
 			if (this.instanceValue == null) {
 				return "SetLocalStoreUserCastHandleAU(" + args + ")";
-			}
-			else {
+			} else {
 				return "StoreHandleLocallyAU(" + args + ", "
 						+ this.instanceValue.generateJassEquivalent(jassTextGenerator) + ")";
 			}

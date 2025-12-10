@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -14,6 +12,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABActionMergeUnits implements ABSingleAction {
 
@@ -27,7 +26,7 @@ public class ABActionMergeUnits implements ABSingleAction {
 	private ABBooleanCallback resetHpMp;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		int thePlayerId = caster.getPlayerIndex();
 		float theFacing = caster.getFacing();
 		AbilityPointTarget loc = null;
@@ -39,8 +38,7 @@ public class ABActionMergeUnits implements ABSingleAction {
 		}
 		if (this.location != null) {
 			loc = this.location.callback(game, caster, localStore, castId);
-		}
-		else {
+		} else {
 			loc = new AbilityPointTarget(caster.getX(), caster.getY());
 		}
 
@@ -70,22 +68,19 @@ public class ABActionMergeUnits implements ABSingleAction {
 		String playerExpression;
 		if (this.playerIndex != null) {
 			playerExpression = "Player(" + this.playerIndex.generateJassEquivalent(jassTextGenerator) + ")";
-		}
-		else {
+		} else {
 			playerExpression = "GetOwningPlayer(" + jassTextGenerator.getCaster() + ")";
 		}
 		String facingExpression;
 		if (this.facing != null) {
 			facingExpression = this.facing.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			facingExpression = "GetUnitFacing(" + jassTextGenerator.getCaster() + ")";
 		}
 		String locExpression;
 		if (this.location != null) {
 			locExpression = this.location.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			locExpression = "GetUnitLoc(" + jassTextGenerator.getCaster() + ")";
 		}
 

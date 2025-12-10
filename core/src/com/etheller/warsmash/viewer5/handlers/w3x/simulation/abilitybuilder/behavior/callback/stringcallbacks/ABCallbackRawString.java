@@ -1,17 +1,17 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackRawString extends ABStringCallback {
 
 	private String value;
 
 	@Override
-	public String callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public String callback(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		return this.value;
 	}

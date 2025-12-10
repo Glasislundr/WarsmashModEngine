@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
@@ -15,6 +14,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorAbilityBuilderNoTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
@@ -30,7 +30,7 @@ public class CAbilityAbilityBuilderActiveFlexTarget extends CAbilityAbilityBuild
 
 	public CAbilityAbilityBuilderActiveFlexTarget(int handleId, War3ID alias, War3ID code,
 			List<CAbilityTypeAbilityBuilderLevelData> levelData, AbilityBuilderConfiguration config,
-			Map<String, Object> localStore) {
+			LocalDataStore localStore) {
 		super(handleId, alias, code, levelData, config, localStore);
 	}
 	

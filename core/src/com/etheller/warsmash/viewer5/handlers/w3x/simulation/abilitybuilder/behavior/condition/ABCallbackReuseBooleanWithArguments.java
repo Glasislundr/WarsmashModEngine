@@ -11,6 +11,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 
 public class ABCallbackReuseBooleanWithArguments extends ABCondition {
@@ -19,7 +20,7 @@ public class ABCallbackReuseBooleanWithArguments extends ABCondition {
 	private Map<String, ABCallback> arguments;
 
 	@Override
-	public Boolean callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public Boolean callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
@@ -32,10 +33,12 @@ public class ABCallbackReuseBooleanWithArguments extends ABCondition {
 						localStore.put(ABLocalStoreKeys.combineArgumentKey(argKey), arguments.get(argKey));
 					}
 				}
-				
+
 				return ((ABBooleanCallback) callback).callback(game, caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseBooleanCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseBooleanCallback, but key is missing or callback was the wrong type: "
+								+ keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseBooleanCallback, but none defined");

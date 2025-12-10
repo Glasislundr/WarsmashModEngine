@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABConditionIsUnitInRangeOfUnit extends ABCondition {
 
@@ -15,8 +14,9 @@ public class ABConditionIsUnitInRangeOfUnit extends ABCondition {
 	private ABFloatCallback range;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, Map<String, Object> localStore, final int castId) {
-		return caster.callback(game, casterUnit, localStore, castId).canReach(target.callback(game, casterUnit, localStore, castId),
+	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
+		return caster.callback(game, casterUnit, localStore, castId).canReach(
+				target.callback(game, casterUnit, localStore, castId),
 				range.callback(game, casterUnit, localStore, castId));
 	}
 

@@ -152,6 +152,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedTickingPausedBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedTickingPostDeathBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.MapLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.event.ABTimeOfDayEvent;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.jass.ABActionJass;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.jass.ABConditionJass;
@@ -6633,7 +6635,7 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return new StringJassValue((String) object);
@@ -6647,7 +6649,7 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return IntegerJassValue.of((Integer) object);
@@ -6661,7 +6663,7 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return BooleanJassValue.of((Boolean) object);
@@ -6686,7 +6688,7 @@ public class Jass2 {
 			// TODO below is overwriting what already exists
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreLocationHandle",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						Object object = localStore.get(childKey);
@@ -6702,7 +6704,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreHandle",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object unwrappedHandleUnderlyingJavaObject = nullable(arguments, 2,
@@ -6717,7 +6719,7 @@ public class Jass2 {
 						final String value = nullable(arguments, 2, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, value);
 							return BooleanJassValue.of(object != null);
 						}
@@ -6730,7 +6732,7 @@ public class Jass2 {
 						final Integer value = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, value);
 							return BooleanJassValue.of(object != null);
 						}
@@ -6743,7 +6745,7 @@ public class Jass2 {
 						final Boolean value = arguments.get(2).visit(BooleanJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, value);
 							return BooleanJassValue.of(object != null);
 						}
@@ -6755,7 +6757,7 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							return BooleanJassValue.of(localStore.containsKey(childKey));
 						}
 						return BooleanJassValue.FALSE;
@@ -6766,7 +6768,7 @@ public class Jass2 {
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
 							if (ability != null) {
-								final Map<String, Object> localStore = ability.getLocalStore();
+								final LocalDataStore localStore = ability.getLocalStore();
 								localStore.clear();
 							}
 						}
@@ -6778,7 +6780,7 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							return BooleanJassValue.of(localStore.remove(childKey) != null);
 						}
 						return BooleanJassValue.FALSE;
@@ -6787,11 +6789,11 @@ public class Jass2 {
 			// ===== local store =====
 			jassProgramVisitor.getJassNativeManager().createNative("CreateLocalStore",
 					(arguments, globalScope, triggerScope) -> {
-						return new HandleJassValue(localstoreType, new HashMap<String, Object>());
+						return new HandleJassValue(localstoreType, new MapLocalDataStore());
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreString",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6802,7 +6804,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreInteger",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6816,7 +6818,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreReal",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6827,7 +6829,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreCode",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6838,7 +6840,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreBoolean",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6849,7 +6851,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreString",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final String value = nullable(arguments, 2, StringJassValueVisitor.getInstance());
@@ -6858,7 +6860,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreInteger",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Integer value = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
@@ -6867,7 +6869,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreReal",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final float value = arguments.get(2).visit(RealJassValueVisitor.getInstance()).floatValue();
@@ -6876,7 +6878,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreBoolean",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Boolean value = arguments.get(2).visit(BooleanJassValueVisitor.getInstance());
@@ -6885,7 +6887,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreCode",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final CodeJassValue value = arguments.get(2).visit(CodeJassValueVisitor.getInstance());
@@ -6894,14 +6896,14 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("LocalStoreContainsKey",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						return BooleanJassValue.of(localStore.containsKey(childKey));
 					});
 
 			final JassFunction flushParentLocalStore = (arguments, globalScope, triggerScope) -> {
-				final Map<String, Object> localStore = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
+				final LocalDataStore localStore = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 				localStore.clear();
 				return null;
 			};
@@ -6909,7 +6911,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("DestroyLocalStore", flushParentLocalStore);
 			jassProgramVisitor.getJassNativeManager().createNative("FlushChildLocalStore",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						return BooleanJassValue.of(localStore.remove(childKey) != null);
@@ -6917,7 +6919,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("LocalStoreCleanUpCastInstance",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final Set<String> keySet = new HashSet<>(localStore.keySet());
@@ -6933,7 +6935,7 @@ public class Jass2 {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							return new HandleJassValue(localstoreType, localStore);
 						}
 						return localstoreType.getNullValue();
@@ -7593,7 +7595,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, argIndex++,
+						final LocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7646,7 +7648,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, argIndex++,
+						final LocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7683,7 +7685,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, argIndex++,
+						final LocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7744,7 +7746,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, argIndex++,
+						final LocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7794,7 +7796,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, argIndex++,
+						final LocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7947,7 +7949,7 @@ public class Jass2 {
 						final CEffectType artType = nullable(arguments, 4, ObjectJassValueVisitor.getInstance());
 						final boolean showFx = arguments.get(5).visit(BooleanJassValueVisitor.getInstance());
 						final boolean playSfx = arguments.get(6).visit(BooleanJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 7,
+						final LocalDataStore localStore = nullable(arguments, 7,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(8).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(9).visit(BooleanJassValueVisitor.getInstance());
@@ -7969,7 +7971,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("CreateTargetingBuff",
 					(arguments, globalScope, triggerScope) -> {
 						final int buffRawcode = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 1,
+						final LocalDataStore localStore = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
 
 						final CBuff ability = new ABTargetingBuff(
@@ -7988,7 +7990,7 @@ public class Jass2 {
 						final boolean leveled = arguments.get(4).visit(BooleanJassValueVisitor.getInstance());
 						final boolean positive = arguments.get(5).visit(BooleanJassValueVisitor.getInstance());
 						final boolean dispellable = arguments.get(6).visit(BooleanJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 7,
+						final LocalDataStore localStore = nullable(arguments, 7,
 								ObjectJassValueVisitor.getInstance());
 
 						final ABTimedArtBuff ability = new ABTimedArtBuff(
@@ -8010,7 +8012,7 @@ public class Jass2 {
 						final CodeJassValue onExpireAction = nullable(arguments, 5, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(6).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 7, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 8,
+						final LocalDataStore localStore = nullable(arguments, 8,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(9).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(10).visit(BooleanJassValueVisitor.getInstance());
@@ -8041,7 +8043,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final int buffRawcode = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
 						final float duration = arguments.get(1).visit(RealJassValueVisitor.getInstance()).floatValue();
-						final Map<String, Object> localStore = nullable(arguments, 2,
+						final LocalDataStore localStore = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
 
 						final CBuff ability = new ABTimedTargetingBuff(
@@ -8061,7 +8063,7 @@ public class Jass2 {
 						final CodeJassValue onTickAction = nullable(arguments, 6, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(7).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 8, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 9,
+						final LocalDataStore localStore = nullable(arguments, 9,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(10).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(11).visit(BooleanJassValueVisitor.getInstance());
@@ -8088,7 +8090,7 @@ public class Jass2 {
 						final CodeJassValue onTickAction = nullable(arguments, 6, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(7).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 8, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 9,
+						final LocalDataStore localStore = nullable(arguments, 9,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(10).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(11).visit(BooleanJassValueVisitor.getInstance());
@@ -8115,7 +8117,7 @@ public class Jass2 {
 						final CodeJassValue onTickAction = nullable(arguments, 6, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(7).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 8, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 9,
+						final LocalDataStore localStore = nullable(arguments, 9,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(10).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(11).visit(BooleanJassValueVisitor.getInstance());
@@ -8161,7 +8163,7 @@ public class Jass2 {
 						final CUnit casterUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final int buffRawcode = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final int level = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 3,
+						final LocalDataStore localStore = nullable(arguments, 3,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue onAddAction = nullable(arguments, 4, CodeJassValueVisitor.getInstance());
 						final CodeJassValue onRemoveAction = nullable(arguments, 5, CodeJassValueVisitor.getInstance());
@@ -8184,7 +8186,7 @@ public class Jass2 {
 						final float endTime = arguments.get(2).visit(RealJassValueVisitor.getInstance()).floatValue();
 						final String equalityId = nullable(arguments, 3, StringJassValueVisitor.getInstance());
 						final CUnit casterUnit = nullable(arguments, 4, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 5,
+						final LocalDataStore localStore = nullable(arguments, 5,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(6).visit(IntegerJassValueVisitor.getInstance());
 
@@ -8993,7 +8995,7 @@ public class Jass2 {
 						final CodeJassValue threadFunction = arguments.get(0).visit(CodeJassValueVisitor.getInstance());
 
 						final CUnit casterUnit = nullable(arguments, 1, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 2,
+						final LocalDataStore localStore = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(3).visit(IntegerJassValueVisitor.getInstance());
 
@@ -9005,7 +9007,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("CreateABTimer",
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit casterUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
-						final Map<String, Object> localStore = nullable(arguments, 1,
+						final LocalDataStore localStore = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
 						final CodeJassValue threadFunction = nullable(arguments, 3, CodeJassValueVisitor.getInstance());
@@ -9248,7 +9250,7 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return new HandleJassValue(handleType, object);
@@ -9264,7 +9266,7 @@ public class Jass2 {
 								ObjectJassValueVisitor.getInstance());
 						if (abilityFromHandle instanceof AbilityBuilderAbility) {
 							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final Map<String, Object> localStore = ability.getLocalStore();
+							final LocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, unwrappedHandleUnderlyingJavaObject);
 							return BooleanJassValue.of(object != null);
 						}
@@ -9273,7 +9275,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStore" + nameSuffix + "Handle",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -9284,7 +9286,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStore" + nameSuffix + "Handle",
 					(arguments, globalScope, triggerScope) -> {
-						final Map<String, Object> localStore = nullable(arguments, 0,
+						final LocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object unwrappedHandleUnderlyingJavaObject = nullable(arguments, 2,

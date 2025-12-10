@@ -1,18 +1,18 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABTimedTickingPostDeathBuff extends ABTimedTickingBuff {
 
-	public ABTimedTickingPostDeathBuff(int handleId, War3ID alias, Map<String, Object> localStore, CAbility sourceAbility, CUnit sourceUnit,
-			float duration, boolean showTimedLifeBar, List<ABAction> onAddActions,
+	public ABTimedTickingPostDeathBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+			CUnit sourceUnit, float duration, boolean showTimedLifeBar, List<ABAction> onAddActions,
 			List<ABAction> onRemoveActions, List<ABAction> onExpireActions, List<ABAction> onTickActions,
 			boolean showIcon, final int castId, final boolean leveled, final boolean positive,
 			final boolean dispellable) {
@@ -21,12 +21,11 @@ public class ABTimedTickingPostDeathBuff extends ABTimedTickingBuff {
 		this.setIconShowing(showIcon);
 	}
 
-	public ABTimedTickingPostDeathBuff(int handleId, War3ID alias, Map<String, Object> localStore, CAbility sourceAbility, CUnit sourceUnit,
-			float duration, boolean showTimedLifeBar, List<ABAction> onAddActions,
+	public ABTimedTickingPostDeathBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+			CUnit sourceUnit, float duration, boolean showTimedLifeBar, List<ABAction> onAddActions,
 			List<ABAction> onRemoveActions, List<ABAction> onExpireActions, List<ABAction> onTickActions,
 			final int castId, final boolean leveled, final boolean positive, final boolean dispellable) {
-		super(handleId, alias, localStore,
-				sourceAbility, sourceUnit, duration, showTimedLifeBar, onAddActions,
+		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, showTimedLifeBar, onAddActions,
 				onRemoveActions, onExpireActions, onTickActions, castId, leveled, positive, dispellable);
 	}
 

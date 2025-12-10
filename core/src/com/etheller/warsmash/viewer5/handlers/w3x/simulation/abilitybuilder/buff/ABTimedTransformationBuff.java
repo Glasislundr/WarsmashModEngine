@@ -1,7 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
@@ -12,6 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorFinishTransformation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.COrderStartTransformation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.DelayInstantTransformationTimer;
@@ -34,12 +33,11 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 	private boolean imTakeOff;
 	private boolean instantTransformation;
 
-	public ABTimedTransformationBuff(int handleId, Map<String, Object> localStore, CAbility sourceAbility,
-			CUnit sourceUnit, OnTransformationActions actions, War3ID alias, float duration,
-			AbilityBuilderAbility ability, CUnitType newType, final boolean keepRatios, boolean addAlternateTagAfter,
-			boolean permanent, float transformationDuration, float transformationTime, float landingDelay,
-			float altitudeAdjustmentDelay, float altitudeAdjustmentDuration, boolean immediateLanding,
-			boolean immediateTakeoff) {
+	public ABTimedTransformationBuff(int handleId, LocalDataStore localStore, CAbility sourceAbility, CUnit sourceUnit,
+			OnTransformationActions actions, War3ID alias, float duration, AbilityBuilderAbility ability,
+			CUnitType newType, final boolean keepRatios, boolean addAlternateTagAfter, boolean permanent,
+			float transformationDuration, float transformationTime, float landingDelay, float altitudeAdjustmentDelay,
+			float altitudeAdjustmentDuration, boolean immediateLanding, boolean immediateTakeoff) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, true, false, true, false);
 		this.setIconShowing(false);
 		this.actions = actions;
@@ -58,10 +56,9 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 		this.instantTransformation = false;
 	}
 
-	public ABTimedTransformationBuff(int handleId, Map<String, Object> localStore, CAbility sourceAbility,
-			CUnit sourceUnit, OnTransformationActions actions, War3ID alias, float duration,
-			AbilityBuilderAbility ability, CUnitType newType, boolean addAlternateTagAfter, boolean permanent,
-			float transformationDuration) {
+	public ABTimedTransformationBuff(int handleId, LocalDataStore localStore, CAbility sourceAbility, CUnit sourceUnit,
+			OnTransformationActions actions, War3ID alias, float duration, AbilityBuilderAbility ability,
+			CUnitType newType, boolean addAlternateTagAfter, boolean permanent, float transformationDuration) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, true, false, true, false);
 		this.setIconShowing(false);
 		this.actions = actions;

@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
@@ -17,6 +16,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitComparator;
 
 public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implements ABAction {
@@ -24,14 +24,14 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 	private static final Rectangle recycleRect = new Rectangle();
 	private List<ABAction> iterationActions;
 	private ABCondition condition;
-	
+
 	private ABIntegerCallback sort;
 
 	private ABUnitCallback originUnit;
 	private ABFloatCallback range;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final CUnit originUnitTarget = this.originUnit.callback(game, caster, localStore, castId);
 		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
@@ -43,7 +43,7 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal)) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT+castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
 					if (condition == null || condition.callback(game, caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
@@ -55,14 +55,14 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 			ABUnitComparator comp = new ABUnitComparator(game, caster, localStore, castId, sort);
 			foundUnits.sort(comp);
 		}
-		
+
 		for (CUnit unit : foundUnits) {
-			localStore.put(ABLocalStoreKeys.ENUMUNIT+castId, unit);
+			localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, unit);
 			for (ABAction iterationAction : iterationActions) {
 				iterationAction.runAction(game, caster, localStore, castId);
 			}
 		}
-		
+
 		localStore.remove(ABLocalStoreKeys.ENUMUNIT + castId);
 		localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
 	}

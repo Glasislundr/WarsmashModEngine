@@ -1,7 +1,5 @@
 package com.etheller.warsmash.parsers.jass.scope;
 
-import java.util.Map;
-
 import com.etheller.interpreter.ast.scope.TriggerExecutionScope;
 import com.etheller.interpreter.ast.scope.trigger.Trigger;
 import com.etheller.warsmash.util.War3ID;
@@ -15,6 +13,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.COrderBut
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.COrderButton.JassOrderButtonType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayerJass;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.region.CRegion;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
@@ -90,7 +89,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 	private JassOrderButtonType spellAbilityTargetType; // Warsmash only
 	private COrderButton spellAbilityOrderCommandCard; // Warsmash only
 	private String enumFilePath; // Warsmash only
-	private Map<String, Object> triggerLocalStore; // warsmash only
+	private LocalDataStore triggerLocalStore; // warsmash only
 	private int triggerCastId; // Warsmash only
 	private float damageTaken;
 	private CUnit damageSource;
@@ -450,7 +449,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		return this.enumFilePath;
 	}
 
-	public Map<String, Object> getTriggerLocalStore() {
+	public LocalDataStore getTriggerLocalStore() {
 		return this.triggerLocalStore;
 	}
 
@@ -928,7 +927,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		return scope;
 	}
 
-	public static TriggerExecutionScope abilityBuilder(final CUnit caster, final Map<String, Object> localStore,
+	public static TriggerExecutionScope abilityBuilder(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final CommonTriggerExecutionScope scope = new CommonTriggerExecutionScope(null, TriggerExecutionScope.EMPTY);
 		scope.spellAbilityUnit = caster;

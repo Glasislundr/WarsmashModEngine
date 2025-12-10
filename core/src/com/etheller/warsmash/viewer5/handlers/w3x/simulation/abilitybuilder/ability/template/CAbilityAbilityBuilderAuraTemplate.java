@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -17,13 +16,14 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.A
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
 
 public class CAbilityAbilityBuilderAuraTemplate extends AbilityGenericSingleIconPassiveAbility {
 
 	private List<CAbilityTypeAbilityBuilderLevelData> levelData;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 
 	private Set<CUnit> auraGroup;
 	private int lastSeenLevel = 0;
@@ -44,7 +44,7 @@ public class CAbilityAbilityBuilderAuraTemplate extends AbilityGenericSingleIcon
 	private final int RESET_GROUP_TICKS = LEAVE_GROUP_TICKS * 2;
 	
 	public CAbilityAbilityBuilderAuraTemplate(int handleId, War3ID code, War3ID alias,
-			List<CAbilityTypeAbilityBuilderLevelData> levelData, Map<String, Object> localStore,
+			List<CAbilityTypeAbilityBuilderLevelData> levelData, LocalDataStore localStore,
 			List<ABAction> addToAuraActions, List<ABAction> updateAuraLevelActions,
 			List<ABAction> removeFromAuraActions) {
 		super(code, alias, handleId);

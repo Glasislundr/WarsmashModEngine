@@ -9,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
 
@@ -18,7 +19,7 @@ public class ABCallbackReuseNonStackingStatBuffWithArguments extends ABNonStacki
 	private Map<String, ABCallback> arguments;
 
 	@Override
-	public NonStackingStatBuff callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public NonStackingStatBuff callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
@@ -31,10 +32,12 @@ public class ABCallbackReuseNonStackingStatBuffWithArguments extends ABNonStacki
 						localStore.put(ABLocalStoreKeys.combineArgumentKey(argKey), arguments.get(argKey));
 					}
 				}
-				
+
 				return ((ABNonStackingStatBuffCallback) callback).callback(game, caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseNonStackingStatBuffCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseNonStackingStatBuffCallback, but key is missing or callback was the wrong type: "
+								+ keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseNonStackingStatBuffCallback, but none defined");

@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABCallbackRawString;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
 
 public class ABCallbackGetDamageTypeFromString extends ABDamageTypeCallback {
@@ -14,7 +13,8 @@ public class ABCallbackGetDamageTypeFromString extends ABDamageTypeCallback {
 	private ABStringCallback id;
 
 	@Override
-	public CDamageType callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public CDamageType callback(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		return CDamageType.valueOf(this.id.callback(game, caster, localStore, castId));
 	}

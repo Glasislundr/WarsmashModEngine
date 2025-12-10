@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.comparison;
 
-import java.util.Map;
-
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABConditionIsIdEqual extends ABCondition {
 
@@ -14,7 +13,7 @@ public class ABConditionIsIdEqual extends ABCondition {
 	private ABIDCallback id2;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, Map<String, Object> localStore, final int castId) {
+	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
 		War3ID lA = id1.callback(game, caster, localStore, castId);
 		War3ID rA = id2.callback(game, caster, localStore, castId);
 		if (lA == null) {

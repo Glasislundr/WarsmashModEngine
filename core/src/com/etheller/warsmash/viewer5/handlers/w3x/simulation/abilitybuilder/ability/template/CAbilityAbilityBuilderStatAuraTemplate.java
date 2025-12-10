@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -17,6 +16,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.A
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABGenericAuraBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.template.MeleeRangeTargetOverride;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.template.StatBuffFromDataField;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
@@ -30,7 +30,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.SimulationRend
 public class CAbilityAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPassiveAbility {
 
 	private List<CAbilityTypeAbilityBuilderLevelData> levelData;
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 
 	private Set<CUnit> auraGroup;
 	private int loopTick = 0;
@@ -58,7 +58,7 @@ public class CAbilityAbilityBuilderStatAuraTemplate extends AbilityGenericSingle
 	private boolean leveled;
 
 	public CAbilityAbilityBuilderStatAuraTemplate(int handleId, War3ID code, War3ID alias,
-			List<CAbilityTypeAbilityBuilderLevelData> levelData, Map<String, Object> localStore,
+			List<CAbilityTypeAbilityBuilderLevelData> levelData, LocalDataStore localStore,
 			List<StatBuffFromDataField> statBuffDataFields, MeleeRangeTargetOverride meleeRangeTargetOverride) {
 		super(code, alias, handleId);
 		this.levelData = levelData;

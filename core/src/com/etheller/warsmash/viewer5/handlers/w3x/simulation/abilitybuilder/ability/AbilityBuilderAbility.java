@@ -1,13 +1,13 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability;
 
 import java.util.List;
-import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.Aliased;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CLevelingAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
 
@@ -16,7 +16,7 @@ public interface AbilityBuilderAbility extends CLevelingAbility, Aliased {
 
 	public AbilityBuilderConfiguration getConfig();
 
-	public Map<String, Object> getLocalStore();
+	public LocalDataStore getLocalStore();
 	
 	public float getArea();
 	

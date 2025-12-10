@@ -1,10 +1,9 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackSubtractFloat extends ABFloatCallback {
 
@@ -12,7 +11,8 @@ public class ABCallbackSubtractFloat extends ABFloatCallback {
 	private ABFloatCallback value2;
 
 	@Override
-	public Float callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public Float callback(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		return this.value1.callback(game, caster, localStore, castId)
 				- this.value2.callback(game, caster, localStore, castId);

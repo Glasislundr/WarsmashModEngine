@@ -1,12 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks;
 
-import java.util.Map;
-
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.abilitycallbacks.ABAbilityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
 public class ABCallbackGetAbilityUniqueValueString extends ABStringCallback {
 
@@ -16,7 +15,8 @@ public class ABCallbackGetAbilityUniqueValueString extends ABStringCallback {
 	private ABBooleanCallback allowNull;
 
 	@Override
-	public String callback(final CSimulation game, final CUnit caster, final Map<String, Object> localStore,
+	public String callback(final CSimulation game, final CUnit caster,
+			final LocalDataStore localStore,
 			final int castId) {
 		final String keyS = key.callback(game, caster, localStore, castId);
 		final CAbility theAbility = ability.callback(game, caster, localStore, castId);

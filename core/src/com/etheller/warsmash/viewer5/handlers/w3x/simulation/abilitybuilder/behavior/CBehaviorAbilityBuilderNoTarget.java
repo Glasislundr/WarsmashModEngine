@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior;
 
 import java.util.EnumSet;
-import java.util.Map;
 
 import com.etheller.warsmash.util.WarsmashConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
@@ -14,6 +13,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehaviorCategory;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehaviorVisitor;
@@ -21,7 +21,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEve
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.BooleanAbilityActivationReceiver;
 
 public class CBehaviorAbilityBuilderNoTarget implements ABBehavior {
-	private Map<String, Object> localStore;
+	private LocalDataStore localStore;
 	private AbilityBuilderActiveAbility ability;
 
 	private int castStartTick = 0;
@@ -42,7 +42,7 @@ public class CBehaviorAbilityBuilderNoTarget implements ABBehavior {
 	private EnumSet<SecondaryTag> channelTags;
 	private boolean firstAnimation;
 
-	public CBehaviorAbilityBuilderNoTarget(final CUnit unit, final Map<String, Object> localStore,
+	public CBehaviorAbilityBuilderNoTarget(final CUnit unit, final LocalDataStore localStore,
 			AbilityBuilderActiveAbility ability) {
 		this.unit = unit;
 		this.localStore = localStore;
