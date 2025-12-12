@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.Set;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitgroupcallbacks.ABUnitGroupCallback;
@@ -17,10 +16,9 @@ public class ABActionRemoveUnitFromGroup implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final Set<CUnit> groupSet = this.group.callback(game, caster, localStore, castId);
-		final CUnit rUnit = this.unit.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final Set<CUnit> groupSet = this.group.callback(caster, localStore, castId);
+		final CUnit rUnit = this.unit.callback(caster, localStore, castId);
 		groupSet.remove(rUnit);
 		localStore.put(ABLocalStoreKeys.LASTREMOVEDDUNIT, rUnit);
 	}

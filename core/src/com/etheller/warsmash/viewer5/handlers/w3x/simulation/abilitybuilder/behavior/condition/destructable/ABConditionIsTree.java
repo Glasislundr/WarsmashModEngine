@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.EnumSet;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructable;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructable.ABDestructableCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -15,10 +14,10 @@ public class ABConditionIsTree extends ABCondition {
 	private ABDestructableCallback dest;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		CDestructable theDestructable = dest.callback(game, caster, localStore, castId);
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		CDestructable theDestructable = dest.callback(caster, localStore, castId);
 		if (theDestructable != null) {
-			return theDestructable.canBeTargetedBy(game, caster, EnumSet.of(CTargetType.TREE));
+			return theDestructable.canBeTargetedBy(localStore.game, caster, EnumSet.of(CTargetType.TREE));
 		}
 		return false;
 	}

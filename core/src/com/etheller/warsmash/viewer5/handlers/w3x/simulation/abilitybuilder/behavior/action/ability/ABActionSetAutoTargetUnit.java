@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -14,10 +13,9 @@ public class ABActionSetAutoTargetUnit implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId,
-				this.unit.callback(game, caster, localStore, castId));
+				this.unit.callback(caster, localStore, castId));
 	}
 
 	@Override

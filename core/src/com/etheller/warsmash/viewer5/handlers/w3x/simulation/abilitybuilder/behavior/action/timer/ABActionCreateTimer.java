@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -23,26 +22,25 @@ public class ABActionCreateTimer implements ABSingleAction {
 	private ABFloatCallback delay;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 
 		final CTimer timer = new ABTimer(caster, localStore, this.actions, castId);
-		timer.setTimeoutTime(this.timeout.callback(game, caster, localStore, castId));
+		timer.setTimeoutTime(this.timeout.callback(caster, localStore, castId));
 		localStore.put(ABLocalStoreKeys.LASTCREATEDTIMER, timer);
 
-		if ((this.repeats != null) && this.repeats.callback(game, caster, localStore, castId)) {
+		if ((this.repeats != null) && this.repeats.callback(caster, localStore, castId)) {
 			timer.setRepeats(true);
-			if ((this.startTimer == null) || this.startTimer.callback(game, caster, localStore, castId)) {
+			if ((this.startTimer == null) || this.startTimer.callback(caster, localStore, castId)) {
 				if (this.delay != null) {
-					timer.startRepeatingTimerWithDelay(game, this.delay.callback(game, caster, localStore, castId));
+					timer.startRepeatingTimerWithDelay(localStore.game, this.delay.callback(caster, localStore, castId));
 				} else {
-					timer.start(game);
+					timer.start(localStore.game);
 				}
 				localStore.put(ABLocalStoreKeys.LASTSTARTEDTIMER, timer);
 			}
 		} else {
-			if ((this.startTimer == null) || this.startTimer.callback(game, caster, localStore, castId)) {
-				timer.start(game);
+			if ((this.startTimer == null) || this.startTimer.callback(caster, localStore, castId)) {
+				timer.start(localStore.game);
 				localStore.put(ABLocalStoreKeys.LASTSTARTEDTIMER, timer);
 			}
 		}

@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -14,14 +13,14 @@ public class ABCallbackGetStoredBooleanByKey extends ABCondition {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			return (Boolean) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(game, caster, localStore, castId), castId));
+					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
 		}
 		else {
 			return (Boolean) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(game, caster, localStore, castId), castId));
+					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
 		}
 	}
 

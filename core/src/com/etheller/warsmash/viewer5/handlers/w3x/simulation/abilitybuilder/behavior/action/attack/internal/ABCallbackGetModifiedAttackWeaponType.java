@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.attack.internal;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABWeaponTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -11,7 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUni
 public class ABCallbackGetModifiedAttackWeaponType extends ABWeaponTypeCallback {
 
 	@Override
-	public CWeaponType callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public CWeaponType callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK + castId)).getWeaponType();
 	}
 

@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.projectile;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.projectile.ABProjectileCallback;
@@ -15,12 +14,11 @@ public class ABActionSetProjectileDone implements ABSingleAction {
 	private ABBooleanCallback done;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 
-		final CProjectile proj = this.projectile.callback(game, caster, localStore, castId);
+		final CProjectile proj = this.projectile.callback(caster, localStore, castId);
 
-		proj.setDone(this.done.callback(game, caster, localStore, castId));
+		proj.setDone(this.done.callback(caster, localStore, castId));
 	}
 
 	@Override

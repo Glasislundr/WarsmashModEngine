@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -13,8 +12,8 @@ public class ABCallbackGetLocationFromList extends ABLocationCallback {
 	private ABIntegerCallback index;
 
 	@Override
-	public AbilityPointTarget callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		return list.callback(game, caster, localStore, castId).get(index.callback(game, caster, localStore, castId));
+	public AbilityPointTarget callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		return list.callback(caster, localStore, castId).get(index.callback(caster, localStore, castId));
 	}
 
 }

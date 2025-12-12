@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -19,11 +18,10 @@ public class ABCallbackReuseTargetWithArguments extends ABTargetCallback {
 	private Map<String, ABCallback> arguments;
 
 	@Override
-	public AbilityTarget callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public AbilityTarget callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
-		final String keyS = name.callback(game, caster, localStore, castId);
+		final String keyS = name.callback(caster, localStore, castId);
 		if (config.getReuseCallbacks() != null) {
 			ABCallback callback = config.getReuseCallbacks().get(keyS);
 			if (callback != null && callback instanceof ABTargetCallback) {
@@ -33,7 +31,7 @@ public class ABCallbackReuseTargetWithArguments extends ABTargetCallback {
 					}
 				}
 
-				return ((ABTargetCallback) callback).callback(game, caster, localStore, castId);
+				return ((ABTargetCallback) callback).callback(caster, localStore, castId);
 			} else {
 				System.err.println(
 						"Trying to run ReuseTargetCallback, but key is missing or callback was the wrong type: "

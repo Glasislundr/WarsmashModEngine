@@ -9,7 +9,6 @@ public class ABLocalStoreKeys {
 	public static final String PARENTLOCALSTORE = "_parentLocalStore";
 	public static final String ALIAS = "_alias";
 	public static final String CODE = "_code";
-	public static final String GAME = "_game";
 	public static final String THISUNIT = "_thisUnit";
 	public static final String ABILITY = "_ability";
 	public static final String CURRENTLEVEL = "_currentLevel";

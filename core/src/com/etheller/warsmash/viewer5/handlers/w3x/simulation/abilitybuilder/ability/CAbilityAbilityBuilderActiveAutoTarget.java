@@ -86,7 +86,7 @@ public class CAbilityAbilityBuilderActiveAutoTarget extends CAbilityAbilityBuild
 			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
 			
 			for (ABAction action : this.config.getSpecialFields().getAutoAquireTarget()) {
-				action.runAction(game, caster, this.localStore, castId);
+				action.runAction(caster, this.localStore, castId);
 			}
 			
 			target = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);

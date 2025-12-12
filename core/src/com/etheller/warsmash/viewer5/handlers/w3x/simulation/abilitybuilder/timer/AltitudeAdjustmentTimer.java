@@ -11,7 +11,7 @@ public class AltitudeAdjustmentTimer extends CTimer {
 	private int durTicks;
 	private int endTick = 0;
 
-	public AltitudeAdjustmentTimer(CSimulation game, CUnit unit, float targetHeight, float duration) {
+	public AltitudeAdjustmentTimer(CUnit unit, float targetHeight, float duration) {
 		super();
 		this.unit = unit;
 		durTicks = Math.round(duration / WarsmashConstants.SIMULATION_STEP_TIME);
@@ -24,7 +24,7 @@ public class AltitudeAdjustmentTimer extends CTimer {
 		}
 		this.setTimeoutTime(0f);
 	}
-	
+
 	@Override
 	public void start(CSimulation game) {
 		if (endTick == 0) {
@@ -39,9 +39,9 @@ public class AltitudeAdjustmentTimer extends CTimer {
 			return;
 		}
 		this.unit.setFlyHeight(this.unit.getFlyHeight() + this.heightInc);
-		if(game.getGameTurnTick() >= endTick) {
+		if (game.getGameTurnTick() >= endTick) {
 			this.setRepeats(false);
 		}
 	}
-	
+
 }

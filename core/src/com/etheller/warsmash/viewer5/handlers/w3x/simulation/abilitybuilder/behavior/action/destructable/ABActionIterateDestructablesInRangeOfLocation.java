@@ -9,7 +9,6 @@ import com.etheller.warsmash.parsers.jass.JassTextGeneratorCallStmt;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorStmt;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructable;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructableEnumFunction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -27,20 +26,19 @@ public class ABActionIterateDestructablesInRangeOfLocation implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final AbilityPointTarget target = this.location.callback(game, caster, localStore, castId);
-		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
+		final AbilityPointTarget target = this.location.callback(caster, localStore, castId);
+		final Float rangeVal = this.range.callback(caster, localStore, castId);
 
 		recycleRect.set(target.getX() - rangeVal, target.getY() - rangeVal, rangeVal * 2, rangeVal * 2);
-		game.getWorldCollision().enumDestructablesInRect(recycleRect, new CDestructableEnumFunction() {
+		localStore.game.getWorldCollision().enumDestructablesInRect(recycleRect, new CDestructableEnumFunction() {
 			@Override
 			public boolean call(final CDestructable enumDest) {
 				if (enumDest.distance(target.getX(), target.getY()) < rangeVal) {
 					localStore.put(ABLocalStoreKeys.ENUMDESTRUCTABLE + castId, enumDest);
 					for (final ABAction iterationAction : ABActionIterateDestructablesInRangeOfLocation.this.iterationActions) {
-						iterationAction.runAction(game, caster, localStore, castId);
+						iterationAction.runAction(caster, localStore, castId);
 					}
 				}
 				return false;

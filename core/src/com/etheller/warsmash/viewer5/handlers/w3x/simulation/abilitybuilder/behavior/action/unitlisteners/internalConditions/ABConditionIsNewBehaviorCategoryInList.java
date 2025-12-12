@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -15,7 +14,7 @@ public class ABConditionIsNewBehaviorCategoryInList extends ABCondition {
 	private List<CBehaviorCategory> list;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, int castId) {
 		CBehavior beh = (CBehavior) localStore.get(ABLocalStoreKeys.POSTCHANGEBEHAVIOR + castId);
 		CBehaviorCategory cat = CBehaviorCategory.IDLE;
 		if (beh != null) {

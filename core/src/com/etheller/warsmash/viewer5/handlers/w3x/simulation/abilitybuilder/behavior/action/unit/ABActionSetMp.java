@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -16,19 +15,19 @@ public class ABActionSetMp implements ABSingleAction {
 	private ABBooleanCallback isPercent;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		boolean percent = false;
 		if (this.isPercent != null) {
-			percent = this.isPercent.callback(game, caster, localStore, castId);
+			percent = this.isPercent.callback(caster, localStore, castId);
 		}
-		final CUnit targetUnit = this.target.callback(game, caster, localStore, castId);
+		final CUnit targetUnit = this.target.callback(caster, localStore, castId);
 		if (percent) {
 			targetUnit.setMana(Math
-					.max(Math.min(this.amount.callback(game, caster, localStore, castId) * targetUnit.getMaximumMana(),
+					.max(Math.min(this.amount.callback(caster, localStore, castId) * targetUnit.getMaximumMana(),
 							targetUnit.getMaximumMana()), 0));
 		} else {
 			targetUnit.setMana(Math.max(
-					Math.min(this.amount.callback(game, caster, localStore, castId), targetUnit.getMaximumMana()), 0));
+					Math.min(this.amount.callback(caster, localStore, castId), targetUnit.getMaximumMana()), 0));
 		}
 	}
 

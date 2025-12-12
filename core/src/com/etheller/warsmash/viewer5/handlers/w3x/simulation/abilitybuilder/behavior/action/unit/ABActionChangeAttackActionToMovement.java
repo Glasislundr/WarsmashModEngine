@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -15,20 +14,20 @@ public class ABActionChangeAttackActionToMovement implements ABAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (unit != null) {
-			targetUnit = this.unit.callback(game, caster, localStore, castId);
+			targetUnit = this.unit.callback(caster, localStore, castId);
 		}
 		if (targetUnit.getCurrentBehavior().getBehaviorCategory() == CBehaviorCategory.ATTACK) {
-			targetUnit.beginBehavior(game,
+			targetUnit.beginBehavior(localStore.game,
 					targetUnit.getMoveBehavior().reset(targetUnit.getMoveBehavior().getHighlightOrderId(),
 							targetUnit.getCurrentBehavior().visit(BehaviorTargetVisitor.INSTANCE)),
 					true);
 		} else if (targetUnit.getCurrentBehavior().getBehaviorCategory() == CBehaviorCategory.MOVEMENT) {
 			CRangedBehavior next = targetUnit.getCurrentBehavior().visit(BehaviorNextBehaviorVisitor.INSTANCE);
 			if (next != null && next.getBehaviorCategory() == CBehaviorCategory.ATTACK) {
-				targetUnit.beginBehavior(game,
+				targetUnit.beginBehavior(localStore.game,
 						targetUnit.getMoveBehavior().reset(targetUnit.getMoveBehavior().getHighlightOrderId(),
 								next.visit(BehaviorTargetVisitor.INSTANCE)),
 						true);

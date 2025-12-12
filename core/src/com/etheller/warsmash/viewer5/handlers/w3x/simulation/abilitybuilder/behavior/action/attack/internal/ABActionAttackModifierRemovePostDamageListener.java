@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.attack.internal;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.listenercallbacks.ABAttackPostDamageListenerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -13,9 +12,8 @@ public class ABActionAttackModifierRemovePostDamageListener implements ABAction 
 
 	private ABAttackPostDamageListenerCallback listener;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
-		settings.removePostDamageListener(listener.callback(game, caster, localStore, castId));
+		settings.removePostDamageListener(listener.callback(caster, localStore, castId));
 	}
 }

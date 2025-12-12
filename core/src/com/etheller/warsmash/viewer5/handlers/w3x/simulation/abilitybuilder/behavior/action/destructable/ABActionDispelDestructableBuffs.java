@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructable;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructable.ABDestructableCallback;
@@ -21,25 +20,25 @@ public class ABActionDispelDestructableBuffs implements ABAction {
 	private ABCondition filter;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = caster;
 		if (source != null) {
-			theCaster = source.callback(game, theCaster, localStore, castId);
+			theCaster = source.callback(theCaster, localStore, castId);
 		}
-		CDestructable theTarget = dest.callback(game, theCaster, localStore, castId);
+		CDestructable theTarget = dest.callback(theCaster, localStore, castId);
 
 		if (theTarget != null && theTarget.getBuffs() != null) {
 			List<CDestructableBuff> toRemove = new ArrayList<>();
 			for (CDestructableBuff buff : theTarget.getBuffs()) {
 				localStore.put(ABLocalStoreKeys.ENUMDESTBUFF, buff);
-				if (filter != null && filter.callback(game, theCaster, localStore, castId)) {
+				if (filter != null && filter.callback(theCaster, localStore, castId)) {
 					toRemove.add(buff);
 				}
 			}
 			localStore.remove(ABLocalStoreKeys.ENUMDESTBUFF);
 
 			for (CDestructableBuff buff : toRemove) {
-				theTarget.remove(game, buff);
+				theTarget.remove(localStore.game, buff);
 			}
 		}
 	}

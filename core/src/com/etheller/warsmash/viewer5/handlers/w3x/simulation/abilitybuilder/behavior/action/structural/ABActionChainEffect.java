@@ -42,12 +42,11 @@ public class ABActionChainEffect implements ABAction {
 	private ABBooleanCallback allowMultipleBouncesPerUnit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final CUnit originUnitTarget = this.target.callback(game, caster, localStore, castId);
-		boolean multiBounce = game.getGameplayConstants().isAllowMultiBounce();
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final CUnit originUnitTarget = this.target.callback(caster, localStore, castId);
+		boolean multiBounce = localStore.game.getGameplayConstants().isAllowMultiBounce();
 		if (allowMultipleBouncesPerUnit != null) {
-			multiBounce = allowMultipleBouncesPerUnit.callback(game, caster, localStore, castId);
+			multiBounce = allowMultipleBouncesPerUnit.callback(caster, localStore, castId);
 		}
 		Set<CUnit> hitUnits = null;
 		if (!multiBounce) {
@@ -55,72 +54,72 @@ public class ABActionChainEffect implements ABAction {
 			hitUnits.add(originUnitTarget);
 		}
 
-		if (lightningFromCaster == null || lightningFromCaster.callback(game, caster, localStore, castId)) {
+		if (lightningFromCaster == null || lightningFromCaster.callback(caster, localStore, castId)) {
 			if (lightningId != null) {
 				int lidx = 0;
 				if (lightningIndex != null) {
-					lidx = lightningIndex.callback(game, caster, localStore, castId);
+					lidx = lightningIndex.callback(caster, localStore, castId);
 				}
-				game.createAbilityLightning(caster, lightningId.callback(game, caster, localStore, castId), lidx,
+				localStore.game.createAbilityLightning(caster, lightningId.callback(caster, localStore, castId), lidx,
 						originUnitTarget, 2f);
 			}
 		}
 
 		localStore.put(ABLocalStoreKeys.CHAINUNIT + castId, originUnitTarget);
 		for (ABAction iterationAction : actions) {
-			iterationAction.runAction(game, caster, localStore, castId);
+			iterationAction.runAction(caster, localStore, castId);
 		}
 		localStore.remove(ABLocalStoreKeys.CHAINUNIT + castId);
 
-		startPerformJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
-				bounces.callback(game, caster, localStore, castId));
+		startPerformJump(caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
+				bounces.callback(caster, localStore, castId));
 
 	}
 
-	private void startPerformJump(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId, final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
+	private void startPerformJump(final CUnit caster, final LocalDataStore localStore, final int castId,
+			final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (remainingJumps <= 0) {
 			return;
 		}
 		float delay = 0;
 		if (bounceDelay != null) {
-			delay = bounceDelay.callback(game, caster, localStore, castId);
+			delay = bounceDelay.callback(caster, localStore, castId);
 		}
 		if (delay > 0) {
 			CTimer runner = new CTimer() {
 				@Override
 				public void onFire(CSimulation simulation) {
-					performJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
+					performJump(caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
 							remainingJumps - 1);
 				}
 			};
 			runner.setTimeoutTime(delay);
-			runner.start(game);
+			runner.start(localStore.game);
 		} else {
-			performJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits, remainingJumps - 1);
+			performJump(caster, localStore, castId, originUnitTarget, multiBounce, hitUnits, remainingJumps - 1);
 		}
 	}
 
-	private void performJump(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId, final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
+	private void performJump(final CUnit caster, final LocalDataStore localStore, final int castId,
+			final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (originUnitTarget == null) {
 			return;
 		}
 
-		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
+		final Float rangeVal = this.range.callback(caster, localStore, castId);
 
 		List<CUnit> foundUnits = new ArrayList<>();
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);
-		game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
+		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget != enumUnit && originUnitTarget.canReach(enumUnit, rangeVal)
 						&& (multiBounce || !hitUnits.contains(enumUnit))) {
 					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
-					if (condition == null || condition.callback(game, caster, localStore, castId)) {
+					if (condition == null || condition.callback(caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
 				}
@@ -132,7 +131,7 @@ public class ABActionChainEffect implements ABAction {
 		CUnit jumpUnit = null;
 		if (foundUnits.size() > 0) {
 			if (sort != null) {
-				ABUnitComparator comp = new ABUnitComparator(game, caster, localStore, castId, sort);
+				ABUnitComparator comp = new ABUnitComparator(caster, localStore, castId, sort);
 				foundUnits.sort(comp);
 			} else {
 				foundUnits.sort(ABNearestUnitComparator.INSTANCE);
@@ -145,10 +144,10 @@ public class ABActionChainEffect implements ABAction {
 			if (lightningId != null) {
 				int lidx = 0;
 				if (lightningIndex != null) {
-					lidx = lightningIndex.callback(game, caster, localStore, castId);
+					lidx = lightningIndex.callback(caster, localStore, castId);
 				}
-				game.createAbilityLightning(originUnitTarget, lightningId.callback(game, caster, localStore, castId),
-						lidx, jumpUnit, 2f);
+				localStore.game.createAbilityLightning(originUnitTarget,
+						lightningId.callback(caster, localStore, castId), lidx, jumpUnit, 2f);
 			}
 
 			if (!multiBounce) {
@@ -156,13 +155,13 @@ public class ABActionChainEffect implements ABAction {
 			}
 			localStore.put(ABLocalStoreKeys.CHAINUNIT + castId, jumpUnit);
 			for (ABAction iterationAction : actions) {
-				iterationAction.runAction(game, caster, localStore, castId);
+				iterationAction.runAction(caster, localStore, castId);
 			}
 			localStore.remove(ABLocalStoreKeys.CHAINUNIT + castId);
 		}
 
 		if (remainingJumps > 0) {
-			startPerformJump(game, caster, localStore, castId, jumpUnit, multiBounce, hitUnits, remainingJumps);
+			startPerformJump(caster, localStore, castId, jumpUnit, multiBounce, hitUnits, remainingJumps);
 		}
 	}
 

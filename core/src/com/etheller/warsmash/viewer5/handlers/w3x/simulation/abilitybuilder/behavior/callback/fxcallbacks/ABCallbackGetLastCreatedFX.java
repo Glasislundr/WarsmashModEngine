@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.fxcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -9,8 +8,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.SimulationRend
 public class ABCallbackGetLastCreatedFX extends ABFXCallback {
 
 	@Override
-	public SimulationRenderComponent callback(CSimulation game, CUnit caster,
-			LocalDataStore localStore, final int castId) {
+	public SimulationRenderComponent callback(CUnit caster, LocalDataStore localStore,
+			final int castId) {
 		return (SimulationRenderComponent) localStore.get(ABLocalStoreKeys.LASTCREATEDFX);
 	}
 

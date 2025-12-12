@@ -25,7 +25,7 @@ public class DelayInstantTransformationTimer extends CTimer {
 	private float transTime;
 	private float dur;
 
-	public DelayInstantTransformationTimer(CSimulation game, CUnit sourceUnit, LocalDataStore localStore, CUnit unit,
+	public DelayInstantTransformationTimer(CUnit sourceUnit, LocalDataStore localStore, CUnit unit,
 			OnTransformationActions actions, boolean addAlternateTagAfter, float delay, CUnitType baseType,
 			CUnitType targetType, final boolean keepRatios, AbilityBuilderAbility ability, War3ID buffId,
 			float transformationTime, float duration) {
@@ -47,12 +47,11 @@ public class DelayInstantTransformationTimer extends CTimer {
 	}
 
 	public void onFire(CSimulation game) {
-		TransformationHandler.instantTransformation(game, localStore, unit, targetType, keepRatios, actions, abil,
+		TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
 				addAlternateTagAfter, perm, false);
 		if (dur > 0) {
-			TransformationHandler.createInstantTransformBackBuff(game, sourceUnit, localStore, unit, baseType,
-					keepRatios, actions.createUntransformActions(), abil, theBuffId, addAlternateTagAfter, transTime,
-					dur, perm);
+			TransformationHandler.createInstantTransformBackBuff(sourceUnit, localStore, unit, baseType, keepRatios,
+					actions.createUntransformActions(), abil, theBuffId, addAlternateTagAfter, transTime, dur, perm);
 		}
 	}
 

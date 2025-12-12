@@ -38,7 +38,7 @@ public class ABTimer extends CTimer {
 			localStore.put(ABLocalStoreKeys.FIRINGTIMER, this);
 			if (actions != null) {
 				for (ABAction action : actions) {
-					action.runAction(simulation, caster, localStore, castId);
+					action.runAction(caster, localStore, castId);
 				}
 			}
 			if (localStore != null)

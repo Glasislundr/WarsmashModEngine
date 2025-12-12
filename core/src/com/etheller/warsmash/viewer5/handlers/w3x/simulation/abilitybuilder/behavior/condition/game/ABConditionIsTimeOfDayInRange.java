@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.game;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -10,19 +9,19 @@ public class ABConditionIsTimeOfDayInRange extends ABCondition {
 
 	private ABFloatCallback startTime;
 	private ABFloatCallback endTime;
-	
+
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		float st = 0;
 		float et = Float.MAX_VALUE;
 		if (startTime != null) {
-			st = startTime.callback(game, caster, localStore, castId);
+			st = startTime.callback(caster, localStore, castId);
 		}
 		if (endTime != null) {
-			et = endTime.callback(game, caster, localStore, castId);
+			et = endTime.callback(caster, localStore, castId);
 		}
-		return st <= et ? game.getGameTimeOfDay() >= st && game.getGameTimeOfDay() < et
-				: game.getGameTimeOfDay() >= st || game.getGameTimeOfDay() < et;
+		return st <= et ? localStore.game.getGameTimeOfDay() >= st && localStore.game.getGameTimeOfDay() < et
+				: localStore.game.getGameTimeOfDay() >= st || localStore.game.getGameTimeOfDay() < et;
 	}
 
 }

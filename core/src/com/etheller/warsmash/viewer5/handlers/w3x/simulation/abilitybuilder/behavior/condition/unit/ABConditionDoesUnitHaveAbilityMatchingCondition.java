@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.unit;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityCategory;
@@ -16,16 +15,16 @@ public class ABConditionDoesUnitHaveAbilityMatchingCondition extends ABCondition
 	private ABBooleanCallback condition;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
-			theUnit = unit.callback(game, caster, localStore, castId);
+			theUnit = unit.callback(caster, localStore, castId);
 		}
 		if (theUnit != null) {
 			for (CAbility ability : theUnit.getAbilities()) {
 				if (CAbilityCategory.BUFF != ability.getAbilityCategory()) {
 					localStore.put(ABLocalStoreKeys.MATCHINGABILITY, ability);
-					if (condition.callback(game, caster, localStore, castId)) {
+					if (condition.callback(caster, localStore, castId)) {
 						localStore.remove(ABLocalStoreKeys.MATCHINGABILITY);
 						return true;
 					}

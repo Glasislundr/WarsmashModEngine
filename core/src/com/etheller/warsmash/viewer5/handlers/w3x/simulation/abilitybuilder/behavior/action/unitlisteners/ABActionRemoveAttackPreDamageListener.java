@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitlisteners;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABAttackPreDamageListenerPriorityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.listenercallbacks.ABAttackPreDamageListenerCallback;
@@ -15,11 +14,10 @@ public class ABActionRemoveAttackPreDamageListener implements ABAction {
 	private ABAttackPreDamageListenerPriorityCallback priority;
 	private ABAttackPreDamageListenerCallback listener;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		CUnit target = targetUnit.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		CUnit target = targetUnit.callback(caster, localStore, castId);
 
-		target.removePreDamageListener(priority.callback(game, caster, localStore, castId),
-				listener.callback(game, caster, localStore, castId));
+		target.removePreDamageListener(priority.callback(caster, localStore, castId),
+				listener.callback(caster, localStore, castId));
 	}
 }

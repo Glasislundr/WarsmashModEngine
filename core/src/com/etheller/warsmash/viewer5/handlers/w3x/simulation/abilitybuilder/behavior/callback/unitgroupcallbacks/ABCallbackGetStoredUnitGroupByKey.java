@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.Set;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -17,14 +16,13 @@ public class ABCallbackGetStoredUnitGroupByKey extends ABUnitGroupCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<CUnit> callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
+	public Set<CUnit> callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			return (Set<CUnit>) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(game, caster, localStore, castId), castId));
+					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
 		} else {
 			return (Set<CUnit>) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(game, caster, localStore, castId), castId));
+					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
 		}
 	}
 

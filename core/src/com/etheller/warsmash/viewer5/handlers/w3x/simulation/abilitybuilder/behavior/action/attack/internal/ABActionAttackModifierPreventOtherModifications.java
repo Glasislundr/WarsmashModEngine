@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.attack.internal;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -10,8 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.repl
 
 public class ABActionAttackModifierPreventOtherModifications implements ABAction {
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnitPriorityLoopData loop = (CUnitPriorityLoopData) localStore.get(ABLocalStoreKeys.ATTACKMODLOOP + castId);
 		if (loop != null)
 			loop.preventAllOtherModifications();

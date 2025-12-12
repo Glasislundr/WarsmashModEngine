@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.destructable;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructable.ABDestructableCallback;
@@ -27,8 +26,7 @@ public class ABActionDamageDestructable implements ABSingleAction {
 	private ABFloatCallback damage;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		boolean isItAttack = false;
 		boolean isItRanged = true;
@@ -36,21 +34,21 @@ public class ABActionDamageDestructable implements ABSingleAction {
 		CDamageType theDamageType = CDamageType.MAGIC;
 
 		if (this.isAttack != null) {
-			isItAttack = this.isAttack.callback(game, caster, localStore, castId);
+			isItAttack = this.isAttack.callback(caster, localStore, castId);
 		}
 		if (this.isRanged != null) {
-			isItRanged = this.isRanged.callback(game, caster, localStore, castId);
+			isItRanged = this.isRanged.callback(caster, localStore, castId);
 		}
 		if (this.attackType != null) {
-			theAttackType = this.attackType.callback(game, caster, localStore, castId);
+			theAttackType = this.attackType.callback(caster, localStore, castId);
 		}
 		if (this.damageType != null) {
-			theDamageType = this.damageType.callback(game, caster, localStore, castId);
+			theDamageType = this.damageType.callback(caster, localStore, castId);
 		}
 
-		target.callback(game, caster, localStore, castId).damage(game, source.callback(game, caster, localStore, castId), new CGenericDamageFlags(isItAttack,
-				isItRanged), theAttackType, theDamageType, CWeaponSoundTypeJass.WHOKNOWS.name(),
-				damage.callback(game, caster, localStore, castId));
+		target.callback(caster, localStore, castId).damage(localStore.game, source.callback(caster, localStore, castId),
+				new CGenericDamageFlags(isItAttack, isItRanged), theAttackType, theDamageType,
+				CWeaponSoundTypeJass.WHOKNOWS.name(), damage.callback(caster, localStore, castId));
 	}
 
 	@Override

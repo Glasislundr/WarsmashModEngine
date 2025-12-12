@@ -83,7 +83,7 @@ public class ABTimedBuff extends ABGenericTimedBuff {
 		if (onAddActions != null) {
 			localStore.put(ABLocalStoreKeys.BUFF, this);
 			for (ABAction action : onAddActions) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 			localStore.remove(ABLocalStoreKeys.BUFF);
 		}
@@ -103,7 +103,7 @@ public class ABTimedBuff extends ABGenericTimedBuff {
 		if (onRemoveActions != null) {
 			localStore.put(ABLocalStoreKeys.BUFF, this);
 			for (ABAction action : onRemoveActions) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 			localStore.remove(ABLocalStoreKeys.BUFF);
 		}
@@ -125,7 +125,7 @@ public class ABTimedBuff extends ABGenericTimedBuff {
 		if (onExpireActions != null) {
 			localStore.put(ABLocalStoreKeys.BUFF, this);
 			for (ABAction action : onExpireActions) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 			localStore.remove(ABLocalStoreKeys.BUFF);
 		}

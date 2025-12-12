@@ -103,7 +103,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void lifeChanged() {
 		if (onLifeChanged != null) {
 			for (ABAction action : onLifeChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void manaChanged() {
 		if (onManaChanged != null) {
 			for (ABAction action : onManaChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void ordersChanged() {
 		if (onOrdersChanged != null) {
 			for (ABAction action : onOrdersChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -130,7 +130,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void queueChanged() {
 		if (onQueueChanged != null) {
 			for (ABAction action : onQueueChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -139,7 +139,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void rallyPointChanged() {
 		if (onRallyPointChanged != null) {
 			for (ABAction action : onRallyPointChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -148,7 +148,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void waypointsChanged() {
 		if (onWaypointsChanged != null) {
 			for (ABAction action : onWaypointsChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -157,7 +157,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void heroStatsChanged() {
 		if (onHeroStatsChanged != null) {
 			for (ABAction action : onHeroStatsChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -166,7 +166,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void inventoryChanged() {
 		if (onInventoryChanged != null) {
 			for (ABAction action : onInventoryChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -175,7 +175,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void attacksChanged() {
 		if (onAttacksChanged != null) {
 			for (ABAction action : onAttacksChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -184,7 +184,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void abilitiesChanged() {
 		if (onAbilitiesChanged != null) {
 			for (ABAction action : onAbilitiesChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -193,7 +193,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void upgradesChanged() {
 		if (onUpgradesChanged != null) {
 			for (ABAction action : onUpgradesChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -202,7 +202,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	public void hideStateChanged() {
 		if (onHideStateChanged != null) {
 			for (ABAction action : onHideStateChanged) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}

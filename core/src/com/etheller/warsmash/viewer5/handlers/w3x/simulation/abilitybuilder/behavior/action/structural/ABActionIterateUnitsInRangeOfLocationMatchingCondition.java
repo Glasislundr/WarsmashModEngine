@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorCallStmt;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorStmt;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
@@ -28,22 +27,20 @@ public class ABActionIterateUnitsInRangeOfLocationMatchingCondition implements A
 	private ABCondition condition;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
-			final int castId) {
-		final AbilityPointTarget target = this.location.callback(game, caster, localStore, castId);
-		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final AbilityPointTarget target = this.location.callback(caster, localStore, castId);
+		final Float rangeVal = this.range.callback(caster, localStore, castId);
 
 		recycleRect.set(target.getX() - rangeVal, target.getY() - rangeVal, rangeVal * 2, rangeVal * 2);
-		game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
+		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (enumUnit.canReach(target, rangeVal)) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT+castId, enumUnit);
-					if (condition == null || condition.callback(game, caster, localStore, castId)) {
-						localStore.put(ABLocalStoreKeys.ENUMUNIT+castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+					if (condition == null || condition.callback(caster, localStore, castId)) {
+						localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
 						for (ABAction iterationAction : iterationActions) {
-							iterationAction.runAction(game, caster, localStore, castId);
+							iterationAction.runAction(caster, localStore, castId);
 						}
 					}
 				}

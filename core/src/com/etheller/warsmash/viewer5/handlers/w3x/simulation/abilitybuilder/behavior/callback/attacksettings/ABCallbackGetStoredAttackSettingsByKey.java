@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.attacksettings;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -13,11 +12,11 @@ public class ABCallbackGetStoredAttackSettingsByKey extends ABAttackSettingsCall
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public CUnitAttackSettings callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		if (instanceValue == null || instanceValue.callback(game, caster, localStore, castId)) {
-			return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(game, caster, localStore, castId), castId));
+	public CUnitAttackSettings callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
+			return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
 		} else {
-			return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(game, caster, localStore, castId), castId));
+			return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
 		}
 	}
 

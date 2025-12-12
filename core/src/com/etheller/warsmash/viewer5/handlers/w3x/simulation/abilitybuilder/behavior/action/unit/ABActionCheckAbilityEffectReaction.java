@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -20,24 +19,22 @@ public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 	private List<ABAction> onBlockActions;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnit tarU = caster;
 		if (this.target != null) {
-			tarU = this.target.callback(game, caster, localStore, castId);
+			tarU = this.target.callback(caster, localStore, castId);
 		}
-		if (tarU.checkForAbilityEffectReaction(game, caster, (CAbility) localStore.get(ABLocalStoreKeys.ABILITY))) {
+		if (tarU.checkForAbilityEffectReaction(localStore.game, caster,
+				(CAbility) localStore.get(ABLocalStoreKeys.ABILITY))) {
 			if (this.onHitActions != null) {
 				for (final ABAction periodicAction : this.onHitActions) {
-					periodicAction.runAction(game, caster, localStore, castId);
+					periodicAction.runAction(caster, localStore, castId);
 				}
 			}
-		}
-		else {
+		} else {
 			if (this.onBlockActions != null) {
 				for (final ABAction periodicAction : this.onBlockActions) {
-					periodicAction.runAction(game, caster, localStore, castId);
+					periodicAction.runAction(caster, localStore, castId);
 				}
 			}
 		}
@@ -52,14 +49,13 @@ public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 		String tarU;
 		if (this.target != null) {
 			tarU = this.target.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			tarU = jassTextGenerator.getCaster();
 		}
 		return "CheckAbilityEffectReactionAU(" + jassTextGenerator.getCaster() + ", "
 				+ jassTextGenerator.getTriggerLocalStore() + ", " + jassTextGenerator.getCastId() + ", " + tarU + ", "
-				+ jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY", JassTextGeneratorType.AbilityHandle) + ", "
-				+ jassTextGenerator.functionPointerByName(onHitFunc) + ", "
+				+ jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY", JassTextGeneratorType.AbilityHandle)
+				+ ", " + jassTextGenerator.functionPointerByName(onHitFunc) + ", "
 				+ jassTextGenerator.functionPointerByName(onBlockFunc) + ")";
 	}
 
@@ -68,8 +64,7 @@ public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 		String tarU;
 		if (this.target != null) {
 			tarU = this.target.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			tarU = jassTextGenerator.getCaster();
 		}
 
@@ -82,8 +77,8 @@ public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 				sb.append(", ");
 				sb.append(jassTextGenerator.getCaster());
 				sb.append(", ");
-				sb.append(
-						jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY", JassTextGeneratorType.AbilityHandle));
+				sb.append(jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY",
+						JassTextGeneratorType.AbilityHandle));
 				sb.append(") then");
 				jassTextGenerator.println(sb.toString());
 
@@ -96,15 +91,15 @@ public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 				sb.append("endif");
 				jassTextGenerator.println(sb.toString());
 			}
-		}
-		else {
+		} else {
 			JassTextGenerator.Util.indent(indent, sb);
 			sb.append("if CheckUnitForAbilityEffectReaction(");
 			sb.append(tarU);
 			sb.append(", ");
 			sb.append(jassTextGenerator.getCaster());
 			sb.append(", ");
-			sb.append(jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY", JassTextGeneratorType.AbilityHandle));
+			sb.append(jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_ABILITY",
+					JassTextGeneratorType.AbilityHandle));
 			sb.append(") then");
 			jassTextGenerator.println(sb.toString());
 

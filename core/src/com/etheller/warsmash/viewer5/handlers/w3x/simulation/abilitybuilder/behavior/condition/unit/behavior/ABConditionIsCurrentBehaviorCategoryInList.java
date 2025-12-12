@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -16,10 +15,10 @@ public class ABConditionIsCurrentBehaviorCategoryInList extends ABCondition {
 	private List<CBehaviorCategory> list;
 	
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
-			theUnit = unit.callback(game, caster, localStore, castId);
+			theUnit = unit.callback(caster, localStore, castId);
 		}
 		CBehavior beh = theUnit.getCurrentBehavior();
 		CBehaviorCategory cat = CBehaviorCategory.IDLE;

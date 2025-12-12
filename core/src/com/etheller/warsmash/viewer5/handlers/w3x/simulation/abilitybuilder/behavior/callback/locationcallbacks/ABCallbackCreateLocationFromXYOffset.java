@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -13,10 +12,10 @@ public class ABCallbackCreateLocationFromXYOffset extends ABLocationCallback {
 	private ABFloatCallback ydist;
 
 	@Override
-	public AbilityPointTarget callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		final AbilityPointTarget orig = this.origin.callback(game, caster, localStore, castId);
-		return new AbilityPointTarget((float) (orig.x + xdist.callback(game, caster, localStore, castId)),
-				(float) (orig.y + ydist.callback(game, caster, localStore, castId)));
+	public AbilityPointTarget callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		final AbilityPointTarget orig = this.origin.callback(caster, localStore, castId);
+		return new AbilityPointTarget((float) (orig.x + xdist.callback(caster, localStore, castId)),
+				(float) (orig.y + ydist.callback(caster, localStore, castId)));
 	}
 
 }

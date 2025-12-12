@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.longcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.abilitycallbacks.ABAbilityCallback;
@@ -16,13 +15,12 @@ public class ABCallbackGetAbilityUniqueValueLong extends ABLongCallback {
 	private ABBooleanCallback allowNull;
 
 	@Override
-	public Long callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public Long callback(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final String keyS = key.callback(game, caster, localStore, castId);
-		final CAbility theAbility = ability.callback(game, caster, localStore, castId);
+		final String keyS = key.callback(caster, localStore, castId);
+		final CAbility theAbility = ability.callback(caster, localStore, castId);
 		Long theVal = theAbility.getUniqueValue(keyS, Long.class);
-		if (theVal != null || (allowNull != null && allowNull.callback(game, caster, localStore, castId))) {
+		if (theVal != null || (allowNull != null && allowNull.callback(caster, localStore, castId))) {
 			return theVal;
 		}
 		return 0l;

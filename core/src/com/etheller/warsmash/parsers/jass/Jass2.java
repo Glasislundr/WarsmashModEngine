@@ -6789,7 +6789,7 @@ public class Jass2 {
 			// ===== local store =====
 			jassProgramVisitor.getJassNativeManager().createNative("CreateLocalStore",
 					(arguments, globalScope, triggerScope) -> {
-						return new HandleJassValue(localstoreType, new MapLocalDataStore());
+						return new HandleJassValue(localstoreType, new MapLocalDataStore(CommonEnvironment.this.simulation));
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreString",
 					(arguments, globalScope, triggerScope) -> {
@@ -8190,7 +8190,7 @@ public class Jass2 {
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(6).visit(IntegerJassValueVisitor.getInstance());
 
-						final ABTimeOfDayEvent abTimeOfDayEvent = new ABTimeOfDayEvent(this.simulation, casterUnit,
+						final ABTimeOfDayEvent abTimeOfDayEvent = new ABTimeOfDayEvent(casterUnit,
 								localStore, castId, ABActionJass.wrap(actions), startTime, endTime, equalityId);
 
 						return new HandleJassValue(abtimeofdayeventType, abTimeOfDayEvent);

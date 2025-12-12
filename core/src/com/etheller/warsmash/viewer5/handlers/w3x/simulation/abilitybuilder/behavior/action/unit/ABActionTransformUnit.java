@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -53,18 +52,18 @@ public class ABActionTransformUnit implements ABAction {
 	private List<ABAction> onUntransformActions;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit u1 = caster;
 		if (unit != null) {
-			u1 = unit.callback(game, caster, localStore, castId);
+			u1 = unit.callback(caster, localStore, castId);
 		}
-		War3ID baseId = baseUnitId.callback(game, caster, localStore, castId);
-		War3ID altId = alternateUnitId.callback(game, caster, localStore, castId);
-		CPlayer pl = game.getPlayer(u1.getPlayerIndex());
+		War3ID baseId = baseUnitId.callback(caster, localStore, castId);
+		War3ID altId = alternateUnitId.callback(caster, localStore, castId);
+		CPlayer pl = localStore.game.getPlayer(u1.getPlayerIndex());
 		boolean charge = false;
 		boolean addAlternateTagAfter = false;
 		if (this.requiresPayment != null) {
-			charge = this.requiresPayment.callback(game, caster, localStore, castId);
+			charge = this.requiresPayment.callback(caster, localStore, castId);
 		}
 		AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 
@@ -77,12 +76,12 @@ public class ABActionTransformUnit implements ABAction {
 
 		boolean onlyToAlt = false;
 		if (onlyTransformToAlternate != null) {
-			onlyToAlt = onlyTransformToAlternate.callback(game, caster, localStore, castId);
+			onlyToAlt = onlyTransformToAlternate.callback(caster, localStore, castId);
 		}
 
 		if (!onlyToAlt && u1.getTypeId().equals(altId)) {
 			// Transforming back
-			targetType = game.getUnitData().getUnitType(baseId);
+			targetType = localStore.game.getUnitData().getUnitType(baseId);
 			if (targetType.equals(u1.getUnitType())) {
 				// No need to do anything
 				return;
@@ -90,14 +89,14 @@ public class ABActionTransformUnit implements ABAction {
 		} else {
 			// Transforming to alt
 			addAlternateTagAfter = true;
-			targetType = game.getUnitData().getUnitType(altId);
+			targetType = localStore.game.getUnitData().getUnitType(altId);
 		}
 
 		int goldCost = 0;
 		int lumberCost = 0;
 		Integer foodCost = null;
 		if (charge) {
-			if (game.getGameplayConstants().isRelativeUpgradeCosts()) {
+			if (localStore.game.getGameplayConstants().isRelativeUpgradeCosts()) {
 				goldCost = targetType.getGoldCost() - u1.getUnitType().getGoldCost();
 				lumberCost = targetType.getLumberCost() - u1.getUnitType().getLumberCost();
 				if (goldCost > pl.getGold() || lumberCost > pl.getLumber()) {
@@ -133,37 +132,37 @@ public class ABActionTransformUnit implements ABAction {
 		War3ID theBuffId = null;
 		boolean instant = false;
 		if (permanent != null) {
-			perm = permanent.callback(game, caster, localStore, castId);
+			perm = permanent.callback(caster, localStore, castId);
 		}
 		if (keepRatios != null) {
-			isKeepRatios = keepRatios.callback(game, caster, localStore, castId);
+			isKeepRatios = keepRatios.callback(caster, localStore, castId);
 		}
 		if (duration != null) {
-			dur = duration.callback(game, caster, localStore, castId);
+			dur = duration.callback(caster, localStore, castId);
 		}
 		if (transformTime != null) {
-			transTime = transformTime.callback(game, caster, localStore, castId);
+			transTime = transformTime.callback(caster, localStore, castId);
 		}
 		if (landingDelayTime != null) {
-			landTime = landingDelayTime.callback(game, caster, localStore, castId);
+			landTime = landingDelayTime.callback(caster, localStore, castId);
 		}
 		if (altitudeAdjustmentDelay != null) {
-			atlAdDelay = altitudeAdjustmentDelay.callback(game, caster, localStore, castId);
+			atlAdDelay = altitudeAdjustmentDelay.callback(caster, localStore, castId);
 		}
 		if (altitudeAdjustmentTime != null) {
-			altAdTime = altitudeAdjustmentTime.callback(game, caster, localStore, castId);
+			altAdTime = altitudeAdjustmentTime.callback(caster, localStore, castId);
 		}
 		if (immediateLanding != null) {
-			imLand = immediateLanding.callback(game, caster, localStore, castId);
+			imLand = immediateLanding.callback(caster, localStore, castId);
 		}
 		if (immediateTakeOff != null) {
-			imTakeOff = immediateTakeOff.callback(game, caster, localStore, castId);
+			imTakeOff = immediateTakeOff.callback(caster, localStore, castId);
 		}
 		if (buffId != null) {
-			theBuffId = buffId.callback(game, caster, localStore, castId);
+			theBuffId = buffId.callback(caster, localStore, castId);
 		}
 		if (instantTransformAtDurationEnd != null) {
-			instant = instantTransformAtDurationEnd.callback(game, caster, localStore, castId);
+			instant = instantTransformAtDurationEnd.callback(caster, localStore, castId);
 		}
 
 		if (transTime > 0) {
@@ -177,19 +176,19 @@ public class ABActionTransformUnit implements ABAction {
 			localStore.put(ABLocalStoreKeys.NEWBEHAVIOR,
 					new CBehaviorFinishTransformation(caster, localStore, u1, abil, targetType, isKeepRatios, actions,
 							addAlternateTagAfter, orderId, perm, dur, transTime, landTime, atlAdDelay, altAdTime,
-							imLand, imTakeOff, theBuffId, game.getUnitData().getUnitType(baseId), instant));
+							imLand, imTakeOff, theBuffId, localStore.game.getUnitData().getUnitType(baseId), instant));
 		} else {
-			TransformationHandler.instantTransformation(game, localStore, u1, targetType, isKeepRatios, actions, abil,
+			TransformationHandler.instantTransformation(localStore, u1, targetType, isKeepRatios, actions, abil,
 					addAlternateTagAfter, perm, true);
 			if (dur > 0) {
 				OnTransformationActions unActions = new OnTransformationActions(-goldCost, -lumberCost, null, null,
 						onUntransformActions, castId);
-				TransformationHandler.createInstantTransformBackBuff(game, caster, localStore, u1,
-						game.getUnitData().getUnitType(baseId), isKeepRatios, unActions, abil, theBuffId,
+				TransformationHandler.createInstantTransformBackBuff(caster, localStore, u1,
+						localStore.game.getUnitData().getUnitType(baseId), isKeepRatios, unActions, abil, theBuffId,
 						addAlternateTagAfter, transTime, dur, perm);
 			}
-			u1.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_EFFECT, abil, null);
-			u1.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, abil, null);
+			u1.fireSpellEvents(localStore.game, JassGameEventsWar3.EVENT_UNIT_SPELL_EFFECT, abil, null);
+			u1.fireSpellEvents(localStore.game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, abil, null);
 		}
 
 	}

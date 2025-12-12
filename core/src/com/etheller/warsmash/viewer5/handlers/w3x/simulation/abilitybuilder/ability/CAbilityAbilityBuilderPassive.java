@@ -61,7 +61,7 @@ public class CAbilityAbilityBuilderPassive extends AbilityGenericSingleIconPassi
 		if (this.config.getInitialUniqueFlags() != null && !this.config.getInitialUniqueFlags().isEmpty()) {
 			this.uniqueFlags = new HashSet<>();
 			for (ABStringCallback flag : this.config.getInitialUniqueFlags()) {
-				this.uniqueFlags.add(flag.callback(game, unit, localStore, 0));
+				this.uniqueFlags.add(flag.callback(unit, localStore, 0));
 			}
 		}
 	}
@@ -75,23 +75,20 @@ public class CAbilityAbilityBuilderPassive extends AbilityGenericSingleIconPassi
 		}
 		if (this.config.getOverrideFields() != null) {
 			if (this.config.getOverrideFields().getAreaOverride() != null) {
-				this.area = this.config.getOverrideFields().getAreaOverride().callback(game, unit, localStore, 0);
+				this.area = this.config.getOverrideFields().getAreaOverride().callback(unit, localStore, 0);
 			}
 			if (this.config.getOverrideFields().getRangeOverride() != null) {
-				this.range = this.config.getOverrideFields().getRangeOverride().callback(game, unit, localStore,
-						0);
+				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore, 0);
 			}
 			if (this.config.getOverrideFields().getCastTimeOverride() != null) {
-				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(game, unit, localStore,
-						0);
+				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore, 0);
 			}
 			if (this.config.getOverrideFields().getCooldownOverride() != null) {
-				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(game, unit, localStore,
-						0);
+				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore, 0);
 			}
 			if (this.config.getOverrideFields().getOnTooltipOverride() != null) {
-				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(game, unit,
-						localStore, 0);
+				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(unit, localStore,
+						0);
 			}
 		}
 	}
@@ -257,31 +254,31 @@ public class CAbilityAbilityBuilderPassive extends AbilityGenericSingleIconPassi
 		setSpellFields(game, unit);
 		if (config.getOnLevelChange() != null) {
 			for (ABAction action : config.getOnLevelChange()) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}
 
 	@Override
 	public void onAdd(CSimulation game, CUnit unit) {
-		localStore.put(ABLocalStoreKeys.GAME, game);
+		localStore.game = game;
 		localStore.put(ABLocalStoreKeys.THISUNIT, unit);
 		if (config.getOnAddAbility() != null) {
 			for (ABAction action : config.getOnAddAbility()) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}
 
 	@Override
 	public void onAddDisabled(CSimulation game, CUnit unit) {
-		localStore.put(ABLocalStoreKeys.GAME, game);
+		localStore.game = game;
 		localStore.put(ABLocalStoreKeys.THISUNIT, unit);
 		addInitialUniqueFlags(game, unit);
 		setSpellFields(game, unit);
 		if (config.getOnAddDisabledAbility() != null) {
 			for (ABAction action : config.getOnAddDisabledAbility()) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}
@@ -290,7 +287,7 @@ public class CAbilityAbilityBuilderPassive extends AbilityGenericSingleIconPassi
 	public void onRemove(CSimulation game, CUnit unit) {
 		if (config.getOnRemoveAbility() != null) {
 			for (ABAction action : config.getOnRemoveAbility()) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}
@@ -299,7 +296,7 @@ public class CAbilityAbilityBuilderPassive extends AbilityGenericSingleIconPassi
 	public void onRemoveDisabled(CSimulation game, CUnit unit) {
 		if (config.getOnRemoveDisabledAbility() != null) {
 			for (ABAction action : config.getOnRemoveDisabledAbility()) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}
@@ -312,7 +309,7 @@ public class CAbilityAbilityBuilderPassive extends AbilityGenericSingleIconPassi
 	public void onDeath(CSimulation game, CUnit unit) {
 		if (config.getOnDeathPreCast() != null) {
 			for (ABAction action : config.getOnDeathPreCast()) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}

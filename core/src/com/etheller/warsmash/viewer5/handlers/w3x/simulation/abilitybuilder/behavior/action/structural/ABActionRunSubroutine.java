@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -19,19 +18,18 @@ public class ABActionRunSubroutine implements ABSingleAction {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		List<ABAction> actions;
-		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
+		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			actions = (List<ABAction>) localStore.get(ABLocalStoreKeys
-					.combineSubroutineInstanceKey(this.name.callback(game, caster, localStore, castId), castId));
+					.combineSubroutineInstanceKey(this.name.callback(caster, localStore, castId), castId));
 		} else {
 			actions = (List<ABAction>) localStore.get(ABLocalStoreKeys
-					.combineSubroutineKey(this.name.callback(game, caster, localStore, castId), castId));
+					.combineSubroutineKey(this.name.callback(caster, localStore, castId), castId));
 		}
 		if (actions != null) {
 			for (final ABAction action : actions) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}

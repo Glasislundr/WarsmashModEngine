@@ -5,11 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
+
 public class MapLocalDataStore extends LocalDataStore {
 	private Map<String, Object> store;
 
 	public MapLocalDataStore() {
 		this.store = new HashMap<>();
+	}
+
+	public MapLocalDataStore(CSimulation game) {
+		this.store = new HashMap<>();
+		this.game = game;
 	}
 
 	@Override

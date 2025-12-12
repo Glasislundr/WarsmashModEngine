@@ -13,10 +13,10 @@ public class ABActionSendUnitBackToWork implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		final CUnit targetUnit;
 		if (this.unit != null) {
-			targetUnit = this.unit.callback(game, caster, localStore, castId);
+			targetUnit = this.unit.callback(caster, localStore, castId);
 		} else {
 			targetUnit = caster;
 		}
@@ -24,12 +24,12 @@ public class ABActionSendUnitBackToWork implements ABSingleAction {
 		final ABTimer timer = new ABTimer(caster, localStore, null, castId) {
 			@Override
 			public void onFire(CSimulation simulation) {
-				targetUnit.backToWork(game, null);
+				targetUnit.backToWork(localStore.game, null);
 			}
 		};
 		timer.setRepeats(false);
 		timer.setTimeoutTime(0f);
-		timer.start(game);
+		timer.start(localStore.game);
 	}
 
 	@Override

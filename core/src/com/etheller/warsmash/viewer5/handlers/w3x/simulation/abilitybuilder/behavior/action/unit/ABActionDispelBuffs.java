@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.ArrayList;
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityCategory;
@@ -21,14 +20,14 @@ public class ABActionDispelBuffs implements ABAction {
 	private ABCondition filter;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = caster;
 		if (source != null) {
-			theCaster = source.callback(game, theCaster, localStore, castId);
+			theCaster = source.callback(theCaster, localStore, castId);
 		}
 		CUnit theTarget = caster;
 		if (unit != null) {
-			theTarget = unit.callback(game, theCaster, localStore, castId);
+			theTarget = unit.callback(theCaster, localStore, castId);
 		}
 
 		if (theTarget != null) {
@@ -37,14 +36,14 @@ public class ABActionDispelBuffs implements ABAction {
 				if (ability.getAbilityCategory() == CAbilityCategory.BUFF) {
 					CBuff buff = (CBuff) ability;
 					localStore.put(ABLocalStoreKeys.ENUMBUFF, buff);
-					if (filter != null && filter.callback(game, theCaster, localStore, castId)) {
+					if (filter != null && filter.callback(theCaster, localStore, castId)) {
 						toRemove.add(buff);
 					}
 				}
 			}
 
 			for (CBuff buff : toRemove) {
-				theTarget.remove(game, buff);
+				theTarget.remove(localStore.game, buff);
 			}
 		}
 	}

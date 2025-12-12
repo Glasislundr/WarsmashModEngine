@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -11,7 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 public class ABCallbackGetThisAbility extends ABAbilityCallback {
 
 	@Override
-	public CAbility callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public CAbility callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		return (CAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 	}
 

@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -13,13 +12,13 @@ public class ABCallbackGetNonCurrentTransformType extends ABIDCallback {
 	private ABIDCallback alternateUnitId;
 
 	@Override
-	public War3ID callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public War3ID callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit u1 = caster;
 		if (unit != null) {
-			u1 = unit.callback(game, caster, localStore, castId);
+			u1 = unit.callback(caster, localStore, castId);
 		}
-		War3ID baseId = baseUnitId.callback(game, caster, localStore, castId);
-		War3ID altId = alternateUnitId.callback(game, caster, localStore, castId);
+		War3ID baseId = baseUnitId.callback(caster, localStore, castId);
+		War3ID altId = alternateUnitId.callback(caster, localStore, castId);
 
 		if (altId == null || u1.getTypeId().equals(altId)) {
 			return baseId;

@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -22,23 +21,21 @@ public class ABActionCreateTimeOfDayEvent implements ABSingleAction {
 	private ABStringCallback equalityId;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		String eqId = null;
 		float st = 0;
 		float et = Float.MAX_VALUE;
 		if (this.equalityId != null) {
-			eqId = this.equalityId.callback(game, caster, localStore, castId);
+			eqId = this.equalityId.callback(caster, localStore, castId);
 		}
 		if (this.startTime != null) {
-			st = this.startTime.callback(game, caster, localStore, castId);
+			st = this.startTime.callback(caster, localStore, castId);
 		}
 		if (this.endTime != null) {
-			et = this.endTime.callback(game, caster, localStore, castId);
+			et = this.endTime.callback(caster, localStore, castId);
 		}
 
-		final ABTimeOfDayEvent event = new ABTimeOfDayEvent(game, caster, localStore, castId, this.actions, st, et,
-				eqId);
+		final ABTimeOfDayEvent event = new ABTimeOfDayEvent(caster, localStore, castId, this.actions, st, et, eqId);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDTODEVENT, event);
 	}

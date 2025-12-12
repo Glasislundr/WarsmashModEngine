@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABCallbackRawString;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -13,10 +12,9 @@ public class ABCallbackGetWeaponTypeFromString extends ABWeaponTypeCallback {
 	private ABStringCallback id;
 
 	@Override
-	public CWeaponType callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public CWeaponType callback(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		return CWeaponType.valueOf(this.id.callback(game, caster, localStore, castId));
+		return CWeaponType.valueOf(this.id.callback(caster, localStore, castId));
 	}
 
 	@Override

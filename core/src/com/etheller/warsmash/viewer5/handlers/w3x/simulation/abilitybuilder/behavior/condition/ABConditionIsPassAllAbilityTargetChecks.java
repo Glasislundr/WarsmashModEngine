@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
@@ -17,20 +16,20 @@ public class ABConditionIsPassAllAbilityTargetChecks extends ABCondition {
 	private ABWidgetCallback target;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = casterUnit;
 
 		if (caster != null) {
-			theCaster = caster.callback(game, casterUnit, localStore, castId);
+			theCaster = caster.callback(casterUnit, localStore, castId);
 		}
 
 		AbilityBuilderActiveAbility abil = (AbilityBuilderActiveAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 		final BooleanAbilityTargetCheckReceiver<CWidget> booleanTargetReceiver = BooleanAbilityTargetCheckReceiver
 				.<CWidget>getInstance().reset();
 
-		abil.checkCanTarget(game, theCaster, abil.getBaseOrderId(),
+		abil.checkCanTarget(localStore.game, theCaster, abil.getBaseOrderId(),
 				((Boolean) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId))),
-				target.callback(game, casterUnit, localStore, castId), booleanTargetReceiver);
+				target.callback(casterUnit, localStore, castId), booleanTargetReceiver);
 
 		if (booleanTargetReceiver.isTargetable()) {
 			return true;

@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.comparison;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABDamageTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -13,9 +12,9 @@ public class ABConditionIsDamageTypeEqual extends ABCondition {
 	private ABDamageTypeCallback damageType2;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		CDamageType lD = damageType1.callback(game, caster, localStore, castId);
-		CDamageType rD = damageType2.callback(game, caster, localStore, castId);
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		CDamageType lD = damageType1.callback(caster, localStore, castId);
+		CDamageType rD = damageType2.callback(caster, localStore, castId);
 		if (lD == null) {
 			if (rD == null) {
 				return true;

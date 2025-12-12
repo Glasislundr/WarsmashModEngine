@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorCallStmt;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorStmt;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -31,20 +30,19 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 	private ABFloatCallback range;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final CUnit originUnitTarget = this.originUnit.callback(game, caster, localStore, castId);
-		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final CUnit originUnitTarget = this.originUnit.callback(caster, localStore, castId);
+		final Float rangeVal = this.range.callback(caster, localStore, castId);
 
 		List<CUnit> foundUnits = new ArrayList<>();
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);
-		game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
+		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal)) {
 					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
-					if (condition == null || condition.callback(game, caster, localStore, castId)) {
+					if (condition == null || condition.callback(caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
 				}
@@ -52,14 +50,14 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 			}
 		});
 		if (sort != null) {
-			ABUnitComparator comp = new ABUnitComparator(game, caster, localStore, castId, sort);
+			ABUnitComparator comp = new ABUnitComparator(caster, localStore, castId, sort);
 			foundUnits.sort(comp);
 		}
 
 		for (CUnit unit : foundUnits) {
 			localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, unit);
 			for (ABAction iterationAction : iterationActions) {
-				iterationAction.runAction(game, caster, localStore, castId);
+				iterationAction.runAction(caster, localStore, castId);
 			}
 		}
 

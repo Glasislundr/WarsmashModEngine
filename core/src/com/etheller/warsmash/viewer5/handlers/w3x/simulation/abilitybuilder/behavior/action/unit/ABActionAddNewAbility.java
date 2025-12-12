@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
@@ -16,14 +15,13 @@ public class ABActionAddNewAbility implements ABSingleAction {
 	private ABIDCallback id;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final CAbility ability = game.getAbilityData()
-				.getAbilityType(this.id.callback(game, caster, localStore, castId))
-				.createAbility(game.getHandleIdAllocator().createId());
+		final CAbility ability = localStore.game.getAbilityData()
+				.getAbilityType(this.id.callback(caster, localStore, castId))
+				.createAbility(localStore.game.getHandleIdAllocator().createId());
 		localStore.put(ABLocalStoreKeys.LASTCREATEDABILITY, ability);
-		this.unit.callback(game, caster, localStore, castId).add(game, ability);
+		this.unit.callback(caster, localStore, castId).add(localStore.game, ability);
 	}
 
 	@Override

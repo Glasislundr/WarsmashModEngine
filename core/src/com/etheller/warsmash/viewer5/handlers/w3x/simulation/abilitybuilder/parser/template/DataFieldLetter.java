@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.template;
 
 import com.etheller.interpreter.ast.util.CHandle;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuffType;
 
 public enum DataFieldLetter implements CHandle {
 	A(0),

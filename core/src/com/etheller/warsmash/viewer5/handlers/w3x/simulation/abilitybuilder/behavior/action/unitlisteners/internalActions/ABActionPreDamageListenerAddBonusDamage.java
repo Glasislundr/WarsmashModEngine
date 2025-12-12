@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitlisteners.internalActions;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABAttackTypeCallback;
@@ -31,21 +30,20 @@ public class ABActionPreDamageListenerAddBonusDamage implements ABAction {
 	private ABBooleanCallback isNonlethal;
 	private ABBooleanCallback isPassLimitedMagicImmune;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CDamageType theDamageType = null;
 		if (damageType != null) {
-			theDamageType = damageType.callback(game, caster, localStore, castId);
+			theDamageType = damageType.callback(caster, localStore, castId);
 		}
 		CAttackType theAttackType = null;
 		if (attackType != null) {
-			theAttackType = attackType.callback(game, caster, localStore, castId);
+			theAttackType = attackType.callback(caster, localStore, castId);
 		}
 
 		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
 
 		CDamageFlags theFlags = null;
-		if (inheritFlags == null || inheritFlags.callback(game, caster, localStore, castId)) {
+		if (inheritFlags == null || inheritFlags.callback(caster, localStore, castId)) {
 			theFlags = damage.getPrimaryDamageFlags().copy();
 		} else if (isRanged != null || isIgnoreInvulnerable != null || isExplode != null || isOnlyDamageSummons != null
 				|| isNonlethal != null || isPassLimitedMagicImmune != null) {
@@ -53,27 +51,27 @@ public class ABActionPreDamageListenerAddBonusDamage implements ABAction {
 			if (isRanged == null) {
 				ranged = damage.getPrimaryDamageFlags().isRanged();
 			} else {
-				ranged = isRanged.callback(game, caster, localStore, castId);
+				ranged = isRanged.callback(caster, localStore, castId);
 			}
 			theFlags = new CAttackDamageFlags(ranged);
 		}
 
 		if (isIgnoreInvulnerable != null) {
-			theFlags.setIgnoreInvulnerable(isIgnoreInvulnerable.callback(game, caster, localStore, castId));
+			theFlags.setIgnoreInvulnerable(isIgnoreInvulnerable.callback(caster, localStore, castId));
 		}
 		if (isExplode != null) {
-			theFlags.setExplode(isExplode.callback(game, caster, localStore, castId));
+			theFlags.setExplode(isExplode.callback(caster, localStore, castId));
 		}
 		if (isOnlyDamageSummons != null) {
-			theFlags.setOnlyDamageSummons(isOnlyDamageSummons.callback(game, caster, localStore, castId));
+			theFlags.setOnlyDamageSummons(isOnlyDamageSummons.callback(caster, localStore, castId));
 		}
 		if (isNonlethal != null) {
-			theFlags.setNonlethal(isNonlethal.callback(game, caster, localStore, castId));
+			theFlags.setNonlethal(isNonlethal.callback(caster, localStore, castId));
 		}
 		if (isPassLimitedMagicImmune != null) {
-			theFlags.setPassLimitedMagicImmune(isPassLimitedMagicImmune.callback(game, caster, localStore, castId));
+			theFlags.setPassLimitedMagicImmune(isPassLimitedMagicImmune.callback(caster, localStore, castId));
 		}
 
-		damage.addBonusDamage(value.callback(game, caster, localStore, castId), theAttackType, theDamageType, theFlags);
+		damage.addBonusDamage(value.callback(caster, localStore, castId), theAttackType, theDamageType, theFlags);
 	}
 }

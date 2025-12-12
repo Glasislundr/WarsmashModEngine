@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.interpreter.ast.scope.TriggerExecutionScope;
 import com.etheller.warsmash.parsers.jass.scope.CommonTriggerExecutionScope;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -17,7 +16,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEve
 
 public class ABPlayerEvent extends CPlayerEvent {
 
-	private CSimulation game;
 	private CUnit caster;
 	private LocalDataStore localStore;
 	private int castId;
@@ -25,10 +23,9 @@ public class ABPlayerEvent extends CPlayerEvent {
 	private ABCondition condition;
 	private List<ABAction> actions;
 
-	public ABPlayerEvent(CSimulation game, CUnit caster, LocalDataStore localStore, int castId, CPlayerJass player,
+	public ABPlayerEvent(CUnit caster, LocalDataStore localStore, int castId, CPlayerJass player,
 			JassGameEventsWar3 eventType, ABCondition condition, List<ABAction> actions) {
-		super(game.getGlobalScope(), player, null, eventType, null);
-		this.game = game;
+		super(localStore.game.getGlobalScope(), player, null, eventType, null);
 		this.caster = caster;
 		this.localStore = localStore;
 		this.castId = castId;
@@ -38,7 +35,7 @@ public class ABPlayerEvent extends CPlayerEvent {
 	}
 
 	public void fire(final CUnit hero, final TriggerExecutionScope scope) {
-		if (condition == null || condition.callback(game, caster, localStore, castId)) {
+		if (condition == null || condition.callback(caster, localStore, castId)) {
 			if (scope instanceof CommonTriggerExecutionScope) {
 				this.localStore.put(ABLocalStoreKeys.EVENTTARGETEDUNIT + castId,
 						((CommonTriggerExecutionScope) scope).getSpellTargetUnit());
@@ -57,7 +54,7 @@ public class ABPlayerEvent extends CPlayerEvent {
 			}
 			if (actions != null) {
 				for (ABAction action : actions) {
-					action.runAction(game, caster, localStore, castId);
+					action.runAction(caster, localStore, castId);
 				}
 			}
 			this.localStore.remove(ABLocalStoreKeys.EVENTTARGETEDUNIT + castId);
@@ -71,10 +68,10 @@ public class ABPlayerEvent extends CPlayerEvent {
 	}
 
 	public void fire(final CPlayer player, final TriggerExecutionScope scope) {
-		if (condition == null || condition.callback(game, caster, localStore, castId)) {
+		if (condition == null || condition.callback(caster, localStore, castId)) {
 			if (actions != null) {
 				for (ABAction action : actions) {
-					action.runAction(game, caster, localStore, castId);
+					action.runAction(caster, localStore, castId);
 				}
 			}
 		}

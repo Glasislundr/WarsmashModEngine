@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
@@ -20,21 +19,20 @@ public class ABActionCreateTemporarySpellEffectAtPoint implements ABSingleAction
 	private CEffectType effectType;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		float dir = 0;
 		if (this.facing != null) {
-			dir = this.facing.callback(game, caster, localStore, castId);
+			dir = this.facing.callback(caster, localStore, castId);
 		}
 		War3ID theId = null;
 		if (id == null) {
 			theId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		} else {
-			theId = id.callback(game, caster, localStore, castId);
+			theId = id.callback(caster, localStore, castId);
 		}
-		game.spawnTemporarySpellEffectOnPoint(this.x.callback(game, caster, localStore, castId),
-				this.y.callback(game, caster, localStore, castId), dir,
+		localStore.game.spawnTemporarySpellEffectOnPoint(this.x.callback(caster, localStore, castId),
+				this.y.callback(caster, localStore, castId), dir,
 				theId, this.effectType, 0);
 	}
 

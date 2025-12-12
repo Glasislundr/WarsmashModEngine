@@ -6,7 +6,6 @@ import java.util.Queue;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitqueue.ABUnitQueueCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -19,15 +18,14 @@ public class ABActionIterateUnitsInQueue implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final Queue<CUnit> unitQueue = this.queue.callback(game, caster, localStore, castId);
+		final Queue<CUnit> unitQueue = this.queue.callback(caster, localStore, castId);
 		final List<CUnit> unitList = new ArrayList<>(unitQueue);
 		for (final CUnit enumUnit : unitList) {
 			localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
 			for (final ABAction iterationAction : this.iterationActions) {
-				iterationAction.runAction(game, caster, localStore, castId);
+				iterationAction.runAction(caster, localStore, castId);
 			}
 			final Boolean brk = (Boolean) localStore.remove(ABLocalStoreKeys.BREAK);
 			if ((brk != null) && brk) {

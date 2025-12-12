@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.abilitycallbacks.ABAbilityCallback;
@@ -16,15 +15,14 @@ public class ABActionAddAbility implements ABSingleAction {
 	private ABAbilityCallback ability;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final CAbility theAbility = this.ability.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final CAbility theAbility = this.ability.callback(caster, localStore, castId);
 		CUnit theUnit = caster;
 		if (unit != null) {
-			theUnit = unit.callback(game, caster, localStore, castId);
+			theUnit = unit.callback(caster, localStore, castId);
 		}
 		if (theAbility != null) {
-			theUnit.add(game, theAbility);
+			theUnit.add(localStore.game, theAbility);
 			localStore.put(ABLocalStoreKeys.LASTADDEDABILITY, theAbility);
 		}
 	}

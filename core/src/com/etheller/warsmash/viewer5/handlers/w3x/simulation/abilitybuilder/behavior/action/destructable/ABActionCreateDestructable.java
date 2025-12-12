@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.PrimaryTag;
 import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructable;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -26,25 +25,25 @@ public class ABActionCreateDestructable implements ABAction {
 	private ABBooleanCallback playBirthAnim;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		float theFacing = 0;
 		float theScale = 1;
 		int theVariation = 0;
 		boolean play = true;
 		if (this.facing != null) {
-			theFacing = this.facing.callback(game, caster, localStore, castId);
+			theFacing = this.facing.callback(caster, localStore, castId);
 		}
 		if (this.scale != null) {
-			theScale = this.scale.callback(game, caster, localStore, castId);
+			theScale = this.scale.callback(caster, localStore, castId);
 		}
 		if (this.variation != null) {
-			theVariation = this.variation.callback(game, caster, localStore, castId);
+			theVariation = this.variation.callback(caster, localStore, castId);
 		}
 		if (this.playBirthAnim != null) {
-			play = this.playBirthAnim.callback(game, caster, localStore, castId);
+			play = this.playBirthAnim.callback(caster, localStore, castId);
 		}
-		final AbilityPointTarget location = this.location.callback(game, caster, localStore, castId);
-		final CDestructable createdDest = game.createDestructable(this.id.callback(game, caster, localStore, castId),
+		final AbilityPointTarget location = this.location.callback(caster, localStore, castId);
+		final CDestructable createdDest = localStore.game.createDestructable(this.id.callback(caster, localStore, castId),
 				location.getX(), location.getY(), theFacing, theScale, theVariation);
 		if (play) {
 			createdDest.getUnitAnimationListener().playAnimation(true, PrimaryTag.BIRTH, SequenceUtils.EMPTY, 1.0f,

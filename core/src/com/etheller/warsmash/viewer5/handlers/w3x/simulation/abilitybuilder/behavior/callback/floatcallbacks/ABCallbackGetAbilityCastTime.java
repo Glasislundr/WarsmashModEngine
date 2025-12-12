@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -14,8 +13,7 @@ public class ABCallbackGetAbilityCastTime extends ABFloatCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Float callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public Float callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		AbilityBuilderAbility ability = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 		if (ability != null) {
 			return ability.getCastTime();

@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -16,19 +15,18 @@ public class ABActionIf implements ABAction {
 	private List<ABAction> elseActions;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		if (condition.callback(game, caster, localStore, castId)) {
+		if (condition.callback(caster, localStore, castId)) {
 			if (this.thenActions != null) {
 				for (ABAction periodicAction : thenActions) {
-					periodicAction.runAction(game, caster, localStore, castId);
+					periodicAction.runAction(caster, localStore, castId);
 				}
 			}
 		} else {
 			if (this.elseActions != null) {
 				for (final ABAction periodicAction : this.elseActions) {
-					periodicAction.runAction(game, caster, localStore, castId);
+					periodicAction.runAction(caster, localStore, castId);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -13,15 +12,15 @@ public class ABActionForceBeginCreatedBehavior implements ABAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (unit != null) {
-			targetUnit = this.unit.callback(game, caster, localStore, castId);
+			targetUnit = this.unit.callback(caster, localStore, castId);
 		}
 		CBehavior newBehavior = (CBehavior) localStore.get(ABLocalStoreKeys.NEWBEHAVIOR);
 		if (newBehavior != null) {
 			localStore.remove(ABLocalStoreKeys.NEWBEHAVIOR);
-			targetUnit.beginBehavior(game, newBehavior, true);
+			targetUnit.beginBehavior(localStore.game, newBehavior, true);
 		}
 	}
 

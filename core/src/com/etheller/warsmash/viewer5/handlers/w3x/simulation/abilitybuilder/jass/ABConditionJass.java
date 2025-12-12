@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.etheller.interpreter.ast.scope.trigger.TriggerBooleanExpression;
 import com.etheller.warsmash.parsers.jass.scope.CommonTriggerExecutionScope;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -19,9 +18,8 @@ public class ABConditionJass extends ABCondition {
 	}
 
 	@Override
-	public Boolean callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		return this.boolExpr.evaluate(game.getGlobalScope(),
+	public Boolean callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		return this.boolExpr.evaluate(localStore.game.getGlobalScope(),
 				CommonTriggerExecutionScope.abilityBuilder(caster, localStore, castId));
 	}
 

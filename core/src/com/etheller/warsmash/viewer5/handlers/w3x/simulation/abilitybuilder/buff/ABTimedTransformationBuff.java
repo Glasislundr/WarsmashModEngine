@@ -81,7 +81,7 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 	@Override
 	public void onDeath(CSimulation game, CUnit unit) {
 		if (unit.isHero()) {
-			TransformationHandler.instantTransformation(game, localStore, unit, targetType, keepRatios, actions, abil,
+			TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
 					addAlternateTagAfter, perm, true);
 			unit.remove(game, this);
 		}
@@ -105,11 +105,11 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 		if (instantTransformation) {
 			if (dur > 0) {
 				TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
-				new DelayInstantTransformationTimer(game, sourceUnit, localStore, unit, actions, addAlternateTagAfter,
+				new DelayInstantTransformationTimer(sourceUnit, localStore, unit, actions, addAlternateTagAfter,
 						transTime, null, targetType, keepRatios, abil, null, transTime, 0).start(game);
 			} else {
-				TransformationHandler.instantTransformation(game, localStore, unit, targetType, keepRatios, actions,
-						abil, addAlternateTagAfter, perm, true);
+				TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
+						addAlternateTagAfter, perm, true);
 			}
 			unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.abil, null);
 			unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_ENDCAST, this.abil, null);

@@ -41,7 +41,7 @@ public class ABAttackPostDamageListener implements CUnitAttackPostDamageListener
 		localStore.put(ABLocalStoreKeys.THEATTACK + this.triggerId, attack);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(simulation, damage.getSource(), localStore, triggerId);
+				action.runAction(damage.getSource(), localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT+triggerId);
@@ -61,7 +61,7 @@ public class ABAttackPostDamageListener implements CUnitAttackPostDamageListener
 		localStore.put(ABLocalStoreKeys.ATTACKINGUNIT + this.triggerId, attacker);
 		localStore.put(ABLocalStoreKeys.ATTACKTARGET + this.triggerId, target);
 		localStore.put(ABLocalStoreKeys.THEATTACK + this.triggerId, attack);
-		int prio = this.priority.callback(simulation, attacker, this.localStore, this.triggerId);
+		int prio = this.priority.callback(attacker, this.localStore, this.triggerId);
 		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + this.triggerId);
 		localStore.remove(ABLocalStoreKeys.ATTACKTARGET + this.triggerId);
 		localStore.remove(ABLocalStoreKeys.THEATTACK + this.triggerId);

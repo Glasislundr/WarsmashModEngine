@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorCallStmt;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorStmt;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -24,15 +23,14 @@ public class ABActionIterateUnitsInRect implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		recycleRect.set(this.x1, this.y1, this.x2 - this.x1, this.y2 - this.y1);
-		game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
+		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
 				for (final ABAction iterationAction : ABActionIterateUnitsInRect.this.iterationActions) {
-					iterationAction.runAction(game, caster, localStore, castId);
+					iterationAction.runAction(caster, localStore, castId);
 				}
 				return false;
 			}

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -20,20 +19,19 @@ public class ABActionFor implements ABAction {
 	private ABCallback unique;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final int max = this.times.callback(game, caster, localStore, castId);
+		final int max = this.times.callback(caster, localStore, castId);
 		for (int i = 0; i < max; i++) {
 			if (this.unique != null) {
 				localStore.put(ABLocalStoreKeys.combineKey(
-						ABLocalStoreKeys.ITERATORCOUNT + "$" + this.unique.callback(game, caster, localStore, castId),
+						ABLocalStoreKeys.ITERATORCOUNT + "$" + this.unique.callback(caster, localStore, castId),
 						castId), i);
 			} else {
 				localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ITERATORCOUNT, castId), i);
 			}
 			for (final ABAction iterationAction : this.actions) {
-				iterationAction.runAction(game, caster, localStore, castId);
+				iterationAction.runAction(caster, localStore, castId);
 			}
 			final Boolean brk = (Boolean) localStore.remove(ABLocalStoreKeys.BREAK);
 			if ((brk != null) && brk) {

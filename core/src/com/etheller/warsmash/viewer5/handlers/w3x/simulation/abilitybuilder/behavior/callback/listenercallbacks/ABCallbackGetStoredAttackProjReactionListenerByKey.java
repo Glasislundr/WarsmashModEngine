@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.listenercallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -13,12 +12,12 @@ public class ABCallbackGetStoredAttackProjReactionListenerByKey extends ABAttack
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABAttackProjReactionListener callback(CSimulation game, CUnit caster,
-			LocalDataStore localStore, final int castId) {
-		if (instanceValue == null || instanceValue.callback(game, caster, localStore, castId)) {
-			return (ABAttackProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(game, caster, localStore, castId), castId));
+	public ABAttackProjReactionListener callback(CUnit caster, LocalDataStore localStore,
+			final int castId) {
+		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
+			return (ABAttackProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
 		} else {
-			return (ABAttackProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(game, caster, localStore, castId), castId));
+			return (ABAttackProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
 		}
 	}
 

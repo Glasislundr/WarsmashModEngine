@@ -4,7 +4,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -24,7 +23,7 @@ public class ABConditionIsValidTarget extends ABCondition {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = casterUnit;
 
 		EnumSet<CTargetType> targetsAllowed = null;
@@ -42,15 +41,15 @@ public class ABConditionIsValidTarget extends ABCondition {
 			return true;
 		}
 		if (this.caster != null) {
-			theCaster = this.caster.callback(game, casterUnit, localStore, castId);
+			theCaster = this.caster.callback(casterUnit, localStore, castId);
 		}
 
-		CWidget widget = this.target.callback(game, casterUnit, localStore, castId);
+		CWidget widget = this.target.callback(casterUnit, localStore, castId);
 		if (widget == null) {
 			return false;
 		}
 
-		return widget.canBeTargetedBy(game, theCaster, targetsAllowed);
+		return widget.canBeTargetedBy(localStore.game, theCaster, targetsAllowed);
 	}
 
 	@Override

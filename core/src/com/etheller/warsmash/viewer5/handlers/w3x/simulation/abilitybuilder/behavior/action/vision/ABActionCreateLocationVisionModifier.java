@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.vision;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -22,20 +21,20 @@ public class ABActionCreateLocationVisionModifier implements ABAction {
 	private ABPlayerCallback player;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, int castId) {
 		CFogModifier vision;
-		final AbilityPointTarget loc = this.location.callback(game, caster, localStore, castId);
+		final AbilityPointTarget loc = this.location.callback(caster, localStore, castId);
 		if (this.duration == null) {
-			vision = new CCircleFogModifier(CFogState.VISIBLE, this.radius.callback(game, caster, localStore, castId),
+			vision = new CCircleFogModifier(CFogState.VISIBLE, this.radius.callback(caster, localStore, castId),
 					loc.getX(), loc.getY());
 		}
 		else {
 			vision = new CTimedCircleFogModifier(CFogState.VISIBLE,
-					this.radius.callback(game, caster, localStore, castId), loc.getX(), loc.getY(),
-					this.duration.callback(game, caster, localStore, castId));
+					this.radius.callback(caster, localStore, castId), loc.getX(), loc.getY(),
+					this.duration.callback(caster, localStore, castId));
 		}
 		if (this.player != null) {
-			this.player.callback(game, caster, localStore, castId).addFogModifer(game, vision, false);
+			this.player.callback(caster, localStore, castId).addFogModifer(localStore.game, vision, false);
 		}
 		localStore.put(ABLocalStoreKeys.LASTCREATEDVISIONMODIFIER, vision);
 	}

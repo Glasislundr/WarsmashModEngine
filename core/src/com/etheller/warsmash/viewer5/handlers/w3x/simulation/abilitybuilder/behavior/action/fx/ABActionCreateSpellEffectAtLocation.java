@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.fx;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -21,21 +20,20 @@ public class ABActionCreateSpellEffectAtLocation implements ABAction {
 	private CEffectType effectType;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final AbilityPointTarget loc = this.location.callback(game, caster, localStore, castId);
+		final AbilityPointTarget loc = this.location.callback(caster, localStore, castId);
 		float dir = 0;
 		if (this.facing != null) {
-			dir = this.facing.callback(game, caster, localStore, castId);
+			dir = this.facing.callback(caster, localStore, castId);
 		}
 		War3ID theId = null;
 		if (id == null) {
 			theId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		} else {
-			theId = id.callback(game, caster, localStore, castId);
+			theId = id.callback(caster, localStore, castId);
 		}
-		final SimulationRenderComponent ret = game.spawnSpellEffectOnPoint(loc.getX(), loc.getY(), dir, theId,
+		final SimulationRenderComponent ret = localStore.game.spawnSpellEffectOnPoint(loc.getX(), loc.getY(), dir, theId,
 				this.effectType, 0);
 		localStore.put(ABLocalStoreKeys.LASTCREATEDFX, ret);
 	}

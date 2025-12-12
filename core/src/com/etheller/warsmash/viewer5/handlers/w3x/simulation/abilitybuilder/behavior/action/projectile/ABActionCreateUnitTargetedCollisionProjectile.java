@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -43,8 +42,7 @@ public class ABActionCreateUnitTargetedCollisionProjectile implements ABSingleAc
 	private ABBooleanCallback provideCounts;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		Float theSpeed = null;
 		Boolean isHoming = null;
 		int theMaxHits = 0;
@@ -53,53 +51,53 @@ public class ABActionCreateUnitTargetedCollisionProjectile implements ABSingleAc
 		float theEndingRadius = 0;
 		float theCollisionInterval = 0.05f;
 		boolean isProvideCounts = false;
-		final CUnit theSource = this.source.callback(game, caster, localStore, castId);
+		final CUnit theSource = this.source.callback(caster, localStore, castId);
 		AbilityTarget sourceLocation = theSource;
 
 		if (this.sourceLoc != null) {
-			sourceLocation = this.sourceLoc.callback(game, caster, localStore, castId);
+			sourceLocation = this.sourceLoc.callback(caster, localStore, castId);
 		}
 		if (this.maxHits != null) {
-			theMaxHits = this.maxHits.callback(game, caster, localStore, castId);
+			theMaxHits = this.maxHits.callback(caster, localStore, castId);
 		}
 		if (this.hitsPerTarget != null) {
-			theHitsPerTarget = this.hitsPerTarget.callback(game, caster, localStore, castId);
+			theHitsPerTarget = this.hitsPerTarget.callback(caster, localStore, castId);
 		}
 		if (this.radius != null) {
-			final float rad = this.radius.callback(game, caster, localStore, castId);
+			final float rad = this.radius.callback(caster, localStore, castId);
 			theStartingRadius = rad;
 			theEndingRadius = rad;
 		} else {
 			if (this.endingRadius != null) {
-				theStartingRadius = this.startingRadius.callback(game, caster, localStore, castId);
-				theEndingRadius = this.endingRadius.callback(game, caster, localStore, castId);
+				theStartingRadius = this.startingRadius.callback(caster, localStore, castId);
+				theEndingRadius = this.endingRadius.callback(caster, localStore, castId);
 			} else {
-				final float rad = this.startingRadius.callback(game, caster, localStore, castId);
+				final float rad = this.startingRadius.callback(caster, localStore, castId);
 				theStartingRadius = rad;
 				theEndingRadius = rad;
 			}
 		}
 		if (this.collisionInterval != null) {
-			theCollisionInterval = this.collisionInterval.callback(game, caster, localStore, castId);
+			theCollisionInterval = this.collisionInterval.callback(caster, localStore, castId);
 		}
 		if (this.provideCounts != null) {
-			isProvideCounts = this.provideCounts.callback(game, caster, localStore, castId);
+			isProvideCounts = this.provideCounts.callback(caster, localStore, castId);
 		}
 
 		if (this.speed != null) {
-			theSpeed = this.speed.callback(game, caster, localStore, castId);
+			theSpeed = this.speed.callback(caster, localStore, castId);
 		}
 		if (this.homing != null) {
-			isHoming = this.homing.callback(game, caster, localStore, castId);
+			isHoming = this.homing.callback(caster, localStore, castId);
 		}
 
-		final CUnit theTarget = this.target.callback(game, caster, localStore, castId);
+		final CUnit theTarget = this.target.callback(caster, localStore, castId);
 
 		final ABCollisionProjectileListener listener = new ABCollisionProjectileListener(this.onLaunch, this.onPreHits,
 				this.canHitTarget, this.onHit, caster, localStore, castId);
 
-		final CProjectile proj = game.createCollisionProjectile(theSource,
-				this.id.callback(game, caster, localStore, castId), sourceLocation.getX(), sourceLocation.getY(),
+		final CProjectile proj = localStore.game.createCollisionProjectile(theSource,
+				this.id.callback(caster, localStore, castId), sourceLocation.getX(), sourceLocation.getY(),
 				(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed, isHoming, theTarget,
 				theMaxHits, theHitsPerTarget, theStartingRadius, theEndingRadius, theCollisionInterval, listener,
 				isProvideCounts);

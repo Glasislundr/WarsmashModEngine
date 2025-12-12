@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.buff;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.util.CBuffTimedLife;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -18,12 +17,10 @@ public class ABActionCreateTimedLifeBuff implements ABSingleAction {
 	private ABBooleanCallback explode;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final CBuffTimedLife ability = new CBuffTimedLife(game.getHandleIdAllocator().createId(),
-				this.buffId.callback(game, caster, localStore, castId),
-				this.duration.callback(game, caster, localStore, castId),
-				this.explode.callback(game, caster, localStore, castId));
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final CBuffTimedLife ability = new CBuffTimedLife(localStore.game.getHandleIdAllocator().createId(),
+				this.buffId.callback(caster, localStore, castId), this.duration.callback(caster, localStore, castId),
+				this.explode.callback(caster, localStore, castId));
 		localStore.put(ABLocalStoreKeys.LASTCREATEDBUFF, ability);
 		if (!localStore.containsKey(ABLocalStoreKeys.BUFFCASTINGUNIT)) {
 			localStore.put(ABLocalStoreKeys.BUFFCASTINGUNIT, caster);

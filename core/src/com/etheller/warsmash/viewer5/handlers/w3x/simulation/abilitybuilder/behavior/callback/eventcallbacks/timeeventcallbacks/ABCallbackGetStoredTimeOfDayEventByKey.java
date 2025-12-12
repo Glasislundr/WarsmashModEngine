@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.eventcallbacks.timeeventcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -14,13 +13,13 @@ public class ABCallbackGetStoredTimeOfDayEventByKey extends ABTimeOfDayEventCall
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABTimeOfDayEvent callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		if (instanceValue == null || instanceValue.callback(game, caster, localStore, castId)) {
+	public ABTimeOfDayEvent callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
 			return (ABTimeOfDayEvent) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(game, caster, localStore, castId), castId));
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
 		} else {
 			return (ABTimeOfDayEvent) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(game, caster, localStore, castId), castId));
+					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
 		}
 	}
 

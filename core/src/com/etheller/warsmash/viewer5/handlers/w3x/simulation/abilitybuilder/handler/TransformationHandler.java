@@ -7,7 +7,6 @@ import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.PrimaryTag;
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.SecondaryTag;
 import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
@@ -26,16 +25,16 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
 
 public class TransformationHandler {
 
-	public static void setUnitID(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
-			final CUnitType newType, final boolean keepRatios, final boolean addAlternateTagAfter,
-			final OnTransformationActions actions, final CAbility ability) {
-		setUnitID(game, localStore, unit, newType, keepRatios, addAlternateTagAfter, actions, ability, false);
+	public static void setUnitID(final LocalDataStore localStore, final CUnit unit, final CUnitType newType,
+			final boolean keepRatios, final boolean addAlternateTagAfter, final OnTransformationActions actions,
+			final CAbility ability) {
+		setUnitID(localStore, unit, newType, keepRatios, addAlternateTagAfter, actions, ability, false);
 	}
 
-	public static void setUnitID(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
-			final CUnitType newType, final boolean keepRatios, final boolean addAlternateTagAfter,
-			final OnTransformationActions actions, final CAbility ability, final boolean updateArt) {
-		final CPlayer pl = game.getPlayer(unit.getPlayerIndex());
+	public static void setUnitID(final LocalDataStore localStore, final CUnit unit, final CUnitType newType,
+			final boolean keepRatios, final boolean addAlternateTagAfter, final OnTransformationActions actions,
+			final CAbility ability, final boolean updateArt) {
+		final CPlayer pl = localStore.game.getPlayer(unit.getPlayerIndex());
 		if (actions != null) {
 			pl.setGold(Math.max(pl.getGold() - actions.goldCost, 0));
 			pl.setLumber(Math.max(pl.getLumber() - actions.lumberCost, 0));
@@ -43,13 +42,13 @@ public class TransformationHandler {
 			if (!addAlternateTagAfter) {
 				if (actions.onUntransformActions != null) {
 					for (final ABAction action : actions.onUntransformActions) {
-						action.runAction(game, unit, localStore, actions.castId);
+						action.runAction(unit, localStore, actions.castId);
 					}
 				}
 			}
 		}
 
-		unit.setTypeId(game, newType.getTypeId(), keepRatios, updateArt);
+		unit.setTypeId(localStore.game, newType.getTypeId(), keepRatios, updateArt);
 		pl.setUnitFoodUsed(unit, newType.getFoodUsed());
 		pl.setUnitFoodMade(unit, newType.getFoodMade());
 		if (addAlternateTagAfter) {
@@ -61,12 +60,12 @@ public class TransformationHandler {
 				unit.getUnitAnimationListener().forceResetCurrentAnimation();
 			}
 		}
-		game.unitSoundEffectEvent(unit, ability.getAlias());
+		localStore.game.unitSoundEffectEvent(unit, ability.getAlias());
 
 		if (addAlternateTagAfter && (actions != null)) {
 			if (actions.onTransformActions != null) {
 				for (final ABAction action : actions.onTransformActions) {
-					action.runAction(game, unit, localStore, actions.castId);
+					action.runAction(unit, localStore, actions.castId);
 				}
 			}
 		}
@@ -99,132 +98,131 @@ public class TransformationHandler {
 				addAlternateTagAfter ? EnumSet.of(SecondaryTag.ALTERNATE) : SequenceUtils.EMPTY, 1.0f, true);
 	}
 
-	public static void beginTakingOff(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
-			final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
-			final CAbility ability, final boolean addAlternateTagAfter, final boolean immediateTakeoff,
-			final float altitudeAdjustmentDelay, final float altitudeAdjustmentDuration) {
+	public static void beginTakingOff(final LocalDataStore localStore, final CUnit unit, final CUnitType newType,
+			final boolean keepRatios, final OnTransformationActions actions, final CAbility ability,
+			final boolean addAlternateTagAfter, final boolean immediateTakeoff, final float altitudeAdjustmentDelay,
+			final float altitudeAdjustmentDuration) {
 		CTimer timer = (CTimer) localStore.get(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT);
 		if (timer != null) {
-			game.unregisterTimer(timer);
+			localStore.game.unregisterTimer(timer);
 		}
 		timer = (new DelayTimerTimer(
-				new AltitudeAdjustmentTimer(game, unit, newType.getDefaultFlyingHeight(), altitudeAdjustmentDuration),
+				new AltitudeAdjustmentTimer(unit, newType.getDefaultFlyingHeight(), altitudeAdjustmentDuration),
 				localStore, altitudeAdjustmentDelay));
-		timer.start(game);
+		timer.start(localStore.game);
 		localStore.put(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT, timer);
-		TransformationHandler.setUnitID(game, localStore, unit, newType, keepRatios, addAlternateTagAfter, actions,
-				ability);
+		TransformationHandler.setUnitID(localStore, unit, newType, keepRatios, addAlternateTagAfter, actions, ability);
 		if (immediateTakeoff) {
 			TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
 		} else {
-			final CTimer t2 = new TransformationMorphAnimationTimer(game, unit, addAlternateTagAfter,
+			final CTimer t2 = new TransformationMorphAnimationTimer(unit, addAlternateTagAfter,
 					altitudeAdjustmentDelay);
-			t2.start(game);
+			t2.start(localStore.game);
 			localStore.put(ABLocalStoreKeys.WAITING_ANIMATION, t2);
 		}
 	}
 
-	public static void beginLanding(final CSimulation game, final LocalDataStore localStore, final CUnit unit,
-			final CUnitType newType, final boolean addAlternateTagAfter, final boolean immediateLanding,
-			final float landingDelay, final float altitudeAdjustmentDuration) {
+	public static void beginLanding(final LocalDataStore localStore, final CUnit unit, final CUnitType newType,
+			final boolean addAlternateTagAfter, final boolean immediateLanding, final float landingDelay,
+			final float altitudeAdjustmentDuration) {
 		unit.setFacing(225);
 		if (immediateLanding) {
 			TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
 		} else {
-			final CTimer timer = new TransformationMorphAnimationTimer(game, unit, addAlternateTagAfter, landingDelay);
-			timer.start(game);
+			final CTimer timer = new TransformationMorphAnimationTimer(unit, addAlternateTagAfter, landingDelay);
+			timer.start(localStore.game);
 			localStore.put(ABLocalStoreKeys.WAITING_ANIMATION, timer);
 		}
 		CTimer timer = (CTimer) localStore.get(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT);
 		if (timer != null) {
-			game.unregisterTimer(timer);
+			localStore.game.unregisterTimer(timer);
 		}
-		timer = new AltitudeAdjustmentTimer(game, unit, newType.getDefaultFlyingHeight(), altitudeAdjustmentDuration);
-		timer.start(game);
+		timer = new AltitudeAdjustmentTimer(unit, newType.getDefaultFlyingHeight(), altitudeAdjustmentDuration);
+		timer.start(localStore.game);
 		localStore.put(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT, timer);
 	}
 
-	public static void startSlowTransformation(final CSimulation game, final LocalDataStore localStore,
-			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
+	public static void startSlowTransformation(final LocalDataStore localStore, final CUnit unit,
+			final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final CAbility ability, final boolean addAlternateTagAfter, final boolean takingOff, final boolean landing,
 			final boolean immediateTakeoff, final boolean immediateLanding, final float altitudeAdjustmentDelay,
 			final float landingDelay, final float altitudeAdjustmentDuration) {
 		final CTimer timer = (CTimer) localStore.get(ABLocalStoreKeys.WAITING_ANIMATION);
 		if (timer != null) {
-			game.unregisterTimer(timer);
+			localStore.game.unregisterTimer(timer);
 		}
 		unit.getUnitAnimationListener().queueAnimation(PrimaryTag.STAND,
 				addAlternateTagAfter ? SequenceUtils.EMPTY : EnumSet.of(SecondaryTag.ALTERNATE), true);
 		if (takingOff || landing) {
 
 			if (takingOff) {
-				TransformationHandler.beginTakingOff(game, localStore, unit, newType, keepRatios, actions, ability,
+				TransformationHandler.beginTakingOff(localStore, unit, newType, keepRatios, actions, ability,
 						addAlternateTagAfter, immediateTakeoff, altitudeAdjustmentDelay, altitudeAdjustmentDuration);
 			}
 
 			if (landing) {
-				TransformationHandler.beginLanding(game, localStore, unit, newType, addAlternateTagAfter,
-						immediateLanding, landingDelay, altitudeAdjustmentDuration);
+				TransformationHandler.beginLanding(localStore, unit, newType, addAlternateTagAfter, immediateLanding,
+						landingDelay, altitudeAdjustmentDuration);
 			}
 		} else {
 			TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
 		}
 	}
 
-	public static void finishSlowTransformation(final CSimulation game, final LocalDataStore localStore,
-			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
+	public static void finishSlowTransformation(final LocalDataStore localStore, final CUnit unit,
+			final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final boolean addAlternateTagAfter, final boolean permanent,
 			final boolean takingOff) {
 		if (!takingOff) {
-			TransformationHandler.setUnitID(game, localStore, unit, newType, keepRatios, addAlternateTagAfter, actions,
+			TransformationHandler.setUnitID(localStore, unit, newType, keepRatios, addAlternateTagAfter, actions,
 					ability);
 		}
 		if (permanent) {
-			unit.remove(game, ability);
+			unit.remove(localStore.game, ability);
 		}
 	}
 
-	public static void instantTransformation(final CSimulation game, final LocalDataStore localStore,
-			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
-			final AbilityBuilderAbility ability, final boolean addAlternateTagAfter, final boolean permanent,
-			final boolean playMorph) {
+	public static void instantTransformation(final LocalDataStore localStore, final CUnit unit, final CUnitType newType,
+			final boolean keepRatios, final OnTransformationActions actions, final AbilityBuilderAbility ability,
+			final boolean addAlternateTagAfter, final boolean permanent, final boolean playMorph) {
 		if (newType.getTypeId().equals(unit.getTypeId())) {
 			return;
 		}
-		setUnitID(game, localStore, unit, newType, keepRatios, addAlternateTagAfter, actions, ability, false);
+		setUnitID(localStore, unit, newType, keepRatios, addAlternateTagAfter, actions, ability, false);
 		if (playMorph) {
 			TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
 		}
 		if (permanent) {
-			unit.remove(game, ability);
+			unit.remove(localStore.game, ability);
 		}
 	}
 
-	public static void createSlowTransformBackBuff(final CSimulation game, CUnit sourceUnit, final LocalDataStore localStore,
-			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
+	public static void createSlowTransformBackBuff(CUnit sourceUnit, final LocalDataStore localStore, final CUnit unit,
+			final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final War3ID buffId, final boolean addAlternateTagAfter,
 			final float transformationTime, final float duration, final boolean permanent, final boolean takingOff,
 			final boolean landing, final boolean immediateTakeoff, final boolean immediateLanding,
 			final float altitudeAdjustmentDelay, final float landingDelay, final float altitudeAdjustmentDuration) {
 		if (addAlternateTagAfter && (duration > 0)) {
-			unit.add(game,
-					new ABTimedTransformationBuff(game.getHandleIdAllocator().createId(), localStore, ability, sourceUnit, actions,
-							buffId == null ? ability.getAlias() : buffId, duration, ability, newType, keepRatios,
-							!addAlternateTagAfter, permanent, duration, transformationTime, landingDelay,
-							altitudeAdjustmentDelay, altitudeAdjustmentDuration, immediateLanding, immediateTakeoff));
+			unit.add(localStore.game,
+					new ABTimedTransformationBuff(localStore.game.getHandleIdAllocator().createId(), localStore,
+							ability, sourceUnit, actions, buffId == null ? ability.getAlias() : buffId, duration,
+							ability, newType, keepRatios, !addAlternateTagAfter, permanent, duration,
+							transformationTime, landingDelay, altitudeAdjustmentDelay, altitudeAdjustmentDuration,
+							immediateLanding, immediateTakeoff));
 		}
 	}
 
-	public static void createInstantTransformBackBuff(final CSimulation game, CUnit sourceUnit, final LocalDataStore localStore,
+	public static void createInstantTransformBackBuff(CUnit sourceUnit, final LocalDataStore localStore,
 			final CUnit unit, final CUnitType newType, final boolean keepRatios, final OnTransformationActions actions,
 			final AbilityBuilderAbility ability, final War3ID buffId, final boolean addAlternateTagAfter,
 			final float transformationTime, final float duration, final boolean permanent) {
 		if (addAlternateTagAfter && (duration > 0)) {
-			final ABBuff thebuff = ability.visit(
-					GetInstantTransformationBuffVisitor.getInstance().reset(game, sourceUnit, localStore, newType, keepRatios,
-							actions, buffId, addAlternateTagAfter, transformationTime, duration, permanent));
+			final ABBuff thebuff = ability.visit(GetInstantTransformationBuffVisitor.getInstance().reset(
+					localStore.game, sourceUnit, localStore, newType, keepRatios, actions, buffId, addAlternateTagAfter,
+					transformationTime, duration, permanent));
 			if (thebuff != null) {
-				unit.add(game, thebuff);
+				unit.add(localStore.game, thebuff);
 			}
 		}
 	}

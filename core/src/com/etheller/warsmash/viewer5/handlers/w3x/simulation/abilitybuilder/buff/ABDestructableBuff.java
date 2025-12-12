@@ -65,7 +65,7 @@ public class ABDestructableBuff implements CDestructableBuff {
 		localStore.put(ABLocalStoreKeys.BUFFEDDEST + castId, this);
 		if (onAddActions != null) {
 			for (ABAction action : onAddActions) {
-				action.runAction(game, this.caster, localStore, castId);
+				action.runAction(this.caster, localStore, castId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.BUFFEDDEST + castId);
@@ -76,7 +76,7 @@ public class ABDestructableBuff implements CDestructableBuff {
 		localStore.put(ABLocalStoreKeys.BUFFEDDEST + castId, this);
 		if (onRemoveActions != null) {
 			for (ABAction action : onRemoveActions) {
-				action.runAction(game, this.caster, localStore, castId);
+				action.runAction(this.caster, localStore, castId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.BUFFEDDEST + castId);
@@ -87,7 +87,7 @@ public class ABDestructableBuff implements CDestructableBuff {
 		localStore.put(ABLocalStoreKeys.BUFFEDDEST + castId, this);
 		if (onDeathActions != null) {
 			for (ABAction action : onDeathActions) {
-				action.runAction(game, this.caster, localStore, castId);
+				action.runAction(this.caster, localStore, castId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.BUFFEDDEST + castId);

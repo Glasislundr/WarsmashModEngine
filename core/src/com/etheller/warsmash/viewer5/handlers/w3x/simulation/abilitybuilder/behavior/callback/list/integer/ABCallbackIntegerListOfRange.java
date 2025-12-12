@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -18,16 +17,16 @@ public class ABCallbackIntegerListOfRange extends ABIntegerListCallback {
 	private ABBooleanCallback inclusiveEnd;
 
 	@Override
-	public List<Integer> callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
+	public List<Integer> callback(CUnit caster, LocalDataStore localStore, int castId) {
 		int theStart = 0;
 		if (start != null) {
-			theStart = start.callback(game, caster, localStore, castId);
+			theStart = start.callback(caster, localStore, castId);
 		}
-		if (inclusiveEnd != null && inclusiveEnd.callback(game, caster, localStore, castId)) {
-			return IntStream.rangeClosed(theStart, end.callback(game, caster, localStore, castId)).boxed()
+		if (inclusiveEnd != null && inclusiveEnd.callback(caster, localStore, castId)) {
+			return IntStream.rangeClosed(theStart, end.callback(caster, localStore, castId)).boxed()
 					.collect(Collectors.toList());
 		}
-		return IntStream.range(theStart, end.callback(game, caster, localStore, castId)).boxed()
+		return IntStream.range(theStart, end.callback(caster, localStore, castId)).boxed()
 				.collect(Collectors.toList());
 	}
 

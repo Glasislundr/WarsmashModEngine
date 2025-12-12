@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -14,13 +13,13 @@ public class ABCallbackGetStoredIDByKey extends ABIDCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public War3ID callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		if (instanceValue == null || instanceValue.callback(game, caster, localStore, castId)) {
+	public War3ID callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
 			return (War3ID) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(game, caster, localStore, castId), castId));
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
 		} else {
 			return (War3ID) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(game, caster, localStore, castId), castId));
+					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
 		}
 	}
 

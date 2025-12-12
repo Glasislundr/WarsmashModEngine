@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitstate;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.longcallbacks.ABLongCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.statemodcallbacks.ABStateModBuffCallback;
@@ -15,11 +14,10 @@ public class ABActionUpdateStateModBuff implements ABAction {
 	private ABLongCallback value;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final StateModBuff buffObj = this.buff.callback(game, caster, localStore, castId);
-		buffObj.setValue(this.value.callback(game, caster, localStore, castId));
+		final StateModBuff buffObj = this.buff.callback(caster, localStore, castId);
+		buffObj.setValue(this.value.callback(caster, localStore, castId));
 	}
 
 }

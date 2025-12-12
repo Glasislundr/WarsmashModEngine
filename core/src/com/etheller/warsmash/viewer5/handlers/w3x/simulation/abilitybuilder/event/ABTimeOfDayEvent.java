@@ -22,10 +22,10 @@ public class ABTimeOfDayEvent implements TimeOfDayEvent {
 
 	private String equalityId;
 
-	public ABTimeOfDayEvent(CSimulation game, CUnit caster, LocalDataStore localStore, int castId,
-			List<ABAction> actions, float startTime, float endTime, String equalityId) {
+	public ABTimeOfDayEvent(CUnit caster, LocalDataStore localStore, int castId, List<ABAction> actions,
+			float startTime, float endTime, String equalityId) {
 		super();
-		this.game = game;
+		this.game = localStore.game;
 		this.caster = caster;
 		this.localStore = localStore;
 		this.castId = castId;
@@ -39,7 +39,7 @@ public class ABTimeOfDayEvent implements TimeOfDayEvent {
 	public void fire() {
 		if (actions != null) {
 			for (ABAction eventAction : actions) {
-				eventAction.runAction(game, caster, localStore, castId);
+				eventAction.runAction(caster, localStore, castId);
 			}
 		}
 	}

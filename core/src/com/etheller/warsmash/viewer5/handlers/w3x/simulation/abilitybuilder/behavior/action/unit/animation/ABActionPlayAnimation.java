@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.PrimaryTag;
 import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -22,23 +21,23 @@ public class ABActionPlayAnimation implements ABSingleAction {
 	private ABBooleanCallback allowVariations;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		final CUnit targetUnit = this.unit.callback(game, caster, localStore, castId);
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+		final CUnit targetUnit = this.unit.callback(caster, localStore, castId);
 		boolean f = true;
 		float s = 1f;
 		boolean av = false;
 		if (this.force != null) {
-			f = this.force.callback(game, caster, localStore, castId);
+			f = this.force.callback(caster, localStore, castId);
 		}
 		if (this.speed != null) {
-			s = this.speed.callback(game, caster, localStore, castId);
+			s = this.speed.callback(caster, localStore, castId);
 		}
 		if (this.allowVariations != null) {
-			av = this.allowVariations.callback(game, caster, localStore, castId);
+			av = this.allowVariations.callback(caster, localStore, castId);
 		}
 
 		targetUnit.getUnitAnimationListener().playAnimation(f,
-				PrimaryTag.valueOf(this.tag.callback(game, caster, localStore, castId)), SequenceUtils.EMPTY, s, av);
+				PrimaryTag.valueOf(this.tag.callback(caster, localStore, castId)), SequenceUtils.EMPTY, s, av);
 	}
 
 	@Override

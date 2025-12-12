@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.destructable;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CDestructable;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -16,12 +15,12 @@ public class ABConditionDoesDestructableHaveBuffMatchingCondition extends ABCond
 	private ABBooleanCallback condition;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		CDestructable theDestructable = dest.callback(game, caster, localStore, castId);
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		CDestructable theDestructable = dest.callback(caster, localStore, castId);
 		if (theDestructable != null) {
 			for (CDestructableBuff ability : theDestructable.getBuffs()) {
 				localStore.put(ABLocalStoreKeys.MATCHINGDESTBUFF, ability);
-				if (condition.callback(game, caster, localStore, castId)) {
+				if (condition.callback(caster, localStore, castId)) {
 					localStore.remove(ABLocalStoreKeys.MATCHINGDESTBUFF);
 					return true;
 				}

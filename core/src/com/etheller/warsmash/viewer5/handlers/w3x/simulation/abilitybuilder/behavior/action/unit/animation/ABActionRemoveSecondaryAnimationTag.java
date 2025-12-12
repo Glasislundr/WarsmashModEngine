@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.SecondaryTag;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -15,12 +14,11 @@ public class ABActionRemoveSecondaryAnimationTag implements ABSingleAction {
 	private ABStringCallback tag;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final CUnit targetUnit = this.unit.callback(game, caster, localStore, castId);
+		final CUnit targetUnit = this.unit.callback(caster, localStore, castId);
 		if (targetUnit.getUnitAnimationListener()
-				.removeSecondaryTag(SecondaryTag.valueOf(this.tag.callback(game, caster, localStore, castId)))) {
+				.removeSecondaryTag(SecondaryTag.valueOf(this.tag.callback(caster, localStore, castId)))) {
 			targetUnit.getUnitAnimationListener().forceResetCurrentAnimation();
 		}
 	}

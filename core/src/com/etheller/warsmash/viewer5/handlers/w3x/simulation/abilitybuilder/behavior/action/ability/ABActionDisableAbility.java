@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.ability;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityDisableType;
@@ -16,10 +15,9 @@ public class ABActionDisableAbility implements ABSingleAction {
 	private ABAbilityCallback ability;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		if (this.ability != null) {
-			final CAbility abil = ability.callback(game, caster, localStore, castId);
+			final CAbility abil = ability.callback(caster, localStore, castId);
 			if (abil != null) {
 				abil.setDisabled(true, CAbilityDisableType.ABILITYINTERNAL);
 			}

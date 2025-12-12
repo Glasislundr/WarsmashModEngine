@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.gamestate;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -15,12 +14,11 @@ public class ABActionSetFalseTimeOfDay implements ABSingleAction {
 	private ABFloatCallback duration;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		game.addFalseTimeOfDay(this.hour.callback(game, caster, localStore, castId),
-				this.minute.callback(game, caster, localStore, castId),
-				this.duration.callback(game, caster, localStore, castId));
+		localStore.game.addFalseTimeOfDay(this.hour.callback(caster, localStore, castId),
+				this.minute.callback(caster, localStore, castId),
+				this.duration.callback(caster, localStore, castId));
 	}
 
 	@Override

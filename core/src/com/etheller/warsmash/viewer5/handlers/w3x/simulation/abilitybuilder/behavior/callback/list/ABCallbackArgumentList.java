@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
@@ -16,12 +15,11 @@ public class ABCallbackArgumentList extends ABListCallback<Object> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object> callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final String keyS = name.callback(game, caster, localStore, castId);
+	public List<Object> callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final String keyS = name.callback(caster, localStore, castId);
 		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
 		if (cbck != null && cbck instanceof ABListCallback) {
-			return ((ABListCallback<Object>) cbck).callback(game, caster, localStore, castId);
+			return ((ABListCallback<Object>) cbck).callback(caster, localStore, castId);
 		} else {
 			System.err.println(
 					"Trying to run ArgumentLocationCallback, but key is missing or callback was the wrong type: "

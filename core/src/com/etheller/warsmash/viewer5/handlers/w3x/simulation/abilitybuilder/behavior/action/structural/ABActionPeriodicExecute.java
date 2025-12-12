@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.WarsmashConstants;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -23,13 +22,12 @@ public class ABActionPeriodicExecute implements ABAction {
 	private ABCallback unique;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		float nextActiveTick = 0;
 		Object u = null;
 		if (this.unique != null) {
-			u = this.unique.callback(game, caster, localStore, castId);
+			u = this.unique.callback(caster, localStore, castId);
 			if (localStore.containsKey(ABLocalStoreKeys.PERIODICNEXTTICK + castId + "$" + u)) {
 				nextActiveTick = (float) localStore.get(ABLocalStoreKeys.PERIODICNEXTTICK + castId + "$" + u);
 			}
@@ -40,14 +38,14 @@ public class ABActionPeriodicExecute implements ABAction {
 			}
 		}
 
-		final int currentTick = game.getGameTurnTick();
+		final int currentTick = localStore.game.getGameTurnTick();
 		int iter = 0;
 		boolean run = true;
 		while (run && currentTick >= (int)nextActiveTick && iter < HARD_LOOP_CAP) {
 			if (nextActiveTick <= 0) {
-				if ((this.initialTick != null) && this.initialTick.callback(game, caster, localStore, castId)) {
+				if ((this.initialTick != null) && this.initialTick.callback(caster, localStore, castId)) {
 					for (final ABAction periodicAction : this.periodicActions) {
-						periodicAction.runAction(game, caster, localStore, castId);
+						periodicAction.runAction(caster, localStore, castId);
 						final Boolean brk = (Boolean) localStore.remove(ABLocalStoreKeys.BREAK);
 						if ((brk != null) && brk) {
 							run = false;
@@ -55,19 +53,19 @@ public class ABActionPeriodicExecute implements ABAction {
 						}
 					}
 				}
-				nextActiveTick = currentTick + (this.delaySeconds.callback(game, caster, localStore, castId)
+				nextActiveTick = currentTick + (this.delaySeconds.callback(caster, localStore, castId)
 						/ WarsmashConstants.SIMULATION_STEP_TIME);
 			}
 			else {
 				for (final ABAction periodicAction : this.periodicActions) {
-					periodicAction.runAction(game, caster, localStore, castId);
+					periodicAction.runAction(caster, localStore, castId);
 					final Boolean brk = (Boolean) localStore.remove(ABLocalStoreKeys.BREAK);
 					if ((brk != null) && brk) {
 						run = false;
 						break;
 					}
 				}
-				nextActiveTick += (this.delaySeconds.callback(game, caster, localStore, castId)
+				nextActiveTick += (this.delaySeconds.callback(caster, localStore, castId)
 						/ WarsmashConstants.SIMULATION_STEP_TIME);
 			}
 			iter++;

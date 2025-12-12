@@ -38,7 +38,7 @@ public class ABDeathReplacementEffect implements CUnitDeathReplacementEffect {
 		localStore.put(ABLocalStoreKeys.DEATHSTACKING + triggerId, stacking);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(simulation, unit, localStore, triggerId);
+				action.runAction(unit, localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.KILLINGUNIT + triggerId);

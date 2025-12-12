@@ -176,7 +176,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		determineToggleableFields(game, unit);
 		if (config.getOnLevelChange() != null) {
 			for (ABAction action : config.getOnLevelChange()) {
-				action.runAction(game, unit, this.localStore, castId);
+				action.runAction(unit, this.localStore, castId);
 			}
 		}
 	}
@@ -187,21 +187,21 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		determineToggleableFields(game, unit);
 		if (config.getOnAddAbility() != null) {
 			for (ABAction action : config.getOnAddAbility()) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}
 
 	@Override
 	public void onAddDisabled(CSimulation game, CUnit unit) {
-		localStore.put(ABLocalStoreKeys.GAME, game);
+		localStore.game = game;
 		localStore.put(ABLocalStoreKeys.THISUNIT, unit);
 		addInitialUniqueFlags(game, unit);
 		setSpellFields(game, unit);
 		determineToggleableFields(game, unit);
 		if (config.getOnAddDisabledAbility() != null) {
 			for (ABAction action : config.getOnAddDisabledAbility()) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}
@@ -210,7 +210,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void onRemoveDisabled(CSimulation game, CUnit unit) {
 		if (config.getOnRemoveDisabledAbility() != null) {
 			for (ABAction action : config.getOnRemoveDisabledAbility()) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}
@@ -219,39 +219,36 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		if (this.config.getInitialUniqueFlags() != null && !this.config.getInitialUniqueFlags().isEmpty()) {
 			this.uniqueFlags = new HashSet<>();
 			for (ABStringCallback flag : this.config.getInitialUniqueFlags()) {
-				this.uniqueFlags.add(flag.callback(game, unit, localStore, 0));
+				this.uniqueFlags.add(flag.callback(unit, localStore, 0));
 			}
 		}
 	}
 
 	private void determineToggleableFields(CSimulation game, CUnit unit) {
 		if (config.getDisplayFields() != null && config.getDisplayFields().getSeparateOnAndOff() != null) {
-			this.separateOnAndOff = config.getDisplayFields().getSeparateOnAndOff().callback(game, unit, localStore,
-					castId);
+			this.separateOnAndOff = config.getDisplayFields().getSeparateOnAndOff().callback(unit, localStore, castId);
 		}
 		if (config.getDisplayFields() != null && config.getDisplayFields().getToggleable() != null) {
-			this.toggleable = config.getDisplayFields().getToggleable().callback(game, unit, localStore, castId);
+			this.toggleable = config.getDisplayFields().getToggleable().callback(unit, localStore, castId);
 		}
 		if (config.getDisplayFields() != null && config.getDisplayFields().getCastToggleOff() != null) {
-			this.allowCastlessDeactivate = !config.getDisplayFields().getCastToggleOff().callback(game, unit,
-					localStore, castId);
+			this.allowCastlessDeactivate = !config.getDisplayFields().getCastToggleOff().callback(unit, localStore,
+					castId);
 		}
 		if (config.getDisplayFields() != null && config.getDisplayFields().getAlternateUnitId() != null) {
 			if (unit.getTypeId()
-					.equals(config.getDisplayFields().getAlternateUnitId().callback(game, unit, localStore, castId))) {
+					.equals(config.getDisplayFields().getAlternateUnitId().callback(unit, localStore, castId))) {
 				this.active = true;
 			}
 		}
 		if (config.getSpecialFields() != null && config.getSpecialFields().getBufferManaRequired() != null) {
-			this.bufferMana = config.getSpecialFields().getBufferManaRequired().callback(game, unit, localStore,
-					castId);
+			this.bufferMana = config.getSpecialFields().getBufferManaRequired().callback(unit, localStore, castId);
 		}
 		if (this.toggleable) {
 			localStore.put(ABLocalStoreKeys.ISTOGGLEDABILITY, this);
 			int manaPerSec = 0;
 			if (config.getSpecialFields() != null && config.getSpecialFields().getManaDrainedPerSecond() != null) {
-				manaPerSec = config.getSpecialFields().getManaDrainedPerSecond().callback(game, unit, localStore,
-						castId);
+				manaPerSec = config.getSpecialFields().getManaDrainedPerSecond().callback(unit, localStore, castId);
 			}
 			if (manaPerSec != 0) {
 				if (manaDrain == null) {
@@ -270,7 +267,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 
 			if (config.getDisplayFields() != null && config.getDisplayFields().getAlternateUnitId() != null) {
 				if (unit.getTypeId().equals(
-						config.getDisplayFields().getAlternateUnitId().callback(game, unit, localStore, castId))) {
+						config.getDisplayFields().getAlternateUnitId().callback(unit, localStore, castId))) {
 					this.active = true;
 				}
 			}
@@ -286,56 +283,50 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		this.castTime = levelDataLevel.getCastTime();
 		if (this.config.getOverrideFields() != null) {
 			if (this.config.getOverrideFields().getAreaOverride() != null) {
-				this.area = this.config.getOverrideFields().getAreaOverride().callback(game, unit, localStore, castId);
+				this.area = this.config.getOverrideFields().getAreaOverride().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getRangeOverride() != null) {
-				this.range = this.config.getOverrideFields().getRangeOverride().callback(game, unit, localStore,
-						castId);
+				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getCastTimeOverride() != null) {
-				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(game, unit, localStore,
-						castId);
+				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getIgnoreCastTime() != null) {
-				this.ignoreCastTime = this.config.getOverrideFields().getIgnoreCastTime().callback(game, unit,
-						localStore, castId);
+				this.ignoreCastTime = this.config.getOverrideFields().getIgnoreCastTime().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getOverrideFields().getCooldownOverride() != null) {
-				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(game, unit, localStore,
-						castId);
+				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getManaCostOverride() != null) {
-				this.manaCost = this.config.getOverrideFields().getManaCostOverride().callback(game, unit, localStore,
-						castId);
+				this.manaCost = this.config.getOverrideFields().getManaCostOverride().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getAutocastTypeOverride() != null) {
-				this.autocastType = this.config.getOverrideFields().getAutocastTypeOverride().callback(game, unit,
-						localStore, castId);
+				this.autocastType = this.config.getOverrideFields().getAutocastTypeOverride().callback(unit, localStore,
+						castId);
 			}
 
 			if (this.config.getOverrideFields().getOnTooltipOverride() != null) {
-				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(game, unit,
-						localStore, castId);
+				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getOverrideFields().getOffTooltipOverride() != null) {
-				this.offTooltipOverride = this.config.getOverrideFields().getOffTooltipOverride().callback(game, unit,
-						localStore, castId);
+				this.offTooltipOverride = this.config.getOverrideFields().getOffTooltipOverride().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getOverrideFields().getPhysicalSpell() != null) {
-				this.physical = this.config.getOverrideFields().getPhysicalSpell().callback(game, unit, localStore,
-						castId);
+				this.physical = this.config.getOverrideFields().getPhysicalSpell().callback(unit, localStore, castId);
 				this.magic = this.physical ? false : this.magic; // Spells that just declare physical:true default to
 																	// magic:false
 			}
 			if (this.config.getOverrideFields().getMagicSpell() != null) {
-				this.magic = this.config.getOverrideFields().getMagicSpell().callback(game, unit, localStore, castId);
+				this.magic = this.config.getOverrideFields().getMagicSpell().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getDispel() != null) {
-				this.dispel = this.config.getOverrideFields().getDispel().callback(game, unit, localStore, castId);
+				this.dispel = this.config.getOverrideFields().getDispel().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getUniversalSpell() != null) {
-				this.universal = this.config.getOverrideFields().getUniversalSpell().callback(game, unit, localStore,
-						castId);
+				this.universal = this.config.getOverrideFields().getUniversalSpell().callback(unit, localStore, castId);
 			}
 		}
 
@@ -355,28 +346,27 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 
 		if (this.config.getOverrideFields() != null && this.config.getOverrideFields().getExtraTargetsAllowed() != null) {
 			for(ABTargetTypeCallback target : this.config.getOverrideFields().getExtraTargetsAllowed()) {
-				this.targetsAllowed.add(target.callback(game, unit, localStore, requiredLevel));
+				this.targetsAllowed.add(target.callback(unit, localStore, requiredLevel));
 			}
 		}
 		if (this.config.getOverrideFields() != null && this.config.getOverrideFields().getExcludedTargetsAllowed() != null) {
 			for(ABTargetTypeCallback target : this.config.getOverrideFields().getExcludedTargetsAllowed()) {
-				this.targetsAllowed.remove(target.callback(game, unit, localStore, requiredLevel));
+				this.targetsAllowed.remove(target.callback(unit, localStore, requiredLevel));
 			}
 		}
 
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getHideAreaCursor() != null) {
-			this.hideAreaCursor = this.config.getDisplayFields().getHideAreaCursor().callback(game, unit, localStore,
-					castId);
+			this.hideAreaCursor = this.config.getDisplayFields().getHideAreaCursor().callback(unit, localStore, castId);
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getAreaCursorOverride() != null) {
-			this.areaCursorOverride = this.config.getDisplayFields().getAreaCursorOverride().callback(game, unit,
-					localStore, castId);
+			this.areaCursorOverride = this.config.getDisplayFields().getAreaCursorOverride().callback(unit, localStore,
+					castId);
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getIsMenu() != null) {
-			this.isMenu = this.config.getDisplayFields().getIsMenu().callback(game, unit, localStore, this.getLevel());
+			this.isMenu = this.config.getDisplayFields().getIsMenu().callback(unit, localStore, this.getLevel());
 			if (this.isMenu) {
 				if (this.config.getDisplayFields().getMenuId() != null) {
-					this.orderId = this.config.getDisplayFields().getMenuId().callback(game, unit, localStore, castId);
+					this.orderId = this.config.getDisplayFields().getMenuId().callback(unit, localStore, castId);
 				} else {
 					if (this.orderId == 0) {
 						this.orderId = this.getHandleId();
@@ -621,7 +611,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTON, autoCastOn);
 		if (this.config.getOnChangeAutoCast() != null) {
 			for (ABAction action : this.config.getOnChangeAutoCast()) {
-				action.runAction(simulation, caster, localStore, -1);
+				action.runAction(caster, localStore, -1);
 			}
 		}
 		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTON);
@@ -637,7 +627,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		ABBehavior beh = new CBehaviorAbilityBuilderNoTarget(unit, localStore, this);
 		if (this.item != null
 				|| (this.config.getDisplayFields() != null && this.config.getDisplayFields().getInstantCast() != null
-						&& this.config.getDisplayFields().getInstantCast().callback(null, unit, localStore, castId))) {
+						&& this.config.getDisplayFields().getInstantCast().callback(unit, localStore, castId))) {
 			beh.setInstant(true);
 		}
 		if (this.config.getSpecialFields() != null && this.config.getSpecialFields().getBehaviorCategory() != null) {
@@ -650,7 +640,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		ABBehavior beh = new CBehaviorAbilityBuilderBase(unit, localStore, this);
 		if (this.item != null
 				|| (this.config.getDisplayFields() != null && this.config.getDisplayFields().getInstantCast() != null
-						&& this.config.getDisplayFields().getInstantCast().callback(null, unit, localStore, castId))) {
+						&& this.config.getDisplayFields().getInstantCast().callback(unit, localStore, castId))) {
 			beh.setInstant(true);
 		}
 		if (this.config.getSpecialFields() != null && this.config.getSpecialFields().getBehaviorCategory() != null) {
@@ -725,7 +715,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 			if (config.getExtraCastConditions() != null) {
 				boolean result = true;
 				for (ABCondition condition : config.getExtraCastConditions()) {
-					result = result && condition.callback(game, unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, -1);
 				}
 				if (result) {
 					receiver.useOk();
@@ -950,7 +940,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		if (config.getExtraTargetConditions() != null) {
 			boolean result = true;
 			for (ABCondition condition : config.getExtraTargetConditions()) {
-				result = result && condition.callback(game, unit, localStore, -1);
+				result = result && condition.callback(unit, localStore, -1);
 			}
 			if (result) {
 				return null;
@@ -972,12 +962,12 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 			boolean result = true;
 			if (config.getExtraTargetConditions() != null) {
 				for (ABCondition condition : config.getExtraTargetConditions()) {
-					result = result && condition.callback(game, unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
 			if (config.getExtraAutoTargetConditions() != null) {
 				for (ABCondition condition : config.getExtraAutoTargetConditions()) {
-					result = result && condition.callback(game, unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
 			if (result) {
@@ -1001,7 +991,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 			boolean result = true;
 			if (config.getExtraAutoNoTargetConditions() != null) {
 				for (ABCondition condition : config.getExtraAutoNoTargetConditions()) {
-					result = result && condition.callback(game, unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
 			if (result) {
@@ -1034,9 +1024,9 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 			return 0;
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getFoodCost() != null) {
-			CSimulation game = (CSimulation) this.localStore.get(ABLocalStoreKeys.GAME);
+			CSimulation game = this.localStore.game;
 			CUnit unit = (CUnit) this.localStore.get(ABLocalStoreKeys.THISUNIT);
-			return this.config.getDisplayFields().getFoodCost().callback(game, unit, localStore, castId);
+			return this.config.getDisplayFields().getFoodCost().callback(unit, localStore, castId);
 		}
 		return 0;
 	}
@@ -1047,9 +1037,9 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 			return 0;
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getGoldCost() != null) {
-			CSimulation game = (CSimulation) this.localStore.get(ABLocalStoreKeys.GAME);
+			CSimulation game = this.localStore.game;
 			CUnit unit = (CUnit) this.localStore.get(ABLocalStoreKeys.THISUNIT);
-			return this.config.getDisplayFields().getGoldCost().callback(game, unit, localStore, castId);
+			return this.config.getDisplayFields().getGoldCost().callback(unit, localStore, castId);
 		}
 		return 0;
 	}
@@ -1060,9 +1050,9 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 			return 0;
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getLumberCost() != null) {
-			CSimulation game = (CSimulation) this.localStore.get(ABLocalStoreKeys.GAME);
+			CSimulation game = this.localStore.game;
 			CUnit unit = (CUnit) this.localStore.get(ABLocalStoreKeys.THISUNIT);
-			return this.config.getDisplayFields().getLumberCost().callback(game, unit, localStore, castId);
+			return this.config.getDisplayFields().getLumberCost().callback(unit, localStore, castId);
 		}
 		return 0;
 	}
@@ -1074,7 +1064,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		}
 		if (config.getOnRemoveAbility() != null) {
 			for (ABAction action : config.getOnRemoveAbility()) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}
@@ -1086,7 +1076,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		}
 		if (config.getOnDeathPreCast() != null) {
 			for (ABAction action : config.getOnDeathPreCast()) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}
@@ -1095,7 +1085,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void runOnOrderIssuedActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnOrderIssued() != null) {
 			for (ABAction action : config.getOnOrderIssued()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -1104,7 +1094,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void runBeginCastingActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnBeginCasting() != null) {
 			for (ABAction action : config.getOnBeginCasting()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -1113,7 +1103,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void runEndCastingActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnEndCasting() != null) {
 			for (ABAction action : config.getOnEndCasting()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 		if (this.toggleable) {
@@ -1130,7 +1120,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void runChannelTickActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnChannelTick() != null) {
 			for (ABAction action : config.getOnChannelTick()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -1139,7 +1129,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void runEndChannelActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnEndChannel() != null) {
 			for (ABAction action : config.getOnEndChannel()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -1148,7 +1138,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 	public void runCancelPreCastActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnCancelPreCast() != null) {
 			for (ABAction action : config.getOnCancelPreCast()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -1168,7 +1158,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		}
 		if (config.getOnActivate() != null) {
 			for (ABAction action : config.getOnActivate()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}
@@ -1188,7 +1178,7 @@ public abstract class CAbilityAbilityBuilderGenericActive extends AbstractGeneri
 		}
 		if (config.getOnDeactivate() != null) {
 			for (ABAction action : config.getOnDeactivate()) {
-				action.runAction(game, caster, localStore, castId);
+				action.runAction(caster, localStore, castId);
 			}
 		}
 	}

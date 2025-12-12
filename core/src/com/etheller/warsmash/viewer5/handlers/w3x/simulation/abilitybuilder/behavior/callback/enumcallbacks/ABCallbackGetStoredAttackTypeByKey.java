@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -14,14 +13,13 @@ public class ABCallbackGetStoredAttackTypeByKey extends ABAttackTypeCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public CAttackType callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
+	public CAttackType callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			return (CAttackType) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(game, caster, localStore, castId), castId));
+					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
 		} else {
 			return (CAttackType) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(game, caster, localStore, castId), castId));
+					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
 		}
 	}
 

@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.abilities;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
@@ -25,31 +24,30 @@ public class ABActionAbilityRunEndCastingActions implements ABSingleAction {
 	private ABDestructableCallback targetDest;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit originalCaster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit originalCaster, final LocalDataStore localStore, final int castId) {
 		CUnit theCaster = originalCaster;
 		if (caster != null) {
-			theCaster = caster.callback(game, originalCaster, localStore, castId);
+			theCaster = caster.callback(originalCaster, localStore, castId);
 		}
 
 		AbilityTarget tar = null;
 		if (targetLoc != null) {
-			tar = targetLoc.callback(game, originalCaster, localStore, castId);
+			tar = targetLoc.callback(originalCaster, localStore, castId);
 		} else if (targetUnit != null) {
-			tar = targetUnit.callback(game, originalCaster, localStore, castId);
+			tar = targetUnit.callback(originalCaster, localStore, castId);
 		} else if (targetItem != null) {
-			tar = targetItem.callback(game, originalCaster, localStore, castId);
+			tar = targetItem.callback(originalCaster, localStore, castId);
 		} else if (targetDest != null) {
-			tar = targetDest.callback(game, originalCaster, localStore, castId);
+			tar = targetDest.callback(originalCaster, localStore, castId);
 		}
 
-		final CAbility theAbility = this.ability.callback(game, originalCaster, localStore, castId);
+		final CAbility theAbility = this.ability.callback(originalCaster, localStore, castId);
 		if (theAbility instanceof AbilityBuilderActiveAbility) {
 			AbilityBuilderActiveAbility active = ((AbilityBuilderActiveAbility) theAbility);
 			int orderId = active.getBaseOrderId();
 
-			active.internalBegin(game, theCaster, orderId, false, tar);
-			active.runEndCastingActions(game, theCaster, orderId);
+			active.internalBegin(localStore.game, theCaster, orderId, false, tar);
+			active.runEndCastingActions(localStore.game, theCaster, orderId);
 			active.cleanupInputs();
 		}
 	}

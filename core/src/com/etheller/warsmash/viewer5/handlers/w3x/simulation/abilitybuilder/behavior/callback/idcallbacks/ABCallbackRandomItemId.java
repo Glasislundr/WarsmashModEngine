@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CItemType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -17,10 +16,9 @@ public class ABCallbackRandomItemId extends ABIDCallback {
 	private ABBooleanCallback ignoreRandomFlag;
 
 	@Override
-	public War3ID callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public War3ID callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		if (previousId == null && level == null && ignoreValidFlag == null && ignoreRandomFlag == null) {
-			return RandomTypeHandler.getRandomItemType(game).getTypeId();
+			return RandomTypeHandler.getRandomItemType(localStore.game).getTypeId();
 		}
 
 		War3ID id = null;
@@ -28,18 +26,18 @@ public class ABCallbackRandomItemId extends ABIDCallback {
 		boolean valid = true;
 		boolean random = false;
 		if (previousId != null) {
-			id = previousId.callback(game, caster, localStore, castId);
+			id = previousId.callback(caster, localStore, castId);
 		}
 		if (level != null) {
-			lv = level.callback(game, caster, localStore, castId);
+			lv = level.callback(caster, localStore, castId);
 		}
 		if (ignoreValidFlag != null) {
-			valid = ignoreValidFlag.callback(game, caster, localStore, castId);
+			valid = ignoreValidFlag.callback(caster, localStore, castId);
 		}
 		if (ignoreRandomFlag != null) {
-			random = ignoreRandomFlag.callback(game, caster, localStore, castId);
+			random = ignoreRandomFlag.callback(caster, localStore, castId);
 		}
-		CItemType type = RandomTypeHandler.getRandomItemType(game, id, lv, valid, random);
+		CItemType type = RandomTypeHandler.getRandomItemType(localStore.game, id, lv, valid, random);
 		if (type == null) {
 			return null;
 		}

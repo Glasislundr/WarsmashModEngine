@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityDisableType;
@@ -26,10 +25,10 @@ public class ABActionDisableWorkerAbilities implements ABSingleAction {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (this.unit != null) {
-			targetUnit = this.unit.callback(game, caster, localStore, castId);
+			targetUnit = this.unit.callback(caster, localStore, castId);
 		}
 
 		final Class[] workerAbils = { CAbilityAcolyteHarvest.class, CAbilityHarvest.class, CAbilityWispHarvest.class,
@@ -41,7 +40,7 @@ public class ABActionDisableWorkerAbilities implements ABSingleAction {
 			if (abil != null) {
 				abil.setDisabled(true, CAbilityDisableType.TRANSFORMATION);
 				abil.setIconShowing(false);
-				targetUnit.checkDisabledAbilities(game, true);
+				targetUnit.checkDisabledAbilities(localStore.game, true);
 			}
 		}
 	}

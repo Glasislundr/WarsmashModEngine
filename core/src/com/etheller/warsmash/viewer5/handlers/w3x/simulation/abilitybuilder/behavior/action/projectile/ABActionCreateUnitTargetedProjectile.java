@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.attacksettings.ABAttackSettingsCallback;
@@ -34,16 +33,15 @@ public class ABActionCreateUnitTargetedProjectile implements ABSingleAction {
 	private List<ABAction> onHit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final CUnit theSource = this.source.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final CUnit theSource = this.source.callback(caster, localStore, castId);
 		AbilityTarget sourceLocation = theSource;
 
 		if (this.sourceLoc != null) {
-			sourceLocation = this.sourceLoc.callback(game, caster, localStore, castId);
+			sourceLocation = this.sourceLoc.callback(caster, localStore, castId);
 		}
 
-		final CUnit theTarget = this.target.callback(game, caster, localStore, castId);
+		final CUnit theTarget = this.target.callback(caster, localStore, castId);
 
 		final CAbilityProjectileListener listener = new ABProjectileListener(this.onLaunch, this.onHit, caster,
 				localStore, castId);
@@ -53,17 +51,17 @@ public class ABActionCreateUnitTargetedProjectile implements ABSingleAction {
 			Float theSpeed = null;
 			Boolean isHoming = null;
 			if (this.speed != null) {
-				theSpeed = this.speed.callback(game, caster, localStore, castId);
+				theSpeed = this.speed.callback(caster, localStore, castId);
 			}
 			if (this.homing != null) {
-				isHoming = this.homing.callback(game, caster, localStore, castId);
+				isHoming = this.homing.callback(caster, localStore, castId);
 			}
-			proj = game.createProjectile(theSource, this.id.callback(game, caster, localStore, castId),
+			proj = localStore.game.createProjectile(theSource, this.id.callback(caster, localStore, castId),
 					sourceLocation.getX(), sourceLocation.getY(),
 					(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed, isHoming, theTarget,
 					listener);
 		} else if (settings != null) {
-			proj = game.createProjectile(theSource, this.settings.callback(game, caster, localStore, castId),
+			proj = localStore.game.createProjectile(theSource, this.settings.callback(caster, localStore, castId),
 					sourceLocation.getX(), sourceLocation.getY(),
 					(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theTarget, listener);
 		}

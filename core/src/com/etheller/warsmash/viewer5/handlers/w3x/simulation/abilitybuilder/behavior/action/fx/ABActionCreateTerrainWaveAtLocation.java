@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.fx;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -24,23 +23,22 @@ public class ABActionCreateTerrainWaveAtLocation implements ABAction {
 	private ABIntegerCallback count;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final AbilityPointTarget loc = this.startLocation.callback(game, caster, localStore, castId);
-		final AbilityPointTarget tarloc = this.targetLocation.callback(game, caster, localStore, castId);
-		final float rad = radius.callback(game, caster, localStore, castId);
-		final float theDepth = depth.callback(game, caster, localStore, castId);
-		final float dist = distance.callback(game, caster, localStore, castId);
-		final float spd = speed.callback(game, caster, localStore, castId);
-		final int trlTime = trailTime.callback(game, caster, localStore, castId);
+		final AbilityPointTarget loc = this.startLocation.callback(caster, localStore, castId);
+		final AbilityPointTarget tarloc = this.targetLocation.callback(caster, localStore, castId);
+		final float rad = radius.callback(caster, localStore, castId);
+		final float theDepth = depth.callback(caster, localStore, castId);
+		final float dist = distance.callback(caster, localStore, castId);
+		final float spd = speed.callback(caster, localStore, castId);
+		final int trlTime = trailTime.callback(caster, localStore, castId);
 		int cnt = 1;
 		if (count != null) {
-			cnt = count.callback(game, caster, localStore, castId);
+			cnt = count.callback(caster, localStore, castId);
 		}
 		
-		ABTerrainEffect fx = new ABTerrainWaveEffect(game, loc, tarloc, rad, theDepth, dist, spd, trlTime, cnt);
-		game.registerTimer(fx);
+		ABTerrainEffect fx = new ABTerrainWaveEffect(localStore.game, loc, tarloc, rad, theDepth, dist, spd, trlTime, cnt);
+		localStore.game.registerTimer(fx);
 		localStore.put(ABLocalStoreKeys.LASTCREATEDFX, fx);
 	}
 }

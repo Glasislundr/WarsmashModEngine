@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -14,10 +13,10 @@ public class ABConditionIsUnitInRangeOfUnit extends ABCondition {
 	private ABFloatCallback range;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
-		return caster.callback(game, casterUnit, localStore, castId).canReach(
-				target.callback(game, casterUnit, localStore, castId),
-				range.callback(game, casterUnit, localStore, castId));
+	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
+		return caster.callback(casterUnit, localStore, castId).canReach(
+				target.callback(casterUnit, localStore, castId),
+				range.callback(casterUnit, localStore, castId));
 	}
 
 }

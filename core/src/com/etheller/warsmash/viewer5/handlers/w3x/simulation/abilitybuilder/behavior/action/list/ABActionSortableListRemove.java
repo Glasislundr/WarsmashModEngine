@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.list.ABSortableListCallback;
@@ -17,14 +16,13 @@ public class ABActionSortableListRemove implements ABAction {
 	private ABCallback object;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final List<?> l = this.list.callback(game, caster, localStore, castId);
+		final List<?> l = this.list.callback(caster, localStore, castId);
 		if (object != null) {
-			l.remove(object.callback(game, caster, localStore, castId));
+			l.remove(object.callback(caster, localStore, castId));
 		} else {
-			l.remove(index.callback(game, caster, localStore, castId).intValue());
+			l.remove(index.callback(caster, localStore, castId).intValue());
 		}
 	}
 }

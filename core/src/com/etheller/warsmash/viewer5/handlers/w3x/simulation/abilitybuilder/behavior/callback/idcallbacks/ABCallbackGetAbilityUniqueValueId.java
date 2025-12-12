@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.abilitycallbacks.ABAbilityCallback;
@@ -17,13 +16,12 @@ public class ABCallbackGetAbilityUniqueValueId extends ABIDCallback {
 	private ABBooleanCallback allowNull;
 
 	@Override
-	public War3ID callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final String keyS = key.callback(game, caster, localStore, castId);
-		final CAbility theAbility = ability.callback(game, caster, localStore, castId);
+	public War3ID callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final String keyS = key.callback(caster, localStore, castId);
+		final CAbility theAbility = ability.callback(caster, localStore, castId);
 		War3ID theVal = theAbility.getUniqueValue(keyS, War3ID.class);
 		System.err.println("Get Unique ID Val: " + (theVal != null ? theVal.asStringValue() : null));
-		if (theVal != null || (allowNull != null && allowNull.callback(game, caster, localStore, castId))) {
+		if (theVal != null || (allowNull != null && allowNull.callback(caster, localStore, castId))) {
 			return theVal;
 		}
 		return War3ID.NONE;

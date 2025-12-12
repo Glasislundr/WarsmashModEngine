@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.buff;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.buffcallbacks.ABBuffCallback;
@@ -16,12 +15,11 @@ public class ABActionBuffRemoveUniqueFlag implements ABSingleAction {
 	private ABStringCallback flag;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
-		final CBuff theBuff = this.buff.callback(game, caster, localStore, castId);
+		final CBuff theBuff = this.buff.callback(caster, localStore, castId);
 		if (theBuff instanceof ABBuff) {
-			((ABBuff)theBuff).removeUniqueFlag(flag.callback(game, caster, localStore, castId));
+			((ABBuff)theBuff).removeUniqueFlag(flag.callback(caster, localStore, castId));
 		}
 	}
 

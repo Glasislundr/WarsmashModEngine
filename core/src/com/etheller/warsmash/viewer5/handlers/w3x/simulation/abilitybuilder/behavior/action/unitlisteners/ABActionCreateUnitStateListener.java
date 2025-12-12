@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -25,10 +24,9 @@ public class ABActionCreateUnitStateListener implements ABAction {
 	private List<ABAction> onUpgradesChanged;
 	private List<ABAction> onHideStateChanged;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		ABUnitStateListener modifier = new ABUnitStateListener(game, caster, localStore, castId, onLifeChanged,
-				onManaChanged, onOrdersChanged, onQueueChanged, onRallyPointChanged, onWaypointsChanged,
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		ABUnitStateListener modifier = new ABUnitStateListener(localStore.game, caster, localStore, castId,
+				onLifeChanged, onManaChanged, onOrdersChanged, onQueueChanged, onRallyPointChanged, onWaypointsChanged,
 				onHeroStatsChanged, onInventoryChanged, onAttacksChanged, onAbilitiesChanged, onUpgradesChanged,
 				onHideStateChanged);
 

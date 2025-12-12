@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.abilities;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -16,15 +15,14 @@ public class ABActionAbilityRemoveUniqueValue implements ABAction {
 	private ABStringCallback key;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CAbility theAbility = null;
 		if (ability != null) {
-			theAbility = ability.callback(game, caster, localStore, castId);
+			theAbility = ability.callback(caster, localStore, castId);
 		} else {
 			theAbility = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 		}
-		theAbility.removeUniqueValue(key.callback(game, caster, localStore, castId));
+		theAbility.removeUniqueValue(key.callback(caster, localStore, castId));
 	}
 
 }

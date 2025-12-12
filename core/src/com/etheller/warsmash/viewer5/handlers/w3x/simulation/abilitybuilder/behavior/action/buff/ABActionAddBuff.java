@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.buff;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.buffcallbacks.ABBuffCallback;
@@ -16,12 +15,10 @@ public class ABActionAddBuff implements ABSingleAction {
 	private ABBuffCallback buff;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
-			final int castId) {
-		final CBuff ability = this.buff.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final CBuff ability = this.buff.callback(caster, localStore, castId);
 		if (ability != null) {
-			this.target.callback(game, caster, localStore, castId).add(game, ability);
+			this.target.callback(caster, localStore, castId).add(localStore.game, ability);
 			localStore.put(ABLocalStoreKeys.LASTADDEDBUFF, ability);
 		}
 	}

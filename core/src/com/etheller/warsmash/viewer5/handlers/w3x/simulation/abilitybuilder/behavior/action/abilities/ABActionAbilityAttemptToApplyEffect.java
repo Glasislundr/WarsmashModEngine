@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.abilities;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
@@ -21,30 +20,29 @@ public class ABActionAbilityAttemptToApplyEffect implements ABSingleAction {
 	private ABUnitCallback target;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnit theCaster = caster;
 		if (source != null) {
-			theCaster = source.callback(game, theCaster, localStore, castId);
+			theCaster = source.callback(theCaster, localStore, castId);
 		}
-		CUnit theTarget = target.callback(game, theCaster, localStore, castId);
-		final CAbility theAbility = this.ability.callback(game, caster, localStore, castId);
+		CUnit theTarget = target.callback(theCaster, localStore, castId);
+		final CAbility theAbility = this.ability.callback(caster, localStore, castId);
 		if (theAbility instanceof AbilityBuilderActiveAbility) {
 			AbilityBuilderActiveAbility active = ((AbilityBuilderActiveAbility) theAbility);
 			int orderId = active.getBaseOrderId();
 			final BooleanAbilityActivationReceiver activationReceiver = BooleanAbilityActivationReceiver.INSTANCE;
-			active.checkCanUse(game, theCaster, orderId, false, activationReceiver);
+			active.checkCanUse(localStore.game, theCaster, orderId, false, activationReceiver);
 			if (activationReceiver.isOk()) {
 				final BooleanAbilityTargetCheckReceiver<CWidget> booleanTargetReceiver = BooleanAbilityTargetCheckReceiver
 						.<CWidget>getInstance().reset();
-				active.checkCanTarget(game, theCaster, orderId,
+				active.checkCanTarget(localStore.game, theCaster, orderId,
 						((Boolean) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId))),
 						theTarget, booleanTargetReceiver);
 				if (booleanTargetReceiver.isTargetable()) {
 					if (theCaster.chargeMana(active.getChargedManaCost())) {
-						active.internalBegin(game, theCaster, orderId, false, theTarget);
-						active.startCooldown(game, theCaster);
-						active.runEndCastingActions(game, theCaster, orderId);
+						active.internalBegin(localStore.game, theCaster, orderId, false, theTarget);
+						active.startCooldown(localStore.game, theCaster);
+						active.runEndCastingActions(localStore.game, theCaster, orderId);
 						active.cleanupInputs();
 					}
 				}

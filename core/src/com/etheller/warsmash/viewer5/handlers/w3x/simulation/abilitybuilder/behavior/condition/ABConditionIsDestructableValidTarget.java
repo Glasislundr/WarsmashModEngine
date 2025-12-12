@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.EnumSet;
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
@@ -22,7 +21,7 @@ public class ABConditionIsDestructableValidTarget extends ABCondition {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = casterUnit;
 
 		EnumSet<CTargetType> targetsAllowed = null;
@@ -40,10 +39,11 @@ public class ABConditionIsDestructableValidTarget extends ABCondition {
 			return true;
 		}
 		if (caster != null) {
-			theCaster = caster.callback(game, casterUnit, localStore, castId);
+			theCaster = caster.callback(casterUnit, localStore, castId);
 		}
 
-		return target.callback(game, casterUnit, localStore, castId).canBeTargetedBy(game, theCaster, targetsAllowed);
+		return target.callback(casterUnit, localStore, castId).canBeTargetedBy(localStore.game, theCaster,
+				targetsAllowed);
 	}
 
 }

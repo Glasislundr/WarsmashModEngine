@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -23,14 +22,13 @@ public class ABActionCreateDestructableBuff implements ABSingleAction {
 
 	private ABBooleanCallback dispellable;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		boolean isDispellable = false;
 		if (dispellable != null) {
-			isDispellable = dispellable.callback(game, caster, localStore, castId);
+			isDispellable = dispellable.callback(caster, localStore, castId);
 		}
-		CDestructableBuff ability = new ABDestructableBuff(game.getHandleIdAllocator().createId(),
-				buffId.callback(game, caster, localStore, castId), (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL),
+		CDestructableBuff ability = new ABDestructableBuff(localStore.game.getHandleIdAllocator().createId(),
+				buffId.callback(caster, localStore, castId), (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL),
 				localStore, onAddActions, onRemoveActions, onDeathActions, castId, caster, isDispellable);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDDESTBUFF, ability);

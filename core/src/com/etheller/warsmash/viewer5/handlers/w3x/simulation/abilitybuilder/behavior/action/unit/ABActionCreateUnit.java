@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitClassification;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
@@ -27,8 +26,8 @@ public class ABActionCreateUnit implements ABSingleAction {
 	private ABBooleanCallback removeFood;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		War3ID theId = id.callback(game, caster, localStore, castId);
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+		War3ID theId = id.callback(caster, localStore, castId);
 		if (theId == null) {
 			return;
 		}
@@ -36,22 +35,22 @@ public class ABActionCreateUnit implements ABSingleAction {
 		CPlayer thePlayer = null;
 		float theFacing = 0;
 		if (this.owner != null) {
-			thePlayer = this.owner.callback(game, caster, localStore, castId);
+			thePlayer = this.owner.callback(caster, localStore, castId);
 		} else {
-			thePlayer = game.getPlayer(caster.getPlayerIndex());
+			thePlayer = localStore.game.getPlayer(caster.getPlayerIndex());
 		}
 		if (this.facing != null) {
-			theFacing = this.facing.callback(game, caster, localStore, castId);
+			theFacing = this.facing.callback(caster, localStore, castId);
 		}
-		final AbilityPointTarget location = this.loc.callback(game, caster, localStore, castId);
-		final CUnit createdUnit = game.createUnitSimple(theId, thePlayer.getId(), location.getX(), location.getY(),
-				theFacing);
+		final AbilityPointTarget location = this.loc.callback(caster, localStore, castId);
+		final CUnit createdUnit = localStore.game.createUnitSimple(theId, thePlayer.getId(), location.getX(),
+				location.getY(), theFacing);
 
-		if (addSummonedTag == null || addSummonedTag.callback(game, caster, localStore, castId)) {
+		if (addSummonedTag == null || addSummonedTag.callback(caster, localStore, castId)) {
 			createdUnit.addClassification(CUnitClassification.SUMMONED);
 		}
 
-		if (removeFood != null && removeFood.callback(game, caster, localStore, castId)) {
+		if (removeFood != null && removeFood.callback(caster, localStore, castId)) {
 			thePlayer.setUnitFoodUsed(createdUnit, 0);
 			thePlayer.setUnitFoodMade(createdUnit, 0);
 		}

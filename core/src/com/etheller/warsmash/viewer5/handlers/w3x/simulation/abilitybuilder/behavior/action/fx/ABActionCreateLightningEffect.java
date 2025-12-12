@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.fx;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
@@ -20,28 +19,27 @@ public class ABActionCreateLightningEffect implements ABAction {
 	private ABFloatCallback duration;
 	private ABIntegerCallback index;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		int i = 0;
 		if (index != null) {
-			i = index.callback(game, caster, localStore, castId);
+			i = index.callback(caster, localStore, castId);
 		}
 		War3ID theId = null;
 		if (id == null) {
 			theId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		} else {
-			theId = id.callback(game, caster, localStore, castId);
+			theId = id.callback(caster, localStore, castId);
 		}
 		if (duration != null) {
-			SimulationRenderComponentLightning ret = game.createAbilityLightning(
-					origin.callback(game, caster, localStore, castId), theId, i,
-					target.callback(game, caster, localStore, castId),
-					duration.callback(game, caster, localStore, castId));
+			SimulationRenderComponentLightning ret = localStore.game.createAbilityLightning(
+					origin.callback(caster, localStore, castId), theId, i,
+					target.callback(caster, localStore, castId),
+					duration.callback(caster, localStore, castId));
 			localStore.put(ABLocalStoreKeys.LASTCREATEDLIGHTNING, ret);
 		} else {
-			SimulationRenderComponentLightning ret = game.createAbilityLightning(
-					origin.callback(game, caster, localStore, castId), theId, i,
-					target.callback(game, caster, localStore, castId));
+			SimulationRenderComponentLightning ret = localStore.game.createAbilityLightning(
+					origin.callback(caster, localStore, castId), theId, i,
+					target.callback(caster, localStore, castId));
 			localStore.put(ABLocalStoreKeys.LASTCREATEDLIGHTNING, ret);
 		}
 	}

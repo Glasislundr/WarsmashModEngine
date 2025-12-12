@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.attack.internal;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -18,23 +17,22 @@ public class ABActionAttackModifierSetSplashFields implements ABAction {
 	private ABFloatCallback damageFactorMedium;
 	private ABFloatCallback damageFactorSmall;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
 		if (areaOfEffectFullDamage != null) {
-			settings.setAreaOfEffectFullDamage(areaOfEffectFullDamage.callback(game, caster, localStore, castId));
+			settings.setAreaOfEffectFullDamage(areaOfEffectFullDamage.callback(caster, localStore, castId));
 		}
 		if (areaOfEffectMediumDamage != null) {
-			settings.setAreaOfEffectMediumDamage(areaOfEffectMediumDamage.callback(game, caster, localStore, castId));
+			settings.setAreaOfEffectMediumDamage(areaOfEffectMediumDamage.callback(caster, localStore, castId));
 		}
 		if (areaOfEffectSmallDamage != null) {
-			settings.setAreaOfEffectSmallDamage(areaOfEffectSmallDamage.callback(game, caster, localStore, castId));
+			settings.setAreaOfEffectSmallDamage(areaOfEffectSmallDamage.callback(caster, localStore, castId));
 		}
 		if (damageFactorMedium != null) {
-			settings.setDamageFactorMedium(damageFactorMedium.callback(game, caster, localStore, castId));
+			settings.setDamageFactorMedium(damageFactorMedium.callback(caster, localStore, castId));
 		}
 		if (damageFactorSmall != null) {
-			settings.setDamageFactorSmall(damageFactorSmall.callback(game, caster, localStore, castId));
+			settings.setDamageFactorSmall(damageFactorSmall.callback(caster, localStore, castId));
 		}
 	}
 }

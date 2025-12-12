@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.vision;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.player.ABPlayerCallback;
@@ -17,16 +16,16 @@ public class ABActionCreateUnitVisionModifier implements ABAction {
 	private ABBooleanCallback alwaysNightVision;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, int castId) {
 		boolean alwaysNight = false;
 		if (this.alwaysNightVision != null) {
-			alwaysNight = this.alwaysNightVision.callback(game, caster, localStore, castId);
+			alwaysNight = this.alwaysNightVision.callback(caster, localStore, castId);
 		}
 
-		final CUnitVisionFogModifier vision = new CUnitVisionFogModifier(
-				this.unit.callback(game, caster, localStore, castId), alwaysNight);
+		final CUnitVisionFogModifier vision = new CUnitVisionFogModifier(this.unit.callback(caster, localStore, castId),
+				alwaysNight);
 		if (this.player != null) {
-			this.player.callback(game, caster, localStore, castId).addFogModifer(game, vision, false);
+			this.player.callback(caster, localStore, castId).addFogModifer(localStore.game, vision, false);
 		}
 		localStore.put(ABLocalStoreKeys.LASTCREATEDVISIONMODIFIER, vision);
 	}

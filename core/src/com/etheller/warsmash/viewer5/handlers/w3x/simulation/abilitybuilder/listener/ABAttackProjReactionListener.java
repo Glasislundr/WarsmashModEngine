@@ -39,7 +39,7 @@ public class ABAttackProjReactionListener implements CUnitAttackProjReactionList
 		localStore.put(ABLocalStoreKeys.ATTACKPROJ + triggerId, projectile);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(simulation, target, localStore, triggerId);
+				action.runAction(target, localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + triggerId);

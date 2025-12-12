@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -15,7 +14,7 @@ public class ABCallbackGetAbilityDataAsString extends ABStringCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public String callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		List<CAbilityTypeAbilityBuilderLevelData>  levelData = (List<CAbilityTypeAbilityBuilderLevelData>) localStore.get(ABLocalStoreKeys.LEVELDATA);
 		int level = (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL);
 		

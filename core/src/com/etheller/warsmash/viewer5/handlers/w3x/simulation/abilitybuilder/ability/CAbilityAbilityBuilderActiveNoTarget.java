@@ -45,7 +45,7 @@ public class CAbilityAbilityBuilderActiveNoTarget extends CAbilityAbilityBuilder
 	protected void determineCastless(CUnit unit) {
 		if (this.item != null || this.config.getDisplayFields() != null
 				&& this.config.getDisplayFields().getCastlessNoTarget() != null
-				&& this.config.getDisplayFields().getCastlessNoTarget().callback(null, unit, localStore, castId)) {
+				&& this.config.getDisplayFields().getCastlessNoTarget().callback(unit, localStore, castId)) {
 			this.castless = true;
 			this.behavior = null;
 		} else {

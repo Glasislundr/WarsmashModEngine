@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructablebuff;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -9,7 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 public class ABCallbackEnumDestructableBuff extends ABDestructableBuffCallback {
 
 	@Override
-	public CDestructableBuff callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public CDestructableBuff callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		return (CDestructableBuff) localStore.get(ABLocalStoreKeys.ENUMDESTBUFF);
 	}
 

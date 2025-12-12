@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
@@ -15,8 +14,7 @@ public class ABActionCreateUnitQueue implements ABSingleAction {
 	private String name;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		final Queue<CUnit> queue = new LinkedList<>();
 		if (this.name != null) {
 			localStore.put("_unitqueue_" + this.name, queue);

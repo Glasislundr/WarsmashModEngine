@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.AnimationTokens.PrimaryTag;
 import com.etheller.warsmash.viewer5.handlers.w3x.SequenceUtils;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -18,15 +17,15 @@ public class ABActionQueueAnimation implements ABAction {
 	private ABBooleanCallback allowVariations;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		final CUnit targetUnit = this.unit.callback(game, caster, localStore, castId);
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+		final CUnit targetUnit = this.unit.callback(caster, localStore, castId);
 		boolean av = false;
 		if (this.allowVariations != null) {
-			av = this.allowVariations.callback(game, caster, localStore, castId);
+			av = this.allowVariations.callback(caster, localStore, castId);
 		}
 
 		targetUnit.getUnitAnimationListener().queueAnimation(
-				PrimaryTag.valueOf(this.tag.callback(game, caster, localStore, castId)), SequenceUtils.EMPTY, av);
+				PrimaryTag.valueOf(this.tag.callback(caster, localStore, castId)), SequenceUtils.EMPTY, av);
 	}
 
 

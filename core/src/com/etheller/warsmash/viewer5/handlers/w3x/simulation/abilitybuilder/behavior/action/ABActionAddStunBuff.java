@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -24,30 +23,29 @@ public class ABActionAddStunBuff implements ABSingleAction {
 	private ABBooleanCallback leveled;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		War3ID alias = null;
 		boolean isLeveled = false;
 		boolean isShowIcon = true;
 		if (buffId == null) {
 			alias = War3ID.fromString("BSTN");
 		} else {
-			alias = buffId.callback(game, caster, localStore, castId);
+			alias = buffId.callback(caster, localStore, castId);
 		}
 		if (leveled != null) {
-			isLeveled = leveled.callback(game, caster, localStore, castId);
+			isLeveled = leveled.callback(caster, localStore, castId);
 		} else {
 			isLeveled = (boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
 		}
 		if (showIcon != null) {
-			isShowIcon = showIcon.callback(game, caster, localStore, castId);
+			isShowIcon = showIcon.callback(caster, localStore, castId);
 		}
-		final ABBuffStun ability = new ABBuffStun(game.getHandleIdAllocator().createId(), alias, localStore,
+		final ABBuffStun ability = new ABBuffStun(localStore.game.getHandleIdAllocator().createId(), alias, localStore,
 				(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
-				this.duration.callback(game, caster, localStore, castId), isLeveled);
+				this.duration.callback(caster, localStore, castId), isLeveled);
 		ability.setIconShowing(isShowIcon);
 
-		this.unit.callback(game, caster, localStore, castId).add(game, ability);
+		this.unit.callback(caster, localStore, castId).add(localStore.game, ability);
 		localStore.put(ABLocalStoreKeys.LASTADDEDBUFF, ability);
 	}
 

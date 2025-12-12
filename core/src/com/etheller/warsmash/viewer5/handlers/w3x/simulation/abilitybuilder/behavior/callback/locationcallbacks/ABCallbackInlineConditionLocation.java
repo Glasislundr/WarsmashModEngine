@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -13,11 +12,11 @@ public class ABCallbackInlineConditionLocation extends ABLocationCallback {
 	private ABLocationCallback fail;
 	
 	@Override
-	public AbilityPointTarget callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
-		if (condition != null && condition.callback(game, caster, localStore, castId)) {
-			return pass.callback(game, caster, localStore, castId);
+	public AbilityPointTarget callback(CUnit caster, LocalDataStore localStore, int castId) {
+		if (condition != null && condition.callback(caster, localStore, castId)) {
+			return pass.callback(caster, localStore, castId);
 		}
-		return fail.callback(game, caster, localStore, castId);
+		return fail.callback(caster, localStore, castId);
 	}
 
 }

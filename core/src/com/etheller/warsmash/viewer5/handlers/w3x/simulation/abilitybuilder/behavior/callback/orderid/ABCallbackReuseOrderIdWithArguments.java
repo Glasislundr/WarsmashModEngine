@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
@@ -18,12 +17,11 @@ public class ABCallbackReuseOrderIdWithArguments extends ABOrderIdCallback {
 	private Map<String, ABCallback> arguments;
 
 	@Override
-	public Integer callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public Integer callback(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final AbilityBuilderConfiguration config = ((AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
 				.getConfig();
-		final String keyS = name.callback(game, caster, localStore, castId);
+		final String keyS = name.callback(caster, localStore, castId);
 		if (config.getReuseCallbacks() != null) {
 			ABCallback callback = config.getReuseCallbacks().get(keyS);
 			if (callback != null && callback instanceof ABOrderIdCallback) {
@@ -33,7 +31,7 @@ public class ABCallbackReuseOrderIdWithArguments extends ABOrderIdCallback {
 					}
 				}
 				
-				return ((ABOrderIdCallback) callback).callback(game, caster, localStore, castId);
+				return ((ABOrderIdCallback) callback).callback(caster, localStore, castId);
 			} else {
 				System.err.println("Trying to run ReuseOrderIdCallback, but key is missing or callback was the wrong type: " + keyS);
 			}

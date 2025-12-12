@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.projectile;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.projectile.ABProjectileCallback;
@@ -16,14 +15,13 @@ public class ABActionSetAttackProjectileDamage implements ABSingleAction {
 	private ABFloatCallback damage;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 
-		final CProjectile proj = this.projectile.callback(game, caster, localStore, castId);
+		final CProjectile proj = this.projectile.callback(caster, localStore, castId);
 
 		if ((proj != null) && (proj instanceof CAttackProjectile)) {
-			final float dm = this.damage.callback(game, caster, localStore, castId);
+			final float dm = this.damage.callback(caster, localStore, castId);
 			System.err.println("Setting proj damage from " + ((CAttackProjectile) proj).getDamage() + " to " + dm);
 			((CAttackProjectile) proj).setDamage(dm);
 		}

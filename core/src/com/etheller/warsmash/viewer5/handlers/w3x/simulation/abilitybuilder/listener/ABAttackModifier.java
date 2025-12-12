@@ -52,7 +52,7 @@ public class ABAttackModifier implements CUnitAttackModifier {
 		localStore.put(ABLocalStoreKeys.ATTACKINGUNIT + this.castId, source);
 		localStore.put(ABLocalStoreKeys.ATTACKTARGET + this.castId, target);
 		localStore.put(ABLocalStoreKeys.THEATTACK + this.castId, attack);
-		int prio = this.priority.callback(simulation, source, this.localStore, this.castId);
+		int prio = this.priority.callback(source, this.localStore, this.castId);
 		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + this.castId);
 		localStore.remove(ABLocalStoreKeys.ATTACKTARGET + this.castId);
 		localStore.remove(ABLocalStoreKeys.THEATTACK + this.castId);
@@ -70,7 +70,7 @@ public class ABAttackModifier implements CUnitAttackModifier {
 			localStore.put(ABLocalStoreKeys.ATTACKINGUNIT + this.castId, source);
 			localStore.put(ABLocalStoreKeys.ATTACKTARGET + this.castId, target);
 			localStore.put(ABLocalStoreKeys.THEATTACK + this.castId, attack);
-			ret = this.preLaunchCondition.callback(simulation, source, this.localStore, this.castId);
+			ret = this.preLaunchCondition.callback(source, this.localStore, this.castId);
 			localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + this.castId);
 			localStore.remove(ABLocalStoreKeys.ATTACKTARGET + this.castId);
 			localStore.remove(ABLocalStoreKeys.THEATTACK + this.castId);
@@ -89,7 +89,7 @@ public class ABAttackModifier implements CUnitAttackModifier {
 			localStore.put(ABLocalStoreKeys.ATTACKSETTINGS + this.castId, settings);
 			localStore.put(ABLocalStoreKeys.ATTACKMODLOOP + this.castId, loop);
 			for (ABAction action : this.preLaunchModification) {
-				action.runAction(simulation, source, this.localStore, this.castId);
+				action.runAction(source, this.localStore, this.castId);
 			}
 			localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + this.castId);
 			localStore.remove(ABLocalStoreKeys.ATTACKTARGET + this.castId);
@@ -109,7 +109,7 @@ public class ABAttackModifier implements CUnitAttackModifier {
 			localStore.put(ABLocalStoreKeys.ATTACKINGUNIT + this.castId, source);
 			localStore.put(ABLocalStoreKeys.ATTACKTARGET + this.castId, target);
 			localStore.put(ABLocalStoreKeys.THEATTACK + this.castId, attack);
-			ret = this.condition.callback(simulation, source, this.localStore, this.castId);
+			ret = this.condition.callback(source, this.localStore, this.castId);
 			localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + this.castId);
 			localStore.remove(ABLocalStoreKeys.ATTACKTARGET + this.castId);
 			localStore.remove(ABLocalStoreKeys.THEATTACK + this.castId);
@@ -128,7 +128,7 @@ public class ABAttackModifier implements CUnitAttackModifier {
 			localStore.put(ABLocalStoreKeys.ATTACKSETTINGS + this.castId, settings);
 			localStore.put(ABLocalStoreKeys.ATTACKMODLOOP + this.castId, loop);
 			for (ABAction action : this.modification) {
-				action.runAction(simulation, source, this.localStore, this.castId);
+				action.runAction(source, this.localStore, this.castId);
 			}
 			localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + this.castId);
 			localStore.remove(ABLocalStoreKeys.ATTACKTARGET + this.castId);

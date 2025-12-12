@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.game;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -8,8 +7,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 public class ABConditionGameplayConstantIsDefendCanDeflect extends ABCondition {
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		return game.getGameplayConstants().isDefendDeflection();
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		return localStore.game.getGameplayConstants().isDefendDeflection();
 	}
 
 }

@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -28,18 +27,18 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 	private List<ABAction> onUntransformActions;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		boolean perm = false;
 		if (permanent != null) {
-			perm = permanent.callback(game, caster, localStore, castId);
+			perm = permanent.callback(caster, localStore, castId);
 		}
 		if (!perm) {
 			CUnit u1 = caster;
 			if (unit != null) {
-				u1 = unit.callback(game, caster, localStore, castId);
+				u1 = unit.callback(caster, localStore, castId);
 			}
-			War3ID baseId = baseUnitId.callback(game, caster, localStore, castId);
-			War3ID altId = alternateUnitId.callback(game, caster, localStore, castId);
+			War3ID baseId = baseUnitId.callback(caster, localStore, castId);
+			War3ID altId = alternateUnitId.callback(caster, localStore, castId);
 			AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 
 			if (baseId == null || altId == null) {
@@ -47,7 +46,7 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 			}
 
 			// Only care if already transformed
-			CUnitType targetType = game.getUnitData().getUnitType(altId);
+			CUnitType targetType = localStore.game.getUnitData().getUnitType(altId);
 			if (!targetType.equals(u1.getUnitType())) {
 				// No need to do anything
 				return;
@@ -55,16 +54,16 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 
 			boolean isKeepRatios = true;
 			if (keepRatios != null) {
-				isKeepRatios = keepRatios.callback(game, caster, localStore, castId);
+				isKeepRatios = keepRatios.callback(caster, localStore, castId);
 			}
-			CUnitType baseType = game.getUnitData().getUnitType(baseId);
+			CUnitType baseType = localStore.game.getUnitData().getUnitType(baseId);
 
 			if (onUntransformActions != null) {
 				for (ABAction action : onUntransformActions) {
-					action.runAction(game, u1, localStore, castId);
+					action.runAction(u1, localStore, castId);
 				}
 			}
-			TransformationHandler.setUnitID(game, localStore, u1, baseType, isKeepRatios, perm, null, abil, true);
+			TransformationHandler.setUnitID(localStore, u1, baseType, isKeepRatios, perm, null, abil, true);
 		}
 	}
 

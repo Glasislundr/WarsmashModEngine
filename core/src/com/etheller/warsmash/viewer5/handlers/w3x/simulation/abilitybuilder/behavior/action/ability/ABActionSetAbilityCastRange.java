@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -15,12 +14,11 @@ public class ABActionSetAbilityCastRange implements ABSingleAction {
 	private ABFloatCallback range;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		AbilityBuilderActiveAbility ability = (AbilityBuilderActiveAbility) localStore
 				.get(ABLocalStoreKeys.ISTOGGLEDABILITY);
-		ability.setCastRange(range.callback(game, caster, localStore, castId));
+		ability.setCastRange(range.callback(caster, localStore, castId));
 	}
 
 	@Override

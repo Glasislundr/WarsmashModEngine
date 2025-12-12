@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -13,12 +12,12 @@ public class ABCallbackGetAbilityTargetAttachmentPoints extends ABIntegerCallbac
 	private ABAbilityCallback ability;
 
 	@Override
-	public Integer callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		if (ability == null) {
 			AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 			return abil.getAbilityIntField("Targetattachcount");
 		} else {
-			CAbility abil = ability.callback(game, caster, localStore, castId);
+			CAbility abil = ability.callback(caster, localStore, castId);
 			if (abil instanceof AbilityBuilderAbility) {
 				return ((AbilityBuilderAbility) abil).getAbilityIntField("Targetattachcount");
 			} else {

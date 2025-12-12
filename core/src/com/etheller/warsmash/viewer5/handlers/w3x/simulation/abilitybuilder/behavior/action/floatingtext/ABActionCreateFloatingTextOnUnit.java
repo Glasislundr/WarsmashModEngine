@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.floatingtext;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -16,10 +15,9 @@ public class ABActionCreateFloatingTextOnUnit implements ABSingleAction {
 	private ABStringCallback message;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		game.spawnTextTag(this.target.callback(game, caster, localStore, castId), caster.getPlayerIndex(),
-				this.textType, this.message.callback(game, caster, localStore, castId));
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		localStore.game.spawnTextTag(this.target.callback(caster, localStore, castId), caster.getPlayerIndex(),
+				this.textType, this.message.callback(caster, localStore, castId));
 	}
 
 	@Override

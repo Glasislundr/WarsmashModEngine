@@ -38,7 +38,7 @@ public class ABTimedTickingBuff extends ABTimedBuff {
 		if (onTickActions != null) {
 			localStore.put(ABLocalStoreKeys.BUFF, this);
 			for (ABAction action : onTickActions) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 			localStore.remove(ABLocalStoreKeys.BUFF);
 		}

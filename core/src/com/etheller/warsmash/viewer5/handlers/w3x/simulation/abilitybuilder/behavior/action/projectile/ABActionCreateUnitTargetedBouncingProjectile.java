@@ -56,25 +56,24 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 	private ABBooleanCallback allowMultipleBouncesPerUnit;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnit theSource = caster;
 		if (source != null) {
-			theSource = this.source.callback(game, caster, localStore, castId);
+			theSource = this.source.callback(caster, localStore, castId);
 		}
 		AbilityTarget sourceLocation = theSource;
 
 		if (this.sourceLoc != null) {
-			sourceLocation = this.sourceLoc.callback(game, caster, localStore, castId);
+			sourceLocation = this.sourceLoc.callback(caster, localStore, castId);
 		}
 
-		final CUnit theTarget = this.target.callback(game, caster, localStore, castId);
+		final CUnit theTarget = this.target.callback(caster, localStore, castId);
 
 		final boolean multiBounce;
 		if (allowMultipleBouncesPerUnit != null) {
-			multiBounce = allowMultipleBouncesPerUnit.callback(game, caster, localStore, castId);
+			multiBounce = allowMultipleBouncesPerUnit.callback(caster, localStore, castId);
 		} else {
-			multiBounce = game.getGameplayConstants().isAllowMultiBounce();
+			multiBounce = localStore.game.getGameplayConstants().isAllowMultiBounce();
 		}
 		final Set<CUnit> hitUnits;
 		if (!multiBounce) {
@@ -91,7 +90,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 				if (onLaunch != null) {
 					localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
 					for (ABAction action : onLaunch) {
-						action.runAction(game, caster, localStore, castId);
+						action.runAction(caster, localStore, castId);
 					}
 					localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
 				}
@@ -108,15 +107,15 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 					localStore.put(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId,
 							new AbilityPointTarget(projectile.getX(), projectile.getY()));
 					for (ABAction action : onHit) {
-						action.runAction(game, caster, localStore, castId);
+						action.runAction(caster, localStore, castId);
 					}
 					localStore.remove(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);
 					localStore.remove(ABLocalStoreKeys.PROJECTILEHITDEST + castId);
 					localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
 					localStore.remove(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId);
 				}
-				startPerformJump(game, caster, localStore, castId, theTarget, multiBounce, hitUnits,
-						bounces.callback(game, caster, localStore, castId));
+				startPerformJump(caster, localStore, castId, theTarget, multiBounce, hitUnits,
+						bounces.callback(caster, localStore, castId));
 			}
 		};
 
@@ -125,17 +124,17 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 			Float theSpeed = null;
 			Boolean isHoming = null;
 			if (this.speed != null) {
-				theSpeed = this.speed.callback(game, caster, localStore, castId);
+				theSpeed = this.speed.callback(caster, localStore, castId);
 			}
 			if (this.homing != null) {
-				isHoming = this.homing.callback(game, caster, localStore, castId);
+				isHoming = this.homing.callback(caster, localStore, castId);
 			}
-			proj = game.createProjectile(theSource, this.id.callback(game, caster, localStore, castId),
+			proj = localStore.game.createProjectile(theSource, this.id.callback(caster, localStore, castId),
 					sourceLocation.getX(), sourceLocation.getY(),
 					(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed, isHoming, theTarget,
 					listener);
 		} else if (settings != null) {
-			proj = game.createProjectile(theSource, this.settings.callback(game, caster, localStore, castId),
+			proj = localStore.game.createProjectile(theSource, this.settings.callback(caster, localStore, castId),
 					sourceLocation.getX(), sourceLocation.getY(),
 					(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theTarget, listener);
 		}
@@ -143,49 +142,48 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
 	}
 
-	private void startPerformJump(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId, final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
+	private void startPerformJump(final CUnit caster, final LocalDataStore localStore, final int castId,
+			final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (remainingJumps <= 0) {
 			return;
 		}
 		float delay = 0;
 		if (bounceDelay != null) {
-			delay = bounceDelay.callback(game, caster, localStore, castId);
+			delay = bounceDelay.callback(caster, localStore, castId);
 		}
 		if (delay > 0) {
 			CTimer runner = new CTimer() {
 				@Override
 				public void onFire(CSimulation simulation) {
-					performJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
-							remainingJumps);
+					performJump(caster, localStore, castId, originUnitTarget, multiBounce, hitUnits, remainingJumps);
 				}
 			};
 			runner.setTimeoutTime(delay);
-			runner.start(game);
+			runner.start(localStore.game);
 		} else {
-			performJump(game, caster, localStore, castId, originUnitTarget, multiBounce, hitUnits, remainingJumps);
+			performJump(caster, localStore, castId, originUnitTarget, multiBounce, hitUnits, remainingJumps);
 		}
 	}
 
-	private void performJump(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId, final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
+	private void performJump(final CUnit caster, final LocalDataStore localStore, final int castId,
+			final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (originUnitTarget == null) {
 			return;
 		}
 
-		final Float rangeVal = this.range.callback(game, caster, localStore, castId);
+		final Float rangeVal = this.range.callback(caster, localStore, castId);
 
 		List<CUnit> foundUnits = new ArrayList<>();
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);
-		game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
+		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal) && (multiBounce || !hitUnits.contains(enumUnit))) {
 					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
-					if (condition == null || condition.callback(game, caster, localStore, castId)) {
+					if (condition == null || condition.callback(caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
 				}
@@ -197,7 +195,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 		final CUnit jumpUnit;
 		if (foundUnits.size() > 0) {
 			if (sort != null) {
-				ABUnitComparator comp = new ABUnitComparator(game, caster, localStore, castId, sort);
+				ABUnitComparator comp = new ABUnitComparator(caster, localStore, castId, sort);
 				foundUnits.sort(comp);
 			} else {
 				foundUnits.sort(ABNearestUnitComparator.INSTANCE);
@@ -221,7 +219,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 					if (onLaunch != null) {
 						localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
 						for (ABAction action : onLaunch) {
-							action.runAction(game, caster, localStore, castId);
+							action.runAction(caster, localStore, castId);
 						}
 						localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
 					}
@@ -238,15 +236,15 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 						localStore.put(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId,
 								new AbilityPointTarget(projectile.getX(), projectile.getY()));
 						for (ABAction action : onHit) {
-							action.runAction(game, caster, localStore, castId);
+							action.runAction(caster, localStore, castId);
 						}
 						localStore.remove(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);
 						localStore.remove(ABLocalStoreKeys.PROJECTILEHITDEST + castId);
 						localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
 						localStore.remove(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId);
 					}
-					startPerformJump(game, caster, localStore, castId, jumpUnit, multiBounce, hitUnits,
-							bounces.callback(game, caster, localStore, castId));
+					startPerformJump(caster, localStore, castId, jumpUnit, multiBounce, hitUnits,
+							bounces.callback(caster, localStore, castId));
 				}
 			};
 
@@ -255,17 +253,17 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 				Float theSpeed = null;
 				Boolean isHoming = null;
 				if (this.speed != null) {
-					theSpeed = this.speed.callback(game, caster, localStore, castId);
+					theSpeed = this.speed.callback(caster, localStore, castId);
 				}
 				if (this.homing != null) {
-					isHoming = this.homing.callback(game, caster, localStore, castId);
+					isHoming = this.homing.callback(caster, localStore, castId);
 				}
-				proj = game.createProjectile(caster, this.id.callback(game, caster, localStore, castId),
+				proj = localStore.game.createProjectile(caster, this.id.callback(caster, localStore, castId),
 						originUnitTarget.getX(), originUnitTarget.getY(),
 						(float) AbilityTarget.angleBetween(originUnitTarget, jumpUnit), theSpeed, isHoming, jumpUnit,
 						listener);
 			} else if (settings != null) {
-				proj = game.createProjectile(caster, this.settings.callback(game, caster, localStore, castId),
+				proj = localStore.game.createProjectile(caster, this.settings.callback(caster, localStore, castId),
 						originUnitTarget.getX(), originUnitTarget.getY(),
 						(float) AbilityTarget.angleBetween(originUnitTarget, jumpUnit), jumpUnit, listener);
 			}

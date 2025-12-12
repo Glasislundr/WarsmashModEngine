@@ -42,7 +42,7 @@ public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
 		localStore.put(ABLocalStoreKeys.DAMAGECALC + triggerId, calc);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(simulation, calc.getSource(), localStore, triggerId);
+				action.runAction(calc.getSource(), localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.ATTACKINGUNIT + triggerId);

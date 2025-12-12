@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -13,15 +12,15 @@ public class ABConditionIsUnitVisible extends ABCondition {
 	private ABUnitCallback unit;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
-		CUnit theUnit = unit.callback(game, casterUnit, localStore, castId);
+	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
+		CUnit theUnit = unit.callback(casterUnit, localStore, castId);
 		CUnit theCaster = casterUnit;
 		if (this.caster != null) {
-			theCaster = this.caster.callback(game, casterUnit, localStore, castId);
+			theCaster = this.caster.callback(casterUnit, localStore, castId);
 		}
 
 		if (theUnit != null) {
-			return theUnit.isVisible(game, theCaster.getPlayerIndex());
+			return theUnit.isVisible(localStore.game, theCaster.getPlayerIndex());
 		}
 		return false;
 	}
@@ -31,8 +30,7 @@ public class ABConditionIsUnitVisible extends ABCondition {
 		String casterExpr;
 		if (this.caster == null) {
 			casterExpr = jassTextGenerator.getCaster();
-		}
-		else {
+		} else {
 			casterExpr = this.caster.generateJassEquivalent(jassTextGenerator);
 		}
 		return "IsUnitEnemy(" + this.unit.generateJassEquivalent(jassTextGenerator) + ", GetOwningPlayer(" + casterExpr

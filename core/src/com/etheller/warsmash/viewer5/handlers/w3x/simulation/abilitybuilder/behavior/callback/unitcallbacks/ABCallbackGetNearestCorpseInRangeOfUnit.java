@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -18,17 +17,17 @@ public class ABCallbackGetNearestCorpseInRangeOfUnit extends ABUnitCallback {
 	private ABUnitCallback originUnit;
 	private ABFloatCallback range;
 	private List<ABCondition> conditions;
-	
+
 	@Override
-	public CUnit callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		CUnit originUnitTarget = originUnit.callback(game, caster, localStore, castId);
-		Float rangeVal = range.callback(game, caster, localStore, castId);
-		
+	public CUnit callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		CUnit originUnitTarget = originUnit.callback(caster, localStore, castId);
+		Float rangeVal = range.callback(caster, localStore, castId);
+
 		final UnitAndRange ur = new UnitAndRange();
-		
+
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);
-		game.getWorldCollision().enumCorpsesInRect(recycleRect, new CUnitEnumFunction() {
+		localStore.game.getWorldCollision().enumCorpsesInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal)) {
@@ -36,11 +35,11 @@ public class ABCallbackGetNearestCorpseInRangeOfUnit extends ABUnitCallback {
 					if (ur.getUnit() == null || ur.getRange() > dist) {
 						if (conditions != null) {
 							boolean result = true;
-							localStore.put(ABLocalStoreKeys.MATCHINGUNIT+castId, enumUnit);
+							localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
 							for (ABCondition condition : conditions) {
-								result = result && condition.callback(game, caster, localStore, castId);
+								result = result && condition.callback(caster, localStore, castId);
 							}
-							localStore.remove(ABLocalStoreKeys.MATCHINGUNIT+castId);
+							localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
 							if (result) {
 								ur.setRange(dist);
 								ur.setUnit(enumUnit);

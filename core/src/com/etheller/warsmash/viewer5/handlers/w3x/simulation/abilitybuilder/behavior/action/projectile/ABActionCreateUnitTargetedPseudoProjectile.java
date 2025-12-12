@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.units.GameObject;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.AbilityFields;
@@ -49,8 +48,7 @@ public class ABActionCreateUnitTargetedPseudoProjectile implements ABSingleActio
 	private ABBooleanCallback provideCounts;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		float theSpeed = 0;
 		boolean isHoming = false;
 		int theMaxHits = 0;
@@ -61,74 +59,73 @@ public class ABActionCreateUnitTargetedPseudoProjectile implements ABSingleActio
 		CEffectType theEffectType = CEffectType.SPECIAL;
 		int theEffectArtIndex = 0;
 		boolean isProvideCounts = false;
-		final CUnit theSource = this.source.callback(game, caster, localStore, castId);
+		final CUnit theSource = this.source.callback(caster, localStore, castId);
 		AbilityTarget sourceLocation = theSource;
 		int theArtSkip = 1;
 
 		if (this.sourceLoc != null) {
-			sourceLocation = this.sourceLoc.callback(game, caster, localStore, castId);
+			sourceLocation = this.sourceLoc.callback(caster, localStore, castId);
 		}
 		if (this.effectType != null) {
 			theEffectType = this.effectType;
 		}
 		if (this.effectArtIndex != null) {
-			theEffectArtIndex = this.effectArtIndex.callback(game, caster, localStore, castId);
+			theEffectArtIndex = this.effectArtIndex.callback(caster, localStore, castId);
 		}
 
 		if (this.maxHits != null) {
-			theMaxHits = this.maxHits.callback(game, caster, localStore, castId);
+			theMaxHits = this.maxHits.callback(caster, localStore, castId);
 		}
 		if (this.hitsPerTarget != null) {
-			theHitsPerTarget = this.hitsPerTarget.callback(game, caster, localStore, castId);
+			theHitsPerTarget = this.hitsPerTarget.callback(caster, localStore, castId);
 		}
 		if (this.radius != null) {
-			final float rad = this.radius.callback(game, caster, localStore, castId);
+			final float rad = this.radius.callback(caster, localStore, castId);
 			theStartingRadius = rad;
 			theEndingRadius = rad;
 		} else {
 			if (this.endingRadius != null) {
-				theStartingRadius = this.startingRadius.callback(game, caster, localStore, castId);
-				theEndingRadius = this.endingRadius.callback(game, caster, localStore, castId);
+				theStartingRadius = this.startingRadius.callback(caster, localStore, castId);
+				theEndingRadius = this.endingRadius.callback(caster, localStore, castId);
 			} else {
-				final float rad = this.startingRadius.callback(game, caster, localStore, castId);
+				final float rad = this.startingRadius.callback(caster, localStore, castId);
 				theStartingRadius = rad;
 				theEndingRadius = rad;
 			}
 		}
 		if (this.projectileStepInterval != null) {
-			theCollisionInterval = this.projectileStepInterval.callback(game, caster, localStore, castId);
+			theCollisionInterval = this.projectileStepInterval.callback(caster, localStore, castId);
 		}
 		if (this.projectileArtSkip != null) {
-			theArtSkip = this.projectileArtSkip.callback(game, caster, localStore, castId);
+			theArtSkip = this.projectileArtSkip.callback(caster, localStore, castId);
 		}
 		if (this.provideCounts != null) {
-			isProvideCounts = this.provideCounts.callback(game, caster, localStore, castId);
+			isProvideCounts = this.provideCounts.callback(caster, localStore, castId);
 		}
 
 		final GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
 
 		if (this.speed != null) {
-			theSpeed = this.speed.callback(game, caster, localStore, castId);
+			theSpeed = this.speed.callback(caster, localStore, castId);
 		} else {
 			theSpeed = editorData.getFieldAsFloat(AbilityFields.PROJECTILE_SPEED, 0);
 		}
 		if (this.homing != null) {
-			isHoming = this.homing.callback(game, caster, localStore, castId);
+			isHoming = this.homing.callback(caster, localStore, castId);
 		} else {
 			isHoming = editorData.getFieldAsBoolean(AbilityFields.PROJECTILE_HOMING_ENABLED, 0);
 		}
 
-		final CUnit theTarget = this.target.callback(game, caster, localStore, castId);
+		final CUnit theTarget = this.target.callback(caster, localStore, castId);
 
 		final ABCollisionProjectileListener listener = new ABCollisionProjectileListener(this.onLaunch, this.onPreHits,
 				this.canHitTarget, this.onHit, caster, localStore, castId);
 
-		final CProjectile proj = game.createPseudoProjectile(theSource,
-				this.id.callback(game, caster, localStore, castId), theEffectType, theEffectArtIndex,
-				sourceLocation.getX(), sourceLocation.getY(),
-				(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed, theCollisionInterval,
-				theArtSkip, isHoming, theTarget, theMaxHits, theHitsPerTarget, theStartingRadius, theEndingRadius,
-				listener, isProvideCounts);
+		final CProjectile proj = localStore.game.createPseudoProjectile(theSource,
+				this.id.callback(caster, localStore, castId), theEffectType, theEffectArtIndex, sourceLocation.getX(),
+				sourceLocation.getY(), (float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed,
+				theCollisionInterval, theArtSkip, isHoming, theTarget, theMaxHits, theHitsPerTarget, theStartingRadius,
+				theEndingRadius, listener, isProvideCounts);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
 	}

@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -12,11 +11,11 @@ public class ABCallbackIntegerIf extends ABIntegerCallback {
 	private ABCondition condition;
 	
 	@Override
-	public Integer callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		if (condition == null || !condition.callback(game, caster, localStore, castId)) {
-			return value2.callback(game, caster, localStore, castId);
+	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		if (condition == null || !condition.callback(caster, localStore, castId)) {
+			return value2.callback(caster, localStore, castId);
 		}
-		return value1.callback(game, caster, localStore, castId);
+		return value1.callback(caster, localStore, castId);
 	}
 
 }

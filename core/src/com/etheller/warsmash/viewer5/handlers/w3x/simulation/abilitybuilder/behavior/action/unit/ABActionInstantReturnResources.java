@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.harvest.CAbilityHarvest;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -15,32 +14,32 @@ public class ABActionInstantReturnResources implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (this.unit != null) {
-			targetUnit = this.unit.callback(game, caster, localStore, castId);
+			targetUnit = this.unit.callback(caster, localStore, castId);
 		}
 
 		final CAbilityHarvest harv = targetUnit.getFirstAbilityOfType(CAbilityHarvest.class);
 		if ((harv != null) && (harv.getCarriedResourceType() != null) && (harv.getCarriedResourceAmount() > 0)) {
-			final CPlayer pl = game.getPlayer(targetUnit.getPlayerIndex());
+			final CPlayer pl = localStore.game.getPlayer(targetUnit.getPlayerIndex());
 			switch (harv.getCarriedResourceType()) {
 			case FOOD:
 				// This might be a bad idea? Not sure it will ever matter
 				pl.setFoodCap(Math.min(pl.getFoodCap() + harv.getCarriedResourceAmount(), pl.getFoodCapCeiling()));
-				game.unitGainResourceEvent(targetUnit, pl.getId(), harv.getCarriedResourceType(),
+				localStore.game.unitGainResourceEvent(targetUnit, pl.getId(), harv.getCarriedResourceType(),
 						harv.getCarriedResourceAmount());
 				harv.setCarriedResources(ResourceType.FOOD, 0);
 				break;
 			case GOLD:
 				pl.addGold(harv.getCarriedResourceAmount());
-				game.unitGainResourceEvent(targetUnit, pl.getId(), harv.getCarriedResourceType(),
+				localStore.game.unitGainResourceEvent(targetUnit, pl.getId(), harv.getCarriedResourceType(),
 						harv.getCarriedResourceAmount());
 				harv.setCarriedResources(ResourceType.GOLD, 0);
 				break;
 			case LUMBER:
 				pl.addLumber(harv.getCarriedResourceAmount());
-				game.unitGainResourceEvent(targetUnit, pl.getId(), harv.getCarriedResourceType(),
+				localStore.game.unitGainResourceEvent(targetUnit, pl.getId(), harv.getCarriedResourceType(),
 						harv.getCarriedResourceAmount());
 				harv.setCarriedResources(ResourceType.LUMBER, 0);
 				break;

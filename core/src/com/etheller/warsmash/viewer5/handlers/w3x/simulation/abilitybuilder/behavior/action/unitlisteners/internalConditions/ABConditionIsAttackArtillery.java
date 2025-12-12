@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitlisteners.internalConditions;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -12,7 +11,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUni
 public class ABConditionIsAttackArtillery extends ABCondition {
 	
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnitAttack attack = (CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK+castId);
 		if (attack instanceof CUnitAttackMissileSplash) {
 			return ((CUnitAttackMissileSplash)attack).isArtillery();

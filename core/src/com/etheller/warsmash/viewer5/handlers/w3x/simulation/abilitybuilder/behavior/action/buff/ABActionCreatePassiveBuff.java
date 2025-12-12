@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -38,56 +37,54 @@ public class ABActionCreatePassiveBuff implements ABSingleAction {
 	private Map<String, ABCallback> uniqueValues;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		ABPermanentPassiveBuff ability = null;
 		boolean isLeveled = false;
 		if (leveled != null) {
-			isLeveled = leveled.callback(game, caster, localStore, castId);
+			isLeveled = leveled.callback(caster, localStore, castId);
 		} else {
 			isLeveled = (boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
 		}
 		boolean isPositive = true;
 		if (positive != null) {
-			isPositive = positive.callback(game, caster, localStore, castId);
+			isPositive = positive.callback(caster, localStore, castId);
 		}
 
 		if (showIcon != null) {
-			ability = new ABPermanentPassiveBuff(game.getHandleIdAllocator().createId(),
-					buffId.callback(game, caster, localStore, castId),
+			ability = new ABPermanentPassiveBuff(localStore.game.getHandleIdAllocator().createId(),
+					buffId.callback(caster, localStore, castId),
 					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster, localStore, onAddActions,
-					onRemoveActions, showIcon.callback(game, caster, localStore, castId), castId, isLeveled,
+					onRemoveActions, showIcon.callback(caster, localStore, castId), castId, isLeveled,
 					isPositive);
 			localStore.put(ABLocalStoreKeys.LASTCREATEDBUFF, ability);
 		} else {
-			ability = new ABPermanentPassiveBuff(game.getHandleIdAllocator().createId(),
-					buffId.callback(game, caster, localStore, castId),
-					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster, localStore, onAddActions,
-					onRemoveActions, true, castId, isLeveled, isPositive);
+			ability = new ABPermanentPassiveBuff(localStore.game.getHandleIdAllocator().createId(),
+					buffId.callback(caster, localStore, castId), (CAbility) localStore.get(ABLocalStoreKeys.ABILITY),
+					caster, localStore, onAddActions, onRemoveActions, true, castId, isLeveled, isPositive);
 			localStore.put(ABLocalStoreKeys.LASTCREATEDBUFF, ability);
 		}
 		if (this.artType != null) {
 			ability.setArtType(this.artType);
 		}
 		if (this.showFx != null) {
-			ability.setShowFx(this.showFx.callback(game, caster, localStore, castId));
+			ability.setShowFx(this.showFx.callback(caster, localStore, castId));
 		}
 		if (this.playSfx != null) {
-			ability.setPlaySfx(this.playSfx.callback(game, caster, localStore, castId));
+			ability.setPlaySfx(this.playSfx.callback(caster, localStore, castId));
 		}
 		if (uniqueFlags != null) {
 			for (ABStringCallback flag : uniqueFlags) {
-				ability.addUniqueFlag(flag.callback(game, caster, localStore, castId));
+				ability.addUniqueFlag(flag.callback(caster, localStore, castId));
 			}
 		}
 		if (uniqueValues != null) {
 			for (String key : uniqueValues.keySet()) {
-				ability.addUniqueValue(uniqueValues.get(key).callback(game, caster, localStore, castId), key);
+				ability.addUniqueValue(uniqueValues.get(key).callback(caster, localStore, castId), key);
 			}
 		}
 		if (visibilityGroup != null) {
-			ability.setVisibilityGroup(visibilityGroup.callback(game, caster, localStore, castId));
+			ability.setVisibilityGroup(visibilityGroup.callback(caster, localStore, castId));
 		}
 		if (!localStore.containsKey(ABLocalStoreKeys.BUFFCASTINGUNIT)) {
 			localStore.put(ABLocalStoreKeys.BUFFCASTINGUNIT, caster);

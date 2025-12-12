@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitlisteners.internalActions;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -11,8 +10,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.list
 
 public class ABActionDeathReplacementSetReincarnating implements ABAction {
 
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
+			final int castId) {
 		CUnitDeathReplacementResult result = (CUnitDeathReplacementResult)localStore.get(ABLocalStoreKeys.DEATHRESULT+castId);
 		CUnitDeathReplacementStacking stacking = (CUnitDeathReplacementStacking)localStore.get(ABLocalStoreKeys.DEATHSTACKING+castId);
 		
@@ -20,6 +19,6 @@ public class ABActionDeathReplacementSetReincarnating implements ABAction {
 		stacking.setAllowSamePriorityStacking(false);
 		result.setReincarnating(true);
 		caster.setFalseDeath(true);
-		game.getWorldCollision().removeUnit(caster);
+		localStore.game.getWorldCollision().removeUnit(caster);
 	}
 }

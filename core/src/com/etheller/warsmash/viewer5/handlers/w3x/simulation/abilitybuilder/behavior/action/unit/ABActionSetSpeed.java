@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -13,9 +12,9 @@ public class ABActionSetSpeed implements ABAction {
 	private ABIntegerCallback value;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		final CUnit targetUnit = this.unit.callback(game, caster, localStore, castId);
-		targetUnit.setSpeed(value.callback(game, caster, localStore, castId));
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+		final CUnit targetUnit = this.unit.callback(caster, localStore, castId);
+		targetUnit.setSpeed(value.callback(caster, localStore, castId));
 	}
 
 }

@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -18,11 +17,10 @@ public class ABActionCreateDamageTakenListener implements ABAction {
 	private List<ABAction> actions;
 	private ABBooleanCallback useCastId;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		boolean ucid = true;
 		if (useCastId != null) {
-			ucid = useCastId.callback(game, caster, localStore, castId);
+			ucid = useCastId.callback(caster, localStore, castId);
 		}
 		ABDamageTakenListener listener = new ABDamageTakenListener(localStore, priority, actions, castId, ucid);
 

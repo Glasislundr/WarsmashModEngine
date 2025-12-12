@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.abilities;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
@@ -18,16 +17,15 @@ public class ABActionAbilityStoreUniqueValue implements ABAction {
 	private ABCallback valueToStore;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CAbility theAbility = null;
 		if (ability != null) {
-			theAbility = ability.callback(game, caster, localStore, castId);
+			theAbility = ability.callback(caster, localStore, castId);
 		} else {
 			theAbility = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 		}
-		theAbility.addUniqueValue(valueToStore.callback(game, caster, localStore, castId),
-				key.callback(game, caster, localStore, castId));
+		theAbility.addUniqueValue(valueToStore.callback(caster, localStore, castId),
+				key.callback(caster, localStore, castId));
 	}
 
 }

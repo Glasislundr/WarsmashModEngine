@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.buffcallbacks;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
@@ -15,9 +14,9 @@ public class ABCallbackGetBuffById extends ABBuffCallback {
 	private ABIDCallback id;
 
 	@Override
-	public CBuff callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		CUnit theUnit = unit.callback(game, caster, localStore, castId);
-		War3ID theId = id.callback(game, caster, localStore, castId);
+	public CBuff callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		CUnit theUnit = unit.callback(caster, localStore, castId);
+		War3ID theId = id.callback(caster, localStore, castId);
 		if (theUnit != null) {
 			for (CAbility ability : theUnit.getAbilities()) {
 				if (ability instanceof CBuff) {

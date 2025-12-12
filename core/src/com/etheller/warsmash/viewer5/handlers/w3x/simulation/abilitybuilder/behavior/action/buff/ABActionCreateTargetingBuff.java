@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
@@ -23,19 +22,18 @@ public class ABActionCreateTargetingBuff implements ABSingleAction {
 	private Map<String, ABCallback> uniqueValues;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final ABTargetingBuff ability = new ABTargetingBuff(game.getHandleIdAllocator().createId(),
-				this.buffId.callback(game, caster, localStore, castId), localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final ABTargetingBuff ability = new ABTargetingBuff(localStore.game.getHandleIdAllocator().createId(),
+				this.buffId.callback(caster, localStore, castId), localStore,
 				(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster);
 		if (uniqueFlags != null) {
 			for (ABStringCallback flag : uniqueFlags) {
-				ability.addUniqueFlag(flag.callback(game, caster, localStore, castId));
+				ability.addUniqueFlag(flag.callback(caster, localStore, castId));
 			}
 		}
 		if (uniqueValues != null) {
 			for (String key : uniqueValues.keySet()) {
-				ability.addUniqueValue(uniqueValues.get(key).callback(game, caster, localStore, castId), key);
+				ability.addUniqueValue(uniqueValues.get(key).callback(caster, localStore, castId), key);
 			}
 		}
 

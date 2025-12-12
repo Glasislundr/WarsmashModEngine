@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityCategory;
@@ -16,17 +15,17 @@ public class ABCallbackCountBuffsOnUnitMatchingCondition extends ABIntegerCallba
 	private ABCondition condition;
 
 	@Override
-	public Integer callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit u = caster;
 		if (unit != null) {
-			u = unit.callback(game, caster, localStore, castId);
+			u = unit.callback(caster, localStore, castId);
 		}
 		int c = 0;
 		for (CAbility ability : u.getAbilities()) {
 			if (ability.getAbilityCategory() == CAbilityCategory.BUFF) {
 				CBuff buff = (CBuff) ability;
 				localStore.put(ABLocalStoreKeys.MATCHINGBUFF, buff);
-				if (condition != null && condition.callback(game, caster, localStore, castId)) {
+				if (condition != null && condition.callback(caster, localStore, castId)) {
 					c++;
 				}
 			}

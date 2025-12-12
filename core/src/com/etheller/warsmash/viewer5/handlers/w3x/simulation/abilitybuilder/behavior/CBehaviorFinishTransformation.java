@@ -94,26 +94,25 @@ public class CBehaviorFinishTransformation implements CBehavior {
 	public CBehavior update(CSimulation game) {
 		if (this.castStartTick == 0) {
 			this.castStartTick = game.getGameTurnTick();
-			TransformationHandler.startSlowTransformation(game, localStore, unit, newType, keepRatios, actions, ability,
+			TransformationHandler.startSlowTransformation(localStore, unit, newType, keepRatios, actions, ability,
 					addAlternateTagAfter, takingOff, landing, immediateTakeoff, immediateLanding,
 					altitudeAdjustmentDelay, landingDelay, altitudeAdjustmentDuration);
 		}
 
 		final int ticksSinceCast = game.getGameTurnTick() - this.castStartTick;
 		if (ticksSinceCast >= this.transformationTickDuration) {
-			TransformationHandler.finishSlowTransformation(game, localStore, unit, newType, keepRatios, actions,
-					ability, addAlternateTagAfter, permanent, takingOff);
+			TransformationHandler.finishSlowTransformation(localStore, unit, newType, keepRatios, actions, ability,
+					addAlternateTagAfter, permanent, takingOff);
 
 			if (instantTransformAtDurationEnd) {
-				TransformationHandler.createInstantTransformBackBuff(game, sourceUnit, localStore, unit,
-						baseTypeForDuration, keepRatios, actions.createUntransformActions(), ability, buffId,
-						addAlternateTagAfter, transformationTime, duration, permanent);
+				TransformationHandler.createInstantTransformBackBuff(sourceUnit, localStore, unit, baseTypeForDuration,
+						keepRatios, actions.createUntransformActions(), ability, buffId, addAlternateTagAfter,
+						transformationTime, duration, permanent);
 			} else {
-				TransformationHandler.createSlowTransformBackBuff(game, sourceUnit, localStore, unit,
-						baseTypeForDuration, keepRatios, actions.createUntransformActions(), ability, buffId,
-						addAlternateTagAfter, transformationTime, duration, permanent, takingOff, landing,
-						immediateTakeoff, immediateLanding, altitudeAdjustmentDelay, landingDelay,
-						altitudeAdjustmentDuration);
+				TransformationHandler.createSlowTransformBackBuff(sourceUnit, localStore, unit, baseTypeForDuration,
+						keepRatios, actions.createUntransformActions(), ability, buffId, addAlternateTagAfter,
+						transformationTime, duration, permanent, takingOff, landing, immediateTakeoff, immediateLanding,
+						altitudeAdjustmentDelay, landingDelay, altitudeAdjustmentDuration);
 			}
 
 			this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.ability, null);

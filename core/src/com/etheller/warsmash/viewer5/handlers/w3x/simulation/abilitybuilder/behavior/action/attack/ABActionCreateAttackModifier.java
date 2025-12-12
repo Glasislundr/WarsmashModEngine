@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -23,11 +22,10 @@ public class ABActionCreateAttackModifier implements ABAction {
 
 	private ABBooleanCallback useCastId;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		boolean isUseCastId = true;
 		if (useCastId != null) {
-			isUseCastId = useCastId.callback(game, caster, localStore, castId);
+			isUseCastId = useCastId.callback(caster, localStore, castId);
 		}
 		ABAttackModifier modifier = new ABAttackModifier(localStore, castId, priority, preLaunchCondition,
 				preLaunchModification, condition, modification, isUseCastId);

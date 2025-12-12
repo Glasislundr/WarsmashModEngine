@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -10,8 +9,8 @@ public class ABCallbackGetUnitInitialMana extends ABFloatCallback {
 	private ABUnitCallback unit;
 
 	@Override
-	public Float callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		return (float) unit.callback(game, caster, localStore, castId).getUnitType().getManaInitial();
+	public Float callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		return (float) unit.callback(caster, localStore, castId).getUnitType().getManaInitial();
 	}
 
 }

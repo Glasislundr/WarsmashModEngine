@@ -72,7 +72,7 @@ public class ABPermanentPassiveBuff extends ABGenericPermanentBuff {
 		}
 		if (onAddActions != null) {
 			for (ABAction action : onAddActions) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}
@@ -90,7 +90,7 @@ public class ABPermanentPassiveBuff extends ABGenericPermanentBuff {
 		}
 		if (onRemoveActions != null) {
 			for (ABAction action : onRemoveActions) {
-				action.runAction(game, unit, localStore, castId);
+				action.runAction(unit, localStore, castId);
 			}
 		}
 	}

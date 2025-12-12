@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -18,14 +17,13 @@ public class ABActionLocationListAdd implements ABAction {
 	private ABIntegerCallback index;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		final List<AbilityPointTarget> l = this.list.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		final List<AbilityPointTarget> l = this.list.callback(caster, localStore, castId);
 		if (index != null) {
-			l.add(index.callback(game, caster, localStore, castId),
-					location.callback(game, caster, localStore, castId));
+			l.add(index.callback(caster, localStore, castId),
+					location.callback(caster, localStore, castId));
 		} else {
-			l.add(location.callback(game, caster, localStore, castId));
+			l.add(location.callback(caster, localStore, castId));
 		}
 	}
 }

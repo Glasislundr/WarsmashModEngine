@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABDefenseTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
@@ -15,10 +14,10 @@ public class ABConditionIsDefenseTypeInList extends ABCondition {
 	private List<ABDefenseTypeCallback> list;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
-		CDefenseType theType = defenseType.callback(game, caster, localStore, castId);
+	public Boolean callback(CUnit caster, LocalDataStore localStore, int castId) {
+		CDefenseType theType = defenseType.callback(caster, localStore, castId);
 		for (ABDefenseTypeCallback lType : list) {
-			if (theType == lType.callback(game, caster, localStore, castId)) {
+			if (theType == lType.callback(caster, localStore, castId)) {
 				return true;
 			}
 		}

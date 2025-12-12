@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.EnumSet;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -22,7 +21,7 @@ public class ABConditionIsUnitValidSplashDamageTarget extends ABCondition {
 	private ABBooleanCallback targetedEffect;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit casterUnit, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
 		CUnit theCaster = casterUnit;
 
 		EnumSet<CTargetType> targetsAllowed = null;
@@ -37,16 +36,16 @@ public class ABConditionIsUnitValidSplashDamageTarget extends ABCondition {
 		if (targetsAllowed.isEmpty()) {
 			return true;
 		}
-		final CUnit theUnit = this.unit.callback(game, casterUnit, localStore, castId);
+		final CUnit theUnit = this.unit.callback(casterUnit, localStore, castId);
 		boolean te = false;
 		if (this.caster != null) {
-			theCaster = this.caster.callback(game, casterUnit, localStore, castId);
+			theCaster = this.caster.callback(casterUnit, localStore, castId);
 		}
 		if (this.targetedEffect != null) {
-			te = this.targetedEffect.callback(game, theCaster, localStore, castId);
+			te = this.targetedEffect.callback(theCaster, localStore, castId);
 		}
 
-		return theUnit.canBeTargetedBy(game, theCaster, te, targetsAllowed,
+		return theUnit.canBeTargetedBy(localStore.game, theCaster, te, targetsAllowed,
 				BooleanAbilityTargetCheckReceiver.<CWidget>getInstance().reset());
 	}
 

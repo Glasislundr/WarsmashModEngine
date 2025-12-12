@@ -38,7 +38,7 @@ public class ABAbilityProjReactionListener implements CUnitAbilityProjReactionLi
 			localStore.put(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId, target);
 			localStore.put(ABLocalStoreKeys.ABILITYPROJ+triggerId, projectile);
 			for (ABAction action : actions) {
-				action.runAction(simulation, target, localStore, triggerId);
+				action.runAction(target, localStore, triggerId);
 			}
 			localStore.remove(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId);
 			localStore.remove(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId);

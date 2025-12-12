@@ -39,7 +39,7 @@ public class ABDamageTakenListener implements CUnitAttackDamageTakenListener {
 		localStore.put(ABLocalStoreKeys.DAMAGINGUNIT + triggerId, damage.getSource());
 		localStore.put(ABLocalStoreKeys.DAMAGEDUNIT + triggerId, target);
 		localStore.put(ABLocalStoreKeys.DAMAGECALC + triggerId, damage);
-		int prio = this.priority.callback(simulation, target, this.localStore, this.triggerId);
+		int prio = this.priority.callback(target, this.localStore, this.triggerId);
 		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT + triggerId);
 		localStore.remove(ABLocalStoreKeys.DAMAGEDUNIT + triggerId);
 		localStore.remove(ABLocalStoreKeys.DAMAGECALC + triggerId);
@@ -53,7 +53,7 @@ public class ABDamageTakenListener implements CUnitAttackDamageTakenListener {
 		localStore.put(ABLocalStoreKeys.DAMAGECALC + triggerId, damage);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(simulation, target, localStore, triggerId);
+				action.runAction(target, localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.DAMAGINGUNIT + triggerId);

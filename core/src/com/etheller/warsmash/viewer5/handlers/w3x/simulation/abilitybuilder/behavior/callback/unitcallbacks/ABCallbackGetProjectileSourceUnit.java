@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.projectile.ABProjectileCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -11,9 +10,8 @@ public class ABCallbackGetProjectileSourceUnit extends ABUnitCallback {
 	private ABProjectileCallback proj;
 
 	@Override
-	public CUnit callback(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		CProjectile p = proj.callback(game, caster, localStore, castId);
+	public CUnit callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		CProjectile p = proj.callback(caster, localStore, castId);
 		return p.getSource();
 	}
 

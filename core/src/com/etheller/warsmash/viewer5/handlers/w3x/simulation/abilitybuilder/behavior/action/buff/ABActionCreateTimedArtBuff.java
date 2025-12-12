@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -35,60 +34,57 @@ public class ABActionCreateTimedArtBuff implements ABSingleAction {
 	private List<ABStringCallback> uniqueFlags;
 	private Map<String, ABCallback> uniqueValues;
 
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		boolean isLeveled = false;
 		if (leveled != null) {
-			isLeveled = leveled.callback(game, caster, localStore, castId);
+			isLeveled = leveled.callback(caster, localStore, castId);
 		} else {
 			isLeveled = (boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
 		}
 		boolean isPositive = true;
 		if (positive != null) {
-			isPositive = positive.callback(game, caster, localStore, castId);
+			isPositive = positive.callback(caster, localStore, castId);
 		}
 		boolean isDispellable = true;
 		if (dispellable != null) {
-			isDispellable = dispellable.callback(game, caster, localStore, castId);
+			isDispellable = dispellable.callback(caster, localStore, castId);
 		} else {
 			isDispellable = ((boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYMAGIC, true));
 		}
 
 		ABTimedArtBuff ability;
 		if (showIcon != null) {
-			ability = new ABTimedArtBuff(game.getHandleIdAllocator().createId(),
-					buffId.callback(game, caster,
-							localStore, castId), localStore,
+			ability = new ABTimedArtBuff(localStore.game.getHandleIdAllocator().createId(),
+					buffId.callback(caster, localStore, castId), localStore,
 					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
-					duration.callback(game, caster, localStore, castId),
-					showIcon.callback(game, caster, localStore, castId), isLeveled, isPositive, isDispellable);
+					duration.callback(caster, localStore, castId), showIcon.callback(caster, localStore, castId),
+					isLeveled, isPositive, isDispellable);
 		} else {
-			ability = new ABTimedArtBuff(game.getHandleIdAllocator().createId(),
-					buffId.callback(game, caster, localStore, castId), localStore,
+			ability = new ABTimedArtBuff(localStore.game.getHandleIdAllocator().createId(),
+					buffId.callback(caster, localStore, castId), localStore,
 					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
-					duration.callback(game, caster, localStore, castId), isLeveled, isPositive, isDispellable);
+					duration.callback(caster, localStore, castId), isLeveled, isPositive, isDispellable);
 		}
 		if (artType != null) {
 			ability.setArtType(artType);
 		}
 		boolean isStacks = false;
 		if (stacks != null) {
-			isStacks = stacks.callback(game, caster, localStore, castId);
+			isStacks = stacks.callback(caster, localStore, castId);
 		}
 		ability.setStacks(isStacks);
 		if (visibilityGroup != null) {
-			ability.setVisibilityGroup(visibilityGroup.callback(game, caster, localStore, castId));
+			ability.setVisibilityGroup(visibilityGroup.callback(caster, localStore, castId));
 		}
 		localStore.put(ABLocalStoreKeys.LASTCREATEDBUFF, ability);
 		if (uniqueFlags != null) {
 			for (ABStringCallback flag : uniqueFlags) {
-				ability.addUniqueFlag(flag.callback(game, caster, localStore, castId));
+				ability.addUniqueFlag(flag.callback(caster, localStore, castId));
 			}
 		}
 		if (uniqueValues != null) {
 			for (String key : uniqueValues.keySet()) {
-				ability.addUniqueValue(uniqueValues.get(key).callback(game, caster, localStore, castId), key);
+				ability.addUniqueValue(uniqueValues.get(key).callback(caster, localStore, castId), key);
 			}
 		}
 		if (!localStore.containsKey(ABLocalStoreKeys.BUFFCASTINGUNIT)) {

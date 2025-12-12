@@ -35,7 +35,7 @@ public class ABBehaviorChangeListener implements CUnitBehaviorChangeListener {
 		localStore.put(ABLocalStoreKeys.BEHAVIORONGOING + triggerId, ongoing);
 		if (actions != null) {
 			for (ABAction action : actions) {
-				action.runAction(game, unit, localStore, triggerId);
+				action.runAction(unit, localStore, triggerId);
 			}
 		}
 		localStore.remove(ABLocalStoreKeys.PRECHANGEBEHAVIOR + triggerId);

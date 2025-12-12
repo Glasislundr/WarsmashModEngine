@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.fx;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -14,11 +13,9 @@ public class ABActionCreateLoopingSoundEffectOnUnit implements ABAction {
 	private ABUnitCallback unit;
 	private ABIDCallback id;
 
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
-			final int castId) {
-		SimulationRenderComponent ret = game.unitLoopSoundEffectEvent((unit.callback(game, caster, localStore, castId)),
-				this.id.callback(game, caster, localStore, castId));
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		SimulationRenderComponent ret = localStore.game.unitLoopSoundEffectEvent(
+				(unit.callback(caster, localStore, castId)), this.id.callback(caster, localStore, castId));
 		localStore.put(ABLocalStoreKeys.LASTCREATEDFX, ret);
 	}
 }

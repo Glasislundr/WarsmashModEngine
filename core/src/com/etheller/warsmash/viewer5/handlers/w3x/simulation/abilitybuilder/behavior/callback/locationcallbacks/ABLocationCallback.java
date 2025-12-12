@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.locationcallbacks;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
@@ -8,6 +7,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 
 public abstract class ABLocationCallback implements ABCallback {
 
-	abstract public AbilityPointTarget callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore, final int castId);
+	abstract public AbilityPointTarget callback(final CUnit caster, final LocalDataStore localStore,
+			final int castId);
 }

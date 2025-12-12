@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -12,12 +11,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 public class ABActionActivateToggledAbility implements ABSingleAction {
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		AbilityBuilderActiveAbility ability = (AbilityBuilderActiveAbility) localStore
 				.get(ABLocalStoreKeys.ABILITY);
-		ability.activate(game, caster);
+		ability.activate(localStore.game, caster);
 	}
 
 	@Override

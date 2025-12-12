@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unitlisteners;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABDeathReplacementPriorityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.listenercallbacks.ABDeathReplacementCallback;
@@ -15,10 +14,10 @@ public class ABActionAddDeathReplacementEffect implements ABAction {
 	private ABDeathReplacementPriorityCallback priority;
 	private ABDeathReplacementCallback listener;
 
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore, final int castId) {
-		CUnit targetUnit = target.callback(game, caster, localStore, castId);
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
+			final int castId) {
+		CUnit targetUnit = target.callback(caster, localStore, castId);
 		
-		targetUnit.addDeathReplacementEffect(priority.callback(game, caster, localStore, castId), listener.callback(game, caster, localStore, castId));
+		targetUnit.addDeathReplacementEffect(priority.callback(caster, localStore, castId), listener.callback(caster, localStore, castId));
 	}
 }

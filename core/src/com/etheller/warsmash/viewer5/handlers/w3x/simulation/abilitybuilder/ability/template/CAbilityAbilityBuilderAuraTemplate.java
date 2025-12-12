@@ -124,7 +124,7 @@ public class CAbilityAbilityBuilderAuraTemplate extends AbilityGenericSingleIcon
 		auraGroup.add(unit);
 		if (addToAuraActions != null) {
 			for (ABAction action : addToAuraActions) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 		unit.add(game, buff);
@@ -133,7 +133,7 @@ public class CAbilityAbilityBuilderAuraTemplate extends AbilityGenericSingleIcon
 	public void updateLevelOfAura(CSimulation game, CUnit unit, int prevLevel, int curLevel) {
 		if (updateAuraLevelActions != null) {
 			for (ABAction action : updateAuraLevelActions) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class CAbilityAbilityBuilderAuraTemplate extends AbilityGenericSingleIcon
 		unit.remove(game, buff);
 		if (removeFromAuraActions != null) {
 			for (ABAction action : removeFromAuraActions) {
-				action.runAction(game, unit, localStore, 0);
+				action.runAction(unit, localStore, 0);
 			}
 		}
 		auraGroup.remove(unit);

@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.attack;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.attack.ABAttackModifierCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -23,41 +22,40 @@ public class ABActionStartModifiedAttack implements ABAction {
 	
 	private ABBooleanCallback stopOnFailure;
 
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
-			theUnit = unit.callback(game, caster, localStore, castId);
+			theUnit = unit.callback(caster, localStore, castId);
 		}
-		CUnit theTarget = target.callback(game, caster, localStore, castId);
+		CUnit theTarget = target.callback(caster, localStore, castId);
 
 		boolean isDisableMove = false;
 		if (disableMove != null) {
-			isDisableMove = disableMove.callback(game, caster, localStore, castId);
+			isDisableMove = disableMove.callback(caster, localStore, castId);
 		}
 
 		for (final CUnitAttack attack : theUnit.getCurrentAttacks()) {
 			if (theUnit.canReach(theTarget, theUnit.getAcquisitionRange())
-					&& theTarget.canBeTargetedBy(game, theUnit, attack.getTargetsAllowed())
+					&& theTarget.canBeTargetedBy(localStore.game, theUnit, attack.getTargetsAllowed())
 					&& (theUnit.distance(theTarget) >= theUnit.getUnitType().getMinimumAttackRange())) {
-				if (!theTarget.isImmuneToDamage(game, null, attack.getAttackType(),
+				if (!theTarget.isImmuneToDamage(localStore.game, null, attack.getAttackType(),
 						attack.getWeaponType().getDamageType())) {
-					theUnit.beginBehavior(game,
-							theUnit.getAttackBehavior().reset(game, OrderIds.attack, attack, theTarget, isDisableMove,
+					theUnit.beginBehavior(localStore.game,
+							theUnit.getAttackBehavior().reset(localStore.game, OrderIds.attack, attack, theTarget, isDisableMove,
 									CBehaviorAttackListener.DO_NOTHING,
-									modifier.callback(game, caster, localStore, castId)), true);
+									modifier.callback(caster, localStore, castId)), true);
 					return;
 				}
 			}
 		}
 		boolean stop = true;
 		if (stopOnFailure != null) {
-			stop = stopOnFailure.callback(game, caster, localStore, castId);
+			stop = stopOnFailure.callback(caster, localStore, castId);
 		}
 		if (stop) {
-			theUnit.performDefaultBehavior(game);
-			game.spawnTextTag(theUnit, theUnit.getPlayerIndex(), TextTagConfigType.CRITICAL_STRIKE, "miss");
+			theUnit.performDefaultBehavior(localStore.game);
+			localStore.game.spawnTextTag(theUnit, theUnit.getPlayerIndex(), TextTagConfigType.CRITICAL_STRIKE, "miss");
 		}
 	}
 }

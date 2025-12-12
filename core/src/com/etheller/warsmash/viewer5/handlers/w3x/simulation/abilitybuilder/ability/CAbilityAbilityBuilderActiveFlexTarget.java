@@ -38,7 +38,7 @@ public class CAbilityAbilityBuilderActiveFlexTarget extends CAbilityAbilityBuild
 		if (config.getSpecialFields() != null && config.getSpecialFields().getTargetedSpell() != null) {
 			boolean result = true;
 			for (ABCondition condition : config.getSpecialFields().getTargetedSpell()) {
-				result = result && condition.callback(game, unit, localStore, castId);
+				result = result && condition.callback(unit, localStore, castId);
 			}
 			this.targetedSpell = result;
 		}
@@ -47,14 +47,14 @@ public class CAbilityAbilityBuilderActiveFlexTarget extends CAbilityAbilityBuild
 		if (config.getSpecialFields() != null && config.getSpecialFields().getPointTargeted() != null) {
 			boolean result = true;
 			for (ABCondition condition : config.getSpecialFields().getPointTargeted()) {
-				result = result && condition.callback(game, unit, localStore, castId);
+				result = result && condition.callback(unit, localStore, castId);
 			}
 			this.pointTarget = result;
 		}
 	}
 	protected void determineCastless(CUnit unit) {
 		if (this.item != null || this.config.getDisplayFields() != null && this.config.getDisplayFields().getCastlessNoTarget() != null
-				&& this.config.getDisplayFields().getCastlessNoTarget().callback(null, unit, localStore, castId)) {
+				&& this.config.getDisplayFields().getCastlessNoTarget().callback(unit, localStore, castId)) {
 			this.castless = true;
 			this.behavior = null;
 		} else {

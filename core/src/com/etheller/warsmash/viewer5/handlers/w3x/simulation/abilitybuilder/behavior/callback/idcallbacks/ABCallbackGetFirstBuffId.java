@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -16,8 +15,7 @@ public class ABCallbackGetFirstBuffId extends ABIDCallback {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public War3ID callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public War3ID callback(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		final List<War3ID> buffs = ((List<CAbilityTypeAbilityBuilderLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA)).get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1)
@@ -26,7 +24,7 @@ public class ABCallbackGetFirstBuffId extends ABIDCallback {
 			return buffs.get(0);
 		}
 		if (defaultId != null) {
-			return defaultId.callback(game, caster, localStore, castId);
+			return defaultId.callback(caster, localStore, castId);
 		}
 		return null;
 	}

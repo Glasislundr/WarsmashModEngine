@@ -64,47 +64,44 @@ public class CAbilityAbilityBuilderActivePairing extends CAbilityAbilityBuilderG
 
 		if (this.config.getSpecialFields() != null) {
 			if (this.config.getSpecialFields().getPairAbilityId() != null) {
-				this.pairAbilityId = this.config.getSpecialFields().getPairAbilityId().callback(game, unit, localStore,
-						castId);
+				this.pairAbilityId = this.config.getSpecialFields().getPairAbilityId().callback(unit, localStore, castId);
 			}
 			if (this.config.getSpecialFields().getPairUnitId() != null) {
-				this.pairUnitId = this.config.getSpecialFields().getPairUnitId().callback(game, unit, localStore,
-						castId);
+				this.pairUnitId = this.config.getSpecialFields().getPairUnitId().callback(unit, localStore, castId);
 			}
 
 			if (this.config.getSpecialFields().getAutoTargetPartner() != null) {
-				this.autoTargetPartner = this.config.getSpecialFields().getAutoTargetPartner().callback(game, unit,
-						localStore, castId);
+				this.autoTargetPartner = this.config.getSpecialFields().getAutoTargetPartner().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getSpecialFields().getPairSearchRadius() != null) {
-				this.pairSearchRadius = this.config.getSpecialFields().getPairSearchRadius().callback(game, unit,
-						localStore, castId);
+				this.pairSearchRadius = this.config.getSpecialFields().getPairSearchRadius().callback(unit, localStore,
+						castId);
 			}
 
 			if (this.config.getSpecialFields().getPairingOrderId() != null) {
-				this.internalOrderId = this.config.getSpecialFields().getPairingOrderId().callback(game, unit,
-						localStore, castId);
+				this.internalOrderId = this.config.getSpecialFields().getPairingOrderId().callback(unit, localStore,
+						castId);
 			}
 
 			if (this.config.getSpecialFields().getPairingOffOrderId() != null) {
-				this.internalOffOrderId = this.config.getSpecialFields().getPairingOffOrderId().callback(game, unit,
-						localStore, castId);
-			}
-			if (this.config.getSpecialFields().getMaxPartners() != null) {
-				this.maxPartners = this.config.getSpecialFields().getMaxPartners().callback(game, unit, localStore,
+				this.internalOffOrderId = this.config.getSpecialFields().getPairingOffOrderId().callback(unit, localStore,
 						castId);
 			}
+			if (this.config.getSpecialFields().getMaxPartners() != null) {
+				this.maxPartners = this.config.getSpecialFields().getMaxPartners().callback(unit, localStore, castId);
+			}
 			if (this.config.getSpecialFields().getOrderPairedUnit() != null) {
-				this.orderPairedUnit = this.config.getSpecialFields().getOrderPairedUnit().callback(game, unit,
-						localStore, castId);
+				this.orderPairedUnit = this.config.getSpecialFields().getOrderPairedUnit().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getSpecialFields().getOrderPairedUnitOrderId() != null) {
-				this.orderPairedUnitOrderId = this.config.getSpecialFields().getOrderPairedUnitOrderId().callback(game,
-						unit, localStore, castId);
+				this.orderPairedUnitOrderId = this.config.getSpecialFields().getOrderPairedUnitOrderId().callback(unit,
+						localStore, castId);
 			}
 			if (this.config.getSpecialFields().getOrderPairedUnitOffOrderId() != null) {
-				this.orderPairedUnitOffOrderId = this.config.getSpecialFields().getOrderPairedUnitOffOrderId().callback(game,
-						unit, localStore, castId);
+				this.orderPairedUnitOffOrderId = this.config.getSpecialFields().getOrderPairedUnitOffOrderId().callback(unit,
+						localStore, castId);
 			}
 		}
 	}

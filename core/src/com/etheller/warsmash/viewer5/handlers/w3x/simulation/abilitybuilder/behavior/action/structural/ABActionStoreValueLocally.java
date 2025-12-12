@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.structural;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floatcallbacks.ABFloatCallback;
@@ -20,14 +19,13 @@ public class ABActionStoreValueLocally implements ABSingleAction {
 	private ABCallback valueToStore;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
-		if ((this.instanceValue == null) || this.instanceValue.callback(game, caster, localStore, castId)) {
-			localStore.put(ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(game, caster, localStore, castId),
-					castId), this.valueToStore.callback(game, caster, localStore, castId));
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
+			localStore.put(ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId),
+					castId), this.valueToStore.callback(caster, localStore, castId));
 		} else {
-			localStore.put(ABLocalStoreKeys.combineUserKey(this.key.callback(game, caster, localStore, castId), castId),
-					this.valueToStore.callback(game, caster, localStore, castId));
+			localStore.put(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					this.valueToStore.callback(caster, localStore, castId));
 		}
 	}
 

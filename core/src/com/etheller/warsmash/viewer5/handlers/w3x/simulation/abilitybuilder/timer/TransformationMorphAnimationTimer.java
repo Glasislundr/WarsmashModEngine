@@ -13,8 +13,7 @@ public class TransformationMorphAnimationTimer extends CTimer {
 	private final CUnit unit;
 	private final boolean addAlternateTagAfter;
 
-	public TransformationMorphAnimationTimer(final CSimulation game, final CUnit unit,
-			final boolean addAlternateTagAfter, final float delay) {
+	public TransformationMorphAnimationTimer(final CUnit unit, final boolean addAlternateTagAfter, final float delay) {
 		super();
 		this.unit = unit;
 		this.addAlternateTagAfter = addAlternateTagAfter;
@@ -28,8 +27,7 @@ public class TransformationMorphAnimationTimer extends CTimer {
 			this.unit.getUnitAnimationListener().removeSecondaryTag(SecondaryTag.ALTERNATE);
 			this.unit.getUnitAnimationListener().playAnimation(false, PrimaryTag.MORPH, SequenceUtils.EMPTY, 1.0f,
 					true);
-		}
-		else {
+		} else {
 			this.unit.getUnitAnimationListener().playAnimation(false, PrimaryTag.MORPH,
 					EnumSet.of(SecondaryTag.ALTERNATE), 1.0f, true);
 		}
@@ -37,8 +35,7 @@ public class TransformationMorphAnimationTimer extends CTimer {
 				this.addAlternateTagAfter ? EnumSet.of(SecondaryTag.ALTERNATE) : SequenceUtils.EMPTY, true);
 		if (this.addAlternateTagAfter) {
 			this.unit.getUnitAnimationListener().addSecondaryTag(SecondaryTag.ALTERNATE);
-		}
-		else {
+		} else {
 			this.unit.getUnitAnimationListener().removeSecondaryTag(SecondaryTag.ALTERNATE);
 		}
 	}

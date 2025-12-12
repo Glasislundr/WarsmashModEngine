@@ -1,7 +1,6 @@
 
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.attack;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.attack.ABAttackModifierCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
@@ -22,39 +21,38 @@ public class ABActionFireModifiedAttack implements ABAction {
 
 	private ABBooleanCallback showMissOnFailure;
 
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
-			theUnit = unit.callback(game, caster, localStore, castId);
+			theUnit = unit.callback(caster, localStore, castId);
 		}
-		CUnit theTarget = target.callback(game, caster, localStore, castId);
+		CUnit theTarget = target.callback(caster, localStore, castId);
 
 		for (final CUnitAttack attack : theUnit.getCurrentAttacks()) {
 			if (theUnit.canReach(theTarget, attack.getRange() + attack.getRangeMotionBuffer())
-					&& theTarget.canBeTargetedBy(game, theUnit, attack.getTargetsAllowed())
+					&& theTarget.canBeTargetedBy(localStore.game, theUnit, attack.getTargetsAllowed())
 					&& (theUnit.getUnitType().getMinimumAttackRange() == 0
 							|| theUnit.distance(theTarget) >= theUnit.getUnitType().getMinimumAttackRange())) {
-				if (!theTarget.isImmuneToDamage(game, null, attack.getAttackType(),
+				if (!theTarget.isImmuneToDamage(localStore.game, null, attack.getAttackType(),
 						attack.getWeaponType().getDamageType())) {
 					ABAttackModifier mod = null;
 					if (modifier != null) {
-						mod = modifier.callback(game, caster, localStore, castId);
+						mod = modifier.callback(caster, localStore, castId);
 					}
 					CUnitAttackSettings settings = attack.initialSettings();
 					if (mod != null) {
-						if (mod.checkPreLaunchApplication(game, theUnit, theTarget, attack)) {
-							mod.applyPreLaunchModification(game, theUnit, theTarget, attack, settings, null);
+						if (mod.checkPreLaunchApplication(localStore.game, theUnit, theTarget, attack)) {
+							mod.applyPreLaunchModification(localStore.game, theUnit, theTarget, attack, settings, null);
 						}
-						if (mod.checkApplication(game, theUnit, theTarget, attack)) {
-							mod.applyModification(game, theUnit, theTarget, attack, settings, null);
+						if (mod.checkApplication(localStore.game, theUnit, theTarget, attack)) {
+							mod.applyModification(localStore.game, theUnit, theTarget, attack, settings, null);
 						}
 					}
 					if (settings.getPreDamageListeners() == null) {
 						settings.setEmptyPreDamageListeners();
 					}
 
-					attack.launch(game, theUnit, theTarget, attack.roll(game.getSeededRandom()),
+					attack.launch(localStore.game, theUnit, theTarget, attack.roll(localStore.game.getSeededRandom()),
 							CBehaviorAttackListener.DO_NOTHING);
 					return;
 				}
@@ -62,10 +60,10 @@ public class ABActionFireModifiedAttack implements ABAction {
 		}
 		boolean show = false;
 		if (showMissOnFailure != null) {
-			show = showMissOnFailure.callback(game, caster, localStore, castId);
+			show = showMissOnFailure.callback(caster, localStore, castId);
 		}
 		if (show) {
-			game.spawnTextTag(theUnit, theUnit.getPlayerIndex(), TextTagConfigType.CRITICAL_STRIKE, "miss");
+			localStore.game.spawnTextTag(theUnit, theUnit.getPlayerIndex(), TextTagConfigType.CRITICAL_STRIKE, "miss");
 		}
 	}
 }

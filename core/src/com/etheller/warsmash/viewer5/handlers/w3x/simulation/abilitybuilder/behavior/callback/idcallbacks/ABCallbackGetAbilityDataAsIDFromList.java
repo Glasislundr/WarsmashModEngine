@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
@@ -19,7 +18,7 @@ public class ABCallbackGetAbilityDataAsIDFromList extends ABIDCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public War3ID callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public War3ID callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		final List<CAbilityTypeAbilityBuilderLevelData> levelData = (List<CAbilityTypeAbilityBuilderLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA);
 		final int level = (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL);
@@ -31,7 +30,7 @@ public class ABCallbackGetAbilityDataAsIDFromList extends ABIDCallback {
 		String[] ids = data.split(",");
 		int i = 0;
 		if (index != null) {
-			i = index.callback(game, caster, localStore, castId);
+			i = index.callback(caster, localStore, castId);
 		}
 		String tar = ids[Math.min(Math.max(i, 0), ids.length - 1)];
 		if ((tar == null) || "-".equals(tar) || tar.isBlank() || "_".equals(tar)) {

@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.widget.ABWidgetCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
@@ -21,11 +20,10 @@ public class ABActionCreateWidgetEvent implements ABAction {
 	private JassGameEventsWar3 eventType;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster, final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 
-		final ABWidgetEvent event = new ABWidgetEvent(game, caster, localStore, castId,
-				this.widget.callback(game, caster, localStore, castId), this.eventType, this.condition, this.actions);
+		final ABWidgetEvent event = new ABWidgetEvent(caster, localStore, castId,
+				this.widget.callback(caster, localStore, castId), this.eventType, this.condition, this.actions);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDWIDEVENT, event);
 	}

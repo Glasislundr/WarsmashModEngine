@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enumcallbacks.ABAttackTypeCallback;
@@ -33,41 +32,41 @@ public class ABActionDamageTarget implements ABSingleAction {
 	private ABBooleanCallback nonlethal;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
 		CAttackType theAttackType = CAttackType.SPELLS;
 		CDamageType theDamageType = CDamageType.MAGIC;
 		CDamageFlags flags = new CGenericDamageFlags(false, true);
 
-		float theDamage = damage.callback(game, caster, localStore, castId);
+		float theDamage = damage.callback(caster, localStore, castId);
 
 		if (isAttack != null) {
-			flags.setAttack(isAttack.callback(game, caster, localStore, castId));
+			flags.setAttack(isAttack.callback(caster, localStore, castId));
 		}
 		if (isRanged != null) {
-			flags.setRanged(isRanged.callback(game, caster, localStore, castId));
+			flags.setRanged(isRanged.callback(caster, localStore, castId));
 		}
 		if (damageInvulnerable != null) {
-			flags.setIgnoreInvulnerable(damageInvulnerable.callback(game, caster, localStore, castId));
+			flags.setIgnoreInvulnerable(damageInvulnerable.callback(caster, localStore, castId));
 		}
 		if (explodeOnDeath != null) {
-			flags.setExplode(explodeOnDeath.callback(game, caster, localStore, castId));
+			flags.setExplode(explodeOnDeath.callback(caster, localStore, castId));
 		}
 		if (onlyDamageSummons != null) {
-			flags.setOnlyDamageSummons(onlyDamageSummons.callback(game, caster, localStore, castId));
+			flags.setOnlyDamageSummons(onlyDamageSummons.callback(caster, localStore, castId));
 		}
 		if (nonlethal != null) {
-			flags.setNonlethal(nonlethal.callback(game, caster, localStore, castId));
+			flags.setNonlethal(nonlethal.callback(caster, localStore, castId));
 		}
 		if (this.attackType != null) {
-			theAttackType = this.attackType.callback(game, caster, localStore, castId);
+			theAttackType = this.attackType.callback(caster, localStore, castId);
 		}
 		if (this.damageType != null) {
-			theDamageType = this.damageType.callback(game, caster, localStore, castId);
+			theDamageType = this.damageType.callback(caster, localStore, castId);
 		}
-		if (theDamage > 0 || ignoreLTEZero == null || !ignoreLTEZero.callback(game, caster, localStore, castId)) {
-			target.callback(game, caster, localStore, castId).damage(game,
-					source.callback(game, caster, localStore, castId), flags, theAttackType, theDamageType,
-					CWeaponSoundTypeJass.WHOKNOWS.name(), damage.callback(game, caster, localStore, castId));
+		if (theDamage > 0 || ignoreLTEZero == null || !ignoreLTEZero.callback(caster, localStore, castId)) {
+			target.callback(caster, localStore, castId).damage(localStore.game,
+					source.callback(caster, localStore, castId), flags, theAttackType, theDamageType,
+					CWeaponSoundTypeJass.WHOKNOWS.name(), damage.callback(caster, localStore, castId));
 		}
 	}
 

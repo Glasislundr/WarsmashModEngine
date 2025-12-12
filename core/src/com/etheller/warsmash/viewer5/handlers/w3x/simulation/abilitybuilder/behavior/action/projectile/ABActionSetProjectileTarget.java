@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.projectile;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.projectile.ABProjectileCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitcallbacks.ABUnitCallback;
@@ -15,13 +14,12 @@ public class ABActionSetProjectileTarget implements ABSingleAction {
 	private ABUnitCallback target;
 
 	@Override
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 
-		final CProjectile proj = this.projectile.callback(game, caster, localStore, castId);
+		final CProjectile proj = this.projectile.callback(caster, localStore, castId);
 
-		proj.setTarget(this.target.callback(game, caster, localStore, castId));
+		proj.setTarget(this.target.callback(caster, localStore, castId));
 	}
 
 	@Override

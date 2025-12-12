@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.Collections;
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
 
@@ -13,15 +12,15 @@ public class ABCallbackListSorted<T extends Comparable<? super T>> extends ABSor
 	private ABListSortType sort;
 	
 	@Override
-	public List<T> callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore, final int castId) {
-		List<T> theList = list.callback(game, caster, localStore, castId);
+	public List<T> callback(final CUnit caster, final LocalDataStore localStore,
+			final int castId) {
+		List<T> theList = list.callback(caster, localStore, castId);
 		switch(sort){
 		case DSC:
 			theList.sort(Collections.reverseOrder());
 			break;
 		case RAND:
-			Collections.shuffle(theList, game.getSeededRandom());
+			Collections.shuffle(theList, localStore.game.getSeededRandom());
 			break;
 		default:
 		case ASC:

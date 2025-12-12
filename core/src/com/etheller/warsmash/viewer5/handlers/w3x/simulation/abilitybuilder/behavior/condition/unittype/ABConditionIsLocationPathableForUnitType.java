@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.unittype;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
@@ -15,10 +14,11 @@ public class ABConditionIsLocationPathableForUnitType extends ABCondition {
 	ABIDCallback unitType;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, int castId) {
-		War3ID uType = unitType.callback(game, caster, localStore, castId);
-		AbilityPointTarget loc = location.callback(game, caster, localStore, castId);
-		return game.getPathingGrid().isPathable(loc.x, loc.y, game.getUnitData().getUnitType(uType).getMovementType());
+	public Boolean callback(CUnit caster, LocalDataStore localStore, int castId) {
+		War3ID uType = unitType.callback(caster, localStore, castId);
+		AbilityPointTarget loc = location.callback(caster, localStore, castId);
+		return localStore.game.getPathingGrid().isPathable(loc.x, loc.y,
+				localStore.game.getUnitData().getUnitType(uType).getMovementType());
 	}
 
 }

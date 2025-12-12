@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.fx;
 
 import com.etheller.warsmash.util.War3ID;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
@@ -19,24 +18,21 @@ public class ABActionCreateSpellEffectOnUnit implements ABAction {
 	private CEffectType effectType;
 	private ABIntegerCallback index;
 
-	public void runAction(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
 		War3ID theId = null;
 		if (id == null) {
 			theId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		} else {
-			theId = id.callback(game, caster, localStore, castId);
+			theId = id.callback(caster, localStore, castId);
 		}
 		if (index == null) {
-			SimulationRenderComponent ret = game.createPersistentSpellEffectOnUnit(
-					(target.callback(game, caster, localStore, castId)), theId, this.effectType);
+			SimulationRenderComponent ret = localStore.game.createPersistentSpellEffectOnUnit(
+					(target.callback(caster, localStore, castId)), theId, this.effectType);
 			localStore.put(ABLocalStoreKeys.LASTCREATEDFX, ret);
 		} else {
-			SimulationRenderComponent ret = game.createPersistentSpellEffectOnUnit(
-					(target.callback(game, caster, localStore, castId)),
-					this.id.callback(game, caster, localStore, castId), this.effectType,
-					this.index.callback(game, caster, localStore, castId));
+			SimulationRenderComponent ret = localStore.game.createPersistentSpellEffectOnUnit(
+					(target.callback(caster, localStore, castId)), this.id.callback(caster, localStore, castId),
+					this.effectType, this.index.callback(caster, localStore, castId));
 			localStore.put(ABLocalStoreKeys.LASTCREATEDFX, ret);
 		}
 	}

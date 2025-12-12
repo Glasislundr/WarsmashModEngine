@@ -1,7 +1,6 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.action.unit;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleancallbacks.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.idcallbacks.ABIDCallback;
@@ -16,11 +15,11 @@ public class ABActionSetExplodesOnDeath implements ABAction {
 	private ABIDCallback buffId;
 
 	@Override
-	public void runAction(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
-		final CUnit targetUnit = this.unit.callback(game, caster, localStore, castId);
-		targetUnit.setExplodesOnDeath(this.explodes.callback(game, caster, localStore, castId));
+	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+		final CUnit targetUnit = this.unit.callback(caster, localStore, castId);
+		targetUnit.setExplodesOnDeath(this.explodes.callback(caster, localStore, castId));
 		if (this.buffId != null) {
-			targetUnit.setExplodesOnDeathBuffId(this.buffId.callback(game, caster, localStore, castId));
+			targetUnit.setExplodesOnDeathBuffId(this.buffId.callback(caster, localStore, castId));
 		}
 	}
 

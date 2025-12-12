@@ -2,7 +2,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
@@ -10,8 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 public class ABCallbackGetBuffCastingUnit extends ABUnitCallback {
 
 	@Override
-	public CUnit callback(final CSimulation game, final CUnit caster,
-			final LocalDataStore localStore,
+	public CUnit callback(final CUnit caster, final LocalDataStore localStore,
 			final int castId) {
 		return (CUnit) localStore.get(ABLocalStoreKeys.BUFFCASTINGUNIT);
 	}

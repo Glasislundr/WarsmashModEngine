@@ -1,6 +1,5 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.unit;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integercallbacks.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.player.ABPlayerCallback;
@@ -20,14 +19,14 @@ public class ABConditionSuccessfullyChargeResources extends ABCondition {
 	private ABIntegerCallback food;
 
 	@Override
-	public Boolean callback(CSimulation game, CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
-			theUnit = unit.callback(game, caster, localStore, castId);
+			theUnit = unit.callback(caster, localStore, castId);
 		}
-		CPlayer thePlayer = game.getPlayer(theUnit.getPlayerIndex());
+		CPlayer thePlayer = localStore.game.getPlayer(theUnit.getPlayerIndex());
 		if (player != null) {
-			thePlayer = player.callback(game, caster, localStore, castId);
+			thePlayer = player.callback(caster, localStore, castId);
 		}
 
 		int manaCost = 0;
@@ -35,16 +34,16 @@ public class ABConditionSuccessfullyChargeResources extends ABCondition {
 		int lumberCost = 0;
 		int foodCost = 0;
 		if (mana != null) {
-			manaCost = mana.callback(game, caster, localStore, castId);
+			manaCost = mana.callback(caster, localStore, castId);
 		}
 		if (gold != null) {
-			goldCost = gold.callback(game, caster, localStore, castId);
+			goldCost = gold.callback(caster, localStore, castId);
 		}
 		if (lumber != null) {
-			lumberCost = lumber.callback(game, caster, localStore, castId);
+			lumberCost = lumber.callback(caster, localStore, castId);
 		}
 		if (food != null) {
-			foodCost = food.callback(game, caster, localStore, castId);
+			foodCost = food.callback(caster, localStore, castId);
 		}
 
 		if ((manaCost > 0 && manaCost > theUnit.getMana()) || (goldCost > 0 && goldCost > thePlayer.getGold())
