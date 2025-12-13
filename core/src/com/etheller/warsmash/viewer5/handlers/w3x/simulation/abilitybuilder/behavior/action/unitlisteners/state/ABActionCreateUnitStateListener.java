@@ -25,10 +25,9 @@ public class ABActionCreateUnitStateListener implements ABAction {
 	private List<ABAction> onHideStateChanged;
 
 	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
-		ABUnitStateListener modifier = new ABUnitStateListener(localStore.game, caster, localStore, castId,
-				onLifeChanged, onManaChanged, onOrdersChanged, onQueueChanged, onRallyPointChanged, onWaypointsChanged,
-				onHeroStatsChanged, onInventoryChanged, onAttacksChanged, onAbilitiesChanged, onUpgradesChanged,
-				onHideStateChanged);
+		ABUnitStateListener modifier = new ABUnitStateListener(caster, localStore, castId, onLifeChanged, onManaChanged,
+				onOrdersChanged, onQueueChanged, onRallyPointChanged, onWaypointsChanged, onHeroStatsChanged,
+				onInventoryChanged, onAttacksChanged, onAbilitiesChanged, onUpgradesChanged, onHideStateChanged);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDUSL, modifier);
 	}

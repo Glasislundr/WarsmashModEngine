@@ -1,4 +1,4 @@
-package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior;
+package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.visitor;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
