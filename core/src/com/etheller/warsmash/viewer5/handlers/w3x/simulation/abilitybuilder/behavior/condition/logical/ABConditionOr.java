@@ -3,18 +3,18 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
-public class ABConditionOr extends ABCondition {
+public class ABConditionOr extends ABBooleanCallback {
 
-	private List<ABCondition> conditions;
+	private List<ABBooleanCallback> conditions;
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		boolean result = false;
 		if (conditions != null) {
-			for (ABCondition cond : conditions) {
+			for (ABBooleanCallback cond : conditions) {
 				if (!result) {
 					result = result || cond.callback(caster, localStore, castId);
 				}

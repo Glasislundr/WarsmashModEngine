@@ -3,12 +3,12 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.List;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackInlineConditionList extends ABListCallback<Object> {
 
-	private ABCondition condition;
+	private ABBooleanCallback condition;
 	private ABListCallback<Object> pass;
 	private ABListCallback<Object> fail;
 

@@ -2,11 +2,11 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enums.ABAttackTypeCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
 
-public class ABConditionIsAttackTypeEqual extends ABCondition {
+public class ABConditionIsAttackTypeEqual extends ABBooleanCallback {
 
 	private ABAttackTypeCallback attackType1;
 	private ABAttackTypeCallback attackType2;

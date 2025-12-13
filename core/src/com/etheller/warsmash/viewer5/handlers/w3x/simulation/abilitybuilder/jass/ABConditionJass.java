@@ -7,10 +7,10 @@ import java.util.List;
 import com.etheller.interpreter.ast.scope.trigger.TriggerBooleanExpression;
 import com.etheller.warsmash.parsers.jass.scope.CommonTriggerExecutionScope;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
-public class ABConditionJass extends ABCondition {
+public class ABConditionJass extends ABBooleanCallback {
 	private final TriggerBooleanExpression boolExpr;
 
 	public ABConditionJass(final TriggerBooleanExpression boolExpr) {
@@ -23,7 +23,7 @@ public class ABConditionJass extends ABCondition {
 				CommonTriggerExecutionScope.abilityBuilder(caster, localStore, castId));
 	}
 
-	public static List<ABCondition> wrap(final TriggerBooleanExpression jassFunction) {
+	public static List<ABBooleanCallback> wrap(final TriggerBooleanExpression jassFunction) {
 		if (jassFunction == null) {
 			return Collections.emptyList();
 		} else {

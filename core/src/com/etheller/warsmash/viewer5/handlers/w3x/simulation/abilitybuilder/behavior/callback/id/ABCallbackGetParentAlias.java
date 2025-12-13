@@ -7,7 +7,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.data
 
 public class ABCallbackGetParentAlias extends ABIDCallback {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public War3ID callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		return (War3ID) ((ABLocalDataStore) localStore.get(ABLocalStoreKeys.PARENTLOCALSTORE))

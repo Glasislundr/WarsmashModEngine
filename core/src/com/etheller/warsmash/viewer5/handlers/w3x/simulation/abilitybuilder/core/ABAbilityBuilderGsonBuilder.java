@@ -67,7 +67,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.ability.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.attack.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.attacksettings.*;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.buff.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructable.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructablebuff.*;
@@ -101,6 +100,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ability.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.attack.*;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.booleans.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.buff.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.comparison.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.cost.*;
@@ -1605,8 +1605,8 @@ public abstract class ABAbilityBuilderGsonBuilder {
 		registerWidgetEventCallbacks(widgetEventCallbackTypeFactory);
 		gsonBuilder.registerTypeAdapterFactory(widgetEventCallbackTypeFactory);
 
-		final RuntimeTypeAdapterFactory<ABCondition> conditionTypeFactory = RuntimeTypeAdapterFactory
-				.of(ABCondition.class, "type");
+		final RuntimeTypeAdapterFactory<ABBooleanCallback> conditionTypeFactory = RuntimeTypeAdapterFactory
+				.of(ABBooleanCallback.class, "type");
 		registerConditions(conditionTypeFactory);
 		registerBooleanCallbacks(conditionTypeFactory);
 		gsonBuilder.registerTypeAdapterFactory(conditionTypeFactory);

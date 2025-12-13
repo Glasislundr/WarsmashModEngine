@@ -1,14 +1,13 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.CommandStringErrorKeysEnum;
 
-public class ABConditionSetCantUseReasonOnFailure extends ABCondition {
+public class ABConditionSetCantUseReasonOnFailure extends ABBooleanCallback {
 
-	private ABCondition condition;
+	private ABBooleanCallback condition;
 	private CommandStringErrorKeysEnum reason;
 
 	@Override

@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.subfields.ABAbilityBuilderOverrideFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.subfields.ABAbilityBuilderParserTemplateFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.subfields.ABAbilityBuilderSpecialConfigFields;
@@ -26,10 +26,10 @@ public class ABAbilityBuilderParser {
 	private ABAbilityBuilderSpecialConfigFields specialFields;
 	private ABAbilityBuilderOverrideFields overrideFields;
 
-	private List<ABCondition> extraTargetConditions;
-	private List<ABCondition> extraAutoTargetConditions;
-	private List<ABCondition> extraAutoNoTargetConditions;
-	private List<ABCondition> extraCastConditions;
+	private List<ABBooleanCallback> extraTargetConditions;
+	private List<ABBooleanCallback> extraAutoTargetConditions;
+	private List<ABBooleanCallback> extraAutoNoTargetConditions;
+	private List<ABBooleanCallback> extraCastConditions;
 
 	private List<ABAction> onAddAbility;
 	private List<ABAction> onAddDisabledAbility;
@@ -198,41 +198,41 @@ public class ABAbilityBuilderParser {
 		this.overrideFields = overrideFields;
 	}
 
-	public List<ABCondition> getExtraTargetConditions() {
+	public List<ABBooleanCallback> getExtraTargetConditions() {
 		return extraTargetConditions;
 	}
 
-	public void setExtraTargetConditions(List<ABCondition> extraTargetConditions) {
+	public void setExtraTargetConditions(List<ABBooleanCallback> extraTargetConditions) {
 		this.extraTargetConditions = extraTargetConditions;
 	}
 
 	/**
 	 * @return the extraAutoTargetConditions
 	 */
-	public List<ABCondition> getExtraAutoTargetConditions() {
+	public List<ABBooleanCallback> getExtraAutoTargetConditions() {
 		return extraAutoTargetConditions;
 	}
 
 	/**
 	 * @param extraAutoTargetConditions the extraAutoTargetConditions to set
 	 */
-	public void setExtraAutoTargetConditions(List<ABCondition> extraAutoTargetConditions) {
+	public void setExtraAutoTargetConditions(List<ABBooleanCallback> extraAutoTargetConditions) {
 		this.extraAutoTargetConditions = extraAutoTargetConditions;
 	}
 
-	public List<ABCondition> getExtraAutoNoTargetConditions() {
+	public List<ABBooleanCallback> getExtraAutoNoTargetConditions() {
 		return extraAutoNoTargetConditions;
 	}
 
-	public void setExtraAutoNoTargetConditions(List<ABCondition> extraAutoNoTargetConditions) {
+	public void setExtraAutoNoTargetConditions(List<ABBooleanCallback> extraAutoNoTargetConditions) {
 		this.extraAutoNoTargetConditions = extraAutoNoTargetConditions;
 	}
 
-	public List<ABCondition> getExtraCastConditions() {
+	public List<ABBooleanCallback> getExtraCastConditions() {
 		return extraCastConditions;
 	}
 
-	public void setExtraCastConditions(List<ABCondition> extraCastConditions) {
+	public void setExtraCastConditions(List<ABBooleanCallback> extraCastConditions) {
 		this.extraCastConditions = extraCastConditions;
 	}
 

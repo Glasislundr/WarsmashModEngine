@@ -2,13 +2,12 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.par
 
 import java.util.List;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.orderid.ABOrderIdCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehaviorCategory;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.CommandStringErrorKeysEnum;
 
@@ -16,8 +15,8 @@ public class ABAbilityBuilderSpecialConfigFields {
 	private ABIntegerCallback bufferManaRequired;
 	private ABIntegerCallback manaDrainedPerSecond;
 	
-	private List<ABCondition> pointTargeted;
-	private List<ABCondition> targetedSpell;
+	private List<ABBooleanCallback> pointTargeted;
+	private List<ABBooleanCallback> targetedSpell;
 
 	private List<ABAction> autoAquireTarget;
 
@@ -101,19 +100,19 @@ public class ABAbilityBuilderSpecialConfigFields {
 		this.manaDrainedPerSecond = manaDrainedPerSecond;
 	}
 
-	public List<ABCondition> getPointTargeted() {
+	public List<ABBooleanCallback> getPointTargeted() {
 		return pointTargeted;
 	}
 
-	public void setPointTargeted(List<ABCondition> pointTargeted) {
+	public void setPointTargeted(List<ABBooleanCallback> pointTargeted) {
 		this.pointTargeted = pointTargeted;
 	}
 
-	public List<ABCondition> getTargetedSpell() {
+	public List<ABBooleanCallback> getTargetedSpell() {
 		return targetedSpell;
 	}
 
-	public void setTargetedSpell(List<ABCondition> targetedSpell) {
+	public void setTargetedSpell(List<ABBooleanCallback> targetedSpell) {
 		this.targetedSpell = targetedSpell;
 	}
 

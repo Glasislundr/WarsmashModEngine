@@ -2,11 +2,11 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enums.ABDefenseTypeCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDefenseType;
 
-public class ABConditionIsDefenseTypeEqual extends ABCondition {
+public class ABConditionIsDefenseTypeEqual extends ABBooleanCallback {
 
 	private ABDefenseTypeCallback defenseType1;
 	private ABDefenseTypeCallback defenseType2;

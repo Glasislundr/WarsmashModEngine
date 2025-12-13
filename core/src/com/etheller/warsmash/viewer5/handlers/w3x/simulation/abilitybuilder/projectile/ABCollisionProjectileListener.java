@@ -9,8 +9,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CAbilityCollisionProjectileListener;
@@ -20,7 +20,7 @@ public class ABCollisionProjectileListener implements CAbilityCollisionProjectil
 
 	private List<ABAction> onLaunch;
 	private List<ABAction> onPreHits;
-	private List<ABCondition> canHitTarget;
+	private List<ABBooleanCallback> canHitTarget;
 	private List<ABAction> onHit;
 
 	private CUnit caster;
@@ -28,7 +28,7 @@ public class ABCollisionProjectileListener implements CAbilityCollisionProjectil
 	private int castId;
 
 	public ABCollisionProjectileListener(List<ABAction> onLaunch, List<ABAction> onPreHits,
-			List<ABCondition> canHitTarget, List<ABAction> onHit, CUnit caster, ABLocalDataStore localStore, int castId) {
+			List<ABBooleanCallback> canHitTarget, List<ABAction> onHit, CUnit caster, ABLocalDataStore localStore, int castId) {
 		super();
 		this.onLaunch = onLaunch;
 		this.onPreHits = onPreHits;
@@ -69,7 +69,7 @@ public class ABCollisionProjectileListener implements CAbilityCollisionProjectil
 			CDestructable targetDest = target.visit(AbilityTargetVisitor.DESTRUCTABLE);
 			localStore.put(ABLocalStoreKeys.PROJECTILEHITUNIT + castId, targetUnit);
 			localStore.put(ABLocalStoreKeys.PROJECTILEHITDEST + castId, targetDest);
-			for (ABCondition condition : canHitTarget) {
+			for (ABBooleanCallback condition : canHitTarget) {
 				result = result && condition.callback(caster, localStore, castId);
 			}
 			localStore.remove(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);

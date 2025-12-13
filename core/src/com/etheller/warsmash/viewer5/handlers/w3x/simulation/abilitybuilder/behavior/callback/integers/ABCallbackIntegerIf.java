@@ -1,14 +1,14 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackIntegerIf extends ABIntegerCallback {
 
 	private ABIntegerCallback value1;
 	private ABIntegerCallback value2;
-	private ABCondition condition;
+	private ABBooleanCallback condition;
 	
 	@Override
 	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {

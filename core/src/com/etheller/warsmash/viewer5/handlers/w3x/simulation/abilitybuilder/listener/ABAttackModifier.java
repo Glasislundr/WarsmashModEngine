@@ -6,8 +6,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
@@ -17,9 +17,9 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.repl
 
 public class ABAttackModifier implements CUnitAttackModifier {
 	private ABIntegerCallback priority;
-	private ABCondition preLaunchCondition;
+	private ABBooleanCallback preLaunchCondition;
 	private List<ABAction> preLaunchModification;
-	private ABCondition condition;
+	private ABBooleanCallback condition;
 	private List<ABAction> modification;
 
 	private ABLocalDataStore localStore;
@@ -27,7 +27,7 @@ public class ABAttackModifier implements CUnitAttackModifier {
 	private boolean useCastId;
 
 	public ABAttackModifier(ABLocalDataStore localStore, int castId, ABIntegerCallback priority,
-			ABCondition preLaunchCondition, List<ABAction> preLaunchModification, ABCondition condition,
+			ABBooleanCallback preLaunchCondition, List<ABAction> preLaunchModification, ABBooleanCallback condition,
 			List<ABAction> modification, boolean useCastId) {
 		this.localStore = localStore;
 		this.priority = priority;

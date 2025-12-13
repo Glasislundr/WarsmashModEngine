@@ -7,17 +7,17 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitAndRangeComparator;
 
-public class ABConditionMatchingCorpseExistsInRangeOfUnit extends ABCondition {
+public class ABConditionMatchingCorpseExistsInRangeOfUnit extends ABBooleanCallback {
 	private static final Rectangle recycleRect = new Rectangle();
 
 	private ABUnitCallback originUnit;
 	private ABFloatCallback range;
-	private List<ABCondition> conditions;
+	private List<ABBooleanCallback> conditions;
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
@@ -36,7 +36,7 @@ public class ABConditionMatchingCorpseExistsInRangeOfUnit extends ABCondition {
 						if (conditions != null) {
 							boolean result = true;
 							localStore.put(ABLocalStoreKeys.MATCHINGUNIT+castId, enumUnit);
-							for (ABCondition condition : conditions) {
+							for (ABBooleanCallback condition : conditions) {
 								result = result && condition.callback(caster, localStore, castId);
 							}
 							localStore.remove(ABLocalStoreKeys.MATCHINGUNIT+castId);

@@ -6,8 +6,8 @@ import com.etheller.interpreter.ast.scope.TriggerExecutionScope;
 import com.etheller.warsmash.parsers.jass.scope.CommonTriggerExecutionScope;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
@@ -19,11 +19,11 @@ public class ABWidgetEvent extends CWidgetEvent {
 	private ABLocalDataStore localStore;
 	private int castId;
 
-	private ABCondition condition;
+	private ABBooleanCallback condition;
 	private List<ABAction> actions;
 
 	public ABWidgetEvent(CUnit caster, ABLocalDataStore localStore, int castId, CWidget widget,
-			JassGameEventsWar3 eventType, ABCondition condition, List<ABAction> actions) {
+			JassGameEventsWar3 eventType, ABBooleanCallback condition, List<ABAction> actions) {
 		super(localStore.game.getGlobalScope(), widget, null, eventType, null);
 		this.caster = caster;
 		this.localStore = localStore;

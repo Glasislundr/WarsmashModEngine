@@ -32,8 +32,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderNoTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enums.ABTargetTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderConfiguration;
@@ -714,7 +714,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		if (innerCheckCanUseSpell(game, unit, orderId, receiver)) {
 			if (config.getExtraCastConditions() != null) {
 				boolean result = true;
-				for (ABCondition condition : config.getExtraCastConditions()) {
+				for (ABBooleanCallback condition : config.getExtraCastConditions()) {
 					result = result && condition.callback(unit, localStore, -1);
 				}
 				if (result) {
@@ -939,7 +939,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	protected String innerCheckExtraTargetConditions(CSimulation game, CUnit unit, int orderId) {
 		if (config.getExtraTargetConditions() != null) {
 			boolean result = true;
-			for (ABCondition condition : config.getExtraTargetConditions()) {
+			for (ABBooleanCallback condition : config.getExtraTargetConditions()) {
 				result = result && condition.callback(unit, localStore, -1);
 			}
 			if (result) {
@@ -961,12 +961,12 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		if (config.getExtraTargetConditions() != null || config.getExtraAutoTargetConditions() != null) {
 			boolean result = true;
 			if (config.getExtraTargetConditions() != null) {
-				for (ABCondition condition : config.getExtraTargetConditions()) {
+				for (ABBooleanCallback condition : config.getExtraTargetConditions()) {
 					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
 			if (config.getExtraAutoTargetConditions() != null) {
-				for (ABCondition condition : config.getExtraAutoTargetConditions()) {
+				for (ABBooleanCallback condition : config.getExtraAutoTargetConditions()) {
 					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
@@ -990,7 +990,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		if (config.getExtraAutoNoTargetConditions() != null) {
 			boolean result = true;
 			if (config.getExtraAutoNoTargetConditions() != null) {
-				for (ABCondition condition : config.getExtraAutoNoTargetConditions()) {
+				for (ABBooleanCallback condition : config.getExtraAutoNoTargetConditions()) {
 					result = result && condition.callback(unit, localStore, -1);
 				}
 			}

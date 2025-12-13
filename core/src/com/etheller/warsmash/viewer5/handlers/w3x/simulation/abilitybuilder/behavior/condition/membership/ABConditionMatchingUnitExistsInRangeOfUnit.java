@@ -5,17 +5,17 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitAndRangeComparator;
 
-public class ABConditionMatchingUnitExistsInRangeOfUnit extends ABCondition {
+public class ABConditionMatchingUnitExistsInRangeOfUnit extends ABBooleanCallback {
 	private static final Rectangle recycleRect = new Rectangle();
 
 	private ABUnitCallback originUnit;
 	private ABFloatCallback range;
-	private ABCondition condition;
+	private ABBooleanCallback condition;
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {

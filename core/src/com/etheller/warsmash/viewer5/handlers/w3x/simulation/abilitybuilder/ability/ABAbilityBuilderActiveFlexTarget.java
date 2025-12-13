@@ -12,7 +12,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderBase;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderNoTarget;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderConfiguration;
@@ -37,7 +37,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 	private void setTargeted(CSimulation game, CUnit unit) {
 		if (config.getSpecialFields() != null && config.getSpecialFields().getTargetedSpell() != null) {
 			boolean result = true;
-			for (ABCondition condition : config.getSpecialFields().getTargetedSpell()) {
+			for (ABBooleanCallback condition : config.getSpecialFields().getTargetedSpell()) {
 				result = result && condition.callback(unit, localStore, castId);
 			}
 			this.targetedSpell = result;
@@ -46,7 +46,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 	private void setPointTarget(CSimulation game, CUnit unit) {
 		if (config.getSpecialFields() != null && config.getSpecialFields().getPointTargeted() != null) {
 			boolean result = true;
-			for (ABCondition condition : config.getSpecialFields().getPointTargeted()) {
+			for (ABBooleanCallback condition : config.getSpecialFields().getPointTargeted()) {
 				result = result && condition.callback(unit, localStore, castId);
 			}
 			this.pointTarget = result;

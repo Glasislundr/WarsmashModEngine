@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enums.ABDefenseTypeCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDefenseType;
 
-public class ABConditionIsDefenseTypeInList extends ABCondition {
+public class ABConditionIsDefenseTypeInList extends ABBooleanCallback {
 
 	private ABDefenseTypeCallback defenseType;
 	private List<ABDefenseTypeCallback> list;
