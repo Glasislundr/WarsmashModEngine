@@ -8,7 +8,7 @@ public class ABCallbackGetCastingPlayer extends ABPlayerCallback {
 	
 	@Override
 	public CPlayer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return localStore.game.getPlayer(caster.getPlayerIndex());
+		return localStore.originPlayer;
 	}
 
 }
