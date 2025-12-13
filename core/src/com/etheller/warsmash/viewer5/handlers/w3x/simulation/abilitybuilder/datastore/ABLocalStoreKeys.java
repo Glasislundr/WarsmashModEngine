@@ -1,4 +1,4 @@
-package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core;
+package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore;
 
 public class ABLocalStoreKeys {
 	// Core values

@@ -13,8 +13,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.abil
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.template.ABAbilityBuilderSimpleAuraTemplate;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.template.ABAbilityBuilderStatAuraTemplate;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.template.ABAbilityBuilderStatPassiveTemplate;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABMapLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderParser;
 
