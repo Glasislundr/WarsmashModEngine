@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.autocast.AutocastType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.stringcallbacks.ABStringCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.subfields.AbilityBuilderOverrideFields;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.subfields.AbilityBuilderSpecialConfigFields;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.subfields.AbilityBuilderSpecialDisplayFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.definitions.impl.CAbilityTypeDefinitionAbilityBuilder;
 
 public class AbilityBuilderConfiguration {

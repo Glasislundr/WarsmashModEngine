@@ -1272,7 +1272,7 @@
 							"type": "getAttackType"
 						},
 						"damageType": {
-							"type": "getDamageType"
+							"type": "getAttackDamageType"
 						},
 						"fullDamage": {
 							"type": "getAbilityDataAsFloat",
@@ -1416,7 +1416,7 @@
 							"type": "getAttackType"
 						},
 						"damageType": {
-							"type": "getDamageType"
+							"type": "getAttackDamageType"
 						},
 						"fullDamage": {
 							"type": "getAbilityDataAsFloat",
@@ -1530,7 +1530,7 @@
 				"condition": {
 					"type": "isWeaponTypeEqual",
 					"weaponType1": {
-						"type": "getWeaponType"
+						"type": "getAttackWeaponType"
 					},
 					"weaponType2": {
 						"type": "getWeaponTypeFromString",
@@ -1575,7 +1575,7 @@
 							"value": "damT"
 						},
 						"valueToStore": {
-							"type": "getDamageType"
+							"type": "getAttackDamageType"
 						}
 					},{
 						"type": "storeValueLocally",

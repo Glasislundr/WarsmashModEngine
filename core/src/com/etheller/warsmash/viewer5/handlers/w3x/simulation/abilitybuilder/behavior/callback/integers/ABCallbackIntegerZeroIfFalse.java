@@ -1,0 +1,20 @@
+package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers;
+
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+
+public class ABCallbackIntegerZeroIfFalse extends ABIntegerCallback {
+
+	private ABIntegerCallback value;
+	private ABBooleanCallback bool;
+	
+	@Override
+	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+		if (bool == null || !bool.callback(caster, localStore, castId)) {
+			return 0;
+		}
+		return value.callback(caster, localStore, castId);
+	}
+
+}
