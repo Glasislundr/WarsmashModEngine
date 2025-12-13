@@ -27,7 +27,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.queue.CAb
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.queue.CAbilityRally;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.queue.CAbilityReviveHero;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.upgrade.CAbilityUpgrade;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderActiveAbility;
 
 public class AbilityDisableWhileUnderConstructionVisitor implements CAbilityVisitor<Void> {
 	public static final AbilityDisableWhileUnderConstructionVisitor INSTANCE = new AbilityDisableWhileUnderConstructionVisitor();

@@ -54,8 +54,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.nightelf.
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABGenericTimedBuff;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.CPausedTickingBuff;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.ABGenericTimedBuff;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.CPausedTickingBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.BehaviorAbilityVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.BehaviorTargetUnitVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;

@@ -2,8 +2,8 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderBase;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderNoTarget;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderBase;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderNoTarget;
 
 public class BehaviorTargetUnitVisitor implements CBehaviorVisitor<CUnit> {
 	public static final BehaviorTargetUnitVisitor INSTANCE = new BehaviorTargetUnitVisitor();

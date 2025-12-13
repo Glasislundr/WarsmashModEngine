@@ -9,14 +9,14 @@ import java.util.List;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorImpl1;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.autocast.AutocastType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAbilityBuilderGsonBuilder;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderConfiguration;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderDupe;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderParser;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderParserUtil;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderParserUtil.AbilityBuilderFileListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAbilityBuilderGsonBuilder;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderDupe;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParser;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParserUtil;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParserUtil.AbilityBuilderFileListener;
 import com.google.gson.Gson;
 
 public class AbilityBuilderJassBrainstorm {

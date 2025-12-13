@@ -1,8 +1,8 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderBase;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorAbilityBuilderNoTarget;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderBase;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderNoTarget;
 
 public class BehaviorAbilityVisitor implements CBehaviorVisitor<CAbility> {
 	public static final BehaviorAbilityVisitor INSTANCE = new BehaviorAbilityVisitor();
