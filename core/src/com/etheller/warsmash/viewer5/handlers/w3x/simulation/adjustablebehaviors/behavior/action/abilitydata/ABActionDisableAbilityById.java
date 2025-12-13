@@ -9,7 +9,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.visitor.ABGetABAbilityByRawcodeVisitor;
 
 public class ABActionDisableAbilityById implements ABSingleAction {
@@ -18,8 +17,7 @@ public class ABActionDisableAbilityById implements ABSingleAction {
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (this.unit != null) {
 			theUnit = this.unit.callback(caster, localStore, castId);
@@ -31,9 +29,8 @@ public class ABActionDisableAbilityById implements ABSingleAction {
 			if (abil != null) {
 				abil.setDisabled(true, CAbilityDisableType.ABILITYINTERNAL);
 			}
-		}
-		else {
-			final ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		} else {
+			final ABAbilityBuilderAbility abil = localStore.originAbility;
 			abil.setDisabled(true, CAbilityDisableType.ABILITYINTERNAL);
 		}
 	}
@@ -43,14 +40,12 @@ public class ABActionDisableAbilityById implements ABSingleAction {
 		String unitExpression;
 		if (this.unit != null) {
 			unitExpression = this.unit.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			unitExpression = jassTextGenerator.getCaster();
 		}
 		if (this.alias != null) {
 			return "TODOJASS";
-		}
-		else {
+		} else {
 			return "TODOJASS";
 		}
 	}

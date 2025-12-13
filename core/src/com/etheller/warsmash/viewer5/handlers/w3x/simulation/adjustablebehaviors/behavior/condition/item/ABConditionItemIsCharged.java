@@ -5,7 +5,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.item.ABItemCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABConditionItemIsCharged extends ABBooleanCallback {
 
@@ -14,7 +13,7 @@ public class ABConditionItemIsCharged extends ABBooleanCallback {
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (item == null) {
-			ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			ABAbilityBuilderAbility ability = localStore.originAbility;
 
 			return ability.getItem().getItemType().getNumberOfCharges() > 0;
 		} else {

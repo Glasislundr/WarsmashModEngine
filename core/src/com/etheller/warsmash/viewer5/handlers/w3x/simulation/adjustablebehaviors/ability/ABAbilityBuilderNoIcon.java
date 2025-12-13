@@ -49,12 +49,10 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 		this.levelData = levelData;
 		this.config = config;
 		this.localStore = localStore;
-		localStore.put(ABLocalStoreKeys.ABILITY, this);
+		localStore.originAbility = this;
 		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
 		final int levels = editorData.getFieldAsInteger(AbilityFields.LEVELS, 0);
 		localStore.put(ABLocalStoreKeys.ISABILITYLEVELED, levels > 1);
-		localStore.put(ABLocalStoreKeys.ISABILITYMAGIC, false);
-		localStore.put(ABLocalStoreKeys.ISABILITYPHYSICAL, false);
 	}
 	
 	private void addInitialUniqueFlags(CSimulation game, CUnit unit) {
@@ -186,7 +184,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	@Override
 	public void setItemAbility(final CItem item, int slot) {
 		this.item = item;
-		this.localStore.put(ABLocalStoreKeys.ITEM, item);
+		this.localStore.originItem = item;
 		this.localStore.put(ABLocalStoreKeys.ITEMSLOT, slot);
 	}
 
@@ -249,7 +247,8 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	@Override
 	public void onAdd(CSimulation game, CUnit unit) {
 		localStore.game = game;
-		localStore.put(ABLocalStoreKeys.THISUNIT, unit);
+		localStore.originUnit = unit;
+		localStore.originPlayer = game.getPlayer(unit.getPlayerIndex());
 		if (config.getOnAddAbility() != null) {
 			for (ABAction action : config.getOnAddAbility()) {
 				action.runAction(unit, localStore, 0);
@@ -260,7 +259,8 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	@Override
 	public void onAddDisabled(CSimulation game, CUnit unit) {
 		localStore.game = game;
-		localStore.put(ABLocalStoreKeys.THISUNIT, unit);
+		localStore.originUnit = unit;
+		localStore.originPlayer = game.getPlayer(unit.getPlayerIndex());
 		addInitialUniqueFlags(game, unit);
 		setSpellFields(game, unit);
 		if (config.getOnAddDisabledAbility() != null) {

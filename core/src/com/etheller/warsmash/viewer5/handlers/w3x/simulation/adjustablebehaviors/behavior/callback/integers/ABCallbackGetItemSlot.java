@@ -21,7 +21,7 @@ public class ABCallbackGetItemSlot extends ABIntegerCallback {
 		if (item != null) {
 			theItem = item.callback(caster, localStore, castId);
 		} else {
-			theItem = (CItem)localStore.get(ABLocalStoreKeys.ITEM);
+			theItem = localStore.originItem;
 		}
 		
 		if (theItem == null || theItem.getContainedInventory() == null) {

@@ -220,7 +220,6 @@ public abstract class ABAbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetStoredBooleanByKey.class, "getStoredBooleanByKey")
 				.registerSubtype(ABCallbackInlineConditionBoolean.class, "inlineConditionBoolean")
 				.registerSubtype(ABCallbackGetAbilityDataAsBoolean.class, "getAbilityDataAsBoolean")
-				.registerSubtype(ABCallbackGetParentAbilityDataAsBoolean.class, "getParentAbilityDataAsBoolean")
 				.registerSubtype(ABCallbackGetAbilityUniqueValueBoolean.class, "getAbilityUniqueValueBoolean")
 				.registerSubtype(ABCallbackGetBuffUniqueValueBoolean.class, "getBuffUniqueValueBoolean")
 				
@@ -329,7 +328,6 @@ public abstract class ABAbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetStoredFloatByKey.class, "getStoredFloatByKey")
 				.registerSubtype(ABCallbackInlineConditionFloat.class, "inlineConditionFloat")
 				.registerSubtype(ABCallbackGetAbilityDataAsFloat.class, "getAbilityDataAsFloat")
-				.registerSubtype(ABCallbackGetParentAbilityDataAsFloat.class, "getParentAbilityDataAsFloat")
 				.registerSubtype(ABCallbackGetAbilityUniqueValueFloat.class, "getAbilityUniqueValueFloat")
 				.registerSubtype(ABCallbackGetBuffUniqueValueFloat.class, "getBuffUniqueValueFloat")
 				
@@ -405,7 +403,6 @@ public abstract class ABAbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetAlias.class, "getAlias")
 				.registerSubtype(ABCallbackGetCode.class, "getCode")
 				.registerSubtype(ABCallbackGetBuffIdFromCode.class, "getBuffIdFromCode")
-				.registerSubtype(ABCallbackGetParentAlias.class, "getParentAlias")
 				.registerSubtype(ABCallbackGetFirstBuffId.class, "getFirstBuffId")
 				.registerSubtype(ABCallbackGetSecondBuffId.class, "getSecondBuffId")
 				.registerSubtype(ABCallbackGetFirstEffectId.class, "getFirstEffectId")
@@ -748,7 +745,6 @@ public abstract class ABAbilityBuilderGsonBuilder {
 				.registerSubtype(ABCallbackGetAbilityPairedUnit.class, "getAbilityPairedUnit")
 				.registerSubtype(ABCallbackGetStoredUnitByKey.class, "getStoredUnitByKey")
 				.registerSubtype(ABCallbackInlineConditionUnit.class, "inlineConditionUnit")
-				.registerSubtype(ABCallbackGetParentCastingUnit.class, "getParentCastingUnit")
 				.registerSubtype(ABCallbackGetProjectileSourceUnit.class, "getProjectileSourceUnit")
 				.registerSubtype(ABCallbackGetProjectileHitUnit.class, "getProjectileHitUnit")
 				.registerSubtype(ABCallbackGetChainUnit.class, "getChainUnit")

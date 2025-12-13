@@ -4,11 +4,9 @@ import java.util.List;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
 
 public class ABCallbackReuseSortableList<T extends Comparable<? super T>> extends ABSortableListCallback<T> {
@@ -18,7 +16,7 @@ public class ABCallbackReuseSortableList<T extends Comparable<? super T>> extend
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		final ABAbilityBuilderConfiguration config = ((ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
+		final ABAbilityBuilderConfiguration config = (localStore.originAbility)
 				.getConfig();
 		final String keyS = name.callback(caster, localStore, castId);
 		if (config.getReuseCallbacks() != null) {

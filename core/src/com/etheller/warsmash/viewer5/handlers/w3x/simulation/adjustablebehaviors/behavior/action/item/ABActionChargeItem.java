@@ -8,7 +8,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABActionChargeItem implements ABSingleAction {
 
@@ -19,7 +18,7 @@ public class ABActionChargeItem implements ABSingleAction {
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		CItem it = null;
 		if (this.item == null) {
-			final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			final ABAbilityBuilderAbility ability = localStore.originAbility;
 
 			it = ability.getItem();
 		} else {

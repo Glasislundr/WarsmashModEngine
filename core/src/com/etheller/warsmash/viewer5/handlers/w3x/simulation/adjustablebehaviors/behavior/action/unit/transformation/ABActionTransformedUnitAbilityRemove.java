@@ -11,7 +11,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.handler.ABTransformationHandler;
 
 public class ABActionTransformedUnitAbilityRemove implements ABAction {
@@ -39,7 +38,7 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 			}
 			War3ID baseId = baseUnitId.callback(caster, localStore, castId);
 			War3ID altId = alternateUnitId.callback(caster, localStore, castId);
-			ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			ABAbilityBuilderAbility abil = localStore.originAbility;
 
 			if (baseId == null || altId == null) {
 				return;

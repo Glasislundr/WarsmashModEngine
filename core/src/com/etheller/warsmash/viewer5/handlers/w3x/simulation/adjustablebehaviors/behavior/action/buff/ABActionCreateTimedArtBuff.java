@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.strings.ABStringCallback;
@@ -49,20 +48,18 @@ public class ABActionCreateTimedArtBuff implements ABSingleAction {
 		if (dispellable != null) {
 			isDispellable = dispellable.callback(caster, localStore, castId);
 		} else {
-			isDispellable = ((boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYMAGIC, true));
+			isDispellable = localStore.originAbility.isMagic();
 		}
 
 		ABTimedArtBuff ability;
 		if (showIcon != null) {
 			ability = new ABTimedArtBuff(localStore.game.getHandleIdAllocator().createId(),
-					buffId.callback(caster, localStore, castId), localStore,
-					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
+					buffId.callback(caster, localStore, castId), localStore, localStore.originAbility, caster,
 					duration.callback(caster, localStore, castId), showIcon.callback(caster, localStore, castId),
 					isLeveled, isPositive, isDispellable);
 		} else {
 			ability = new ABTimedArtBuff(localStore.game.getHandleIdAllocator().createId(),
-					buffId.callback(caster, localStore, castId), localStore,
-					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
+					buffId.callback(caster, localStore, castId), localStore, localStore.originAbility, caster,
 					duration.callback(caster, localStore, castId), isLeveled, isPositive, isDispellable);
 		}
 		if (artType != null) {

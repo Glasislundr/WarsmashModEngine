@@ -65,7 +65,7 @@ public class ABActionTransformUnit implements ABAction {
 		if (this.requiresPayment != null) {
 			charge = this.requiresPayment.callback(caster, localStore, castId);
 		}
-		ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility abil = localStore.originAbility;
 
 		if (baseId == null || altId == null) {
 			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);

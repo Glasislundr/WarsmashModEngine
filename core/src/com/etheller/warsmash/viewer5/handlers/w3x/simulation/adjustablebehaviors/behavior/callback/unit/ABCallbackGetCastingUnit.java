@@ -9,7 +9,7 @@ public class ABCallbackGetCastingUnit extends ABUnitCallback {
 	@Override
 	public CUnit callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		return caster;
+		return localStore.originUnit;
 	}
 
 	@Override

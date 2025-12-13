@@ -5,12 +5,10 @@ import java.util.List;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 
@@ -24,8 +22,7 @@ public class ABActionCheckAbilityEffectReaction implements ABSingleAction {
 		if (this.target != null) {
 			tarU = this.target.callback(caster, localStore, castId);
 		}
-		if (tarU.checkForAbilityEffectReaction(localStore.game, caster,
-				(CAbility) localStore.get(ABLocalStoreKeys.ABILITY))) {
+		if (tarU.checkForAbilityEffectReaction(localStore.game, caster, localStore.originAbility)) {
 			if (this.onHitActions != null) {
 				for (final ABAction periodicAction : this.onHitActions) {
 					periodicAction.runAction(caster, localStore, castId);

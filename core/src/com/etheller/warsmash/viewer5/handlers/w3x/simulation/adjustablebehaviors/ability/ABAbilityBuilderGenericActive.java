@@ -107,7 +107,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		this.levelData = levelData;
 		this.config = config;
 		this.localStore = localStore;
-		localStore.put(ABLocalStoreKeys.ABILITY, this);
+		localStore.originAbility = this;
 
 		if (config.getCastId() != null) {
 			orderId = OrderIdUtils.getOrderId(config.getCastId());
@@ -195,7 +195,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public void onAddDisabled(CSimulation game, CUnit unit) {
 		localStore.game = game;
-		localStore.put(ABLocalStoreKeys.THISUNIT, unit);
+		localStore.originUnit = unit;
+		localStore.originPlayer = game.getPlayer(unit.getPlayerIndex());
 		addInitialUniqueFlags(game, unit);
 		setSpellFields(game, unit);
 		determineToggleableFields(game, unit);
@@ -266,8 +267,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			}
 
 			if (config.getDisplayFields() != null && config.getDisplayFields().getAlternateUnitId() != null) {
-				if (unit.getTypeId().equals(
-						config.getDisplayFields().getAlternateUnitId().callback(unit, localStore, castId))) {
+				if (unit.getTypeId()
+						.equals(config.getDisplayFields().getAlternateUnitId().callback(unit, localStore, castId))) {
 					this.active = true;
 				}
 			}
@@ -289,17 +290,20 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore, castId);
 			}
 			if (this.config.getOverrideFields().getCastTimeOverride() != null) {
-				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore, castId);
+				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getOverrideFields().getIgnoreCastTime() != null) {
 				this.ignoreCastTime = this.config.getOverrideFields().getIgnoreCastTime().callback(unit, localStore,
 						castId);
 			}
 			if (this.config.getOverrideFields().getCooldownOverride() != null) {
-				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore, castId);
+				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getOverrideFields().getManaCostOverride() != null) {
-				this.manaCost = this.config.getOverrideFields().getManaCostOverride().callback(unit, localStore, castId);
+				this.manaCost = this.config.getOverrideFields().getManaCostOverride().callback(unit, localStore,
+						castId);
 			}
 			if (this.config.getOverrideFields().getAutocastTypeOverride() != null) {
 				this.autocastType = this.config.getOverrideFields().getAutocastTypeOverride().callback(unit, localStore,
@@ -307,12 +311,12 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			}
 
 			if (this.config.getOverrideFields().getOnTooltipOverride() != null) {
-				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(unit, localStore,
-						castId);
+				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(unit,
+						localStore, castId);
 			}
 			if (this.config.getOverrideFields().getOffTooltipOverride() != null) {
-				this.offTooltipOverride = this.config.getOverrideFields().getOffTooltipOverride().callback(unit, localStore,
-						castId);
+				this.offTooltipOverride = this.config.getOverrideFields().getOffTooltipOverride().callback(unit,
+						localStore, castId);
 			}
 			if (this.config.getOverrideFields().getPhysicalSpell() != null) {
 				this.physical = this.config.getOverrideFields().getPhysicalSpell().callback(unit, localStore, castId);
@@ -344,13 +348,15 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			this.targetsAllowed.add(CTargetType.NON_ETHEREAL);
 		}
 
-		if (this.config.getOverrideFields() != null && this.config.getOverrideFields().getExtraTargetsAllowed() != null) {
-			for(ABTargetTypeCallback target : this.config.getOverrideFields().getExtraTargetsAllowed()) {
+		if (this.config.getOverrideFields() != null
+				&& this.config.getOverrideFields().getExtraTargetsAllowed() != null) {
+			for (ABTargetTypeCallback target : this.config.getOverrideFields().getExtraTargetsAllowed()) {
 				this.targetsAllowed.add(target.callback(unit, localStore, requiredLevel));
 			}
 		}
-		if (this.config.getOverrideFields() != null && this.config.getOverrideFields().getExcludedTargetsAllowed() != null) {
-			for(ABTargetTypeCallback target : this.config.getOverrideFields().getExcludedTargetsAllowed()) {
+		if (this.config.getOverrideFields() != null
+				&& this.config.getOverrideFields().getExcludedTargetsAllowed() != null) {
+			for (ABTargetTypeCallback target : this.config.getOverrideFields().getExcludedTargetsAllowed()) {
 				this.targetsAllowed.remove(target.callback(unit, localStore, requiredLevel));
 			}
 		}
@@ -374,8 +380,6 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 				}
 			}
 		}
-		localStore.put(ABLocalStoreKeys.ISABILITYMAGIC, this.magic);
-		localStore.put(ABLocalStoreKeys.ISABILITYPHYSICAL, this.physical);
 	}
 
 	@Override
@@ -419,7 +423,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public void setItemAbility(final CItem item, int slot) {
 		this.item = item;
-		this.localStore.put(ABLocalStoreKeys.ITEM, item);
+		this.localStore.originItem = item;
 		this.localStore.put(ABLocalStoreKeys.ITEMSLOT, slot);
 	}
 
@@ -717,10 +721,10 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 				for (ABBooleanCallback condition : config.getExtraCastConditions()) {
 					result = result && condition.callback(unit, localStore, -1);
 				}
+				String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
 				if (result) {
 					receiver.useOk();
 				} else {
-					String failReason = (String) localStore.get(ABLocalStoreKeys.CANTUSEREASON);
 					if (failReason != null) {
 						receiver.activationCheckFailed(failReason);
 					} else {
@@ -942,10 +946,10 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			for (ABBooleanCallback condition : config.getExtraTargetConditions()) {
 				result = result && condition.callback(unit, localStore, -1);
 			}
+			String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
 			if (result) {
 				return null;
 			} else {
-				String failReason = (String) localStore.get(ABLocalStoreKeys.CANTUSEREASON);
 				if (failReason != null) {
 					return failReason;
 				} else {
@@ -970,10 +974,10 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
+			String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
 			if (result) {
 				return null;
 			} else {
-				String failReason = (String) localStore.get(ABLocalStoreKeys.CANTUSEREASON);
 				if (failReason != null) {
 					return failReason;
 				} else {
@@ -994,10 +998,10 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 					result = result && condition.callback(unit, localStore, -1);
 				}
 			}
+			String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
 			if (result) {
 				return null;
 			} else {
-				String failReason = (String) localStore.get(ABLocalStoreKeys.CANTUSEREASON);
 				if (failReason != null) {
 					return failReason;
 				} else {
@@ -1024,9 +1028,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			return 0;
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getFoodCost() != null) {
-			CSimulation game = this.localStore.game;
-			CUnit unit = (CUnit) this.localStore.get(ABLocalStoreKeys.THISUNIT);
-			return this.config.getDisplayFields().getFoodCost().callback(unit, localStore, castId);
+			return this.config.getDisplayFields().getFoodCost().callback(this.localStore.originUnit, localStore,
+					castId);
 		}
 		return 0;
 	}
@@ -1037,9 +1040,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			return 0;
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getGoldCost() != null) {
-			CSimulation game = this.localStore.game;
-			CUnit unit = (CUnit) this.localStore.get(ABLocalStoreKeys.THISUNIT);
-			return this.config.getDisplayFields().getGoldCost().callback(unit, localStore, castId);
+			return this.config.getDisplayFields().getGoldCost().callback(this.localStore.originUnit, localStore,
+					castId);
 		}
 		return 0;
 	}
@@ -1050,9 +1052,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			return 0;
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getLumberCost() != null) {
-			CSimulation game = this.localStore.game;
-			CUnit unit = (CUnit) this.localStore.get(ABLocalStoreKeys.THISUNIT);
-			return this.config.getDisplayFields().getLumberCost().callback(unit, localStore, castId);
+			return this.config.getDisplayFields().getLumberCost().callback(this.localStore.originUnit, localStore,
+					castId);
 		}
 		return 0;
 	}

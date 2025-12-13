@@ -5,13 +5,12 @@ import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABCallbackGetThisAbility extends ABAbilityCallback {
 
 	@Override
 	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		return localStore.originAbility;
 	}
 
 	@Override

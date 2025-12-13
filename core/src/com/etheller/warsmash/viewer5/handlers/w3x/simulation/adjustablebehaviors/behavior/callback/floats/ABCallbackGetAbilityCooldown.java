@@ -5,7 +5,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.ability.ABAbilityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABCallbackGetAbilityCooldown extends ABFloatCallback {
 
@@ -14,7 +13,7 @@ public class ABCallbackGetAbilityCooldown extends ABFloatCallback {
 	@Override
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (ability == null) {
-			ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			ABAbilityBuilderAbility abil = localStore.originAbility;
 			return abil.getCooldown();
 		} else {
 			CAbility abil = ability.callback(caster, localStore, castId);

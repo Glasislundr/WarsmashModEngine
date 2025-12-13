@@ -6,7 +6,7 @@ import java.util.List;
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
@@ -21,9 +21,9 @@ public class ABActionAddTargetAllowed implements ABSingleAction {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		CAbility ability = localStore.originAbility;
 		if (ability != null && ability instanceof ABAbilityBuilderActiveAbility) {
-			((ABAbilityBuilderActiveAbility)ability).getTargetsAllowed().add(this.targetType);
+			((ABAbilityBuilderActiveAbility) ability).getTargetsAllowed().add(this.targetType);
 		} else {
 			final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);

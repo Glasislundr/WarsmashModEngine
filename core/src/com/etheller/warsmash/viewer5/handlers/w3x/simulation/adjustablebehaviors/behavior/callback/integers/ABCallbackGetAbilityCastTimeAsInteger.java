@@ -13,12 +13,13 @@ public class ABCallbackGetAbilityCastTimeAsInteger extends ABIntegerCallback {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility ability = localStore.originAbility;
 		if (ability != null) {
 			return (int) ability.getCastTime();
 		} else {
-			List<ABAbilityBuilderAbilityTypeLevelData>  levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore.get(ABLocalStoreKeys.LEVELDATA);
-			return (int) levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL))-1).getCastTime();
+			List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
+					.get(ABLocalStoreKeys.LEVELDATA);
+			return (int) levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getCastTime();
 		}
 	}
 

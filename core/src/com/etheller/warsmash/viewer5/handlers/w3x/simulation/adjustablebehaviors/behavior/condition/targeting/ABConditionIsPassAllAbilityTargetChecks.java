@@ -23,7 +23,7 @@ public class ABConditionIsPassAllAbilityTargetChecks extends ABBooleanCallback {
 			theCaster = caster.callback(casterUnit, localStore, castId);
 		}
 
-		ABAbilityBuilderActiveAbility abil = (ABAbilityBuilderActiveAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderActiveAbility abil = (ABAbilityBuilderActiveAbility) localStore.originAbility;
 		final BooleanAbilityTargetCheckReceiver<CWidget> booleanTargetReceiver = BooleanAbilityTargetCheckReceiver
 				.<CWidget>getInstance().reset();
 

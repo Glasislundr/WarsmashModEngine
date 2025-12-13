@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.statbuff.ABNonStackingStatBuffCallback;
@@ -52,8 +51,7 @@ public class ABActionCreateTimedBuff implements ABSingleAction {
 	private Map<String, ABCallback> uniqueValues;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		boolean showTimedLife = false;
 		if (this.showTimedLifeBar != null) {
 			showTimedLife = this.showTimedLifeBar.callback(caster, localStore, castId);
@@ -72,11 +70,11 @@ public class ABActionCreateTimedBuff implements ABSingleAction {
 		if (dispellable != null) {
 			isDispellable = dispellable.callback(caster, localStore, castId);
 		} else {
-			isDispellable = ((boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYMAGIC, true));
+			isDispellable = localStore.originAbility.isMagic();
 		}
 
-		boolean isMagic = ((boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYMAGIC, true));
-		boolean isPhysical = ((boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYPHYSICAL, false));
+		boolean isMagic = localStore.originAbility.isMagic();
+		boolean isPhysical = localStore.originAbility.isPhysical();
 		if (magic != null) {
 			isMagic = magic.callback(caster, localStore, castId);
 		}
@@ -87,16 +85,14 @@ public class ABActionCreateTimedBuff implements ABSingleAction {
 		ABTimedBuff ability;
 		if (showIcon != null) {
 			ability = new ABTimedBuff(localStore.game.getHandleIdAllocator().createId(),
-					buffId.callback(caster, localStore, castId), localStore,
-					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
+					buffId.callback(caster, localStore, castId), localStore, localStore.originAbility, caster,
 					duration.callback(caster, localStore, castId), showTimedLife, onAddActions, onRemoveActions,
 					onExpireActions, showIcon.callback(caster, localStore, castId), castId, isLeveled, isPositive,
 					isDispellable);
 
 		} else {
 			ability = new ABTimedBuff(localStore.game.getHandleIdAllocator().createId(),
-					buffId.callback(caster, localStore, castId), localStore,
-					(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
+					buffId.callback(caster, localStore, castId), localStore, localStore.originAbility, caster,
 					duration.callback(caster, localStore, castId), showTimedLife, onAddActions, onRemoveActions,
 					onExpireActions, castId, isLeveled, isPositive, isDispellable);
 		}

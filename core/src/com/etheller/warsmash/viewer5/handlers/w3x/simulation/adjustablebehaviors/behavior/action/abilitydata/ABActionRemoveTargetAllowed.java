@@ -20,11 +20,10 @@ public class ABActionRemoveTargetAllowed implements ABSingleAction {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		ABAbilityBuilderAbility ability = localStore.originAbility;
 		if (ability != null && ability instanceof ABAbilityBuilderActiveAbility) {
-			((ABAbilityBuilderActiveAbility)ability).getTargetsAllowed().remove(this.targetType);
+			((ABAbilityBuilderActiveAbility) ability).getTargetsAllowed().remove(this.targetType);
 		} else {
 			final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);

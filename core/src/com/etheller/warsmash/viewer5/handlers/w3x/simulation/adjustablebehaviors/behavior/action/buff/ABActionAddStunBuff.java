@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehavior
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.unit.ABUnitCallback;
@@ -41,8 +40,7 @@ public class ABActionAddStunBuff implements ABSingleAction {
 			isShowIcon = showIcon.callback(caster, localStore, castId);
 		}
 		final ABBuffStun ability = new ABBuffStun(localStore.game.getHandleIdAllocator().createId(), alias, localStore,
-				(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
-				this.duration.callback(caster, localStore, castId), isLeveled);
+				localStore.originAbility, caster, this.duration.callback(caster, localStore, castId), isLeveled);
 		ability.setIconShowing(isShowIcon);
 
 		this.unit.callback(caster, localStore, castId).add(localStore.game, ability);

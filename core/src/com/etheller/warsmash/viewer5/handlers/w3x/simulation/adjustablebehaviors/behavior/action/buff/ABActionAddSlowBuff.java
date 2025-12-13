@@ -3,7 +3,6 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehavior
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.unit.ABUnitCallback;
@@ -23,8 +22,7 @@ public class ABActionAddSlowBuff implements ABSingleAction {
 	private ABBooleanCallback leveled;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		War3ID alias = null;
 		boolean isLeveled = false;
 		boolean isShowIcon = true;
@@ -42,9 +40,9 @@ public class ABActionAddSlowBuff implements ABSingleAction {
 			isShowIcon = showIcon.callback(caster, localStore, castId);
 		}
 
-		final ABBuffSlow ability = new ABBuffSlow(localStore.game, localStore.game.getHandleIdAllocator().createId(), alias, localStore,
-				(CAbility) localStore.get(ABLocalStoreKeys.ABILITY), caster,
-				this.duration.callback(caster, localStore, castId), isLeveled);
+		final ABBuffSlow ability = new ABBuffSlow(localStore.game, localStore.game.getHandleIdAllocator().createId(),
+				alias, localStore, localStore.originAbility, caster, this.duration.callback(caster, localStore, castId),
+				isLeveled);
 
 		ability.setIconShowing(isShowIcon);
 

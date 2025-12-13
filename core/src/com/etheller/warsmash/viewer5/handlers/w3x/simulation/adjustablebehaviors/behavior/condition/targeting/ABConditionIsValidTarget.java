@@ -27,7 +27,7 @@ public class ABConditionIsValidTarget extends ABBooleanCallback {
 		CUnit theCaster = casterUnit;
 
 		EnumSet<CTargetType> targetsAllowed = null;
-		ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility ability = localStore.originAbility;
 		if (ability != null && ability instanceof ABAbilityBuilderActiveAbility) {
 			targetsAllowed = ((ABAbilityBuilderActiveAbility) ability).getTargetsAllowed();
 		} else {

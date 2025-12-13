@@ -14,7 +14,7 @@ public class ABCallbackGetAbilityCastTime extends ABFloatCallback {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Float callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility ability = localStore.originAbility;
 		if (ability != null) {
 			return ability.getCastTime();
 		} else {

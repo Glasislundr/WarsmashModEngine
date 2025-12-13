@@ -20,8 +20,7 @@ public class ABActionStartCooldown implements ABSingleAction {
 	private ABFloatCallback cooldown;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (this.unit != null) {
 			theUnit = this.unit.callback(caster, localStore, castId);
@@ -42,7 +41,7 @@ public class ABActionStartCooldown implements ABSingleAction {
 				final War3ID aliasId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 				theUnit.beginCooldown(localStore.game, aliasId, this.cooldown.callback(caster, localStore, castId));
 			} else {
-				final ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+				final ABAbilityBuilderAbility abil = localStore.originAbility;
 				abil.startCooldown(localStore.game, theUnit);
 			}
 		}

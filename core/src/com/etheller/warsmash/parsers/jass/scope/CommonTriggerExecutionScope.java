@@ -941,7 +941,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		scope.spellTargetDestructable = (CDestructable) localStore
 				.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
 		scope.spellTargetPoint = (AbilityPointTarget) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + castId);
-		scope.spellAbility = (CAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		scope.spellAbility = localStore.originAbility;
 		scope.spellAbilityId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		return scope;
 	}

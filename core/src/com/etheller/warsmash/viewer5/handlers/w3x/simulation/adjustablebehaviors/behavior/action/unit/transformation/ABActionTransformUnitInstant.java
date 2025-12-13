@@ -57,7 +57,7 @@ public class ABActionTransformUnitInstant implements ABAction {
 		if (this.requiresPayment != null) {
 			charge = this.requiresPayment.callback(caster, localStore, castId);
 		}
-		ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility abil = localStore.originAbility;
 
 		CUnitType baseType = null;
 		if (baseUnitId == null) {

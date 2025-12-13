@@ -54,7 +54,7 @@ public class ABActionTransformedUnitAbilityAdd implements ABAction {
 		}
 		War3ID baseId = baseUnitId.callback(caster, localStore, castId);
 		War3ID altId = alternateUnitId.callback(caster, localStore, castId);
-		ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility abil = localStore.originAbility;
 
 		if (baseId == null || altId == null) {
 			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);

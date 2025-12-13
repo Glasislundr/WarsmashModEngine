@@ -4,16 +4,10 @@ public class ABLocalStoreKeys {
 	// Core values
 	public static final String ABILITYEDITORDATA = "_abilityEditorData";
 	public static final String LEVELDATA = "_levelData";
-	public static final String PARENTLEVELDATA = "_parentLevelData";
-	public static final String PARENTCASTER = "_parentCaster";
-	public static final String PARENTLOCALSTORE = "_parentLocalStore";
 	public static final String ALIAS = "_alias";
 	public static final String CODE = "_code";
-	public static final String THISUNIT = "_thisUnit";
-	public static final String ABILITY = "_ability";
 	public static final String CURRENTLEVEL = "_currentLevel";
 	public static final String BUFF = "_buff";
-	public static final String ITEM = "_item";
 	public static final String ITEMSLOT = "_itemSlot";
 	public static final String ITERATORCOUNT = "_i";
 	public static final String BREAK = "_break";
@@ -37,8 +31,6 @@ public class ABLocalStoreKeys {
 	public static final String ISFLEXABILITY = "_flexAbility";
 	public static final String ISPAIRABILITY = "_pairAbility";
 	public static final String ISABILITYLEVELED = "_isAbilityLeveld";
-	public static final String ISABILITYMAGIC = "_isAbilityMagic";
-	public static final String ISABILITYPHYSICAL = "_isAbilityPhysical";
 	
 	
 	// Aura Template

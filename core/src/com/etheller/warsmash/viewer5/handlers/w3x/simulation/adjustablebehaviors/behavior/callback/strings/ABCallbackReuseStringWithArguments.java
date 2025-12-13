@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
@@ -16,10 +15,8 @@ public class ABCallbackReuseStringWithArguments extends ABStringCallback {
 	private Map<String, ABCallback> arguments;
 
 	@Override
-	public String callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		final ABAbilityBuilderConfiguration config = ((ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY))
-				.getConfig();
+	public String callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		final ABAbilityBuilderConfiguration config = (localStore.originAbility).getConfig();
 		final String keyS = name.callback(caster, localStore, castId);
 		if (config.getReuseCallbacks() != null) {
 			ABCallback callback = config.getReuseCallbacks().get(keyS);
@@ -29,10 +26,12 @@ public class ABCallbackReuseStringWithArguments extends ABStringCallback {
 						localStore.put(ABLocalStoreKeys.combineArgumentKey(argKey), arguments.get(argKey));
 					}
 				}
-				
+
 				return ((ABStringCallback) callback).callback(caster, localStore, castId);
 			} else {
-				System.err.println("Trying to run ReuseStringCallback, but key is missing or callback was the wrong type: " + keyS);
+				System.err.println(
+						"Trying to run ReuseStringCallback, but key is missing or callback was the wrong type: "
+								+ keyS);
 			}
 		} else {
 			System.err.println("Trying to run ReuseStringCallback, but none defined");

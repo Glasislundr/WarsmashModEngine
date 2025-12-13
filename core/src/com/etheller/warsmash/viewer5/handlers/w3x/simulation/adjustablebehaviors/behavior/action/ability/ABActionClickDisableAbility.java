@@ -8,7 +8,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.ability.ABAbilityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABActionClickDisableAbility implements ABSingleAction {
 
@@ -22,7 +21,7 @@ public class ABActionClickDisableAbility implements ABSingleAction {
 				abil.setClickDisabled(true, CAbilityDisableType.ABILITYINTERNAL);
 			}
 		} else {
-			final ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			final ABAbilityBuilderAbility abil = localStore.originAbility;
 			abil.setClickDisabled(true, CAbilityDisableType.ABILITYINTERNAL);
 		}
 	}
