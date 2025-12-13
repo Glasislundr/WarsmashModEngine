@@ -2,7 +2,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackInlineConditionBoolean extends ABBooleanCallback {
 
@@ -11,7 +11,7 @@ public class ABCallbackInlineConditionBoolean extends ABBooleanCallback {
 	private ABBooleanCallback fail;
 
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, int castBoolean) {
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, int castBoolean) {
 		if (condition != null && condition.callback(caster, localStore, castBoolean)) {
 			return pass.callback(caster, localStore, castBoolean);
 		}

@@ -2,7 +2,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDefenseType;
 
 public class ABCallbackGetDefenseTypeFromString extends ABDefenseTypeCallback {
@@ -10,7 +10,7 @@ public class ABCallbackGetDefenseTypeFromString extends ABDefenseTypeCallback {
 	private ABStringCallback id;
 
 	@Override
-	public CDefenseType callback(final CUnit caster, final LocalDataStore localStore,
+	public CDefenseType callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		return CDefenseType.valueOf(this.id.callback(caster, localStore, castId));
 	}

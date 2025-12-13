@@ -23,7 +23,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABNearestUnitComparator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitComparator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CAbilityProjectileListener;
@@ -56,7 +56,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 	private ABBooleanCallback allowMultipleBouncesPerUnit;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		CUnit theSource = caster;
 		if (source != null) {
 			theSource = this.source.callback(caster, localStore, castId);
@@ -142,7 +142,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
 	}
 
-	private void startPerformJump(final CUnit caster, final LocalDataStore localStore, final int castId,
+	private void startPerformJump(final CUnit caster, final ABLocalDataStore localStore, final int castId,
 			final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (remainingJumps <= 0) {
@@ -166,7 +166,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 		}
 	}
 
-	private void performJump(final CUnit caster, final LocalDataStore localStore, final int castId,
+	private void performJump(final CUnit caster, final ABLocalDataStore localStore, final int castId,
 			final CUnit originUnitTarget, final boolean multiBounce, final Set<CUnit> hitUnits,
 			final int remainingJumps) {
 		if (originUnitTarget == null) {

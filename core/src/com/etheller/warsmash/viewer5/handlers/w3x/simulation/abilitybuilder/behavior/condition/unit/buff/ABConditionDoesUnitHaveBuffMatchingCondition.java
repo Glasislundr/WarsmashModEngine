@@ -7,7 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABConditionDoesUnitHaveBuffMatchingCondition extends ABCondition {
 
@@ -15,7 +15,7 @@ public class ABConditionDoesUnitHaveBuffMatchingCondition extends ABCondition {
 	private ABBooleanCallback condition;
 
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit theUnit = caster;
 		if (unit != null) {
 			theUnit = unit.callback(caster, localStore, castId);

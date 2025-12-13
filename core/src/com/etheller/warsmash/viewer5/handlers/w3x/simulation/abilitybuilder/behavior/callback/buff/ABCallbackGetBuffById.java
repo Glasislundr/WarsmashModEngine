@@ -6,7 +6,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetBuffById extends ABBuffCallback {
 
@@ -14,7 +14,7 @@ public class ABCallbackGetBuffById extends ABBuffCallback {
 	private ABIDCallback id;
 
 	@Override
-	public CBuff callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public CBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit theUnit = unit.callback(caster, localStore, castId);
 		War3ID theId = id.callback(caster, localStore, castId);
 		if (theUnit != null) {

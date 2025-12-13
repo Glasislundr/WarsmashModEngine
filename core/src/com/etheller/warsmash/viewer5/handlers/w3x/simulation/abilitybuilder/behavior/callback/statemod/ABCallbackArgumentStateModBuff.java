@@ -5,7 +5,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.StateModBuff;
 
 public class ABCallbackArgumentStateModBuff extends ABStateModBuffCallback {
@@ -13,7 +13,7 @@ public class ABCallbackArgumentStateModBuff extends ABStateModBuffCallback {
 	private ABStringCallback name;
 
 	@Override
-	public StateModBuff callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public StateModBuff callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final String keyS = name.callback(caster, localStore, castId);
 		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
 		if (cbck != null && cbck instanceof ABStateModBuffCallback) {

@@ -7,8 +7,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.ABAbilityBuilderAbilityTypeLevelData;
 
 public class ABCallbackGetParentAbilityDataAsBoolean extends ABCondition {
 
@@ -16,10 +16,10 @@ public class ABCallbackGetParentAbilityDataAsBoolean extends ABCondition {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
-		final List<CAbilityTypeAbilityBuilderLevelData> levelData = (List<CAbilityTypeAbilityBuilderLevelData>) localStore
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
+		final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 				.get(ABLocalStoreKeys.PARENTLEVELDATA);
-		final int parentLevel = (int) ((LocalDataStore) localStore.get(ABLocalStoreKeys.PARENTLOCALSTORE))
+		final int parentLevel = (int) ((ABLocalDataStore) localStore.get(ABLocalStoreKeys.PARENTLOCALSTORE))
 				.get(ABLocalStoreKeys.CURRENTLEVEL);
 
 		final String data = levelData.get(parentLevel - 1).getData()

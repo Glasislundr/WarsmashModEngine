@@ -6,14 +6,14 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionSetAutoTargetUnit implements ABSingleAction {
 
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId,
 				this.unit.callback(caster, localStore, castId));
 	}

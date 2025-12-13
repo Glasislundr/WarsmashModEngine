@@ -6,14 +6,14 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructable.ABDestructableCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionSetAutoTargetDestructable implements ABSingleAction {
 
 	private ABDestructableCallback dest;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		localStore.put(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId,
 				this.dest.callback(caster, localStore, castId));

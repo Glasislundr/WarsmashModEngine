@@ -3,19 +3,19 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.vis
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.*;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.BooleanAbilityTargetCheckReceiver;
 
 public final class ABAbilityTargetStillTargetableVisitor implements AbilityTargetVisitor<Boolean> {
 	private CSimulation simulation;
 	private CUnit unit;
-	private AbilityBuilderActiveAbility ability;
+	private ABAbilityBuilderActiveAbility ability;
 	private boolean autoOrder;
 	private boolean channeling;
 	private int orderId;
 
 	public ABAbilityTargetStillTargetableVisitor reset(final CSimulation simulation, final CUnit unit,
-			final AbilityBuilderActiveAbility ability, boolean autoOrder, boolean channeling) {
+			final ABAbilityBuilderActiveAbility ability, boolean autoOrder, boolean channeling) {
 		this.simulation = simulation;
 		this.unit = unit;
 		this.ability = ability;
@@ -26,7 +26,7 @@ public final class ABAbilityTargetStillTargetableVisitor implements AbilityTarge
 	}
 
 	public ABAbilityTargetStillTargetableVisitor reset(final CSimulation simulation, final CUnit unit,
-			final AbilityBuilderActiveAbility ability, boolean autoOrder, boolean channeling, int orderId) {
+			final ABAbilityBuilderActiveAbility ability, boolean autoOrder, boolean channeling, int orderId) {
 		this.simulation = simulation;
 		this.unit = unit;
 		this.ability = ability;

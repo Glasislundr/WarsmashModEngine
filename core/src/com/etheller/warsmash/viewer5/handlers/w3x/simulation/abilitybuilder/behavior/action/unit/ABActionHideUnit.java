@@ -4,14 +4,14 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionHideUnit implements ABSingleAction {
 
 	private ABUnitCallback unit;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		final CUnit targetUnit = this.unit.callback(caster, localStore, castId);
 		targetUnit.setHidden(true);
 	}

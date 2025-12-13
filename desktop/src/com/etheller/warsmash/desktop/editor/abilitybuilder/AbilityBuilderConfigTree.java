@@ -11,7 +11,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderConfiguration;
 
 public class AbilityBuilderConfigTree extends JTree {
 	private DefaultMutableTreeNode root;
@@ -59,10 +59,10 @@ public class AbilityBuilderConfigTree extends JTree {
 		return conditionTreeNode;
 	}
 
-	public void setConfig(AbilityBuilderConfiguration config) {
+	public void setConfig(ABAbilityBuilderConfiguration config) {
 		root = new DefaultMutableTreeNode(config.getId() + " \"" + config.getCastId() + "\"");
 
-		Method[] declaredMethods = AbilityBuilderConfiguration.class.getDeclaredMethods();
+		Method[] declaredMethods = ABAbilityBuilderConfiguration.class.getDeclaredMethods();
 		for (Method declaredMethod : declaredMethods) {
 			String name = declaredMethod.getName();
 			if (name.startsWith("getOn")) {

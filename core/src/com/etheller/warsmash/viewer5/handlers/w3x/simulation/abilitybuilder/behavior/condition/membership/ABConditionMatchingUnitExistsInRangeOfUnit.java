@@ -7,8 +7,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.UnitAndRange;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitAndRangeComparator;
 
 public class ABConditionMatchingUnitExistsInRangeOfUnit extends ABCondition {
 	private static final Rectangle recycleRect = new Rectangle();
@@ -18,11 +18,11 @@ public class ABConditionMatchingUnitExistsInRangeOfUnit extends ABCondition {
 	private ABCondition condition;
 
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit originUnitTarget = originUnit.callback(caster, localStore, castId);
 		Float rangeVal = range.callback(caster, localStore, castId);
 
-		final UnitAndRange ur = new UnitAndRange();
+		final ABUnitAndRangeComparator ur = new ABUnitAndRangeComparator();
 
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);

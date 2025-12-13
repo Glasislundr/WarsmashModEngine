@@ -8,8 +8,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.UnitAndRange;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.iterstructs.ABUnitAndRangeComparator;
 
 public class ABCallbackGetNearestCorpseInRangeOfUnit extends ABUnitCallback {
 	private static final Rectangle recycleRect = new Rectangle();
@@ -19,11 +19,11 @@ public class ABCallbackGetNearestCorpseInRangeOfUnit extends ABUnitCallback {
 	private List<ABCondition> conditions;
 
 	@Override
-	public CUnit callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit originUnitTarget = originUnit.callback(caster, localStore, castId);
 		Float rangeVal = range.callback(caster, localStore, castId);
 
-		final UnitAndRange ur = new UnitAndRange();
+		final ABUnitAndRangeComparator ur = new ABUnitAndRangeComparator();
 
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);

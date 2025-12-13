@@ -4,10 +4,10 @@ import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABTargetingBuff extends ABBuff {
-	public ABTargetingBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABTargetingBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit) {
 		super(handleId, alias, alias, localStore, sourceAbility, sourceUnit);
 		this.setIconShowing(false);

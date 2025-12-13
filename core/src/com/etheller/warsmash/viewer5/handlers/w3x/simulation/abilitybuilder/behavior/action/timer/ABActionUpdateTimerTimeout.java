@@ -5,7 +5,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.timer.ABTimerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
 
 public class ABActionUpdateTimerTimeout implements ABSingleAction {
@@ -14,7 +14,7 @@ public class ABActionUpdateTimerTimeout implements ABSingleAction {
 	private ABFloatCallback timeout;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		CTimer theT = this.timer.callback(caster, localStore, castId);
 		theT.resetTimeoutTime(this.timeout.callback(caster, localStore, castId));

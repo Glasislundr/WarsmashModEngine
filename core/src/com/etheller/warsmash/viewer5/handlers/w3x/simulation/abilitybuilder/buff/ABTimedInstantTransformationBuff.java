@@ -5,17 +5,17 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderPassiveAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.DelayInstantTransformationTimer;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderPassiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler.OnTransformationActions;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.ABDelayInstantTransformationTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
 
 public class ABTimedInstantTransformationBuff extends ABGenericTimedBuff {
 
 	private OnTransformationActions actions;
-	private AbilityBuilderPassiveAbility abil;
+	private ABAbilityBuilderPassiveAbility abil;
 	private CUnitType targetType;
 	private boolean keepRatios;
 	private boolean addAlternateTagAfter;
@@ -23,9 +23,9 @@ public class ABTimedInstantTransformationBuff extends ABGenericTimedBuff {
 	private float dur;
 	private float transTime;
 
-	public ABTimedInstantTransformationBuff(int handleId, LocalDataStore localStore, CAbility sourceAbility,
+	public ABTimedInstantTransformationBuff(int handleId, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, OnTransformationActions actions, War3ID alias, float duration,
-			AbilityBuilderPassiveAbility ability, CUnitType newType, final boolean keepRatios,
+			ABAbilityBuilderPassiveAbility ability, CUnitType newType, final boolean keepRatios,
 			boolean addAlternateTagAfter, boolean permanent, float transformationDuration) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, true, false, true, false);
 		this.setIconShowing(false);
@@ -49,7 +49,7 @@ public class ABTimedInstantTransformationBuff extends ABGenericTimedBuff {
 	@Override
 	public void onDeath(CSimulation game, CUnit unit) {
 		if (unit.isHero()) {
-			TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
+			ABTransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
 					addAlternateTagAfter, perm, true);
 			unit.remove(game, this);
 		}
@@ -58,11 +58,11 @@ public class ABTimedInstantTransformationBuff extends ABGenericTimedBuff {
 	@Override
 	protected void onBuffExpire(CSimulation game, CUnit unit) {
 		if (dur > 0) {
-			TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
-			new DelayInstantTransformationTimer(sourceUnit, localStore, unit, actions, addAlternateTagAfter,
+			ABTransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
+			new ABDelayInstantTransformationTimer(sourceUnit, localStore, unit, actions, addAlternateTagAfter,
 					transTime, null, targetType, keepRatios, abil, null, transTime, 0).start(game);
 		} else {
-			TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
+			ABTransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
 					addAlternateTagAfter, perm, true);
 		}
 		unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.abil, null);

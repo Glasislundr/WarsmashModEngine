@@ -6,16 +6,16 @@ import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.environment.PathingGrid.MovementType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler.OnTransformationActions;
 
 public class ABActionTransformedUnitAbilityAdd implements ABAction {
 
@@ -47,14 +47,14 @@ public class ABActionTransformedUnitAbilityAdd implements ABAction {
 	private List<ABAction> onUntransformActions;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit u1 = caster;
 		if (unit != null) {
 			u1 = unit.callback(caster, localStore, castId);
 		}
 		War3ID baseId = baseUnitId.callback(caster, localStore, castId);
 		War3ID altId = alternateUnitId.callback(caster, localStore, castId);
-		AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 
 		if (baseId == null || altId == null) {
 			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
@@ -119,7 +119,7 @@ public class ABActionTransformedUnitAbilityAdd implements ABAction {
 			theBuffId = buffId.callback(caster, localStore, castId);
 		}
 
-		TransformationHandler.setTags(u1, true);
+		ABTransformationHandler.setTags(u1, true);
 		if (perm) {
 			u1.remove(localStore.game, abil);
 		}
@@ -150,14 +150,14 @@ public class ABActionTransformedUnitAbilityAdd implements ABAction {
 			}
 
 			if (instant) {
-				TransformationHandler.createInstantTransformBackBuff(caster, localStore, u1, baseType, isKeepRatios,
+				ABTransformationHandler.createInstantTransformBackBuff(caster, localStore, u1, baseType, isKeepRatios,
 						actions, abil, theBuffId, true, transTime, dur, perm);
 			} else {
 				boolean takingOff = u1.getMovementType() != MovementType.FLY
 						&& baseType.getMovementType() == MovementType.FLY;
 				boolean landing = u1.getMovementType() == MovementType.FLY
 						&& baseType.getMovementType() != MovementType.FLY;
-				TransformationHandler.createSlowTransformBackBuff(caster, localStore, u1, baseType, isKeepRatios,
+				ABTransformationHandler.createSlowTransformBackBuff(caster, localStore, u1, baseType, isKeepRatios,
 						actions, abil, theBuffId, true, transTime, dur, perm, takingOff, landing, imTakeOff, imLand,
 						atlAdDelay, landTime, altAdTime);
 			}

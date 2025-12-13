@@ -5,7 +5,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABGenericTimedBuff;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingFx;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.StateModBuff;
@@ -19,7 +19,7 @@ public class ABBuffStun extends ABGenericTimedBuff {
 	private SimulationRenderComponent sfx;
 	private SimulationRenderComponent lsfx;
 
-	public ABBuffStun(final int handleId, final War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABBuffStun(final int handleId, final War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, final float duration, final boolean leveled) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, false, leveled, false, false);
 	}

@@ -17,7 +17,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.harvest.C
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.harvest.CAbilityWispHarvest;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionEnableWorkerAbilities implements ABSingleAction {
 
@@ -25,7 +25,7 @@ public class ABActionEnableWorkerAbilities implements ABSingleAction {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit targetUnit = caster;
 		if (this.unit != null) {
 			targetUnit = this.unit.callback(caster, localStore, castId);

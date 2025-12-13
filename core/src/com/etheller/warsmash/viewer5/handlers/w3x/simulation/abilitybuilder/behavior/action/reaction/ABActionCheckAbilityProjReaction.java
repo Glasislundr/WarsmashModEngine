@@ -8,7 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionCheckAbilityProjReaction implements ABSingleAction {
 
@@ -18,7 +18,7 @@ public class ABActionCheckAbilityProjReaction implements ABSingleAction {
 	private List<ABAction> onBlockActions;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		CUnit tarU = caster;
 		if (this.target != null) {

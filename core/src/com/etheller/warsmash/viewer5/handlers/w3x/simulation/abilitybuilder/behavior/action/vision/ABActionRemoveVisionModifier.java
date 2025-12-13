@@ -4,7 +4,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.player.ABPlayerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.visionmodifier.ABVisionModifierCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionRemoveVisionModifier implements ABAction {
 	
@@ -12,7 +12,7 @@ public class ABActionRemoveVisionModifier implements ABAction {
 	private ABPlayerCallback player;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, int castId) {
 		player.callback(caster, localStore, castId).removeFogModifer(localStore.game,
 				modifier.callback(caster, localStore, castId));
 	}

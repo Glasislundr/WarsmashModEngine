@@ -9,7 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.ABTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
 
@@ -22,7 +22,7 @@ public class ABActionCreateTimer implements ABSingleAction {
 	private ABFloatCallback delay;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 
 		final CTimer timer = new ABTimer(caster, localStore, this.actions, castId);
 		timer.setTimeoutTime(this.timeout.callback(caster, localStore, castId));

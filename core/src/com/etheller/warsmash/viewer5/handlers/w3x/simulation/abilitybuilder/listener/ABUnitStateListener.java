@@ -5,11 +5,11 @@ import java.util.List;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitStateListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABUnitStateListener implements CUnitStateListener {
 	private CUnit caster;
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private int castId;
 
 	private List<ABAction> onLifeChanged = null;
@@ -25,7 +25,7 @@ public class ABUnitStateListener implements CUnitStateListener {
 	private List<ABAction> onUpgradesChanged = null;
 	private List<ABAction> onHideStateChanged = null;
 
-	public ABUnitStateListener(CUnit caster, LocalDataStore localStore, int castId, List<ABAction> onLifeChanged,
+	public ABUnitStateListener(CUnit caster, ABLocalDataStore localStore, int castId, List<ABAction> onLifeChanged,
 			List<ABAction> onManaChanged, List<ABAction> onOrdersChanged, List<ABAction> onQueueChanged,
 			List<ABAction> onRallyPointChanged, List<ABAction> onWaypointsChanged, List<ABAction> onHeroStatsChanged,
 			List<ABAction> onInventoryChanged, List<ABAction> onAttacksChanged, List<ABAction> onAbilitiesChanged,

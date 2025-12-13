@@ -4,7 +4,7 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABConditionIsUnitVisible extends ABCondition {
 
@@ -12,7 +12,7 @@ public class ABConditionIsUnitVisible extends ABCondition {
 	private ABUnitCallback unit;
 
 	@Override
-	public Boolean callback(CUnit casterUnit, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit casterUnit, ABLocalDataStore localStore, final int castId) {
 		CUnit theUnit = unit.callback(casterUnit, localStore, castId);
 		CUnit theCaster = casterUnit;
 		if (this.caster != null) {

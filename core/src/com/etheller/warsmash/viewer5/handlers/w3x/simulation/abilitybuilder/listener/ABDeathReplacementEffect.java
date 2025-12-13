@@ -6,20 +6,20 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDeathReplacementEffect;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDeathReplacementResult;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDeathReplacementStacking;
 
 public class ABDeathReplacementEffect implements CUnitDeathReplacementEffect {
 
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private List<ABAction> actions;
 
 	private int triggerId = 0;
 	private boolean useCastId;
 
-	public ABDeathReplacementEffect(LocalDataStore localStore, List<ABAction> actions, int castId, boolean useCastId) {
+	public ABDeathReplacementEffect(ABLocalDataStore localStore, List<ABAction> actions, int castId, boolean useCastId) {
 		this.localStore = localStore;
 		this.actions = actions;
 		this.useCastId = useCastId;

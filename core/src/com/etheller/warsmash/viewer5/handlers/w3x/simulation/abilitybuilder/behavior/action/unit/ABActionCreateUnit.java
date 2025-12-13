@@ -12,7 +12,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.player.ABPlayerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayer;
 
 public class ABActionCreateUnit implements ABSingleAction {
@@ -26,7 +26,7 @@ public class ABActionCreateUnit implements ABSingleAction {
 	private ABBooleanCallback removeFood;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		War3ID theId = id.callback(caster, localStore, castId);
 		if (theId == null) {
 			return;

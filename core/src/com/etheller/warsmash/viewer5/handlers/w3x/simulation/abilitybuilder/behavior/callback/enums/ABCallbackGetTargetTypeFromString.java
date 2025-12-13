@@ -2,7 +2,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
 
 public class ABCallbackGetTargetTypeFromString extends ABTargetTypeCallback {
@@ -10,7 +10,7 @@ public class ABCallbackGetTargetTypeFromString extends ABTargetTypeCallback {
 	private ABStringCallback id;
 
 	@Override
-	public CTargetType callback(final CUnit caster, final LocalDataStore localStore,
+	public CTargetType callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		return CTargetType.valueOf(this.id.callback(caster, localStore, castId));
 	}

@@ -9,20 +9,20 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.CWidgetEvent;
 
 public class ABWidgetEvent extends CWidgetEvent {
 
 	private CUnit caster;
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private int castId;
 
 	private ABCondition condition;
 	private List<ABAction> actions;
 
-	public ABWidgetEvent(CUnit caster, LocalDataStore localStore, int castId, CWidget widget,
+	public ABWidgetEvent(CUnit caster, ABLocalDataStore localStore, int castId, CWidget widget,
 			JassGameEventsWar3 eventType, ABCondition condition, List<ABAction> actions) {
 		super(localStore.game.getGlobalScope(), widget, null, eventType, null);
 		this.caster = caster;

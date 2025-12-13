@@ -7,7 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 
 public class ABActionCreateTemporarySpellEffectAtPoint implements ABSingleAction {
@@ -19,7 +19,7 @@ public class ABActionCreateTemporarySpellEffectAtPoint implements ABSingleAction
 	private CEffectType effectType;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		float dir = 0;
 		if (this.facing != null) {

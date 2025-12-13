@@ -10,7 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unitqueue.ABUnitQueueCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionIterateUnitsInQueue implements ABAction {
 
@@ -18,7 +18,7 @@ public class ABActionIterateUnitsInQueue implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		final Queue<CUnit> unitQueue = this.queue.callback(caster, localStore, castId);
 		final List<CUnit> unitList = new ArrayList<>(unitQueue);

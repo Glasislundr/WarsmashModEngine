@@ -4,12 +4,12 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetProjectileHitWidget extends ABWidgetCallback {
 
 	@Override
-	public CWidget callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public CWidget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		final CWidget unit = (CWidget) localStore.get(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);
 		final CWidget dest = (CWidget) localStore.get(ABLocalStoreKeys.PROJECTILEHITDEST + castId);
 		if (unit != null) {

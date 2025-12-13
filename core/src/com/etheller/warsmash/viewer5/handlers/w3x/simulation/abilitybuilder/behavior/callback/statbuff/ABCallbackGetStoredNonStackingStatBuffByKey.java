@@ -5,7 +5,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
 
 public class ABCallbackGetStoredNonStackingStatBuffByKey extends ABNonStackingStatBuffCallback {
@@ -13,7 +13,7 @@ public class ABCallbackGetStoredNonStackingStatBuffByKey extends ABNonStackingSt
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public NonStackingStatBuff callback(final CUnit caster, final LocalDataStore localStore,
+	public NonStackingStatBuff callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			return (NonStackingStatBuff) localStore.get(ABLocalStoreKeys

@@ -4,11 +4,11 @@ import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public abstract class ABGenericPermanentBuff extends ABBuff {
 
-	public ABGenericPermanentBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABGenericPermanentBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, boolean showIcon, boolean leveled, boolean positive) {
 		super(handleId, alias, alias, localStore, sourceAbility, sourceUnit);
 		this.setIconShowing(showIcon);
@@ -16,7 +16,7 @@ public abstract class ABGenericPermanentBuff extends ABBuff {
 		this.setPositive(positive);
 	}
 
-	public ABGenericPermanentBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABGenericPermanentBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, boolean leveled, boolean positive) {
 		super(handleId, alias, alias, localStore, sourceAbility, sourceUnit);
 		this.setLeveled(leveled);

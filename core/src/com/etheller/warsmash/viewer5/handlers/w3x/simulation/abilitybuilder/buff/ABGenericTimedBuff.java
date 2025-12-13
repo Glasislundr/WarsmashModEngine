@@ -5,14 +5,14 @@ import com.etheller.warsmash.util.WarsmashConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public abstract class ABGenericTimedBuff extends ABBuff {
 	private final float duration;
 	private int currentTick = 0;
 	private int expireTick;
 
-	public ABGenericTimedBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABGenericTimedBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, float duration, boolean showTimedLifeBar, boolean leveled, boolean positive,
 			boolean dispellable) {
 		super(handleId, alias, alias, localStore, sourceAbility, sourceUnit);

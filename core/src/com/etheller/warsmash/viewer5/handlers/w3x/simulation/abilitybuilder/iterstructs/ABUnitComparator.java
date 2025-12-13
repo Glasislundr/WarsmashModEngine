@@ -5,16 +5,16 @@ import java.util.Comparator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABUnitComparator implements Comparator<CUnit> {
 
 	private CUnit caster;
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private int castId;
 	private ABIntegerCallback comparison;
 
-	public ABUnitComparator(final CUnit caster, final LocalDataStore localStore, final int castId,
+	public ABUnitComparator(final CUnit caster, final ABLocalDataStore localStore, final int castId,
 			ABIntegerCallback comparison) {
 		this.caster = caster;
 		this.localStore = localStore;

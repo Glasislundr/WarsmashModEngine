@@ -3,7 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.enums.ABAttackTypeCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
 
 public class ABConditionIsAttackTypeEqual extends ABCondition {
@@ -12,7 +12,7 @@ public class ABConditionIsAttackTypeEqual extends ABCondition {
 	private ABAttackTypeCallback attackType2;
 
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CAttackType lA = attackType1.callback(caster, localStore, castId);
 		CAttackType rA = attackType2.callback(caster, localStore, castId);
 		if (lA == null) {

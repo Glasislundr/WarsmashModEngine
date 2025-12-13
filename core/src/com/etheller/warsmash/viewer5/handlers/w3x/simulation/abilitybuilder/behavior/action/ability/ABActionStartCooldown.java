@@ -4,14 +4,14 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.visitor.GetABAbilityByRawcodeVisitor;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.visitor.ABGetABAbilityByRawcodeVisitor;
 
 public class ABActionStartCooldown implements ABSingleAction {
 
@@ -20,7 +20,7 @@ public class ABActionStartCooldown implements ABSingleAction {
 	private ABFloatCallback cooldown;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		CUnit theUnit = caster;
 		if (this.unit != null) {
@@ -31,8 +31,8 @@ public class ABActionStartCooldown implements ABSingleAction {
 			if (this.cooldown != null) {
 				theUnit.beginCooldown(localStore.game, aliasId, this.cooldown.callback(caster, localStore, castId));
 			} else {
-				final AbilityBuilderAbility abil = theUnit
-						.getAbility(GetABAbilityByRawcodeVisitor.getInstance().reset(aliasId));
+				final ABAbilityBuilderAbility abil = theUnit
+						.getAbility(ABGetABAbilityByRawcodeVisitor.getInstance().reset(aliasId));
 				if (abil != null) {
 					abil.startCooldown(localStore.game, theUnit);
 				}
@@ -42,7 +42,7 @@ public class ABActionStartCooldown implements ABSingleAction {
 				final War3ID aliasId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 				theUnit.beginCooldown(localStore.game, aliasId, this.cooldown.callback(caster, localStore, castId));
 			} else {
-				final AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+				final ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 				abil.startCooldown(localStore.game, theUnit);
 			}
 		}

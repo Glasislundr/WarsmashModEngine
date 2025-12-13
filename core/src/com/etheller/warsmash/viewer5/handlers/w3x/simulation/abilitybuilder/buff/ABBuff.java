@@ -14,7 +14,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityV
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.AbstractCBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.AbilityActivationReceiver;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.AbilityTargetCheckReceiver;
@@ -32,13 +32,13 @@ public abstract class ABBuff extends AbstractCBuff {
 
 	protected int flags = DISPELLABLE;
 
-	protected LocalDataStore localStore;
+	protected ABLocalDataStore localStore;
 	protected List<String> uniqueFlags = null;
 	private String visibilityGroup = null;
 	private CAbility sourceAbil;
 	protected CUnit sourceUnit;
 
-	public ABBuff(int handleId, War3ID code, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABBuff(int handleId, War3ID code, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit) {
 		super(handleId, code, alias);
 		this.localStore = localStore;

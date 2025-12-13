@@ -7,13 +7,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation.TimeOfDayEvent;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABTimeOfDayEvent implements TimeOfDayEvent {
 
 	private CSimulation game;
 	private CUnit caster;
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private int castId;
 
 	private List<ABAction> actions;
@@ -22,7 +22,7 @@ public class ABTimeOfDayEvent implements TimeOfDayEvent {
 
 	private String equalityId;
 
-	public ABTimeOfDayEvent(CUnit caster, LocalDataStore localStore, int castId, List<ABAction> actions,
+	public ABTimeOfDayEvent(CUnit caster, ABLocalDataStore localStore, int castId, List<ABAction> actions,
 			float startTime, float endTime, String equalityId) {
 		super();
 		this.game = localStore.game;

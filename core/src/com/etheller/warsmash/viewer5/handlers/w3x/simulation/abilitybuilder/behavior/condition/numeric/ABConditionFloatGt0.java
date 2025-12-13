@@ -3,14 +3,14 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABConditionFloatGt0 extends ABCondition {
 
 	private ABFloatCallback value;
 
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		Float v = value.callback(caster, localStore, castId);
 		return v > 0;
 	}

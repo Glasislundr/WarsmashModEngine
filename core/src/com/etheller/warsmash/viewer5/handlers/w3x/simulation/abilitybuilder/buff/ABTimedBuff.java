@@ -7,7 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingFx;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
@@ -30,7 +30,7 @@ public class ABTimedBuff extends ABGenericTimedBuff {
 	private List<StateModBuff> stateMods = null;
 	private List<NonStackingStatBuff> statBuffs = null;
 
-	public ABTimedBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABTimedBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, float duration, boolean showTimedLifeBar, List<ABAction> onAddActions,
 			List<ABAction> onRemoveActions, List<ABAction> onExpireActions, boolean showIcon, final int castId,
 			final boolean leveled, final boolean positive, final boolean dispellable) {
@@ -39,7 +39,7 @@ public class ABTimedBuff extends ABGenericTimedBuff {
 		this.setIconShowing(showIcon);
 	}
 
-	public ABTimedBuff(int handleId, War3ID alias, LocalDataStore localStore, CAbility sourceAbility,
+	public ABTimedBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, float duration, boolean showTimedLifeBar, List<ABAction> onAddActions,
 			List<ABAction> onRemoveActions, List<ABAction> onExpireActions, final int castId, final boolean leveled,
 			final boolean positive, final boolean dispellable) {

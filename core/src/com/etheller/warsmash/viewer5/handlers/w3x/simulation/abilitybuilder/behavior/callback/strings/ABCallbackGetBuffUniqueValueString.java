@@ -4,7 +4,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.buff.ABBuffCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetBuffUniqueValueString extends ABStringCallback {
 
@@ -14,7 +14,7 @@ public class ABCallbackGetBuffUniqueValueString extends ABStringCallback {
 	private ABBooleanCallback allowNull;
 
 	@Override
-	public String callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public String callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final String keyS = key.callback(caster, localStore, castId);
 		final CBuff theBuff = buff.callback(caster, localStore, castId);
 		String theVal = theBuff.getUniqueValue(keyS, String.class);

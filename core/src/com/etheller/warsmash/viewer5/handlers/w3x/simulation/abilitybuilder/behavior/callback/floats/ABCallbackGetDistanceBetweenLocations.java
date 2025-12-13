@@ -3,7 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.location.ABLocationCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetDistanceBetweenLocations extends ABFloatCallback {
 
@@ -11,7 +11,7 @@ public class ABCallbackGetDistanceBetweenLocations extends ABFloatCallback {
 	private ABLocationCallback target;
 	
 	@Override
-	public Float callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		AbilityPointTarget o = origin.callback(caster, localStore, castId);
 		AbilityPointTarget t = target.callback(caster, localStore, castId);
 		

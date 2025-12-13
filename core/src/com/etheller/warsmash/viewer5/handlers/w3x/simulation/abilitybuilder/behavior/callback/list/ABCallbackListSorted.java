@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackListSorted<T extends Comparable<? super T>> extends ABSortableListCallback<T> {
 
@@ -12,7 +12,7 @@ public class ABCallbackListSorted<T extends Comparable<? super T>> extends ABSor
 	private ABListSortType sort;
 	
 	@Override
-	public List<T> callback(final CUnit caster, final LocalDataStore localStore,
+	public List<T> callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		List<T> theList = list.callback(caster, localStore, castId);
 		switch(sort){

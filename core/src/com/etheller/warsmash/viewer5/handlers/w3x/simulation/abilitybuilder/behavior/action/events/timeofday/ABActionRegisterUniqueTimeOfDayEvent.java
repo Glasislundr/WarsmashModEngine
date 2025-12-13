@@ -4,7 +4,7 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.event.timeevent.ABTimeOfDayEventCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.event.ABTimeOfDayEvent;
 
 public class ABActionRegisterUniqueTimeOfDayEvent implements ABSingleAction {
@@ -12,7 +12,7 @@ public class ABActionRegisterUniqueTimeOfDayEvent implements ABSingleAction {
 	private ABTimeOfDayEventCallback event;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		final ABTimeOfDayEvent ev = this.event.callback(caster, localStore, castId);
 		if (!localStore.game.isTimeOfDayEventRegistered(ev)) {

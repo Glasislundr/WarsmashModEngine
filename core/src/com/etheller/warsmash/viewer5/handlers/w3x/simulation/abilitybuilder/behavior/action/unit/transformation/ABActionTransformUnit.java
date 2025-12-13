@@ -5,18 +5,18 @@ import java.util.List;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorFinishTransformation;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorFinishTransformation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler.OnTransformationActions;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
 
@@ -52,7 +52,7 @@ public class ABActionTransformUnit implements ABAction {
 	private List<ABAction> onUntransformActions;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit u1 = caster;
 		if (unit != null) {
 			u1 = unit.callback(caster, localStore, castId);
@@ -65,7 +65,7 @@ public class ABActionTransformUnit implements ABAction {
 		if (this.requiresPayment != null) {
 			charge = this.requiresPayment.callback(caster, localStore, castId);
 		}
-		AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 
 		if (baseId == null || altId == null) {
 			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
@@ -167,23 +167,23 @@ public class ABActionTransformUnit implements ABAction {
 
 		if (transTime > 0) {
 			int orderId = -1;
-			if (abil instanceof AbilityBuilderActiveAbility) {
-				AbilityBuilderActiveAbility activeabil = (AbilityBuilderActiveAbility) abil;
+			if (abil instanceof ABAbilityBuilderActiveAbility) {
+				ABAbilityBuilderActiveAbility activeabil = (ABAbilityBuilderActiveAbility) abil;
 				orderId = addAlternateTagAfter ? activeabil.getBaseOrderId() : activeabil.getOffOrderId();
 			}
 
 			localStore.put(ABLocalStoreKeys.TRANSFORMINGTOALT + castId, addAlternateTagAfter);
 			localStore.put(ABLocalStoreKeys.NEWBEHAVIOR,
-					new CBehaviorFinishTransformation(caster, localStore, u1, abil, targetType, isKeepRatios, actions,
+					new ABBehaviorFinishTransformation(caster, localStore, u1, abil, targetType, isKeepRatios, actions,
 							addAlternateTagAfter, orderId, perm, dur, transTime, landTime, atlAdDelay, altAdTime,
 							imLand, imTakeOff, theBuffId, localStore.game.getUnitData().getUnitType(baseId), instant));
 		} else {
-			TransformationHandler.instantTransformation(localStore, u1, targetType, isKeepRatios, actions, abil,
+			ABTransformationHandler.instantTransformation(localStore, u1, targetType, isKeepRatios, actions, abil,
 					addAlternateTagAfter, perm, true);
 			if (dur > 0) {
 				OnTransformationActions unActions = new OnTransformationActions(-goldCost, -lumberCost, null, null,
 						onUntransformActions, castId);
-				TransformationHandler.createInstantTransformBackBuff(caster, localStore, u1,
+				ABTransformationHandler.createInstantTransformBackBuff(caster, localStore, u1,
 						localStore.game.getUnitData().getUnitType(baseId), isKeepRatios, unActions, abil, theBuffId,
 						addAlternateTagAfter, transTime, dur, perm);
 			}

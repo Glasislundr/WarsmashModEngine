@@ -5,12 +5,12 @@ import com.etheller.warsmash.parsers.jass.JassTextGeneratorType;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetAlias extends ABIDCallback {
 
 	@Override
-	public War3ID callback(final CUnit caster, final LocalDataStore localStore,
+	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		return (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 	}

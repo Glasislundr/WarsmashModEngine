@@ -8,7 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionCreateTimedLifeBuff implements ABSingleAction {
 
@@ -17,7 +17,7 @@ public class ABActionCreateTimedLifeBuff implements ABSingleAction {
 	private ABBooleanCallback explode;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final CBuffTimedLife ability = new CBuffTimedLife(localStore.game.getHandleIdAllocator().createId(),
 				this.buffId.callback(caster, localStore, castId), this.duration.callback(caster, localStore, castId),
 				this.explode.callback(caster, localStore, castId));

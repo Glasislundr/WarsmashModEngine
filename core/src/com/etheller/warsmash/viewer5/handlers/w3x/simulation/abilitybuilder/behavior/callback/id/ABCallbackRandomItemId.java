@@ -5,8 +5,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CItemType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.RandomTypeHandler;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABRandomTypeHandler;
 
 public class ABCallbackRandomItemId extends ABIDCallback {
 
@@ -16,9 +16,9 @@ public class ABCallbackRandomItemId extends ABIDCallback {
 	private ABBooleanCallback ignoreRandomFlag;
 
 	@Override
-	public War3ID callback(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if (previousId == null && level == null && ignoreValidFlag == null && ignoreRandomFlag == null) {
-			return RandomTypeHandler.getRandomItemType(localStore.game).getTypeId();
+			return ABRandomTypeHandler.getRandomItemType(localStore.game).getTypeId();
 		}
 
 		War3ID id = null;
@@ -37,7 +37,7 @@ public class ABCallbackRandomItemId extends ABIDCallback {
 		if (ignoreRandomFlag != null) {
 			random = ignoreRandomFlag.callback(caster, localStore, castId);
 		}
-		CItemType type = RandomTypeHandler.getRandomItemType(localStore.game, id, lv, valid, random);
+		CItemType type = ABRandomTypeHandler.getRandomItemType(localStore.game, id, lv, valid, random);
 		if (type == null) {
 			return null;
 		}

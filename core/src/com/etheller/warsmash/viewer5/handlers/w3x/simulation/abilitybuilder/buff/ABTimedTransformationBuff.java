@@ -5,21 +5,21 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorFinishTransformation;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.COrderStartTransformation;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABBehaviorFinishTransformation;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.ABOrderStartTransformation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler.OnTransformationActions;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.DelayInstantTransformationTimer;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler.OnTransformationActions;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.ABDelayInstantTransformationTimer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
 
 public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 
 	private OnTransformationActions actions;
-	private AbilityBuilderAbility abil;
+	private ABAbilityBuilderAbility abil;
 	private CUnitType targetType;
 	private boolean keepRatios;
 	private boolean addAlternateTagAfter;
@@ -33,8 +33,8 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 	private boolean imTakeOff;
 	private boolean instantTransformation;
 
-	public ABTimedTransformationBuff(int handleId, LocalDataStore localStore, CAbility sourceAbility, CUnit sourceUnit,
-			OnTransformationActions actions, War3ID alias, float duration, AbilityBuilderAbility ability,
+	public ABTimedTransformationBuff(int handleId, ABLocalDataStore localStore, CAbility sourceAbility, CUnit sourceUnit,
+			OnTransformationActions actions, War3ID alias, float duration, ABAbilityBuilderAbility ability,
 			CUnitType newType, final boolean keepRatios, boolean addAlternateTagAfter, boolean permanent,
 			float transformationDuration, float transformationTime, float landingDelay, float altitudeAdjustmentDelay,
 			float altitudeAdjustmentDuration, boolean immediateLanding, boolean immediateTakeoff) {
@@ -56,8 +56,8 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 		this.instantTransformation = false;
 	}
 
-	public ABTimedTransformationBuff(int handleId, LocalDataStore localStore, CAbility sourceAbility, CUnit sourceUnit,
-			OnTransformationActions actions, War3ID alias, float duration, AbilityBuilderAbility ability,
+	public ABTimedTransformationBuff(int handleId, ABLocalDataStore localStore, CAbility sourceAbility, CUnit sourceUnit,
+			OnTransformationActions actions, War3ID alias, float duration, ABAbilityBuilderAbility ability,
 			CUnitType newType, boolean addAlternateTagAfter, boolean permanent, float transformationDuration) {
 		super(handleId, alias, localStore, sourceAbility, sourceUnit, duration, true, false, true, false);
 		this.setIconShowing(false);
@@ -81,7 +81,7 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 	@Override
 	public void onDeath(CSimulation game, CUnit unit) {
 		if (unit.isHero()) {
-			TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
+			ABTransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
 					addAlternateTagAfter, perm, true);
 			unit.remove(game, this);
 		}
@@ -91,8 +91,8 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 	protected void onBuffExpire(CSimulation game, CUnit unit) {
 		int visibleOrderId = -1;
 		int transformId = -1;
-		if (abil instanceof AbilityBuilderActiveAbility) {
-			AbilityBuilderActiveAbility actabil = (AbilityBuilderActiveAbility) abil;
+		if (abil instanceof ABAbilityBuilderActiveAbility) {
+			ABAbilityBuilderActiveAbility actabil = (ABAbilityBuilderActiveAbility) abil;
 			if (actabil.isToggleOn()) {
 				actabil.deactivate(game, unit);
 			}
@@ -104,19 +104,19 @@ public class ABTimedTransformationBuff extends ABGenericTimedBuff {
 		unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_EFFECT, this.abil, null);
 		if (instantTransformation) {
 			if (dur > 0) {
-				TransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
-				new DelayInstantTransformationTimer(sourceUnit, localStore, unit, actions, addAlternateTagAfter,
+				ABTransformationHandler.playMorphAnimation(unit, addAlternateTagAfter);
+				new ABDelayInstantTransformationTimer(sourceUnit, localStore, unit, actions, addAlternateTagAfter,
 						transTime, null, targetType, keepRatios, abil, null, transTime, 0).start(game);
 			} else {
-				TransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
+				ABTransformationHandler.instantTransformation(localStore, unit, targetType, keepRatios, actions, abil,
 						addAlternateTagAfter, perm, true);
 			}
 			unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.abil, null);
 			unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_ENDCAST, this.abil, null);
 		} else {
 			this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, unit.getCurrentBehavior());
-			unit.order(game, new COrderStartTransformation(
-					new CBehaviorFinishTransformation(sourceUnit, localStore, unit, abil, targetType, keepRatios,
+			unit.order(game, new ABOrderStartTransformation(
+					new ABBehaviorFinishTransformation(sourceUnit, localStore, unit, abil, targetType, keepRatios,
 							actions, addAlternateTagAfter, visibleOrderId, perm, dur, transTime, landTime, atlAdDelay,
 							altAdTime, imLand, imTakeOff, this.getAlias(), targetType, instantTransformation),
 					transformId), false);

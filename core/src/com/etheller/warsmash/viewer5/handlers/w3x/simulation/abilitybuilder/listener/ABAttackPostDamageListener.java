@@ -8,21 +8,21 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPostDamageListener;
 
 public class ABAttackPostDamageListener implements CUnitAttackPostDamageListener {
 
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private ABIntegerCallback priority;
 	private List<ABAction> actions;
 	
 	private int triggerId = 0;
 	private boolean useCastId;
 	
-	public ABAttackPostDamageListener(LocalDataStore localStore, ABIntegerCallback priority, List<ABAction> actions, int castId, boolean useCastId) {
+	public ABAttackPostDamageListener(ABLocalDataStore localStore, ABIntegerCallback priority, List<ABAction> actions, int castId, boolean useCastId) {
 		this.localStore = localStore;
 		this.priority = priority;
 		this.actions = actions;

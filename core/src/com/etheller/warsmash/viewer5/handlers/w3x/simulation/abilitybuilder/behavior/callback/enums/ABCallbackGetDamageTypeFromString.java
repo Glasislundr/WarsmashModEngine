@@ -4,7 +4,7 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABCallbackRawString;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
 
 public class ABCallbackGetDamageTypeFromString extends ABDamageTypeCallback {
@@ -12,7 +12,7 @@ public class ABCallbackGetDamageTypeFromString extends ABDamageTypeCallback {
 	private ABStringCallback id;
 
 	@Override
-	public CDamageType callback(final CUnit caster, final LocalDataStore localStore,
+	public CDamageType callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		return CDamageType.valueOf(this.id.callback(caster, localStore, castId));
 	}

@@ -3,7 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackRandomLocationInRange extends ABLocationCallback {
 
@@ -11,7 +11,7 @@ public class ABCallbackRandomLocationInRange extends ABLocationCallback {
 	private ABFloatCallback range;
 
 	@Override
-	public AbilityPointTarget callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public AbilityPointTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		final AbilityPointTarget orig = this.origin.callback(caster, localStore, castId);
 		final float d = this.range.callback(caster, localStore, castId) * localStore.game.getSeededRandom().nextFloat();
 		final float a = (float) (Math.PI * 2 * localStore.game.getSeededRandom().nextFloat());

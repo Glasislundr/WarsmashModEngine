@@ -3,11 +3,11 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.ability.ABAbilityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionAbilityRemoveUniqueFlag implements ABSingleAction {
 
@@ -15,10 +15,10 @@ public class ABActionAbilityRemoveUniqueFlag implements ABSingleAction {
 	private ABStringCallback flag;
 
 	@Override
-	public void runAction(final CUnit caster, final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final CAbility theAbility = this.ability.callback(caster, localStore, castId);
-		if (theAbility instanceof AbilityBuilderAbility) {
-			((AbilityBuilderAbility) theAbility).removeUniqueFlag(flag.callback(caster, localStore, castId));
+		if (theAbility instanceof ABAbilityBuilderAbility) {
+			((ABAbilityBuilderAbility) theAbility).removeUniqueFlag(flag.callback(caster, localStore, castId));
 		}
 	}
 

@@ -2,12 +2,12 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionSetBurrowPlaceholder implements ABAction {
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, int castId) {
 		// TODO Auto-generated method stub
 
 	}

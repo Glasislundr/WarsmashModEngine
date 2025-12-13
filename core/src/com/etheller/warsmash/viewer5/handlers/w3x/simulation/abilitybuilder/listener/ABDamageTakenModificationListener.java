@@ -7,20 +7,20 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackDamageTakenModificationListener;
 
 public class ABDamageTakenModificationListener implements CUnitAttackDamageTakenModificationListener {
 
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private ABIntegerCallback priority;
 	private List<ABAction> actions;
 
 	private int triggerId = 0;
 	private boolean useCastId;
 
-	public ABDamageTakenModificationListener(LocalDataStore localStore, ABIntegerCallback priority,
+	public ABDamageTakenModificationListener(ABLocalDataStore localStore, ABIntegerCallback priority,
 			List<ABAction> actions, int castId, boolean useCastId) {
 		this.localStore = localStore;
 		this.priority = priority;

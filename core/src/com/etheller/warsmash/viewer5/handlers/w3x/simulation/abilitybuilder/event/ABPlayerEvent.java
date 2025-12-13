@@ -8,7 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayer;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayerEvent;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayerJass;
@@ -17,13 +17,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEve
 public class ABPlayerEvent extends CPlayerEvent {
 
 	private CUnit caster;
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private int castId;
 
 	private ABCondition condition;
 	private List<ABAction> actions;
 
-	public ABPlayerEvent(CUnit caster, LocalDataStore localStore, int castId, CPlayerJass player,
+	public ABPlayerEvent(CUnit caster, ABLocalDataStore localStore, int castId, CPlayerJass player,
 			JassGameEventsWar3 eventType, ABCondition condition, List<ABAction> actions) {
 		super(localStore.game.getGlobalScope(), player, null, eventType, null);
 		this.caster = caster;

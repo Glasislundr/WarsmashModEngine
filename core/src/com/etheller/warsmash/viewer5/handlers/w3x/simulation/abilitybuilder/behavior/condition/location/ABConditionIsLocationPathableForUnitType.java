@@ -6,7 +6,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.location.ABLocationCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABConditionIsLocationPathableForUnitType extends ABCondition {
 
@@ -14,7 +14,7 @@ public class ABConditionIsLocationPathableForUnitType extends ABCondition {
 	ABIDCallback unitType;
 
 	@Override
-	public Boolean callback(CUnit caster, LocalDataStore localStore, int castId) {
+	public Boolean callback(CUnit caster, ABLocalDataStore localStore, int castId) {
 		War3ID uType = unitType.callback(caster, localStore, castId);
 		AbilityPointTarget loc = location.callback(caster, localStore, castId);
 		return localStore.game.getPathingGrid().isPathable(loc.x, loc.y,

@@ -5,7 +5,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetStoredIntegerByKey extends ABIntegerCallback {
 
@@ -13,7 +13,7 @@ public class ABCallbackGetStoredIntegerByKey extends ABIntegerCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			return (Integer) localStore.get(ABLocalStoreKeys
 					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));

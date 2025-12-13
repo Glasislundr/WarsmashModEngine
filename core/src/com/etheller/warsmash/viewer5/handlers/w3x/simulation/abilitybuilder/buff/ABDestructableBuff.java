@@ -9,7 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABDestructableBuff implements CDestructableBuff {
 
@@ -26,7 +26,7 @@ public class ABDestructableBuff implements CDestructableBuff {
 	private War3ID alias;
 	private int level;
 
-	protected LocalDataStore localStore;
+	protected ABLocalDataStore localStore;
 	protected int castId = 0;
 	private CUnit caster;
 
@@ -34,7 +34,7 @@ public class ABDestructableBuff implements CDestructableBuff {
 	private List<ABAction> onRemoveActions;
 	private List<ABAction> onDeathActions;
 
-	public ABDestructableBuff(int handleId, War3ID alias, int level, LocalDataStore localStore,
+	public ABDestructableBuff(int handleId, War3ID alias, int level, ABLocalDataStore localStore,
 			List<ABAction> onAddActions, List<ABAction> onRemoveActions, List<ABAction> onDeathActions,
 			final int castId, CUnit caster, boolean dispellable) {
 		this.handleId = handleId;

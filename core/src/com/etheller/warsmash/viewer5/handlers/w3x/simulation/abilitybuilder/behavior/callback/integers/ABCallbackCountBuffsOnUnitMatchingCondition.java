@@ -7,7 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.C
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackCountBuffsOnUnitMatchingCondition extends ABIntegerCallback {
 
@@ -15,7 +15,7 @@ public class ABCallbackCountBuffsOnUnitMatchingCondition extends ABIntegerCallba
 	private ABCondition condition;
 
 	@Override
-	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit u = caster;
 		if (unit != null) {
 			u = unit.callback(caster, localStore, castId);

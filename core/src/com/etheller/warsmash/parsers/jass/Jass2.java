@@ -139,8 +139,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.CAbilityType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.jass.CAbilityTypeJassDefinition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.jass.CodeJassValueBehaviorExpr;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABPermanentPassiveBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTargetingBuff;
@@ -151,21 +151,21 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedTickingPausedBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABTimedTickingPostDeathBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.MapLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABMapLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.event.ABTimeOfDayEvent;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.jass.ABActionJass;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.jass.ABConditionJass;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderDupe;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderParser;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.template.DataFieldLetter;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderConfiguration;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderDupe;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderParser;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.ABAbilityBuilderType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.template.ABDataFieldLetter;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.projectile.ABCollisionProjectileListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.projectile.ABProjectileListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.timer.ABTimer;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.visitor.GetABAbilityByRawcodeVisitor;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.ABAbilityBuilderAbilityTypeLevelData;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.visitor.ABGetABAbilityByRawcodeVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.ai.AIDifficulty;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.BehaviorTargetVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
@@ -6470,7 +6470,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AbilityTypeLevelDataAddTargetAllowed",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final CTargetType targetType = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
@@ -6482,7 +6482,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("AbilityTypeLevelDataRemoveTargetAllowed",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final CTargetType targetType = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
@@ -6495,14 +6495,14 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("ConvertDataFieldLetter",
 					(arguments, globalScope, triggerScope) -> {
 						final int i = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
-						return new HandleJassValue(datafieldletterType, DataFieldLetter.VALUES[i]);
+						return new HandleJassValue(datafieldletterType, ABDataFieldLetter.VALUES[i]);
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataReal",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
-						final DataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
+						final ABDataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
 						if ((levelData != null) && (dataField != null)) {
 							final String data = levelData.get(level).getData().get(dataField.getIndex());
 							if (data.equals("-") || data.isEmpty()) {
@@ -6514,10 +6514,10 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataInteger",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
-						final DataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
+						final ABDataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
 						if ((levelData != null) && (dataField != null)) {
 							final String data = levelData.get(level).getData().get(dataField.getIndex());
 							if (data.equals("-") || data.isEmpty()) {
@@ -6529,10 +6529,10 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataAsID",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
-						final DataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
+						final ABDataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
 						if ((levelData != null) && (dataField != null)) {
 							final String data = levelData.get(level).getData().get(dataField.getIndex());
 							if (data.equals("-") || data.isEmpty()) {
@@ -6544,10 +6544,10 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataBoolean",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
-						final DataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
+						final ABDataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
 						if ((levelData != null) && (dataField != null)) {
 							final String data = levelData.get(level).getData().get(dataField.getIndex());
 							if (data.equals("-") || data.isEmpty()) {
@@ -6559,10 +6559,10 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataString",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
-						final DataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
+						final ABDataFieldLetter dataField = nullable(arguments, 2, ObjectJassValueVisitor.getInstance());
 						if ((levelData != null) && (dataField != null)) {
 							final String data = levelData.get(level).getData().get(dataField.getIndex());
 							if (data.isEmpty()) {
@@ -6574,7 +6574,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataFirstBuffId",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						if (levelData != null) {
@@ -6588,7 +6588,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataDurationNormal",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						if (levelData != null) {
@@ -6598,7 +6598,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataDurationHero",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						if (levelData != null) {
@@ -6608,7 +6608,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelDataCastTime",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						if (levelData != null) {
@@ -6618,7 +6618,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityTypeLevelUnitID",
 					(arguments, globalScope, triggerScope) -> {
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 0,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						if (levelData != null) {
@@ -6633,9 +6633,9 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return new StringJassValue((String) object);
@@ -6647,9 +6647,9 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return IntegerJassValue.of((Integer) object);
@@ -6661,9 +6661,9 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return BooleanJassValue.of((Boolean) object);
@@ -6688,7 +6688,7 @@ public class Jass2 {
 			// TODO below is overwriting what already exists
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreLocationHandle",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						Object object = localStore.get(childKey);
@@ -6704,7 +6704,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreHandle",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object unwrappedHandleUnderlyingJavaObject = nullable(arguments, 2,
@@ -6717,9 +6717,9 @@ public class Jass2 {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final String value = nullable(arguments, 2, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, value);
 							return BooleanJassValue.of(object != null);
 						}
@@ -6730,9 +6730,9 @@ public class Jass2 {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Integer value = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, value);
 							return BooleanJassValue.of(object != null);
 						}
@@ -6743,9 +6743,9 @@ public class Jass2 {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Boolean value = arguments.get(2).visit(BooleanJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, value);
 							return BooleanJassValue.of(object != null);
 						}
@@ -6755,9 +6755,9 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							return BooleanJassValue.of(localStore.containsKey(childKey));
 						}
 						return BooleanJassValue.FALSE;
@@ -6765,10 +6765,10 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("FlushParentAbilityUserData",
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
 							if (ability != null) {
-								final LocalDataStore localStore = ability.getLocalStore();
+								final ABLocalDataStore localStore = ability.getLocalStore();
 								localStore.clear();
 							}
 						}
@@ -6778,9 +6778,9 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							return BooleanJassValue.of(localStore.remove(childKey) != null);
 						}
 						return BooleanJassValue.FALSE;
@@ -6789,11 +6789,11 @@ public class Jass2 {
 			// ===== local store =====
 			jassProgramVisitor.getJassNativeManager().createNative("CreateLocalStore",
 					(arguments, globalScope, triggerScope) -> {
-						return new HandleJassValue(localstoreType, new MapLocalDataStore(CommonEnvironment.this.simulation));
+						return new HandleJassValue(localstoreType, new ABMapLocalDataStore(CommonEnvironment.this.simulation));
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreString",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6804,7 +6804,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreInteger",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6818,7 +6818,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreReal",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6829,7 +6829,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreCode",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6840,7 +6840,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStoreBoolean",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -6851,7 +6851,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreString",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final String value = nullable(arguments, 2, StringJassValueVisitor.getInstance());
@@ -6860,7 +6860,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreInteger",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Integer value = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
@@ -6869,7 +6869,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreReal",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final float value = arguments.get(2).visit(RealJassValueVisitor.getInstance()).floatValue();
@@ -6878,7 +6878,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreBoolean",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Boolean value = arguments.get(2).visit(BooleanJassValueVisitor.getInstance());
@@ -6887,7 +6887,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStoreCode",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final CodeJassValue value = arguments.get(2).visit(CodeJassValueVisitor.getInstance());
@@ -6896,14 +6896,14 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("LocalStoreContainsKey",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						return BooleanJassValue.of(localStore.containsKey(childKey));
 					});
 
 			final JassFunction flushParentLocalStore = (arguments, globalScope, triggerScope) -> {
-				final LocalDataStore localStore = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
+				final ABLocalDataStore localStore = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 				localStore.clear();
 				return null;
 			};
@@ -6911,7 +6911,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("DestroyLocalStore", flushParentLocalStore);
 			jassProgramVisitor.getJassNativeManager().createNative("FlushChildLocalStore",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						return BooleanJassValue.of(localStore.remove(childKey) != null);
@@ -6919,7 +6919,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("LocalStoreCleanUpCastInstance",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final Set<String> keySet = new HashSet<>(localStore.keySet());
@@ -6933,9 +6933,9 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("GetAbilityLocalStore",
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							return new HandleJassValue(localstoreType, localStore);
 						}
 						return localstoreType.getNullValue();
@@ -6951,14 +6951,14 @@ public class Jass2 {
 			// Ability Builder Configuration
 			jassProgramVisitor.getJassNativeManager().createNative("CreateAbilityBuilderConfiguration",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration emptyConfiguration = new AbilityBuilderConfiguration(
-								new AbilityBuilderParser(), new AbilityBuilderDupe());
+						final ABAbilityBuilderConfiguration emptyConfiguration = new ABAbilityBuilderConfiguration(
+								new ABAbilityBuilderParser(), new ABAbilityBuilderDupe());
 						return new HandleJassValue(abilitybuilderconfigurationType, emptyConfiguration);
 					});
 
 			jassProgramVisitor.getJassNativeManager().createNative("SetABConfCastId",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String castId = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 
@@ -6967,7 +6967,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetABConfUncastId",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String castId = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 
@@ -6976,7 +6976,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetABConfAutoCastOnId",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String castId = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 
@@ -6985,7 +6985,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetABConfAutoCastOffId",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String castId = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 
@@ -6994,7 +6994,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetABConfAutoCastType",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final AutocastType whichAutocastType = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
@@ -7004,9 +7004,9 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetABConfType",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
-						final AbilityBuilderType whichType = nullable(arguments, 1,
+						final ABAbilityBuilderType whichType = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
 
 						abConf.setType(whichType);
@@ -7020,13 +7020,13 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("ConvertABConfType",
 					(arguments, globalScope, triggerScope) -> {
 						final int i = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
-						return new HandleJassValue(abconftypeType, AbilityBuilderType.VALUES[i]);
+						return new HandleJassValue(abconftypeType, ABAbilityBuilderType.VALUES[i]);
 					});
 			// ==Begin section of generated code (these were all the same and not created
 			// manually)===
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfAddAbilityAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7042,7 +7042,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfAddDisabledAbilityAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7058,7 +7058,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfRemoveAbilityAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7074,7 +7074,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfRemoveDisabledAbilityAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7090,7 +7090,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfDeathPreCastAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7106,7 +7106,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfCancelPreCastAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7122,7 +7122,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfOrderIssuedAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7138,7 +7138,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfActivateAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7154,7 +7154,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfDeactivateAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7170,7 +7170,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfLevelChangeAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7186,7 +7186,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfBeginCastingAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7202,7 +7202,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfEndCastingAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7218,7 +7218,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfChannelTickAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7234,7 +7234,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("AddABConfEndChannelAction",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 0,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue callback = nullable(arguments, 1, CodeJassValueVisitor.getInstance());
 						if ((abConf != null) && (callback != null)) {
@@ -7252,7 +7252,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("RegisterABConf",
 					(arguments, globalScope, triggerScope) -> {
 						final int rawcode = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
-						final AbilityBuilderConfiguration abConf = nullable(arguments, 1,
+						final ABAbilityBuilderConfiguration abConf = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
 						this.simulation.getAbilityData().registerAbilityBuilderType(new War3ID(rawcode), abConf);
 						return null;
@@ -7469,8 +7469,8 @@ public class Jass2 {
 			final JassFunction endUnitAbilityCooldown = (arguments, globalScope, triggerScope) -> {
 				final CUnit theUnit = arguments.get(0).visit(ObjectJassValueVisitor.getInstance());
 				final int aliasId = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
-				final AbilityBuilderAbility abil = theUnit
-						.getAbility(GetABAbilityByRawcodeVisitor.getInstance().reset(new War3ID(aliasId)));
+				final ABAbilityBuilderAbility abil = theUnit
+						.getAbility(ABGetABAbilityByRawcodeVisitor.getInstance().reset(new War3ID(aliasId)));
 				if (abil != null) {
 					abil.resetCooldown(this.simulation, theUnit);
 				}
@@ -7482,7 +7482,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("EndAbilityCooldown",
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit unit = arguments.get(0).visit(ObjectJassValueVisitor.getInstance());
-						final AbilityBuilderAbility ability = arguments.get(1)
+						final ABAbilityBuilderAbility ability = arguments.get(1)
 								.visit(ObjectJassValueVisitor.getInstance());
 						ability.resetCooldown(this.simulation, unit);
 						return null;
@@ -7506,8 +7506,8 @@ public class Jass2 {
 						final CUnit theUnit = arguments.get(0).visit(ObjectJassValueVisitor.getInstance());
 						final int aliasIdRawcode = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final War3ID aliasId = new War3ID(aliasIdRawcode);
-						final AbilityBuilderAbility abil = theUnit
-								.getAbility(GetABAbilityByRawcodeVisitor.getInstance().reset(aliasId));
+						final ABAbilityBuilderAbility abil = theUnit
+								.getAbility(ABGetABAbilityByRawcodeVisitor.getInstance().reset(aliasId));
 						if (abil != null) {
 							abil.startCooldown(this.simulation, theUnit);
 						}
@@ -7518,8 +7518,8 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit unit = arguments.get(0).visit(ObjectJassValueVisitor.getInstance());
 						final CAbility ability = arguments.get(1).visit(ObjectJassValueVisitor.getInstance());
-						if (ability instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility abilityBuilderAbility = (AbilityBuilderAbility) ability;
+						if (ability instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility abilityBuilderAbility = (ABAbilityBuilderAbility) ability;
 							abilityBuilderAbility.startCooldown(this.simulation, unit);
 						}
 						return null;
@@ -7560,7 +7560,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("AbilityActivate",
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit unit = arguments.get(0).visit(ObjectJassValueVisitor.getInstance());
-						final AbilityBuilderActiveAbility ability = arguments.get(1)
+						final ABAbilityBuilderActiveAbility ability = arguments.get(1)
 								.visit(ObjectJassValueVisitor.getInstance());
 						ability.activate(this.simulation, unit);
 						return null;
@@ -7569,7 +7569,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("AbilityDeactivate",
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit unit = arguments.get(0).visit(ObjectJassValueVisitor.getInstance());
-						final AbilityBuilderActiveAbility ability = arguments.get(1)
+						final ABAbilityBuilderActiveAbility ability = arguments.get(1)
 								.visit(ObjectJassValueVisitor.getInstance());
 						ability.deactivate(this.simulation, unit);
 						return null;
@@ -7584,7 +7584,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("SetAbilityCastRange",
 					(arguments, globalScope, triggerScope) -> {
-						final AbilityBuilderActiveAbility ability = arguments.get(0)
+						final ABAbilityBuilderActiveAbility ability = arguments.get(0)
 								.visit(ObjectJassValueVisitor.getInstance());
 						final float range = arguments.get(1).visit(RealJassValueVisitor.getInstance()).floatValue();
 						ability.setCastRange(range);
@@ -7595,7 +7595,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, argIndex++,
+						final ABLocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7648,7 +7648,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, argIndex++,
+						final ABLocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7685,7 +7685,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, argIndex++,
+						final ABLocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7746,7 +7746,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, argIndex++,
+						final ABLocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7796,7 +7796,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						int argIndex = 0;
 						final CUnit casterUnit = nullable(arguments, argIndex++, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, argIndex++,
+						final ABLocalDataStore localStore = nullable(arguments, argIndex++,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(argIndex++).visit(IntegerJassValueVisitor.getInstance());
 
@@ -7949,7 +7949,7 @@ public class Jass2 {
 						final CEffectType artType = nullable(arguments, 4, ObjectJassValueVisitor.getInstance());
 						final boolean showFx = arguments.get(5).visit(BooleanJassValueVisitor.getInstance());
 						final boolean playSfx = arguments.get(6).visit(BooleanJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 7,
+						final ABLocalDataStore localStore = nullable(arguments, 7,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(8).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(9).visit(BooleanJassValueVisitor.getInstance());
@@ -7971,7 +7971,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("CreateTargetingBuff",
 					(arguments, globalScope, triggerScope) -> {
 						final int buffRawcode = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 1,
+						final ABLocalDataStore localStore = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
 
 						final CBuff ability = new ABTargetingBuff(
@@ -7990,7 +7990,7 @@ public class Jass2 {
 						final boolean leveled = arguments.get(4).visit(BooleanJassValueVisitor.getInstance());
 						final boolean positive = arguments.get(5).visit(BooleanJassValueVisitor.getInstance());
 						final boolean dispellable = arguments.get(6).visit(BooleanJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 7,
+						final ABLocalDataStore localStore = nullable(arguments, 7,
 								ObjectJassValueVisitor.getInstance());
 
 						final ABTimedArtBuff ability = new ABTimedArtBuff(
@@ -8012,7 +8012,7 @@ public class Jass2 {
 						final CodeJassValue onExpireAction = nullable(arguments, 5, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(6).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 7, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 8,
+						final ABLocalDataStore localStore = nullable(arguments, 8,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(9).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(10).visit(BooleanJassValueVisitor.getInstance());
@@ -8043,7 +8043,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final int buffRawcode = arguments.get(0).visit(IntegerJassValueVisitor.getInstance());
 						final float duration = arguments.get(1).visit(RealJassValueVisitor.getInstance()).floatValue();
-						final LocalDataStore localStore = nullable(arguments, 2,
+						final ABLocalDataStore localStore = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
 
 						final CBuff ability = new ABTimedTargetingBuff(
@@ -8063,7 +8063,7 @@ public class Jass2 {
 						final CodeJassValue onTickAction = nullable(arguments, 6, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(7).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 8, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 9,
+						final ABLocalDataStore localStore = nullable(arguments, 9,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(10).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(11).visit(BooleanJassValueVisitor.getInstance());
@@ -8090,7 +8090,7 @@ public class Jass2 {
 						final CodeJassValue onTickAction = nullable(arguments, 6, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(7).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 8, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 9,
+						final ABLocalDataStore localStore = nullable(arguments, 9,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(10).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(11).visit(BooleanJassValueVisitor.getInstance());
@@ -8117,7 +8117,7 @@ public class Jass2 {
 						final CodeJassValue onTickAction = nullable(arguments, 6, CodeJassValueVisitor.getInstance());
 						final boolean showIcon = arguments.get(7).visit(BooleanJassValueVisitor.getInstance());
 						final CEffectType artType = nullable(arguments, 8, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 9,
+						final ABLocalDataStore localStore = nullable(arguments, 9,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(10).visit(IntegerJassValueVisitor.getInstance());
 						final boolean leveled = arguments.get(11).visit(BooleanJassValueVisitor.getInstance());
@@ -8163,7 +8163,7 @@ public class Jass2 {
 						final CUnit casterUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final int buffRawcode = arguments.get(1).visit(IntegerJassValueVisitor.getInstance());
 						final int level = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 3,
+						final ABLocalDataStore localStore = nullable(arguments, 3,
 								ObjectJassValueVisitor.getInstance());
 						final CodeJassValue onAddAction = nullable(arguments, 4, CodeJassValueVisitor.getInstance());
 						final CodeJassValue onRemoveAction = nullable(arguments, 5, CodeJassValueVisitor.getInstance());
@@ -8186,7 +8186,7 @@ public class Jass2 {
 						final float endTime = arguments.get(2).visit(RealJassValueVisitor.getInstance()).floatValue();
 						final String equalityId = nullable(arguments, 3, StringJassValueVisitor.getInstance());
 						final CUnit casterUnit = nullable(arguments, 4, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 5,
+						final ABLocalDataStore localStore = nullable(arguments, 5,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(6).visit(IntegerJassValueVisitor.getInstance());
 
@@ -8426,7 +8426,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit targetUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final CUnit casterUnit = nullable(arguments, 1, ObjectJassValueVisitor.getInstance());
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 2,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(3).visit(IntegerJassValueVisitor.getInstance());
 						final boolean targetedEffect = arguments.get(4).visit(BooleanJassValueVisitor.getInstance());
@@ -8466,7 +8466,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CWidget targetUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final CUnit casterUnit = nullable(arguments, 1, ObjectJassValueVisitor.getInstance());
-						final List<CAbilityTypeAbilityBuilderLevelData> levelData = nullable(arguments, 2,
+						final List<ABAbilityBuilderAbilityTypeLevelData> levelData = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
 						final int level = arguments.get(3).visit(IntegerJassValueVisitor.getInstance());
 						if (targetUnit != null) {
@@ -8995,7 +8995,7 @@ public class Jass2 {
 						final CodeJassValue threadFunction = arguments.get(0).visit(CodeJassValueVisitor.getInstance());
 
 						final CUnit casterUnit = nullable(arguments, 1, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 2,
+						final ABLocalDataStore localStore = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(3).visit(IntegerJassValueVisitor.getInstance());
 
@@ -9007,7 +9007,7 @@ public class Jass2 {
 			jassProgramVisitor.getJassNativeManager().createNative("CreateABTimer",
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit casterUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
-						final LocalDataStore localStore = nullable(arguments, 1,
+						final ABLocalDataStore localStore = nullable(arguments, 1,
 								ObjectJassValueVisitor.getInstance());
 						final int castId = arguments.get(2).visit(IntegerJassValueVisitor.getInstance());
 						final CodeJassValue threadFunction = nullable(arguments, 3, CodeJassValueVisitor.getInstance());
@@ -9248,9 +9248,9 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CAbility abilityFromHandle = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.get(childKey);
 							if (object != null) {
 								return new HandleJassValue(handleType, object);
@@ -9264,9 +9264,9 @@ public class Jass2 {
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object unwrappedHandleUnderlyingJavaObject = nullable(arguments, 2,
 								ObjectJassValueVisitor.getInstance());
-						if (abilityFromHandle instanceof AbilityBuilderAbility) {
-							final AbilityBuilderAbility ability = (AbilityBuilderAbility) abilityFromHandle;
-							final LocalDataStore localStore = ability.getLocalStore();
+						if (abilityFromHandle instanceof ABAbilityBuilderAbility) {
+							final ABAbilityBuilderAbility ability = (ABAbilityBuilderAbility) abilityFromHandle;
+							final ABLocalDataStore localStore = ability.getLocalStore();
 							final Object object = localStore.put(childKey, unwrappedHandleUnderlyingJavaObject);
 							return BooleanJassValue.of(object != null);
 						}
@@ -9275,7 +9275,7 @@ public class Jass2 {
 
 			jassProgramVisitor.getJassNativeManager().createNative("GetLocalStore" + nameSuffix + "Handle",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object object = localStore.get(childKey);
@@ -9286,7 +9286,7 @@ public class Jass2 {
 					});
 			jassProgramVisitor.getJassNativeManager().createNative("SetLocalStore" + nameSuffix + "Handle",
 					(arguments, globalScope, triggerScope) -> {
-						final LocalDataStore localStore = nullable(arguments, 0,
+						final ABLocalDataStore localStore = nullable(arguments, 0,
 								ObjectJassValueVisitor.getInstance());
 						final String childKey = nullable(arguments, 1, StringJassValueVisitor.getInstance());
 						final Object unwrappedHandleUnderlyingJavaObject = nullable(arguments, 2,

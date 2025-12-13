@@ -7,7 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListener;
@@ -15,13 +15,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.repl
 
 public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
 
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private List<ABAction> actions;
 
 	private int triggerId = 0;
 	private boolean useCastId;
 
-	public ABAttackPreDamageListener(LocalDataStore localStore, List<ABAction> actions, int castId,
+	public ABAttackPreDamageListener(ABLocalDataStore localStore, List<ABAction> actions, int castId,
 			boolean useCastId) {
 		this.localStore = localStore;
 		this.actions = actions;

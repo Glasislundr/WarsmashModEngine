@@ -6,7 +6,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetStoredAbilityByKey extends ABAbilityCallback {
 
@@ -14,7 +14,7 @@ public class ABCallbackGetStoredAbilityByKey extends ABAbilityCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public CAbility callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
 			return (CAbility) localStore.get(ABLocalStoreKeys
 					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));

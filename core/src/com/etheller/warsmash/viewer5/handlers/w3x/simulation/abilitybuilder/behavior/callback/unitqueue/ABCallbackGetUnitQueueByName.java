@@ -3,7 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import java.util.Queue;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetUnitQueueByName extends ABUnitQueueCallback {
 
@@ -11,7 +11,7 @@ public class ABCallbackGetUnitQueueByName extends ABUnitQueueCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Queue<CUnit> callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Queue<CUnit> callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		return (Queue<CUnit>) localStore.get("_unitqueue_" + name);
 	}
 }

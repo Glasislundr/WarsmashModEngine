@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers.ABIntegerCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackIntegerListOfRange extends ABIntegerListCallback {
 
@@ -17,7 +17,7 @@ public class ABCallbackIntegerListOfRange extends ABIntegerListCallback {
 	private ABBooleanCallback inclusiveEnd;
 
 	@Override
-	public List<Integer> callback(CUnit caster, LocalDataStore localStore, int castId) {
+	public List<Integer> callback(CUnit caster, ABLocalDataStore localStore, int castId) {
 		int theStart = 0;
 		if (start != null) {
 			theStart = start.callback(caster, localStore, castId);

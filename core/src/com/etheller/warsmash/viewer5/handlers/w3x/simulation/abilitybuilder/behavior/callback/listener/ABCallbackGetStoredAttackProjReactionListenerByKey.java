@@ -4,7 +4,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.listener.ABAttackProjReactionListener;
 
 public class ABCallbackGetStoredAttackProjReactionListenerByKey extends ABAttackProjReactionListenerCallback {
@@ -12,7 +12,7 @@ public class ABCallbackGetStoredAttackProjReactionListenerByKey extends ABAttack
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABAttackProjReactionListener callback(CUnit caster, LocalDataStore localStore,
+	public ABAttackProjReactionListener callback(CUnit caster, ABLocalDataStore localStore,
 			final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
 			return (ABAttackProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));

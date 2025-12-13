@@ -3,7 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CItem;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABCondition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackInlineConditionItem extends ABItemCallback {
 
@@ -12,7 +12,7 @@ public class ABCallbackInlineConditionItem extends ABItemCallback {
 	private ABItemCallback fail;
 	
 	@Override
-	public CItem callback(CUnit caster, LocalDataStore localStore, int castId) {
+	public CItem callback(CUnit caster, ABLocalDataStore localStore, int castId) {
 		if (condition != null && condition.callback(caster, localStore, castId)) {
 			return pass.callback(caster, localStore, castId);
 		}

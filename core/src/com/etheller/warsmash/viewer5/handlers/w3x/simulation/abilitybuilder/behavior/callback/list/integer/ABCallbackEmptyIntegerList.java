@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackEmptyIntegerList extends ABIntegerListCallback {
 
 	@Override
-	public List<Integer> callback(CUnit caster, LocalDataStore localStore, int castId) {
+	public List<Integer> callback(CUnit caster, ABLocalDataStore localStore, int castId) {
 		return new ArrayList<>();
 	}
 

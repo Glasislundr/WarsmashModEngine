@@ -2,24 +2,24 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beh
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.ability.ABAbilityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackGetAbilityTargetAttachmentPoints extends ABIntegerCallback {
 
 	private ABAbilityCallback ability;
 
 	@Override
-	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (ability == null) {
-			AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 			return abil.getAbilityIntField("Targetattachcount");
 		} else {
 			CAbility abil = ability.callback(caster, localStore, castId);
-			if (abil instanceof AbilityBuilderAbility) {
-				return ((AbilityBuilderAbility) abil).getAbilityIntField("Targetattachcount");
+			if (abil instanceof ABAbilityBuilderAbility) {
+				return ((ABAbilityBuilderAbility) abil).getAbilityIntField("Targetattachcount");
 			} else {
 				return 0;
 			}

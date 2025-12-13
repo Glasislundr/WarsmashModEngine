@@ -6,7 +6,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitEnumFunction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.floats.ABFloatCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.location.ABLocationCallback;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackCountUnitsInRangeOfLocation extends ABIntegerCallback {
 
@@ -17,7 +17,7 @@ public class ABCallbackCountUnitsInRangeOfLocation extends ABIntegerCallback {
 	private int count = 0;
 
 	@Override
-	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		AbilityPointTarget origin = location.callback(caster, localStore, castId);
 		Float rangeVal = range.callback(caster, localStore, castId);
 

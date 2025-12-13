@@ -6,19 +6,19 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CProjectile;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.listeners.CUnitAbilityProjReactionListener;
 
 public class ABAbilityProjReactionListener implements CUnitAbilityProjReactionListener {
 
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private List<ABAction> actions;
 	
 	private int triggerId = 0;
 	private boolean useCastId;
 	
-	public ABAbilityProjReactionListener(LocalDataStore localStore, List<ABAction> actions, int castId, boolean useCastId) {
+	public ABAbilityProjReactionListener(ABLocalDataStore localStore, List<ABAction> actions, int castId, boolean useCastId) {
 		this.localStore = localStore;
 		this.actions = actions;
 		this.useCastId = useCastId;

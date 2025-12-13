@@ -6,8 +6,8 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.CAbilityTypeAbilityBuilderLevelData;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.impl.ABAbilityBuilderAbilityTypeLevelData;
 
 public class ABCallbackGetFirstBuffId extends ABIDCallback {
 
@@ -15,9 +15,9 @@ public class ABCallbackGetFirstBuffId extends ABIDCallback {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public War3ID callback(final CUnit caster, final LocalDataStore localStore,
+	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		final List<War3ID> buffs = ((List<CAbilityTypeAbilityBuilderLevelData>) localStore
+		final List<War3ID> buffs = ((List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA)).get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1)
 				.getBuffs();
 		if ((buffs != null) && !buffs.isEmpty()) {

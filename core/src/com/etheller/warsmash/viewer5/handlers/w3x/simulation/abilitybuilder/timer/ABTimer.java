@@ -6,18 +6,18 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
 
 public class ABTimer extends CTimer {
 	private CUnit caster;
-	private LocalDataStore localStore;
+	private ABLocalDataStore localStore;
 	private List<ABAction> actions;
 	
 	private int castId = 0;
 	private boolean alive = true;
 
-	public ABTimer(CUnit caster, LocalDataStore localStore, List<ABAction> actions, final int castId) {
+	public ABTimer(CUnit caster, ABLocalDataStore localStore, List<ABAction> actions, final int castId) {
 		super();
 		this.caster = caster;
 		this.localStore = localStore;

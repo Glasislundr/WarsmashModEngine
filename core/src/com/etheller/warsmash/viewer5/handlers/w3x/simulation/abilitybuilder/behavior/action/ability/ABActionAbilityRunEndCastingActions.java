@@ -4,14 +4,14 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.ability.ABAbilityCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.destructable.ABDestructableCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.item.ABItemCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.location.ABLocationCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABSingleAction;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABActionAbilityRunEndCastingActions implements ABSingleAction {
 
@@ -24,7 +24,7 @@ public class ABActionAbilityRunEndCastingActions implements ABSingleAction {
 	private ABDestructableCallback targetDest;
 
 	@Override
-	public void runAction(final CUnit originalCaster, final LocalDataStore localStore, final int castId) {
+	public void runAction(final CUnit originalCaster, final ABLocalDataStore localStore, final int castId) {
 		CUnit theCaster = originalCaster;
 		if (caster != null) {
 			theCaster = caster.callback(originalCaster, localStore, castId);
@@ -42,8 +42,8 @@ public class ABActionAbilityRunEndCastingActions implements ABSingleAction {
 		}
 
 		final CAbility theAbility = this.ability.callback(originalCaster, localStore, castId);
-		if (theAbility instanceof AbilityBuilderActiveAbility) {
-			AbilityBuilderActiveAbility active = ((AbilityBuilderActiveAbility) theAbility);
+		if (theAbility instanceof ABAbilityBuilderActiveAbility) {
+			ABAbilityBuilderActiveAbility active = ((ABAbilityBuilderActiveAbility) theAbility);
 			int orderId = active.getBaseOrderId();
 
 			active.internalBegin(localStore.game, theCaster, orderId, false, tar);

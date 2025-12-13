@@ -6,7 +6,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.beha
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.location.ABLocationCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.SimulationRenderComponent;
 
 public class ABActionCreateUberSplat implements ABAction {
@@ -15,7 +15,7 @@ public class ABActionCreateUberSplat implements ABAction {
 	private ABLocationCallback location;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, int castId) {
 		AbilityPointTarget loc = location.callback(caster, localStore, castId);
 		SimulationRenderComponent splat = localStore.game.createStaticUberSplat(loc.getX(), loc.getY(),
 				id.callback(caster, localStore, castId));

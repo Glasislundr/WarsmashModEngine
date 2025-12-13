@@ -1,7 +1,7 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.integers;
 
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
 
 public class ABCallbackRandomInteger extends ABIntegerCallback {
 
@@ -11,7 +11,7 @@ public class ABCallbackRandomInteger extends ABIntegerCallback {
 	private ABIntegerCallback bound;
 
 	@Override
-	public Integer callback(CUnit caster, LocalDataStore localStore, final int castId) {
+	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (bound != null) {
 			return localStore.game.getSeededRandom().nextInt(bound.callback(caster, localStore, castId));
 		}

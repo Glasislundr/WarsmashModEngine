@@ -5,14 +5,14 @@ import java.util.List;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.ABAbilityBuilderAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.booleans.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.id.ABIDCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.callback.unit.ABUnitCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.LocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.TransformationHandler;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.handler.ABTransformationHandler;
 
 public class ABActionTransformedUnitAbilityRemove implements ABAction {
 
@@ -27,7 +27,7 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 	private List<ABAction> onUntransformActions;
 
 	@Override
-	public void runAction(CUnit caster, LocalDataStore localStore, final int castId) {
+	public void runAction(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		boolean perm = false;
 		if (permanent != null) {
 			perm = permanent.callback(caster, localStore, castId);
@@ -39,7 +39,7 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 			}
 			War3ID baseId = baseUnitId.callback(caster, localStore, castId);
 			War3ID altId = alternateUnitId.callback(caster, localStore, castId);
-			AbilityBuilderAbility abil = (AbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+			ABAbilityBuilderAbility abil = (ABAbilityBuilderAbility) localStore.get(ABLocalStoreKeys.ABILITY);
 
 			if (baseId == null || altId == null) {
 				return;
@@ -63,7 +63,7 @@ public class ABActionTransformedUnitAbilityRemove implements ABAction {
 					action.runAction(u1, localStore, castId);
 				}
 			}
-			TransformationHandler.setUnitID(localStore, u1, baseType, isKeepRatios, perm, null, abil, true);
+			ABTransformationHandler.setUnitID(localStore, u1, baseType, isKeepRatios, perm, null, abil, true);
 		}
 	}
 
