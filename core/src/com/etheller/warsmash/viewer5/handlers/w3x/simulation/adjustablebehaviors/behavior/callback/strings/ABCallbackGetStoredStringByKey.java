@@ -12,15 +12,15 @@ public class ABCallbackGetStoredStringByKey extends ABStringCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public String callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public String callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (String) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (String) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					String.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					String.class);
 		}
 	}
 

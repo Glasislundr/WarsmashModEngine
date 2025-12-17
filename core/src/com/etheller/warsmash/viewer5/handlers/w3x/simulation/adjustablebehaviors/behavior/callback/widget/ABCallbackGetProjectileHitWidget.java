@@ -10,10 +10,10 @@ public class ABCallbackGetProjectileHitWidget extends ABWidgetCallback {
 
 	@Override
 	public CWidget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		final CWidget unit = (CWidget) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId));
-		final CWidget dest = (CWidget) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId));
+		final CWidget unit = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId),
+				CWidget.class);
+		final CWidget dest = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId),
+				CWidget.class);
 		if (unit != null) {
 			return unit;
 		} else {

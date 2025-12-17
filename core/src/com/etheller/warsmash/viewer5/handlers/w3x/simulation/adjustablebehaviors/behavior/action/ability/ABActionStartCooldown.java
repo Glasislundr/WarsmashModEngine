@@ -38,7 +38,7 @@ public class ABActionStartCooldown implements ABSingleAction {
 			}
 		} else {
 			if (this.cooldown != null) {
-				final War3ID aliasId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
+				final War3ID aliasId = localStore.get(ABLocalStoreKeys.ALIAS, War3ID.class);
 				theUnit.beginCooldown(localStore.game, aliasId, this.cooldown.callback(caster, localStore, castId));
 			} else {
 				final ABAbilityBuilderAbility abil = localStore.originAbility;

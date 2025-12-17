@@ -11,13 +11,16 @@ public class ABCallbackGetStoredDestructableBuffByKey extends ABDestructableBuff
 
 	private ABStringCallback key;
 	private ABBooleanCallback instanceValue;
-	
+
 	@Override
 	public CDestructableBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (CDestructableBuff) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					CDestructableBuff.class);
 		} else {
-			return (CDestructableBuff) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					CDestructableBuff.class);
 		}
 	}
 

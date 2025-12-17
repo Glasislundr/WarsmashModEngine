@@ -15,7 +15,7 @@ public class ABCallbackArgumentTimeOfDayEvent extends ABTimeOfDayEventCallback {
 	@Override
 	public ABTimeOfDayEvent callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final String keyS = name.callback(caster, localStore, castId);
-		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
+		ABCallback cbck = localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS), ABCallback.class);
 		if (cbck != null && cbck instanceof ABTimeOfDayEventCallback) {
 			return ((ABTimeOfDayEventCallback) cbck).callback(caster, localStore, castId);
 		} else {

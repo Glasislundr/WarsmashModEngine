@@ -14,7 +14,7 @@ public class ABActionAttemptToReOrderPreviousBehavior implements ABAction {
 
 	@Override
 	public void runAction(CUnit caster, ABLocalDataStore localStore, int castId) {
-		CBehavior b = (CBehavior) localStore.get(ABLocalStoreKeys.PREVIOUSBEHAVIOR);
+		CBehavior b = localStore.get(ABLocalStoreKeys.PREVIOUSBEHAVIOR, CBehavior.class);
 		if (b != null && b != caster.getCurrentBehavior()) {
 			if (checkForOrders == null || checkForOrders.callback(caster, localStore, castId)) {
 				if (caster.getOrderQueue().isEmpty()) {

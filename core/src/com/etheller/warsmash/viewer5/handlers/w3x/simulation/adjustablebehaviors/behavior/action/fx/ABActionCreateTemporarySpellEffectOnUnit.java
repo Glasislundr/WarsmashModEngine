@@ -20,7 +20,7 @@ public class ABActionCreateTemporarySpellEffectOnUnit implements ABSingleAction 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		War3ID theId = null;
 		if (id == null) {
-			theId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
+			theId = localStore.get(ABLocalStoreKeys.ALIAS, War3ID.class);
 		} else {
 			theId = id.callback(caster, localStore, castId);
 		}

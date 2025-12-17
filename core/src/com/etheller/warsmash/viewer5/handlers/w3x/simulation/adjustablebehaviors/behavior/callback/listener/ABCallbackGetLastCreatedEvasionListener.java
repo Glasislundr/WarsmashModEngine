@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedEvasionListener extends ABEvasionListenerCa
 
 	@Override
 	public ABAttackEvasionListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABAttackEvasionListener) localStore.get(ABLocalStoreKeys.LASTCREATEDAEL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDAEL, ABAttackEvasionListener.class);
 	}
 
 }

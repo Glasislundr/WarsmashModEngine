@@ -11,7 +11,7 @@ public class ABCallbackGetModifiedAttackAttackType extends ABAttackTypeCallback 
 
 	@Override
 	public CAttackType callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId)))
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId), CUnitAttack.class)
 				.getAttackType();
 	}
 

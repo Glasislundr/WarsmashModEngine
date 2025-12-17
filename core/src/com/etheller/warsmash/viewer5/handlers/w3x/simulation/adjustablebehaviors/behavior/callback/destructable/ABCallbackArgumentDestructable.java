@@ -13,14 +13,15 @@ public class ABCallbackArgumentDestructable extends ABDestructableCallback {
 	private ABStringCallback name;
 
 	@Override
-	public CDestructable callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public CDestructable callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final String keyS = name.callback(caster, localStore, castId);
-		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
+		ABCallback cbck = localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS), ABCallback.class);
 		if (cbck != null && cbck instanceof ABDestructableCallback) {
 			return ((ABDestructableCallback) cbck).callback(caster, localStore, castId);
 		} else {
-			System.err.println("Trying to run ReuseDestructableCallback, but key is missing or callback was the wrong type: " + keyS);
+			System.err.println(
+					"Trying to run ReuseDestructableCallback, but key is missing or callback was the wrong type: "
+							+ keyS);
 		}
 		return null;
 	}

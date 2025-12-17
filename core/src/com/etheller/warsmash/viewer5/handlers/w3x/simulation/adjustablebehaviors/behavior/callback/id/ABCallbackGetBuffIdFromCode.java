@@ -12,7 +12,7 @@ public class ABCallbackGetBuffIdFromCode extends ABIDCallback {
 	@Override
 	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		return ((War3ID) localStore.get(ABLocalStoreKeys.CODE)).set(0, 'B');
+		return (localStore.get(ABLocalStoreKeys.CODE, War3ID.class)).set(0, 'B');
 	}
 
 	@Override

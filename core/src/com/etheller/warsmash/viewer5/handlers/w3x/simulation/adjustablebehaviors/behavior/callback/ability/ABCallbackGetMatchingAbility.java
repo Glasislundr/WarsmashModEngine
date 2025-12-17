@@ -11,7 +11,7 @@ public class ABCallbackGetMatchingAbility extends ABAbilityCallback {
 
 	@Override
 	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CAbility) localStore.get(ABLocalStoreKeys.MATCHINGABILITY);
+		return localStore.get(ABLocalStoreKeys.MATCHINGABILITY, CAbility.class);
 	}
 
 	@Override

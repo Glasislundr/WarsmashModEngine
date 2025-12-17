@@ -10,7 +10,7 @@ public class ABCallbackGetLastCreatedAttackPostDamageListener extends ABAttackPo
 	@Override
 	public ABAttackPostDamageListener callback(CUnit caster, ABLocalDataStore localStore,
 			final int castId) {
-		return (ABAttackPostDamageListener) localStore.get(ABLocalStoreKeys.LASTCREATEDAPoDL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDAPoDL, ABAttackPostDamageListener.class);
 	}
 
 }

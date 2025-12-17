@@ -936,11 +936,15 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		scope.triggerCastId = castId;
 		// TODO: below: makes it easier on the outside, but it still is very bad for
 		// performance
-		scope.spellTargetUnit = (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
-		scope.spellTargetItem = (CItem) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
-		scope.spellTargetDestructable = (CDestructable) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
-		scope.spellTargetPoint = (AbilityPointTarget) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId));
+		scope.spellTargetUnit = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId), CUnit.class);
+		scope.spellTargetItem = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId), CItem.class);
+		scope.spellTargetDestructable = localStore.get(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId), CDestructable.class);
+		scope.spellTargetPoint = localStore.get(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId),
+				AbilityPointTarget.class);
 		scope.spellAbility = localStore.originAbility;
 		scope.spellAbilityId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		return scope;

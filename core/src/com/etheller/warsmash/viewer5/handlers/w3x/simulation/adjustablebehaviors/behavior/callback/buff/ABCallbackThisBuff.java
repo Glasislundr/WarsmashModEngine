@@ -12,7 +12,7 @@ public class ABCallbackThisBuff extends ABBuffCallback {
 	@Override
 	public CBuff callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		return (CBuff) localStore.get(ABLocalStoreKeys.BUFF);
+		return localStore.get(ABLocalStoreKeys.BUFF, CBuff.class);
 	}
 
 	@Override

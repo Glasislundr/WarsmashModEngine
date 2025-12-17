@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedBehaviorChangeListener extends ABBehaviorCh
 
 	@Override
 	public ABBehaviorChangeListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABBehaviorChangeListener) localStore.get(ABLocalStoreKeys.LASTCREATEDBCL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDBCL, ABBehaviorChangeListener.class);
 	}
 
 }

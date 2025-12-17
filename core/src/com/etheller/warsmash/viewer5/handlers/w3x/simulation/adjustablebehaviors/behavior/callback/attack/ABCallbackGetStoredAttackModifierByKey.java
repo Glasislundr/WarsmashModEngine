@@ -14,11 +14,12 @@ public class ABCallbackGetStoredAttackModifierByKey extends ABAttackModifierCall
 	@Override
 	public ABAttackModifier callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABAttackModifier) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABAttackModifier.class);
 		} else {
-			return (ABAttackModifier) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABAttackModifier.class);
 		}
 	}
 

@@ -10,8 +10,8 @@ public class ABCallbackGetAttackBaseDamage extends ABFloatCallback {
 
 	@Override
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
+		CUnitAttackSettings settings = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId), CUnitAttackSettings.class);
 		return settings.getBaseDamage();
 	}
 

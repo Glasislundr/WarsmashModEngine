@@ -102,7 +102,7 @@ public class ABTransformationHandler {
 			final boolean keepRatios, final OnTransformationActions actions, final CAbility ability,
 			final boolean addAlternateTagAfter, final boolean immediateTakeoff, final float altitudeAdjustmentDelay,
 			final float altitudeAdjustmentDuration) {
-		CTimer timer = (CTimer) localStore.get(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT);
+		CTimer timer = localStore.get(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT, CTimer.class);
 		if (timer != null) {
 			localStore.game.unregisterTimer(timer);
 		}
@@ -133,7 +133,7 @@ public class ABTransformationHandler {
 			timer.start(localStore.game);
 			localStore.put(ABLocalStoreKeys.WAITING_ANIMATION, timer);
 		}
-		CTimer timer = (CTimer) localStore.get(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT);
+		CTimer timer = localStore.get(ABLocalStoreKeys.ACTIVE_ALTITUDE_ADJUSTMENT, CTimer.class);
 		if (timer != null) {
 			localStore.game.unregisterTimer(timer);
 		}
@@ -147,7 +147,7 @@ public class ABTransformationHandler {
 			final CAbility ability, final boolean addAlternateTagAfter, final boolean takingOff, final boolean landing,
 			final boolean immediateTakeoff, final boolean immediateLanding, final float altitudeAdjustmentDelay,
 			final float landingDelay, final float altitudeAdjustmentDuration) {
-		final CTimer timer = (CTimer) localStore.get(ABLocalStoreKeys.WAITING_ANIMATION);
+		final CTimer timer = localStore.get(ABLocalStoreKeys.WAITING_ANIMATION, CTimer.class);
 		if (timer != null) {
 			localStore.game.unregisterTimer(timer);
 		}

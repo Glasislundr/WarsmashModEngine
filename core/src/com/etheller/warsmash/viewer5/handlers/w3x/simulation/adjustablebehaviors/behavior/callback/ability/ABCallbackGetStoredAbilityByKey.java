@@ -16,12 +16,13 @@ public class ABCallbackGetStoredAbilityByKey extends ABAbilityCallback {
 	@Override
 	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CAbility) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (CAbility) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CAbility.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CAbility.class);
 		}
 	}
 

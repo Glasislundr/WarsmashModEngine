@@ -11,7 +11,7 @@ public class ABCallbackGetLastCreatedBuff extends ABBuffCallback {
 
 	@Override
 	public CBuff callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		return (CBuff) localStore.get(ABLocalStoreKeys.LASTCREATEDBUFF);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDBUFF, CBuff.class);
 	}
 
 	@Override

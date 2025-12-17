@@ -10,7 +10,7 @@ public class ABConditionIsTriggeringDamageAnAttack extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
+		return (localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId), CDamageCalculation.class))
 				.getPrimaryDamageFlags().isAttack();
 	}
 

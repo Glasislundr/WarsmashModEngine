@@ -15,11 +15,12 @@ public class ABCallbackGetStoredTimeOfDayEventByKey extends ABTimeOfDayEventCall
 	@Override
 	public ABTimeOfDayEvent callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABTimeOfDayEvent) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABTimeOfDayEvent.class);
 		} else {
-			return (ABTimeOfDayEvent) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABTimeOfDayEvent.class);
 		}
 	}
 

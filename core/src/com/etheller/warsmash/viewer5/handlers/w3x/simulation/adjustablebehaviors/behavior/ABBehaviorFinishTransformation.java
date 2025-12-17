@@ -117,7 +117,7 @@ public class ABBehaviorFinishTransformation implements CBehavior {
 
 			this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.ability, null);
 			this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_ENDCAST, this.ability, null);
-			CBehavior newBehavior = (CBehavior) localStore.get(ABLocalStoreKeys.NEWBEHAVIOR);
+			CBehavior newBehavior = localStore.get(ABLocalStoreKeys.NEWBEHAVIOR, CBehavior.class);
 			if (this.equals(newBehavior)) {
 			}
 			localStore.remove(ABLocalStoreKeys.PREVIOUSBEHAVIOR);

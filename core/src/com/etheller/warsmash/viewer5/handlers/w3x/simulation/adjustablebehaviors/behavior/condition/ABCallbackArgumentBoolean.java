@@ -14,7 +14,7 @@ public class ABCallbackArgumentBoolean extends ABBooleanCallback {
 	@Override
 	public Boolean callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final String keyS = name.callback(caster, localStore, castId);
-		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
+		ABCallback cbck = localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS), ABCallback.class);
 		if (cbck != null && cbck instanceof ABBooleanCallback) {
 			return ((ABBooleanCallback) cbck).callback(caster, localStore, castId);
 		} else {

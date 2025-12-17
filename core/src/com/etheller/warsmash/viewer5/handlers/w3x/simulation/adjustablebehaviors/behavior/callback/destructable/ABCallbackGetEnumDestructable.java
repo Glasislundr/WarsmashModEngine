@@ -9,7 +9,7 @@ public class ABCallbackGetEnumDestructable extends ABDestructableCallback {
 
 	@Override
 	public CDestructable callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CDestructable) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMDESTRUCTABLE, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMDESTRUCTABLE, castId), CDestructable.class);
 	}
 
 }

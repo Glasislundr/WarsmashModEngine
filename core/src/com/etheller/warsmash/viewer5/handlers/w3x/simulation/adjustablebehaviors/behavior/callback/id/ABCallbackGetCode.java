@@ -18,7 +18,7 @@ public class ABCallbackGetCode extends ABIDCallback {
 		if (ability != null) {
 			return ability.callback(caster, localStore, castId).getCode();
 		}
-		return (War3ID) localStore.get(ABLocalStoreKeys.CODE);
+		return localStore.get(ABLocalStoreKeys.CODE, War3ID.class);
 	}
 
 	@Override

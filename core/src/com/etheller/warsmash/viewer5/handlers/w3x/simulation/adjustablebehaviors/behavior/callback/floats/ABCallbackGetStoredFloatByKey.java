@@ -13,15 +13,15 @@ public class ABCallbackGetStoredFloatByKey extends ABFloatCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public Float callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public Float callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (Float) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (Float) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					Float.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					Float.class);
 		}
 	}
 

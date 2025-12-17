@@ -52,7 +52,7 @@ public class ABAbilityBuilderPassive extends AbilityGenericSingleIconPassiveAbil
 		this.config = config;
 		this.localStore = localStore;
 		localStore.originAbility = this;
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		final int levels = editorData.getFieldAsInteger(AbilityFields.LEVELS, 0);
 		localStore.put(ABLocalStoreKeys.ISABILITYLEVELED, levels > 1);
 	}
@@ -99,25 +99,25 @@ public class ABAbilityBuilderPassive extends AbilityGenericSingleIconPassiveAbil
 
 	@Override
 	public int getAbilityIntField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldValue(field);
 	}
 
 	@Override
 	public float getAbilityFloatField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldFloatValue(field);
 	}
 
 	@Override
 	public String getAbilityStringField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getField(field);
 	}
 
 	@Override
 	public boolean getAbilityBooleanField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldValue(field) != 0;
 	}
 

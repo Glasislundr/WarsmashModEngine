@@ -30,10 +30,9 @@ public class ABActionCreateDestructableBuff implements ABSingleAction {
 		}
 		CDestructableBuff ability = new ABDestructableBuff(localStore.game.getHandleIdAllocator().createId(),
 				buffId.callback(caster, localStore, castId),
-				castId != ABConstants.NO_CAST_ID
-						? localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
-								int.class)
-						: localStore.originAbility.getLevel(),
+				castId != ABConstants.NO_CAST_ID ? localStore.getIntOrDefault(
+						ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
+						localStore.originAbility.getLevel()) : localStore.originAbility.getLevel(),
 				localStore, onAddActions, onRemoveActions, onDeathActions, castId, caster, isDispellable);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDDESTBUFF, ability);

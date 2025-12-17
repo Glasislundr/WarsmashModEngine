@@ -14,11 +14,12 @@ public class ABCallbackGetStoredDeathReplacementByKey extends ABDeathReplacement
 	@Override
 	public ABDeathReplacementEffect callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABDeathReplacementEffect) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABDeathReplacementEffect.class);
 		} else {
-			return (ABDeathReplacementEffect) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABDeathReplacementEffect.class);
 		}
 	}
 

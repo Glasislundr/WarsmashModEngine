@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedStateModBuff extends ABStateModBuffCallback
 
 	@Override
 	public StateModBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (StateModBuff) localStore.get(ABLocalStoreKeys.LASTCREATEDSMB);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDSMB, StateModBuff.class);
 	}
 
 }

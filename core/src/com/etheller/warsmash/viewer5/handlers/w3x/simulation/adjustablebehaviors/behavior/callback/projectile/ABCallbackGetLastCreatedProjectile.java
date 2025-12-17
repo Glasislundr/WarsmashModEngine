@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedProjectile extends ABProjectileCallback {
 
 	@Override
 	public CProjectile callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CProjectile) localStore.get(ABLocalStoreKeys.LASTCREATEDPROJECTILE);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDPROJECTILE, CProjectile.class);
 	}
 
 }

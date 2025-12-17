@@ -14,9 +14,12 @@ public class ABCallbackGetStoredStateModBuffByKey extends ABStateModBuffCallback
 	@Override
 	public StateModBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (StateModBuff) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					StateModBuff.class);
 		} else {
-			return (StateModBuff) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					StateModBuff.class);
 		}
 	}
 

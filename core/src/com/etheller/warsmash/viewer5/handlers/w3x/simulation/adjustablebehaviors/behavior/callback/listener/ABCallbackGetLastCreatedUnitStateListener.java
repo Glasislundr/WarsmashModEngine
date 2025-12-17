@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedUnitStateListener extends ABUnitStateListen
 
 	@Override
 	public ABUnitStateListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABUnitStateListener) localStore.get(ABLocalStoreKeys.LASTCREATEDUSL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDUSL, ABUnitStateListener.class);
 	}
 
 }

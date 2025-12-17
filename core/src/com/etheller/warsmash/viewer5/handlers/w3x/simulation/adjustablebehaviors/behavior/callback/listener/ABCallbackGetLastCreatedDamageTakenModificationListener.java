@@ -10,7 +10,7 @@ public class ABCallbackGetLastCreatedDamageTakenModificationListener extends ABD
 	@Override
 	public ABDamageTakenModificationListener callback(CUnit caster, ABLocalDataStore localStore,
 			final int castId) {
-		return (ABDamageTakenModificationListener) localStore.get(ABLocalStoreKeys.LASTCREATEDDTML);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDDTML, ABDamageTakenModificationListener.class);
 	}
 
 }

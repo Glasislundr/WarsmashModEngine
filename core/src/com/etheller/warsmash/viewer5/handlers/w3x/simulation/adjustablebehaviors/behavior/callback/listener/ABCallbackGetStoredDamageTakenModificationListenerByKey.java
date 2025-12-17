@@ -14,11 +14,12 @@ public class ABCallbackGetStoredDamageTakenModificationListenerByKey extends ABD
 	@Override
 	public ABDamageTakenModificationListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABDamageTakenModificationListener) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABDamageTakenModificationListener.class);
 		} else {
-			return (ABDamageTakenModificationListener) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABDamageTakenModificationListener.class);
 		}
 	}
 

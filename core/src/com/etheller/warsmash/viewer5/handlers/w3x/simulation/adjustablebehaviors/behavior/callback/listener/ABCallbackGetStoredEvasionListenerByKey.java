@@ -12,12 +12,14 @@ public class ABCallbackGetStoredEvasionListenerByKey extends ABEvasionListenerCa
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABAttackEvasionListener callback(CUnit caster, ABLocalDataStore localStore,
-			final int castId) {
+	public ABAttackEvasionListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABAttackEvasionListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABAttackEvasionListener.class);
 		} else {
-			return (ABAttackEvasionListener) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABAttackEvasionListener.class);
 		}
 	}
 

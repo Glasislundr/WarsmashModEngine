@@ -11,7 +11,7 @@ public class ABCallbackGetLastCreatedAbility extends ABAbilityCallback {
 
 	@Override
 	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CAbility) localStore.get(ABLocalStoreKeys.LASTCREATEDABILITY);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDABILITY, CAbility.class);
 	}
 
 	@Override

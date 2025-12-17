@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedItem extends ABItemCallback {
 
 	@Override
 	public CItem callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CItem) localStore.get(ABLocalStoreKeys.LASTCREATEDITEM);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDITEM, CItem.class);
 	}
 
 }

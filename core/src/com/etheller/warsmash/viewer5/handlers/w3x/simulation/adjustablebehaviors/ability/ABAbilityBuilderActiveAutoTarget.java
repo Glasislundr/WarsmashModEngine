@@ -92,14 +92,15 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 				action.runAction(caster, this.localStore, castId);
 			}
 
-			target = (CWidget) this.localStore
-					.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
+			target = this.localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId),
+					CWidget.class);
 			if (target == null) {
-				target = (CWidget) this.localStore
-						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
+				target = this.localStore.get(
+						ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId),
+						CWidget.class);
 				if (target == null) {
-					target = (CWidget) this.localStore
-							.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
+					target = this.localStore.get(
+							ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId), CWidget.class);
 				}
 			}
 		}
@@ -109,14 +110,17 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 	protected boolean innerCheckCanTargetSpell(CSimulation game, CUnit unit, int orderId, CWidget target,
 			AbilityTargetCheckReceiver<CWidget> receiver) {
 		CWidget prevTarget = null;
-		prevTarget = (CWidget) this.localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID));
+		prevTarget = this.localStore.get(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID),
+				CWidget.class);
 		if (prevTarget == null) {
-			prevTarget = (CWidget) this.localStore.get(
-					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID));
+			prevTarget = this.localStore.get(
+					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID),
+					CWidget.class);
 			if (prevTarget == null) {
-				prevTarget = (CWidget) this.localStore
-						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID));
+				prevTarget = this.localStore.get(
+						ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID),
+						CWidget.class);
 			}
 		}
 		if (target == prevTarget) {

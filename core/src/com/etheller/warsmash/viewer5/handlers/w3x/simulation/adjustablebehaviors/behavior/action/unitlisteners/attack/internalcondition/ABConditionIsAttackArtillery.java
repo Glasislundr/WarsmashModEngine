@@ -12,8 +12,8 @@ public class ABConditionIsAttackArtillery extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		CUnitAttack attack = (CUnitAttack) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId));
+		CUnitAttack attack = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId),
+				CUnitAttack.class);
 		if (attack instanceof CUnitAttackMissileSplash) {
 			return ((CUnitAttackMissileSplash) attack).isArtillery();
 		}

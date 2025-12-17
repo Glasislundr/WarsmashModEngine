@@ -12,7 +12,7 @@ public class ABCallbackGetItemSlot extends ABIntegerCallback {
 	
 	@Override
 	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		Integer slot = (Integer) localStore.get(ABLocalStoreKeys.ITEMSLOT);
+		Integer slot = localStore.get(ABLocalStoreKeys.ITEMSLOT, Integer.class);
 		if (slot != null) {
 			return slot;
 		}

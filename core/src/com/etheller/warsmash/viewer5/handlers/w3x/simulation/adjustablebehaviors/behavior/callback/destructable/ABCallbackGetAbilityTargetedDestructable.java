@@ -9,7 +9,7 @@ public class ABCallbackGetAbilityTargetedDestructable extends ABDestructableCall
 
 	@Override
 	public CDestructable callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CDestructable) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE);
+		return localStore.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, CDestructable.class);
 	}
 
 }

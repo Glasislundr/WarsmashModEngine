@@ -9,8 +9,8 @@ public class ABCallbackGetCurrentAttackSettings extends ABAttackSettingsCallback
 
 	@Override
 	public CUnitAttackSettings callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CUnitAttackSettings) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId),
+				CUnitAttackSettings.class);
 	}
 
 }

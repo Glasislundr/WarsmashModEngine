@@ -11,7 +11,7 @@ public class ABCallbackGetReactionAbility extends ABAbilityCallback {
 
 	@Override
 	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CAbility) localStore.get(ABLocalStoreKeys.REACTIONABILITY);
+		return localStore.get(ABLocalStoreKeys.REACTIONABILITY, CAbility.class);
 	}
 
 	@Override

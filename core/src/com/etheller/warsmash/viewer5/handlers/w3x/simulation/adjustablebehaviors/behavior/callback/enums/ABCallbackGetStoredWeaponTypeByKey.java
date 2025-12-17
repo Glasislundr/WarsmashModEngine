@@ -15,11 +15,13 @@ public class ABCallbackGetStoredWeaponTypeByKey extends ABWeaponTypeCallback {
 	@Override
 	public CWeaponType callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CWeaponType) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CWeaponType.class);
 		} else {
-			return (CWeaponType) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CWeaponType.class);
 		}
 	}
 

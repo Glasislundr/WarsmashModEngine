@@ -34,7 +34,7 @@ public class ABActionAddStunBuff implements ABSingleAction {
 		if (leveled != null) {
 			isLeveled = leveled.callback(caster, localStore, castId);
 		} else {
-			isLeveled = (boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
+			isLeveled = localStore.getBooleanOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
 		}
 		if (showIcon != null) {
 			isShowIcon = showIcon.callback(caster, localStore, castId);

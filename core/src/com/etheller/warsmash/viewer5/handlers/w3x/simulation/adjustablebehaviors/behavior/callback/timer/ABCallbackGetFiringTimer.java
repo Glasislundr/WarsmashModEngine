@@ -9,7 +9,7 @@ public class ABCallbackGetFiringTimer extends ABTimerCallback {
 
 	@Override
 	public CTimer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CTimer) localStore.get(ABLocalStoreKeys.FIRINGTIMER);
+		return localStore.get(ABLocalStoreKeys.FIRINGTIMER, CTimer.class);
 	}
 
 }

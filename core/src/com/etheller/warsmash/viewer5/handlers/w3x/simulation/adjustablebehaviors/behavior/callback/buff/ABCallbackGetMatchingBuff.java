@@ -11,7 +11,7 @@ public class ABCallbackGetMatchingBuff extends ABBuffCallback {
 
 	@Override
 	public CBuff callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		return (CBuff) localStore.get(ABLocalStoreKeys.MATCHINGBUFF);
+		return localStore.get(ABLocalStoreKeys.MATCHINGBUFF, CBuff.class);
 	}
 
 	@Override

@@ -12,12 +12,14 @@ public class ABCallbackGetStoredAbilityProjReactionListenerByKey extends ABAbili
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABAbilityProjReactionListener callback(CUnit caster, ABLocalDataStore localStore,
-			final int castId) {
+	public ABAbilityProjReactionListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABAbilityProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABAbilityProjReactionListener.class);
 		} else {
-			return (ABAbilityProjReactionListener) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABAbilityProjReactionListener.class);
 		}
 	}
 

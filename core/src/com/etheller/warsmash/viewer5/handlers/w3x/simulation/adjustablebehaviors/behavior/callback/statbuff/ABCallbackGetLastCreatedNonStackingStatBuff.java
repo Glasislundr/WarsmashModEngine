@@ -11,7 +11,7 @@ public class ABCallbackGetLastCreatedNonStackingStatBuff extends ABNonStackingSt
 
 	@Override
 	public NonStackingStatBuff callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		return (NonStackingStatBuff) localStore.get(ABLocalStoreKeys.LASTCREATEDNSSB);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDNSSB, NonStackingStatBuff.class);
 	}
 
 	@Override

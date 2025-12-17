@@ -10,7 +10,7 @@ public class ABCallbackGetMatchingUnit extends ABUnitCallback {
 
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId), CUnit.class);
 	}
 
 	@Override

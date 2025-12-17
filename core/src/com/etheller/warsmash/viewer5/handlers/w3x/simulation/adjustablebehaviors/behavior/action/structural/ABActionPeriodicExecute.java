@@ -29,13 +29,13 @@ public class ABActionPeriodicExecute implements ABAction {
 			u = this.unique.callback(caster, localStore, castId);
 			if (localStore
 					.containsKey(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$" + u)) {
-				nextActiveTick = (float) localStore
-						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$" + u);
+				nextActiveTick = localStore
+						.getFloat(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$" + u);
 			}
 		} else {
 			if (localStore.containsKey(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId))) {
-				nextActiveTick = (float) localStore
-						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId));
+				nextActiveTick = localStore
+						.getFloat(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId));
 			}
 		}
 

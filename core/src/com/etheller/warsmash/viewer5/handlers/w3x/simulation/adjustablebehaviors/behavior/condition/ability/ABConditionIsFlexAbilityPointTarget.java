@@ -10,7 +10,7 @@ public class ABConditionIsFlexAbilityPointTarget extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		ABAbilityBuilderActiveFlexTarget ability = (ABAbilityBuilderActiveFlexTarget) localStore.get(ABLocalStoreKeys.ISFLEXABILITY);
+		ABAbilityBuilderActiveFlexTarget ability = localStore.get(ABLocalStoreKeys.ISFLEXABILITY, ABAbilityBuilderActiveFlexTarget.class);
 
 		return ability.isPointTarget();
 	}

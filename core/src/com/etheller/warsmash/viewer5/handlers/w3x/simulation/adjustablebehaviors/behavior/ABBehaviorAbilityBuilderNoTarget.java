@@ -152,7 +152,7 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 				cleanupInputs();
 				return beh;
 			}
-			CBehavior newBehavior = (CBehavior) localStore.get(ABLocalStoreKeys.NEWBEHAVIOR);
+			CBehavior newBehavior = localStore.get(ABLocalStoreKeys.NEWBEHAVIOR, CBehavior.class);
 			if (newBehavior != null) {
 				localStore.remove(ABLocalStoreKeys.NEWBEHAVIOR);
 				return newBehavior;
@@ -173,7 +173,7 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 				this.ability.startCooldown(game, this.unit);
 
 				this.ability.runBeginCastingActions(game, unit, orderId);
-				CBehavior newBehavior = (CBehavior) localStore.get(ABLocalStoreKeys.NEWBEHAVIOR);
+				CBehavior newBehavior = localStore.get(ABLocalStoreKeys.NEWBEHAVIOR, CBehavior.class);
 				if (newBehavior != null) {
 					localStore.remove(ABLocalStoreKeys.NEWBEHAVIOR);
 					return newBehavior;
@@ -181,7 +181,7 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 
 				this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_CAST, this.ability, null);
 
-				this.channeling = (boolean) localStore.get(ABLocalStoreKeys.CHANNELING);
+				this.channeling = localStore.getBoolean(ABLocalStoreKeys.CHANNELING);
 				if (!this.channeling) {
 					this.unit.getUnitAnimationListener().playAnimation(this.firstAnimation, this.ability.getCastingPrimaryTag(),
 							this.ability.getCastingSecondaryTags(), 1.0f, true);
@@ -200,7 +200,7 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 					cleanupInputs();
 					return beh;
 				}
-				CBehavior newBehavior = (CBehavior) localStore.get(ABLocalStoreKeys.NEWBEHAVIOR);
+				CBehavior newBehavior = localStore.get(ABLocalStoreKeys.NEWBEHAVIOR, CBehavior.class);
 				if (newBehavior != null) {
 					localStore.remove(ABLocalStoreKeys.NEWBEHAVIOR);
 					return newBehavior;
@@ -225,7 +225,7 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 			this.doneEffect = true;
 
 			this.ability.runEndCastingActions(game, unit, orderId);
-			this.channeling = (boolean) localStore.get(ABLocalStoreKeys.CHANNELING);
+			this.channeling = localStore.getBoolean(ABLocalStoreKeys.CHANNELING);
 			this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_EFFECT, this.ability, null);
 		}
 		this.channeling = this.channeling && this.doChannelTick(game, this.unit);
@@ -257,7 +257,7 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 				this.unit.beginBehavior(game, beh);
 				return;
 			}
-			CBehavior newBehavior = (CBehavior) localStore.get(ABLocalStoreKeys.NEWBEHAVIOR);
+			CBehavior newBehavior = localStore.get(ABLocalStoreKeys.NEWBEHAVIOR, CBehavior.class);
 			if (newBehavior != null) {
 				localStore.remove(ABLocalStoreKeys.NEWBEHAVIOR);
 				this.unit.beginBehavior(game, newBehavior);
@@ -271,13 +271,13 @@ public class ABBehaviorAbilityBuilderNoTarget implements ABBehavior {
 
 	public boolean doChannelTick(CSimulation game, CUnit caster) {
 		this.ability.runChannelTickActions(game, caster, orderId);
-		return (boolean) localStore.get(ABLocalStoreKeys.CHANNELING);
+		return localStore.getBoolean(ABLocalStoreKeys.CHANNELING);
 	}
 
 	@Override
 	public void end(final CSimulation game, boolean interrupted) {
 		checkEndChannel(game, interrupted);
-		Boolean preventEndEvents = (Boolean) this.localStore.get(ABLocalStoreKeys.PREVENTENDEVENTS + this.castId);
+		Boolean preventEndEvents = this.localStore.get(ABLocalStoreKeys.PREVENTENDEVENTS + this.castId, Boolean.class);
 		if (preventEndEvents == null || !preventEndEvents) {
 			if (!interrupted) {
 				this.unit.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this.ability, null);

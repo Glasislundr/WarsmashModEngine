@@ -25,7 +25,7 @@ public class ABConditionIsUnitValidSplashDamageTarget extends ABBooleanCallback 
 
 		EnumSet<CTargetType> targetsAllowed = null;
 
-		CUnitAttack atk = (CUnitAttack) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId));
+		CUnitAttack atk = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId), CUnitAttack.class);
 		if (atk instanceof CUnitAttackMissileSplash) {
 			targetsAllowed = ((CUnitAttackMissileSplash) atk).getAreaOfEffectTargets();
 		} else {

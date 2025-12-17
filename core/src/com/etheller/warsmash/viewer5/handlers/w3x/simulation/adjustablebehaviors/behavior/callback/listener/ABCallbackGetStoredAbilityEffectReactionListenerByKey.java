@@ -14,11 +14,12 @@ public class ABCallbackGetStoredAbilityEffectReactionListenerByKey extends ABAbi
 	@Override
 	public ABAbilityEffectReactionListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABAbilityEffectReactionListener) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABAbilityEffectReactionListener.class);
 		} else {
-			return (ABAbilityEffectReactionListener) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABAbilityEffectReactionListener.class);
 		}
 	}
 

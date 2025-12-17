@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedAttackSettings extends ABAttackSettingsCall
 
 	@Override
 	public CUnitAttackSettings callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.LASTCREATEDASettings);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDASettings, CUnitAttackSettings.class);
 	}
 
 }

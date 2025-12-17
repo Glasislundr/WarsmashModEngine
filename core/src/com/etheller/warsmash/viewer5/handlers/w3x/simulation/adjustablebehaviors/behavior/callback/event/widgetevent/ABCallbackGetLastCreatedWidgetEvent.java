@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedWidgetEvent extends ABWidgetEventCallback {
 
 	@Override
 	public ABWidgetEvent callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABWidgetEvent) localStore.get(ABLocalStoreKeys.LASTCREATEDWIDEVENT);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDWIDEVENT, ABWidgetEvent.class);
 	}
 
 }

@@ -78,6 +78,42 @@ public class ABMapLocalDataStore extends ABLocalDataStore {
 	}
 
 	@Override
+	public boolean getBoolean(String key) {
+		Object val = store.get(key);
+		if (val != null && val instanceof Boolean) {
+			return (boolean) val;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean getBooleanOrDefault(String key, boolean def) {
+		Object val = store.getOrDefault(key, def);
+		if (val != null && val instanceof Boolean) {
+			return (boolean) val;
+		}
+		return false;
+	}
+
+	@Override
+	public float getFloat(String key) {
+		Object val = store.get(key);
+		if (val != null && val instanceof Float) {
+			return (float) val;
+		}
+		return 0f;
+	}
+
+	@Override
+	public float getFloatOrDefault(String key, float def) {
+		Object val = store.getOrDefault(key, def);
+		if (val != null && val instanceof Float) {
+			return (float) val;
+		}
+		return 0f;
+	}
+
+	@Override
 	public Object put(String key, Object value) {
 		return store.put(key, value);
 	}

@@ -26,7 +26,7 @@ public class ABActionCreateLightningEffect implements ABAction {
 		}
 		War3ID theId = null;
 		if (id == null) {
-			theId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
+			theId = localStore.get(ABLocalStoreKeys.ALIAS, War3ID.class);
 		} else {
 			theId = id.callback(caster, localStore, castId);
 		}

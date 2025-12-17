@@ -10,7 +10,8 @@ public class ABCallbackGetSpellLevel extends ABIntegerCallback {
 	@Override
 	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		return castId != ABConstants.NO_CAST_ID
-				? localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), int.class)
+				? localStore.getIntOrDefault(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
+						localStore.originAbility.getLevel())
 				: localStore.originAbility.getLevel();
 	}
 

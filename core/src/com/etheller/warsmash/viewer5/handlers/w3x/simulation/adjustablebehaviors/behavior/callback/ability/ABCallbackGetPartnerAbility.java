@@ -11,7 +11,7 @@ public class ABCallbackGetPartnerAbility extends ABAbilityCallback {
 
 	@Override
 	public CAbility callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CAbility) localStore.get(ABLocalStoreKeys.LASTPARTNERABILITY);
+		return localStore.get(ABLocalStoreKeys.LASTPARTNERABILITY, CAbility.class);
 	}
 
 	@Override

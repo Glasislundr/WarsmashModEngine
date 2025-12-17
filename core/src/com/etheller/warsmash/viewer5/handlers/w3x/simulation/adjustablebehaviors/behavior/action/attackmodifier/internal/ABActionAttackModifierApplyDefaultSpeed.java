@@ -10,8 +10,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.repl
 public class ABActionAttackModifierApplyDefaultSpeed implements ABAction {
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
+		CUnitAttackSettings settings = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId), CUnitAttackSettings.class);
 		if (settings.getProjectileSpeed() == 0) {
 			settings.setProjectileSpeed(900);
 		}

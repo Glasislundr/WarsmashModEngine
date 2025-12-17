@@ -13,14 +13,14 @@ public class ABCallbackArgumentBuff extends ABBuffCallback {
 	private ABStringCallback name;
 
 	@Override
-	public CBuff callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public CBuff callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final String keyS = name.callback(caster, localStore, castId);
-		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
+		ABCallback cbck = localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS), ABCallback.class);
 		if (cbck != null && cbck instanceof ABBuffCallback) {
 			return ((ABBuffCallback) cbck).callback(caster, localStore, castId);
 		} else {
-			System.err.println("Trying to run ReuseBuffCallback, but key is missing or callback was the wrong type: " + keyS);
+			System.err.println(
+					"Trying to run ReuseBuffCallback, but key is missing or callback was the wrong type: " + keyS);
 		}
 		return null;
 	}

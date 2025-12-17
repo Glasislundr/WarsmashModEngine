@@ -14,9 +14,12 @@ public class ABCallbackGetStoredTargetByKey extends ABTargetCallback {
 	@Override
 	public AbilityTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (AbilityTarget) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					AbilityTarget.class);
 		} else {
-			return (AbilityTarget) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					AbilityTarget.class);
 		}
 	}
 

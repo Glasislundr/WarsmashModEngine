@@ -15,11 +15,12 @@ public class ABCallbackGetStoredWidgetEventByKey extends ABWidgetEventCallback {
 	@Override
 	public ABWidgetEvent callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABWidgetEvent) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABWidgetEvent.class);
 		} else {
-			return (ABWidgetEvent) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABWidgetEvent.class);
 		}
 	}
 

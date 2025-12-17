@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedAttackProjReactionListener extends ABAttack
 
 	@Override
 	public ABAttackProjReactionListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABAttackProjReactionListener) localStore.get(ABLocalStoreKeys.LASTCREATEDAtkPRL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDAtkPRL, ABAttackProjReactionListener.class);
 	}
 
 }

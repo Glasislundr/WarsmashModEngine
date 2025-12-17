@@ -14,9 +14,12 @@ public class ABCallbackGetStoredVisionModifierByKey extends ABVisionModifierCall
 	@Override
 	public CFogModifier callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (CFogModifier) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					CFogModifier.class);
 		} else {
-			return (CFogModifier) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					CFogModifier.class);
 		}
 	}
 

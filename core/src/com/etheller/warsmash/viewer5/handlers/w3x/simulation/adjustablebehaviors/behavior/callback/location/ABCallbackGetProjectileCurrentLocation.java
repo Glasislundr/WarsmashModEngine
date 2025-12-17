@@ -9,8 +9,8 @@ public class ABCallbackGetProjectileCurrentLocation extends ABLocationCallback {
 
 	@Override
 	public AbilityPointTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (AbilityPointTarget) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId),
+				AbilityPointTarget.class);
 	}
 
 }

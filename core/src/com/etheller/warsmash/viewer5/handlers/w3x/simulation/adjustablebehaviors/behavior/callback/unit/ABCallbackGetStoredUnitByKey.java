@@ -10,13 +10,16 @@ public class ABCallbackGetStoredUnitByKey extends ABUnitCallback {
 
 	private ABStringCallback key;
 	private ABBooleanCallback instanceValue;
-	
+
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (CUnit) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					CUnit.class);
 		} else {
-			return (CUnit) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					CUnit.class);
 		}
 	}
 

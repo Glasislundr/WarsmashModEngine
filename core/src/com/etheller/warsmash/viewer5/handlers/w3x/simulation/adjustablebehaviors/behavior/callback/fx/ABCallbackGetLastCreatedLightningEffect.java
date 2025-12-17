@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedLightningEffect extends ABLightningCallback
 
 	@Override
 	public SimulationRenderComponentLightning callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (SimulationRenderComponentLightning) localStore.get(ABLocalStoreKeys.LASTCREATEDLIGHTNING);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDLIGHTNING, SimulationRenderComponentLightning.class);
 	}
 
 }

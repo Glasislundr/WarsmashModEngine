@@ -16,11 +16,13 @@ public class ABCallbackGetStoredWidgetByKey extends ABWidgetCallback {
 	@Override
 	public CWidget callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CWidget) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CWidget.class);
 		} else {
-			return (CWidget) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CWidget.class);
 		}
 	}
 

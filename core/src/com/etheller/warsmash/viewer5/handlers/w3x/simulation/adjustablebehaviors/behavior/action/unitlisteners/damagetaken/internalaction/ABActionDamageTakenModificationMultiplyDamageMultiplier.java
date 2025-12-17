@@ -13,8 +13,8 @@ public class ABActionDamageTakenModificationMultiplyDamageMultiplier implements 
 	private ABFloatCallback multiplier;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CDamageCalculation damage = ((CDamageCalculation) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
+		CDamageCalculation damage = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId),
+				CDamageCalculation.class);
 		damage.addDamageMultiplier(multiplier.callback(caster, localStore, castId));
 	}
 }

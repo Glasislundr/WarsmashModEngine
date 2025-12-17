@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedDestructable extends ABDestructableCallback
 
 	@Override
 	public CDestructable callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CDestructable) localStore.get(ABLocalStoreKeys.LASTCREATEDDESTRUCTABLE);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDDESTRUCTABLE, CDestructable.class);
 	}
 
 }

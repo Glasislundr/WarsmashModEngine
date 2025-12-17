@@ -12,7 +12,7 @@ public class ABCallbackGetReactionAbilityProjectile extends ABProjectileCallback
 	@Override
 	public CProjectile callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		return (CProjectile) localStore.get(ABLocalStoreKeys.ABILITYPROJ);
+		return localStore.get(ABLocalStoreKeys.ABILITYPROJ, CProjectile.class);
 	}
 
 	@Override

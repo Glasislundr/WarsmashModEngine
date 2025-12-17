@@ -10,7 +10,7 @@ public class ABCallbackGetLastCreatedFX extends ABFXCallback {
 	@Override
 	public SimulationRenderComponent callback(CUnit caster, ABLocalDataStore localStore,
 			final int castId) {
-		return (SimulationRenderComponent) localStore.get(ABLocalStoreKeys.LASTCREATEDFX);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDFX, SimulationRenderComponent.class);
 	}
 
 }

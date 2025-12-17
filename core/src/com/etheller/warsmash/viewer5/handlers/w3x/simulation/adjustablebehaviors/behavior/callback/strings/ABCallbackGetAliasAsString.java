@@ -9,7 +9,7 @@ public class ABCallbackGetAliasAsString extends ABStringCallback {
 
 	@Override
 	public String callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((War3ID) localStore.get(ABLocalStoreKeys.ALIAS)).asStringValue();
+		return (localStore.get(ABLocalStoreKeys.ALIAS, War3ID.class)).asStringValue();
 	}
 
 }

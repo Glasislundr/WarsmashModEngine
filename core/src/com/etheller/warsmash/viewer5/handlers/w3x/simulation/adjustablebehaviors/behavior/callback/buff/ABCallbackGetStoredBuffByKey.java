@@ -16,12 +16,13 @@ public class ABCallbackGetStoredBuffByKey extends ABBuffCallback {
 	@Override
 	public CBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CBuff) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (CBuff) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CBuff.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CBuff.class);
 		}
 	}
 

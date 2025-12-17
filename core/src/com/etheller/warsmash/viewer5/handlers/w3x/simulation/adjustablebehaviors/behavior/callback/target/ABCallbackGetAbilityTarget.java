@@ -10,12 +10,14 @@ public class ABCallbackGetAbilityTarget extends ABTargetCallback {
 
 	@Override
 	public AbilityTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		AbilityPointTarget target = (AbilityPointTarget) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId));
+		AbilityPointTarget target = localStore.get(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId),
+				AbilityPointTarget.class);
 		if (target != null) {
 			return target;
 		}
-		CUnit taru = (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
+		CUnit taru = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId),
+				CUnit.class);
 		if (taru != null) {
 			return taru;
 		}

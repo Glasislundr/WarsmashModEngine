@@ -31,4 +31,12 @@ public interface ABDataStore {
 
 	int getIntOrDefault(String key, int def);
 
+	boolean getBoolean(String key);
+
+	boolean getBooleanOrDefault(String key, boolean def);
+
+	float getFloat(String key);
+
+	float getFloatOrDefault(String key, float def);
+
 }

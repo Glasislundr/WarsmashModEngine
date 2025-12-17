@@ -12,7 +12,7 @@ public class ABCallbackGetAlias extends ABIDCallback {
 	@Override
 	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		return (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
+		return localStore.get(ABLocalStoreKeys.ALIAS, War3ID.class);
 	}
 
 	@Override

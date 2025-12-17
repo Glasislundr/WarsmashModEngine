@@ -13,8 +13,8 @@ public class ABActionAttackModifierSetAttackStartZ implements ABAction {
 	private ABFloatCallback z;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
+		CUnitAttackSettings settings = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId), CUnitAttackSettings.class);
 		if (z != null) {
 			settings.setZ(z.callback(caster, localStore, castId));
 		}

@@ -11,13 +11,16 @@ public class ABCallbackGetStoredItemByKey extends ABItemCallback {
 
 	private ABStringCallback key;
 	private ABBooleanCallback instanceValue;
-	
+
 	@Override
 	public CItem callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (CItem) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					CItem.class);
 		} else {
-			return (CItem) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					CItem.class);
 		}
 	}
 

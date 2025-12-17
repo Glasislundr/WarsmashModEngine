@@ -25,8 +25,8 @@ public class ABActionSubtractTotalDamageDealt implements ABAction {
 		if (minimum != null) {
 			theMin = minimum.callback(caster, localStore, castId);
 		}
-		CDamageCalculation damage = ((CDamageCalculation) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
+		CDamageCalculation damage = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId),
+				CDamageCalculation.class);
 		damage.subtractTotalDamageDealt(amount.callback(caster, localStore, castId), theMin);
 	}
 }

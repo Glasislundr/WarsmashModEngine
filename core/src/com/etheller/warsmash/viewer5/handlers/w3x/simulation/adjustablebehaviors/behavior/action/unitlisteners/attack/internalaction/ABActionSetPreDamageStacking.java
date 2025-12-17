@@ -14,8 +14,8 @@ public class ABActionSetPreDamageStacking implements ABAction {
 	private ABBooleanCallback allowSamePriorityStacking;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CDamageCalculation damage = ((CDamageCalculation) localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
+		CDamageCalculation damage = localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId),
+				CDamageCalculation.class);
 
 		if (allowStacking != null && !allowStacking.callback(caster, localStore, castId)) {
 			damage.preventAllOtherModifications();

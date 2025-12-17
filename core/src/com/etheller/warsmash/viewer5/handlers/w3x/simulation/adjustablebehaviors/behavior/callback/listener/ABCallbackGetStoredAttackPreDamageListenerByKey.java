@@ -14,11 +14,12 @@ public class ABCallbackGetStoredAttackPreDamageListenerByKey extends ABAttackPre
 	@Override
 	public ABAttackPreDamageListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABAttackPreDamageListener) localStore.get(
-					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABAttackPreDamageListener.class);
 		} else {
-			return (ABAttackPreDamageListener) localStore
-					.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABAttackPreDamageListener.class);
 		}
 	}
 

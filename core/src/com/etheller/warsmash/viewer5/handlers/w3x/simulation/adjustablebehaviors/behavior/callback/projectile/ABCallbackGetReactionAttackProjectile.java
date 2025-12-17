@@ -9,7 +9,7 @@ public class ABCallbackGetReactionAttackProjectile extends ABProjectileCallback 
 
 	@Override
 	public CProjectile callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CProjectile) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKPROJ, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKPROJ, castId), CProjectile.class);
 	}
 
 }

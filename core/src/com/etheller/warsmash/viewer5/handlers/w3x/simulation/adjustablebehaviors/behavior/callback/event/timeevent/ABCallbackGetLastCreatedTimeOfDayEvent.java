@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedTimeOfDayEvent extends ABTimeOfDayEventCall
 
 	@Override
 	public ABTimeOfDayEvent callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABTimeOfDayEvent) localStore.get(ABLocalStoreKeys.LASTCREATEDTODEVENT);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDTODEVENT, ABTimeOfDayEvent.class);
 	}
 
 }

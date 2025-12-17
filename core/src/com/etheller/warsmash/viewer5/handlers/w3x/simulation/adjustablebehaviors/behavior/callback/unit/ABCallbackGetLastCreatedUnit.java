@@ -10,7 +10,7 @@ public class ABCallbackGetLastCreatedUnit extends ABUnitCallback {
 
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.LASTCREATEDUNIT);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDUNIT, CUnit.class);
 	}
 
 	@Override

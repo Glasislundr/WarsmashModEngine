@@ -14,15 +14,15 @@ public class ABCallbackGetStoredDestructableByKey extends ABDestructableCallback
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public CDestructable callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public CDestructable callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CDestructable) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (CDestructable) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CDestructable.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CDestructable.class);
 		}
 	}
 

@@ -16,7 +16,7 @@ public class ABCallbackGetTriggeringAttackType extends ABAttackTypeCallback {
 
 	@Override
 	public CAttackType callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
+		return (localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId), CDamageCalculation.class))
 				.getAttackType();
 	}
 

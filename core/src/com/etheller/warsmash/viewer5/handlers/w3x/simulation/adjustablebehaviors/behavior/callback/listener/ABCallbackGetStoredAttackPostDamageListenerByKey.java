@@ -12,12 +12,14 @@ public class ABCallbackGetStoredAttackPostDamageListenerByKey extends ABAttackPo
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABAttackPostDamageListener callback(CUnit caster, ABLocalDataStore localStore,
-			final int castId) {
+	public ABAttackPostDamageListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABAttackPostDamageListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABAttackPostDamageListener.class);
 		} else {
-			return (ABAttackPostDamageListener) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABAttackPostDamageListener.class);
 		}
 	}
 

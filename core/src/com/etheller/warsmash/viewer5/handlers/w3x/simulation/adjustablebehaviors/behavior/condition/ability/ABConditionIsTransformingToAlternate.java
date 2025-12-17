@@ -9,7 +9,7 @@ public class ABConditionIsTransformingToAlternate extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (Boolean) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.TRANSFORMINGTOALT, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.TRANSFORMINGTOALT, castId), Boolean.class);
 	}
 
 }

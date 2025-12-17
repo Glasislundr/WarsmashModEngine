@@ -11,7 +11,7 @@ public class ABCallbackGetBuffCastingUnit extends ABUnitCallback {
 	@Override
 	public CUnit callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.BUFFCASTINGUNIT);
+		return localStore.get(ABLocalStoreKeys.BUFFCASTINGUNIT, CUnit.class);
 	}
 
 	@Override

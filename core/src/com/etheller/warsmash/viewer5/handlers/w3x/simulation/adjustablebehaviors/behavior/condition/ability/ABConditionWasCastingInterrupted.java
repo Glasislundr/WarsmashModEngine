@@ -11,7 +11,7 @@ public class ABConditionWasCastingInterrupted extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (Boolean) localStore.get(ABLocalStoreKeys.INTERRUPTED);
+		return localStore.get(ABLocalStoreKeys.INTERRUPTED, Boolean.class);
 	}
 
 	@Override

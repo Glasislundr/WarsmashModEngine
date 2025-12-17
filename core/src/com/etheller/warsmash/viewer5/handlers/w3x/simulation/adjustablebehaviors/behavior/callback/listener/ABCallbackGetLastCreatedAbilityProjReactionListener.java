@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedAbilityProjReactionListener extends ABAbili
 
 	@Override
 	public ABAbilityProjReactionListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABAbilityProjReactionListener) localStore.get(ABLocalStoreKeys.LASTCREATEDAbPRL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDAbPRL, ABAbilityProjReactionListener.class);
 	}
 
 }

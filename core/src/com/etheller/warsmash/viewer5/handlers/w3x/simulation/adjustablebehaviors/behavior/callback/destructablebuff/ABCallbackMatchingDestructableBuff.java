@@ -9,7 +9,7 @@ public class ABCallbackMatchingDestructableBuff extends ABDestructableBuffCallba
 
 	@Override
 	public CDestructableBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CDestructableBuff) localStore.get(ABLocalStoreKeys.MATCHINGDESTBUFF);
+		return localStore.get(ABLocalStoreKeys.MATCHINGDESTBUFF, CDestructableBuff.class);
 	}
 
 }

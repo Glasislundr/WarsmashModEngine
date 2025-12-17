@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedTimer extends ABTimerCallback {
 
 	@Override
 	public CTimer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CTimer) localStore.get(ABLocalStoreKeys.LASTCREATEDTIMER);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDTIMER, CTimer.class);
 	}
 
 }

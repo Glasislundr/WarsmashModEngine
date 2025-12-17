@@ -9,7 +9,7 @@ public class ABCallbackEnumDestructableBuff extends ABDestructableBuffCallback {
 
 	@Override
 	public CDestructableBuff callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CDestructableBuff) localStore.get(ABLocalStoreKeys.ENUMDESTBUFF);
+		return localStore.get(ABLocalStoreKeys.ENUMDESTBUFF, CDestructableBuff.class);
 	}
 
 }

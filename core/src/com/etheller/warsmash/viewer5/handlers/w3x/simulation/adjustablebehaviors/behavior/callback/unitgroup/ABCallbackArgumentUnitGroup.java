@@ -17,7 +17,7 @@ public class ABCallbackArgumentUnitGroup extends ABUnitGroupCallback {
 	public Set<CUnit> callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		final String keyS = name.callback(caster, localStore, castId);
-		ABCallback cbck = (ABCallback) localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS));
+		ABCallback cbck = localStore.get(ABLocalStoreKeys.combineArgumentKey(keyS), ABCallback.class);
 		if (cbck != null && cbck instanceof ABUnitGroupCallback) {
 			return ((ABUnitGroupCallback) cbck).callback(caster, localStore, castId);
 		} else {

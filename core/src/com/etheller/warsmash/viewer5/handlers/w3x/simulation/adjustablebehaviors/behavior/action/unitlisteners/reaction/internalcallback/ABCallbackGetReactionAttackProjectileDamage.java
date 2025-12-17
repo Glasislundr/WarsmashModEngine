@@ -10,7 +10,7 @@ public class ABCallbackGetReactionAttackProjectileDamage extends ABFloatCallback
 
 	@Override
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CAttackProjectile) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKPROJ, castId)))
+		return (localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKPROJ, castId), CAttackProjectile.class))
 				.getDamage();
 	}
 

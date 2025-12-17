@@ -128,7 +128,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			autocastType = config.getAutoCastType();
 		}
 
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		final String animNames = editorData.getField(AbilityFields.ANIM_NAMES);
 		final EnumSet<AnimationTokens.PrimaryTag> primaryTags = EnumSet.noneOf(AnimationTokens.PrimaryTag.class);
 		this.castingSecondaryTags = EnumSet.noneOf(AnimationTokens.SecondaryTag.class);
@@ -147,25 +147,25 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	@Override
 	public int getAbilityIntField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldValue(field);
 	}
 
 	@Override
 	public float getAbilityFloatField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldFloatValue(field);
 	}
 
 	@Override
 	public String getAbilityStringField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getField(field);
 	}
 
 	@Override
 	public boolean getAbilityBooleanField(String field) {
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldValue(field) != 0;
 	}
 
@@ -344,7 +344,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			}
 		}
 
-		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		final int requiredLevel = editorData.getFieldAsInteger(AbilityFields.REQUIRED_LEVEL, 0);
 		this.targetsAllowed = levelDataLevel.getTargetsAllowed();
 		if ((requiredLevel < 6 || game.getGameplayConstants().isMagicImmuneResistsUltimates()) && !isPhysical()
@@ -1176,8 +1176,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	@Override
 	public void activate(final CSimulation game, final CUnit caster) {
-		Boolean failed = (Boolean) this.localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId));
+		Boolean failed = this.localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId),
+				Boolean.class);
 		if (failed != null && failed) {
 			System.err.println("Failed to cast!");
 			return;
@@ -1197,8 +1197,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	@Override
 	public void deactivate(final CSimulation game, final CUnit caster) {
-		Boolean failed = (Boolean) this.localStore
-				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId));
+		Boolean failed = this.localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId),
+				Boolean.class);
 		if (failed != null && failed) {
 			System.err.println("Failed to cast!");
 			return;

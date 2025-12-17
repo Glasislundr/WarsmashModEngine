@@ -59,7 +59,7 @@ public class ABActionCreateTimedPausedExpirationBuff implements ABAction {
 		if (leveled != null) {
 			isLeveled = leveled.callback(caster, localStore, castId);
 		} else {
-			isLeveled = (boolean) localStore.getOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
+			isLeveled = localStore.getBooleanOrDefault(ABLocalStoreKeys.ISABILITYLEVELED, false);
 		}
 		boolean isPositive = true;
 		if (positive != null) {

@@ -12,7 +12,7 @@ public class ABCallbackGetAbilityProjectileSpeed extends ABFloatCallback {
 	public Float callback(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 
-		final GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		final GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 		return editorData.getFieldAsFloat(AbilityFields.PROJECTILE_SPEED, 0);
 	}
 

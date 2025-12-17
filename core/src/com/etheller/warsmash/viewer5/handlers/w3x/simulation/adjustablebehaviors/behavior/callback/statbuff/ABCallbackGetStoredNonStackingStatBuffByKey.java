@@ -13,15 +13,15 @@ public class ABCallbackGetStoredNonStackingStatBuffByKey extends ABNonStackingSt
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public NonStackingStatBuff callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public NonStackingStatBuff callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (NonStackingStatBuff) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (NonStackingStatBuff) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					NonStackingStatBuff.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					NonStackingStatBuff.class);
 		}
 	}
 

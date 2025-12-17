@@ -11,7 +11,7 @@ public class ABCallbackGetAttackWeaponType extends ABWeaponTypeCallback {
 
 	@Override
 	public CWeaponType callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId)))
+		return (localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId), CUnitAttack.class))
 				.getWeaponType();
 	}
 

@@ -13,15 +13,15 @@ public class ABCallbackGetStoredDamageTypeByKey extends ABDamageTypeCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public CDamageType callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public CDamageType callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CDamageType) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (CDamageType) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CDamageType.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CDamageType.class);
 		}
 	}
 

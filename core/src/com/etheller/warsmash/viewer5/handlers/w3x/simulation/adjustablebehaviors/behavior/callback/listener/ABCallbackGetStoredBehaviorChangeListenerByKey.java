@@ -12,12 +12,14 @@ public class ABCallbackGetStoredBehaviorChangeListenerByKey extends ABBehaviorCh
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public ABBehaviorChangeListener callback(CUnit caster, ABLocalDataStore localStore,
-			final int castId) {
+	public ABBehaviorChangeListener callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (ABBehaviorChangeListener) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					ABBehaviorChangeListener.class);
 		} else {
-			return (ABBehaviorChangeListener) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					ABBehaviorChangeListener.class);
 		}
 	}
 

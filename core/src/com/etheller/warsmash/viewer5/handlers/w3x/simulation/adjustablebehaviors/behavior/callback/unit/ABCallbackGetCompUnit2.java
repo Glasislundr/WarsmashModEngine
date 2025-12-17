@@ -9,16 +9,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 public class ABCallbackGetCompUnit2 extends ABUnitCallback {
 
 	@Override
-	public CUnit callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.COMPUNIT2);
+	public CUnit callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		return localStore.get(ABLocalStoreKeys.COMPUNIT2, CUnit.class);
 	}
 
 	@Override
 	public String generateJassEquivalent(final JassTextGenerator jassTextGenerator) {
-		return jassTextGenerator.getUserDataExpr(
-				"AB_LOCAL_STORE_KEY_COMPUNIT2",
-				JassTextGeneratorType.UnitHandle);
+		return jassTextGenerator.getUserDataExpr("AB_LOCAL_STORE_KEY_COMPUNIT2", JassTextGeneratorType.UnitHandle);
 	}
 
 }

@@ -9,7 +9,7 @@ public class ABCallbackGetAbilityTargetedItem extends ABItemCallback {
 
 	@Override
 	public CItem callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CItem) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
+		return localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId), CItem.class);
 	}
 
 }

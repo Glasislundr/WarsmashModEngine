@@ -14,9 +14,12 @@ public class ABCallbackGetStoredAttackSettingsByKey extends ABAttackSettingsCall
 	@Override
 	public CUnitAttackSettings callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		if (instanceValue == null || instanceValue.callback(caster, localStore, castId)) {
-			return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(key.callback(caster, localStore, castId), castId),
+					CUnitAttackSettings.class);
 		} else {
-			return (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId));
+			return localStore.get(ABLocalStoreKeys.combineUserKey(key.callback(caster, localStore, castId), castId),
+					CUnitAttackSettings.class);
 		}
 	}
 

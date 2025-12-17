@@ -13,15 +13,15 @@ public class ABCallbackGetStoredDefenseTypeByKey extends ABDefenseTypeCallback {
 	private ABBooleanCallback instanceValue;
 
 	@Override
-	public CDefenseType callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public CDefenseType callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		if ((this.instanceValue == null) || this.instanceValue.callback(caster, localStore, castId)) {
-			return (CDefenseType) localStore.get(ABLocalStoreKeys
-					.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId));
-		}
-		else {
-			return (CDefenseType) localStore
-					.get(ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId));
+			return localStore.get(
+					ABLocalStoreKeys.combineUserInstanceKey(this.key.callback(caster, localStore, castId), castId),
+					CDefenseType.class);
+		} else {
+			return localStore.get(
+					ABLocalStoreKeys.combineUserKey(this.key.callback(caster, localStore, castId), castId),
+					CDefenseType.class);
 		}
 	}
 

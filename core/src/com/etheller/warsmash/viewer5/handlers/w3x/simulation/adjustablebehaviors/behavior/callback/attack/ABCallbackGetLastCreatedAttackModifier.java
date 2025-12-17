@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedAttackModifier extends ABAttackModifierCall
 
 	@Override
 	public ABAttackModifier callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (ABAttackModifier) localStore.get(ABLocalStoreKeys.LASTCREATEDAMod);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDAMod, ABAttackModifier.class);
 	}
 
 }

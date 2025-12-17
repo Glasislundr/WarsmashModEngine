@@ -10,7 +10,7 @@ public class ABCallbackGetLastCreatedAbilityEffectReactionListener extends ABAbi
 	@Override
 	public ABAbilityEffectReactionListener callback(CUnit caster, ABLocalDataStore localStore,
 			final int castId) {
-		return (ABAbilityEffectReactionListener) localStore.get(ABLocalStoreKeys.LASTCREATEDAbERL);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDAbERL, ABAbilityEffectReactionListener.class);
 	}
 
 }

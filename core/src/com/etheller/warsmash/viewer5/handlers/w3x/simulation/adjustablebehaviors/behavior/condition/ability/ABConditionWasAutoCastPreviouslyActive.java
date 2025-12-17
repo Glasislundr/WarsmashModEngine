@@ -11,7 +11,7 @@ public class ABConditionWasAutoCastPreviouslyActive extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (Boolean) localStore.get(ABLocalStoreKeys.WASAUTOCASTON);
+		return localStore.get(ABLocalStoreKeys.WASAUTOCASTON, Boolean.class);
 	}
 
 	@Override

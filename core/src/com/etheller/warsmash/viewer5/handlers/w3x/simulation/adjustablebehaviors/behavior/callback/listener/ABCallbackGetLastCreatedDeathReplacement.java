@@ -10,7 +10,7 @@ public class ABCallbackGetLastCreatedDeathReplacement extends ABDeathReplacement
 	@Override
 	public ABDeathReplacementEffect callback(CUnit caster, ABLocalDataStore localStore,
 			final int castId) {
-		return (ABDeathReplacementEffect) localStore.get(ABLocalStoreKeys.LASTCREATEDDRE);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDDRE, ABDeathReplacementEffect.class);
 	}
 
 }

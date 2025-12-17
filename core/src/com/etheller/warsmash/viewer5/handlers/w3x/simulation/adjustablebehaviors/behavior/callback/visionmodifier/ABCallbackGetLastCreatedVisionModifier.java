@@ -9,7 +9,7 @@ public class ABCallbackGetLastCreatedVisionModifier extends ABVisionModifierCall
 
 	@Override
 	public CFogModifier callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CFogModifier) localStore.get(ABLocalStoreKeys.LASTCREATEDVISIONMODIFIER);
+		return localStore.get(ABLocalStoreKeys.LASTCREATEDVISIONMODIFIER, CFogModifier.class);
 	}
 
 }

@@ -14,10 +14,9 @@ public class ABActionSetAbilityCastRange implements ABSingleAction {
 	private ABFloatCallback range;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		ABAbilityBuilderActiveAbility ability = (ABAbilityBuilderActiveAbility) localStore
-				.get(ABLocalStoreKeys.ISTOGGLEDABILITY);
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		ABAbilityBuilderActiveAbility ability = localStore.get(ABLocalStoreKeys.ISTOGGLEDABILITY,
+				ABAbilityBuilderActiveAbility.class);
 		ability.setCastRange(range.callback(caster, localStore, castId));
 	}
 

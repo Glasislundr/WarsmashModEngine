@@ -102,7 +102,7 @@ public class ABActionCreateUnitTargetedPseudoProjectile implements ABSingleActio
 			isProvideCounts = this.provideCounts.callback(caster, localStore, castId);
 		}
 
-		final GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
+		final GameObject editorData = localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA, GameObject.class);
 
 		if (this.speed != null) {
 			theSpeed = this.speed.callback(caster, localStore, castId);
