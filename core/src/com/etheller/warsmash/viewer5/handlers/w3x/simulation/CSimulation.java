@@ -359,8 +359,14 @@ public class CSimulation implements CPlayerAPI, CFogMaskSettings {
 		if (newUnit != null) {
 			final CPlayer player = getPlayer(playerIndex);
 			final CUnitType newUnitType = newUnit.getUnitType();
-			player.setUnitFoodUsed(newUnit, newUnitType.getFoodUsed());
-			player.setUnitFoodMade(newUnit, newUnitType.getFoodMade());
+			final int foodUsed = newUnitType.getFoodUsed();
+			final int foodMade = newUnitType.getFoodMade();
+			newUnit.setFoodUsed(foodUsed);
+			newUnit.setFoodMade(foodMade);
+			player.setUnitFoodUsed(newUnit, foodUsed);
+			if (newUnitType.getFoodMade() != 0) {
+				player.setUnitFoodMade(newUnit, foodMade);
+			}
 			player.addTechtreeUnlocked(this, typeId);
 			// nudge unit
 			newUnit.setPointAndCheckUnstuck(x, y, this);
@@ -628,6 +634,13 @@ public class CSimulation implements CPlayerAPI, CFogMaskSettings {
 
 	public void removeUnit(final CUnit unit) {
 		unit.setHidden(true);
+		final CPlayer player = this.getPlayer(unit.getPlayerIndex());
+		if (unit.getFoodMade() != 0) {
+			player.setUnitFoodMade(unit, 0);
+		}
+		if (unit.getFoodUsed() != 0) {
+			player.setUnitFoodUsed(unit, 0);
+		}
 		this.removedUnits.add(unit);
 	}
 
