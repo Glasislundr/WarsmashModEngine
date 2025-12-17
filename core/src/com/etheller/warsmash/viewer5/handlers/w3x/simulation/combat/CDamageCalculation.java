@@ -85,6 +85,9 @@ public class CDamageCalculation {
 	}
 
 	public float computeFinalDamage(CSimulation simulation, CUnit unit) {
+		if (this.miss) {
+			return 0;
+		}
 		float trueDamage = 0;
 		if (!isImmuneToPrimaryDamage(simulation, unit)
 				&& (!unit.isInvulnerable() || this.isPassInvulnerable(simulation, unit))) {
@@ -103,10 +106,13 @@ public class CDamageCalculation {
 	}
 
 	public float computeRawPrimaryDamage() {
-		return this.primaryAmount * this.damageMultiplier * (this.splash ? this.splashFactor : 1);
+		return this.miss ? 0 : this.primaryAmount * this.damageMultiplier * (this.splash ? this.splashFactor : 1);
 	}
 
 	public float computeRawBonusDamage() {
+		if (this.miss) {
+			return 0;
+		}
 		float trueDamage = 0;
 
 		if (bonusDamages != null) {
@@ -119,7 +125,7 @@ public class CDamageCalculation {
 	}
 
 	public float computeRawTotalDamage() {
-		return this.computeRawPrimaryDamage() + this.computeRawBonusDamage();
+		return this.miss ? 0 : this.computeRawPrimaryDamage() + this.computeRawBonusDamage();
 	}
 
 	public boolean isImmuneToPrimaryDamage(CSimulation simulation, CUnit unit) {
@@ -339,7 +345,6 @@ public class CDamageCalculation {
 	}
 
 	public void subtractTotalDamageDealt(float reduction, float minimum) {
-		System.err.println("Reducing damage: start:" + this.primaryAmount + " reduction:" + reduction + " min:" + minimum);
 		float primMinus = this.primaryAmount - reduction;
 		if (primMinus > minimum) {
 			this.primaryAmount = primMinus;
@@ -369,8 +374,7 @@ public class CDamageCalculation {
 				this.primaryAmount = Math.max(minimum, primMinus);
 			}
 		}
-		System.err.println("Reduced damage: final:" + this.primaryAmount);
-		
+
 	}
 
 	public CBonusDamage addBonusDamage(float amount, CAttackType attackType, CDamageType damageType,
