@@ -53,11 +53,11 @@ public class ABActionCreateLocationTargetedProjectile implements ABSingleAction 
 		final CAbilityProjectileListener listener = new ABProjectileListener(this.onLaunch, this.onHit, caster,
 				localStore, castId);
 
-		final CProjectile proj = localStore.game.createProjectile(theSource, this.id.callback(caster, localStore, castId),
-				sourceLocation.getX(), sourceLocation.getY(),
+		final CProjectile proj = localStore.game.createProjectile(theSource,
+				this.id.callback(caster, localStore, castId), sourceLocation.getX(), sourceLocation.getY(),
 				(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed, isHoming, theTarget, listener);
 
-		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 	}
 
 	@Override

@@ -12,14 +12,12 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 public class ABCallbackGetFirstBuffId extends ABIDCallback {
 
 	private ABIDCallback defaultId;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public War3ID callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final List<War3ID> buffs = ((List<ABAbilityBuilderAbilityTypeLevelData>) localStore
-				.get(ABLocalStoreKeys.LEVELDATA)).get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1)
-				.getBuffs();
+				.get(ABLocalStoreKeys.LEVELDATA)).get(localStore.getLevelDataInstanceLevel(castId)).getBuffs();
 		if ((buffs != null) && !buffs.isEmpty()) {
 			return buffs.get(0);
 		}

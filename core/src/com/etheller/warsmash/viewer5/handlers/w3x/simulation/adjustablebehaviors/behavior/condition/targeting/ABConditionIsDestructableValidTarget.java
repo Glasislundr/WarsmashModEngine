@@ -27,14 +27,13 @@ public class ABConditionIsDestructableValidTarget extends ABBooleanCallback {
 		EnumSet<CTargetType> targetsAllowed = null;
 		ABAbilityBuilderAbility ability = localStore.originAbility;
 		if (ability != null && ability instanceof ABAbilityBuilderActiveAbility) {
-			targetsAllowed = ((ABAbilityBuilderActiveAbility)ability).getTargetsAllowed();
+			targetsAllowed = ((ABAbilityBuilderActiveAbility) ability).getTargetsAllowed();
 		} else {
 			List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);
-			targetsAllowed = levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL))-1)
-					.getTargetsAllowed();
+			targetsAllowed = levelData.get(localStore.getLevelDataInstanceLevel(castId)).getTargetsAllowed();
 		}
-		
+
 		if (targetsAllowed.isEmpty()) {
 			return true;
 		}

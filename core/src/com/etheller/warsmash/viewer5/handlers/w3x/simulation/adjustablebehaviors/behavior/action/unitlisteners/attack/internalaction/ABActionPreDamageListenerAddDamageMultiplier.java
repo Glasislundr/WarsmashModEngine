@@ -12,9 +12,9 @@ public class ABActionPreDamageListenerAddDamageMultiplier implements ABAction {
 
 	private ABFloatCallback value;
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		CDamageCalculation damage = ((CDamageCalculation) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
 		damage.addDamageMultiplier(value.callback(caster, localStore, castId));
 	}
 }

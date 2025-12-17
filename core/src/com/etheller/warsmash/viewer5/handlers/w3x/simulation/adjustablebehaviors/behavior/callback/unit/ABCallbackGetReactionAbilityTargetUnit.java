@@ -10,7 +10,8 @@ public class ABCallbackGetReactionAbilityTargetUnit extends ABUnitCallback {
 
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		AbilityTarget tar = (AbilityTarget) localStore.get(ABLocalStoreKeys.REACTIONABILITYCASTER+castId);
+		AbilityTarget tar = (AbilityTarget) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONABILITYCASTER, castId));
 		return tar.visit(AbilityTargetVisitor.UNIT);
 	}
 

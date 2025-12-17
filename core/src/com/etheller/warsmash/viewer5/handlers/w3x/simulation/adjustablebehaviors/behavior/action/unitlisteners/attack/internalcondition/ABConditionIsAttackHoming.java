@@ -10,7 +10,8 @@ public class ABConditionIsAttackHoming extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		return settings.isProjectileHomingEnabled();
 	}
 

@@ -126,7 +126,7 @@ public class ABActionCreateUnitTargetedPseudoProjectile implements ABSingleActio
 				theCollisionInterval, theArtSkip, isHoming, theTarget, theMaxHits, theHitsPerTarget, theStartingRadius,
 				theEndingRadius, listener, isProvideCounts);
 
-		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 	}
 
 	@Override

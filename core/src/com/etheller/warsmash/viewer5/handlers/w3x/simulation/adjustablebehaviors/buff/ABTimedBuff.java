@@ -50,7 +50,11 @@ public class ABTimedBuff extends ABGenericTimedBuff {
 		this.onExpireActions = onExpireActions;
 		this.castId = castId;
 
-		this.setLevel(null, null, (int) localStore.getOrDefault(ABLocalStoreKeys.CURRENTLEVEL, 1));
+		if (localStore.originAbility != null) {
+			this.setLevel(null, null, localStore.originAbility.getLevel());
+		} else {
+			this.setLevel(null, null, 1);
+		}
 	}
 
 	public void setArtType(CEffectType artType) {

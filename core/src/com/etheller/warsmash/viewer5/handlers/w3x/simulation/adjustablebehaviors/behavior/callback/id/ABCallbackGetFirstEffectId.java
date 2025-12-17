@@ -14,7 +14,7 @@ public class ABCallbackGetFirstEffectId extends ABIDCallback {
 	@Override
 	public War3ID callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		List<War3ID> effects = ((List<ABAbilityBuilderAbilityTypeLevelData>) localStore.get(ABLocalStoreKeys.LEVELDATA))
-				.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getEffects();
+				.get(localStore.getLevelDataInstanceLevel(castId)).getEffects();
 		if (effects != null && !effects.isEmpty()) {
 			return effects.get(0);
 		}

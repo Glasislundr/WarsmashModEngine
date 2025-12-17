@@ -8,7 +8,7 @@ public class ABCallbackGetProjectileDestructableTargets extends ABIntegerCallbac
 
 	@Override
 	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (Integer) localStore.get(ABLocalStoreKeys.PROJECTILEDESTTARGETS + castId);
+		return (Integer) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEDESTTARGETS, castId));
 	}
 
 }

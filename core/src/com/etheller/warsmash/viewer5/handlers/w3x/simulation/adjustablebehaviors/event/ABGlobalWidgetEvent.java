@@ -37,19 +37,19 @@ public class ABGlobalWidgetEvent extends CGlobalWidgetEvent {
 	public void fire(final CWidget triggerWidget, final TriggerExecutionScope scope) {
 		if (condition == null || condition.callback(caster, localStore, castId)) {
 			if (scope instanceof CommonTriggerExecutionScope) {
-				this.localStore.put(ABLocalStoreKeys.EVENTTARGETEDUNIT + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDUNIT, castId),
 						((CommonTriggerExecutionScope) scope).getSpellTargetUnit());
-				this.localStore.put(ABLocalStoreKeys.EVENTTARGETEDLOCATION + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDLOCATION, castId),
 						((CommonTriggerExecutionScope) scope).getSpellTargetPoint());
-				this.localStore.put(ABLocalStoreKeys.EVENTTARGETEDITEM + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDITEM, castId),
 						((CommonTriggerExecutionScope) scope).getSpellTargetItem());
-				this.localStore.put(ABLocalStoreKeys.EVENTTARGETEDDESTRUCTABLE + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDDESTRUCTABLE, castId),
 						((CommonTriggerExecutionScope) scope).getSpellTargetDestructable());
-				this.localStore.put(ABLocalStoreKeys.EVENTCASTINGUNIT + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTCASTINGUNIT, castId),
 						((CommonTriggerExecutionScope) scope).getSpellAbilityUnit());
-				this.localStore.put(ABLocalStoreKeys.EVENTABILITYID + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTABILITYID, castId),
 						((CommonTriggerExecutionScope) scope).getSpellAbilityId());
-				this.localStore.put(ABLocalStoreKeys.EVENTABILITY + castId,
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTABILITY, castId),
 						((CommonTriggerExecutionScope) scope).getSpellAbility());
 			}
 			if (actions != null) {
@@ -57,13 +57,13 @@ public class ABGlobalWidgetEvent extends CGlobalWidgetEvent {
 					action.runAction(caster, localStore, castId);
 				}
 			}
-			this.localStore.remove(ABLocalStoreKeys.EVENTTARGETEDUNIT + castId);
-			this.localStore.remove(ABLocalStoreKeys.EVENTTARGETEDLOCATION + castId);
-			this.localStore.remove(ABLocalStoreKeys.EVENTTARGETEDITEM + castId);
-			this.localStore.remove(ABLocalStoreKeys.EVENTTARGETEDDESTRUCTABLE + castId);
-			this.localStore.remove(ABLocalStoreKeys.EVENTCASTINGUNIT + castId);
-			this.localStore.remove(ABLocalStoreKeys.EVENTABILITYID + castId);
-			this.localStore.remove(ABLocalStoreKeys.EVENTABILITY + castId);
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDUNIT, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDLOCATION, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDITEM, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTTARGETEDDESTRUCTABLE, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTCASTINGUNIT, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTABILITYID, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.EVENTABILITY, castId));
 		}
 	}
 

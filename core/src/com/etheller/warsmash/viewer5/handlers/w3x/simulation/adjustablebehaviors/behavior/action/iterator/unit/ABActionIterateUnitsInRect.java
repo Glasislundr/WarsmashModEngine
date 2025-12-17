@@ -28,14 +28,14 @@ public class ABActionIterateUnitsInRect implements ABAction {
 		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
 			@Override
 			public boolean call(final CUnit enumUnit) {
-				localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
+				localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId), enumUnit);
 				for (final ABAction iterationAction : ABActionIterateUnitsInRect.this.iterationActions) {
 					iterationAction.runAction(caster, localStore, castId);
 				}
 				return false;
 			}
 		});
-		localStore.remove(ABLocalStoreKeys.ENUMUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId));
 	}
 
 	@Override

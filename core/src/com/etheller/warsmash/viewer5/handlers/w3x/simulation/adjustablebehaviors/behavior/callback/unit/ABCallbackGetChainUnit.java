@@ -9,9 +9,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 public class ABCallbackGetChainUnit extends ABUnitCallback {
 
 	@Override
-	public CUnit callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.CHAINUNIT + castId);
+	public CUnit callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		return (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CHAINUNIT, castId));
 	}
 
 	@Override

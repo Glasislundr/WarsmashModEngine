@@ -13,9 +13,8 @@ public class ABActionSetAutoTargetDestructable implements ABSingleAction {
 	private ABDestructableCallback dest;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		localStore.put(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId,
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId),
 				this.dest.callback(caster, localStore, castId));
 	}
 

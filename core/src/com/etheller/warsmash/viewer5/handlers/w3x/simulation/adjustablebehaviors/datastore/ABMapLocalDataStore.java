@@ -60,6 +60,24 @@ public class ABMapLocalDataStore extends ABLocalDataStore {
 	}
 
 	@Override
+	public int getInt(String key) {
+		Object val = store.get(key);
+		if (val != null && val instanceof Integer) {
+			return (int) val;
+		}
+		return 0;
+	}
+
+	@Override
+	public int getIntOrDefault(String key, int def) {
+		Object val = store.getOrDefault(key, def);
+		if (val != null && val instanceof Integer) {
+			return (int) val;
+		}
+		return 0;
+	}
+
+	@Override
 	public Object put(String key, Object value) {
 		return store.put(key, value);
 	}

@@ -936,11 +936,11 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		scope.triggerCastId = castId;
 		// TODO: below: makes it easier on the outside, but it still is very bad for
 		// performance
-		scope.spellTargetUnit = (CUnit) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
-		scope.spellTargetItem = (CItem) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
+		scope.spellTargetUnit = (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
+		scope.spellTargetItem = (CItem) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
 		scope.spellTargetDestructable = (CDestructable) localStore
-				.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
-		scope.spellTargetPoint = (AbilityPointTarget) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + castId);
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
+		scope.spellTargetPoint = (AbilityPointTarget) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId));
 		scope.spellAbility = localStore.originAbility;
 		scope.spellAbilityId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		return scope;

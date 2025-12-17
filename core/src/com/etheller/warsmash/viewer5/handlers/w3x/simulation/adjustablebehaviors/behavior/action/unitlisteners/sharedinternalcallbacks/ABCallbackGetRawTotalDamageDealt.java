@@ -13,10 +13,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalcu
  *  It's really meant for PreDamage or DamageTakenModification, when modifying the base damage (think mana shield)
  */
 public class ABCallbackGetRawTotalDamageDealt extends ABFloatCallback {
-	
+
 	@Override
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC+castId)).computeRawTotalDamage();
+		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
+				.computeRawTotalDamage();
 	}
 
 }

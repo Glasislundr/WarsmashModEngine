@@ -13,10 +13,10 @@ public class ABActionResetPeriodicExecute implements ABAction {
 	@Override
 	public void runAction(CUnit caster, ABLocalDataStore localStore, int castId) {
 		if (this.unique != null) {
-			localStore.remove(ABLocalStoreKeys.PERIODICNEXTTICK + castId + "$"
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$"
 					+ this.unique.callback(caster, localStore, castId));
 		} else {
-			localStore.remove(ABLocalStoreKeys.PERIODICNEXTTICK + castId);
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId));
 		}
 	}
 

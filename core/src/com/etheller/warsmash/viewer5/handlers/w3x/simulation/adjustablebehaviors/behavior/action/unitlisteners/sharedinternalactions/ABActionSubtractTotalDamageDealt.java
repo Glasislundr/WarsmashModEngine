@@ -20,13 +20,13 @@ public class ABActionSubtractTotalDamageDealt implements ABAction {
 	private ABFloatCallback amount;
 	private ABFloatCallback minimum;
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		float theMin = 0;
 		if (minimum != null) {
 			theMin = minimum.callback(caster, localStore, castId);
 		}
-		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
+		CDamageCalculation damage = ((CDamageCalculation) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
 		damage.subtractTotalDamageDealt(amount.callback(caster, localStore, castId), theMin);
 	}
 }

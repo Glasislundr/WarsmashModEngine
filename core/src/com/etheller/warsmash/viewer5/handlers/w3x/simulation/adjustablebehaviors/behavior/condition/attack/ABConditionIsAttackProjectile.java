@@ -10,7 +10,8 @@ public class ABConditionIsAttackProjectile extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK + castId)).getWeaponType().isProjectile();
+		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId)))
+				.getWeaponType().isProjectile();
 	}
 
 }

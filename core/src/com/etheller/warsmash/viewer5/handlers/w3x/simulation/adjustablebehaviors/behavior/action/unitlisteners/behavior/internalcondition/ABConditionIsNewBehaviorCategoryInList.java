@@ -15,7 +15,8 @@ public class ABConditionIsNewBehaviorCategoryInList extends ABBooleanCallback {
 
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, int castId) {
-		CBehavior beh = (CBehavior) localStore.get(ABLocalStoreKeys.POSTCHANGEBEHAVIOR + castId);
+		CBehavior beh = (CBehavior) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.POSTCHANGEBEHAVIOR, castId));
 		CBehaviorCategory cat = CBehaviorCategory.IDLE;
 		if (beh != null) {
 			cat = beh.getBehaviorCategory();

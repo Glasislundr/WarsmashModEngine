@@ -14,7 +14,8 @@ public class ABActionAttackModifierAddAnimationTag implements ABAction {
 	private ABStringCallback tag;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		settings.addAnimationName(SecondaryTag.valueOf(tag.callback(caster, localStore, castId)));
 	}
 }

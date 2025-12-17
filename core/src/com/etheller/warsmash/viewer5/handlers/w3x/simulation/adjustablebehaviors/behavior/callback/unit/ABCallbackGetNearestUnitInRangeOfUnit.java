@@ -17,14 +17,14 @@ public class ABCallbackGetNearestUnitInRangeOfUnit extends ABUnitCallback {
 	private ABUnitCallback originUnit;
 	private ABFloatCallback range;
 	private List<ABBooleanCallback> conditions;
-	
+
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		CUnit originUnitTarget = originUnit.callback(caster, localStore, castId);
 		Float rangeVal = range.callback(caster, localStore, castId);
-		
+
 		final ABUnitAndRangeComparator ur = new ABUnitAndRangeComparator();
-		
+
 		recycleRect.set(originUnitTarget.getX() - rangeVal, originUnitTarget.getY() - rangeVal, rangeVal * 2,
 				rangeVal * 2);
 		localStore.game.getWorldCollision().enumUnitsInRect(recycleRect, new CUnitEnumFunction() {
@@ -35,11 +35,12 @@ public class ABCallbackGetNearestUnitInRangeOfUnit extends ABUnitCallback {
 					if (ur.getUnit() == null || ur.getRange() > dist) {
 						if (conditions != null) {
 							boolean result = true;
-							localStore.put(ABLocalStoreKeys.MATCHINGUNIT+castId, enumUnit);
+							localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId),
+									enumUnit);
 							for (ABBooleanCallback condition : conditions) {
 								result = result && condition.callback(caster, localStore, castId);
 							}
-							localStore.remove(ABLocalStoreKeys.MATCHINGUNIT+castId);
+							localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 							if (result) {
 								ur.setRange(dist);
 								ur.setUnit(enumUnit);

@@ -12,9 +12,9 @@ public class ABActionAttackModifierSetAttackDeathTime implements ABAction {
 
 	private ABFloatCallback deathTime;
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		if (deathTime != null) {
 			settings.setArtDeathTime(deathTime.callback(caster, localStore, castId));
 		}

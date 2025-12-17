@@ -102,7 +102,7 @@ public class ABActionCreateLocationTargetedCollisionProjectile implements ABSing
 				theMaxHits, theHitsPerTarget, theStartingRadius, theEndingRadius, theCollisionInterval, listener,
 				isProvideCounts);
 
-		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 	}
 
 	@Override

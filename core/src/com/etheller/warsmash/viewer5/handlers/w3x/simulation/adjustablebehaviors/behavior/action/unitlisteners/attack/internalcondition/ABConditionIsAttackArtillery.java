@@ -9,15 +9,16 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUni
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttackMissileSplash;
 
 public class ABConditionIsAttackArtillery extends ABBooleanCallback {
-	
+
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		CUnitAttack attack = (CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK+castId);
+		CUnitAttack attack = (CUnitAttack) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId));
 		if (attack instanceof CUnitAttackMissileSplash) {
-			return ((CUnitAttackMissileSplash)attack).isArtillery();
+			return ((CUnitAttackMissileSplash) attack).isArtillery();
 		}
 		if (attack instanceof CUnitAttackMissileLine) {
-			return ((CUnitAttackMissileLine)attack).isArtillery();
+			return ((CUnitAttackMissileLine) attack).isArtillery();
 		}
 		return false;
 	}

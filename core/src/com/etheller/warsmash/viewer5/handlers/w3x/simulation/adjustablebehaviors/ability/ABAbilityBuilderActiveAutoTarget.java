@@ -10,6 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
@@ -26,7 +27,7 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 			ABLocalDataStore localStore) {
 		super(handleId, code, alias, levelData, config, localStore);
 	}
-	
+
 	@Override
 	public void onAdd(CSimulation game, CUnit unit) {
 		this.behavior = this.createRangedBehavior(unit);
@@ -47,7 +48,8 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 
 	@Override
 	public CBehavior beginNoTarget(CSimulation game, CUnit caster, int orderId, boolean autoOrder) {
-		castId++;
+		this.castId = ABConstants.incrementCastId(this.castId);
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 		CWidget target = autoTarget(game, caster);
 		if (target != null) {
@@ -55,45 +57,49 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 			this.behavior.setCastId(castId);
 			return this.behavior.reset(game, target, orderId, autoOrder);
 		} else {
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
 			return null;
 		}
 	}
 
 	@Override
 	public void internalBegin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityTarget noTarget) {
-		this.castId++;
+		this.castId = ABConstants.incrementCastId(this.castId);
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 		this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, caster.getCurrentBehavior());
 		CWidget target = autoTarget(game, caster);
 		if (target != null) {
 			this.runOnOrderIssuedActions(game, caster, orderId);
 		} else {
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
 		}
 	}
-	
+
 	public CWidget autoTarget(CSimulation game, CUnit caster) {
 		CWidget target = null;
 
 		if (this.config.getSpecialFields() != null && this.config.getSpecialFields().getAutoAquireTarget() != null) {
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
-			this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
-			
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
+
 			for (ABAction action : this.config.getSpecialFields().getAutoAquireTarget()) {
 				action.runAction(caster, this.localStore, castId);
 			}
-			
-			target = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
+
+			target = (CWidget) this.localStore
+					.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId));
 			if (target == null) {
-				target = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
+				target = (CWidget) this.localStore
+						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId));
 				if (target == null) {
-					target = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
+					target = (CWidget) this.localStore
+							.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId));
 				}
 			}
 		}
@@ -103,11 +109,14 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 	protected boolean innerCheckCanTargetSpell(CSimulation game, CUnit unit, int orderId, CWidget target,
 			AbilityTargetCheckReceiver<CWidget> receiver) {
 		CWidget prevTarget = null;
-		prevTarget = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
+		prevTarget = (CWidget) this.localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID));
 		if (prevTarget == null) {
-			prevTarget = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
+			prevTarget = (CWidget) this.localStore.get(
+					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID));
 			if (prevTarget == null) {
-				prevTarget = (CWidget) this.localStore.get(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
+				prevTarget = (CWidget) this.localStore
+						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID));
 			}
 		}
 		if (target == prevTarget) {
@@ -117,8 +126,6 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 			return false;
 		}
 	}
-	
-
 
 	// Unused
 
@@ -126,7 +133,7 @@ public class ABAbilityBuilderActiveAutoTarget extends ABAbilityBuilderGenericAct
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, CWidget target) {
 		return null;
 	}
-	
+
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityPointTarget point) {
 		return null;

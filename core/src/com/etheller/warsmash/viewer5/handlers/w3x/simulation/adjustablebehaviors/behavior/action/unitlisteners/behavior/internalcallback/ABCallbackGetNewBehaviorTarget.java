@@ -12,7 +12,8 @@ public class ABCallbackGetNewBehaviorTarget extends ABTargetCallback {
 
 	@Override
 	public AbilityTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		CBehavior beh = (CBehavior) localStore.get(ABLocalStoreKeys.POSTCHANGEBEHAVIOR + castId);
+		CBehavior beh = (CBehavior) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.POSTCHANGEBEHAVIOR, castId));
 		AbilityTarget tar = beh.visit(BehaviorTargetVisitor.INSTANCE);
 
 		return tar;

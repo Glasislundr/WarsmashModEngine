@@ -35,11 +35,12 @@ public class ABCallbackGetNearestCorpseInRangeOfUnit extends ABUnitCallback {
 					if (ur.getUnit() == null || ur.getRange() > dist) {
 						if (conditions != null) {
 							boolean result = true;
-							localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+							localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId),
+									enumUnit);
 							for (ABBooleanCallback condition : conditions) {
 								result = result && condition.callback(caster, localStore, castId);
 							}
-							localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
+							localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 							if (result) {
 								ur.setRange(dist);
 								ur.setUnit(enumUnit);

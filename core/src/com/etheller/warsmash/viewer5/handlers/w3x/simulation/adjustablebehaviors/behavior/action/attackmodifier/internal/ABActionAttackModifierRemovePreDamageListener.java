@@ -13,7 +13,8 @@ public class ABActionAttackModifierRemovePreDamageListener implements ABAction {
 	private ABAttackPreDamageListenerCallback listener;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		settings.removePreDamageListener(listener.callback(caster, localStore, castId));
 	}
 }

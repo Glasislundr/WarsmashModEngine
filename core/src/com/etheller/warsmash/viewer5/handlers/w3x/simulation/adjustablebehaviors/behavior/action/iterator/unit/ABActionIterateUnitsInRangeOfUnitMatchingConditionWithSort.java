@@ -41,7 +41,7 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal)) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId), enumUnit);
 					if (condition == null || condition.callback(caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
@@ -55,14 +55,14 @@ public class ABActionIterateUnitsInRangeOfUnitMatchingConditionWithSort implemen
 		}
 
 		for (CUnit unit : foundUnits) {
-			localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, unit);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId), unit);
 			for (ABAction iterationAction : iterationActions) {
 				iterationAction.runAction(caster, localStore, castId);
 			}
 		}
 
-		localStore.remove(ABLocalStoreKeys.ENUMUNIT + castId);
-		localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId));
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 	}
 
 	@Override

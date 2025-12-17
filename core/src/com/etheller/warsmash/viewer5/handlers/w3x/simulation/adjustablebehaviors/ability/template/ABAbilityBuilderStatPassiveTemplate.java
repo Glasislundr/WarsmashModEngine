@@ -96,7 +96,6 @@ public class ABAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIco
 	@Override
 	public void setLevel(CSimulation game, CUnit unit, int level) {
 		super.setLevel(game, unit, level);
-		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, level);
 		for (ABStatBuffFromDataField statBuff : this.statBuffDataFields) {
 			NonStackingStatBuffType type = statBuff.convertToNonStackingType(levelData.get(getLevel() - 1));
 			if (type == null) {

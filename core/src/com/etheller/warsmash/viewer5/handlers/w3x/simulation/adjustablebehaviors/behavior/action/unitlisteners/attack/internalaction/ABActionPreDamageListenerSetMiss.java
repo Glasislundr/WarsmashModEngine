@@ -12,9 +12,9 @@ public class ABActionPreDamageListenerSetMiss implements ABAction {
 
 	private ABBooleanCallback miss;
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		CDamageCalculation damage = ((CDamageCalculation) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
 		if (miss != null) {
 			damage.setMiss(miss.callback(caster, localStore, castId));
 		} else {

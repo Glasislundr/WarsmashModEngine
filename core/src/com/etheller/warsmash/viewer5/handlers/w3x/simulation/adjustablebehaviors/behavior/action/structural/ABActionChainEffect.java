@@ -64,11 +64,11 @@ public class ABActionChainEffect implements ABAction {
 			}
 		}
 
-		localStore.put(ABLocalStoreKeys.CHAINUNIT + castId, originUnitTarget);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CHAINUNIT, castId), originUnitTarget);
 		for (ABAction iterationAction : actions) {
 			iterationAction.runAction(caster, localStore, castId);
 		}
-		localStore.remove(ABLocalStoreKeys.CHAINUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CHAINUNIT, castId));
 
 		startPerformJump(caster, localStore, castId, originUnitTarget, multiBounce, hitUnits,
 				bounces.callback(caster, localStore, castId));
@@ -117,7 +117,7 @@ public class ABActionChainEffect implements ABAction {
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget != enumUnit && originUnitTarget.canReach(enumUnit, rangeVal)
 						&& (multiBounce || !hitUnits.contains(enumUnit))) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId), enumUnit);
 					if (condition == null || condition.callback(caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
@@ -125,7 +125,7 @@ public class ABActionChainEffect implements ABAction {
 				return false;
 			}
 		});
-		localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 
 		CUnit jumpUnit = null;
 		if (foundUnits.size() > 0) {
@@ -152,11 +152,11 @@ public class ABActionChainEffect implements ABAction {
 			if (!multiBounce) {
 				hitUnits.add(jumpUnit);
 			}
-			localStore.put(ABLocalStoreKeys.CHAINUNIT + castId, jumpUnit);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CHAINUNIT, castId), jumpUnit);
 			for (ABAction iterationAction : actions) {
 				iterationAction.runAction(caster, localStore, castId);
 			}
-			localStore.remove(ABLocalStoreKeys.CHAINUNIT + castId);
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CHAINUNIT, castId));
 		}
 
 		if (remainingJumps > 0) {

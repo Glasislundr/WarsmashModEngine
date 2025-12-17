@@ -27,4 +27,8 @@ public interface ABDataStore {
 
 	public Collection<Object> values();
 
+	int getInt(String key);
+
+	int getIntOrDefault(String key, int def);
+
 }

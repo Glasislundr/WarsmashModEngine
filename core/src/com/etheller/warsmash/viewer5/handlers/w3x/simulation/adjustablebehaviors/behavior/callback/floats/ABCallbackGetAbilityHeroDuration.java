@@ -14,7 +14,7 @@ public class ABCallbackGetAbilityHeroDuration extends ABFloatCallback {
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA);
-		return levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getDurationHero();
+		return levelData.get(localStore.getLevelDataInstanceLevel(castId)).getDurationHero();
 	}
 
 }

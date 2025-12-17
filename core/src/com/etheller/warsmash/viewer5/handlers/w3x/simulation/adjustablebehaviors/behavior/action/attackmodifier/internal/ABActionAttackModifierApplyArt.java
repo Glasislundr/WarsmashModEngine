@@ -14,7 +14,8 @@ public class ABActionAttackModifierApplyArt implements ABAction {
 	private ABBooleanCallback applyArtIfMissing;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		ABAbilityBuilderAbility abil = localStore.originAbility;
 		String art = abil.getAbilityStringField("Missileart");
 		if ((art != null && !art.isBlank())

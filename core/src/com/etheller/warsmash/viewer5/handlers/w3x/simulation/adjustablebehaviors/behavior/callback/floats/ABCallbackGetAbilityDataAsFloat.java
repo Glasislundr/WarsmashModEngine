@@ -15,13 +15,12 @@ public class ABCallbackGetAbilityDataAsFloat extends ABFloatCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Float callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public Float callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA);
-		final int level = (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL);
 
-		final String data = levelData.get(level - 1).getData().get(this.dataField.getIndex());
+		final String data = levelData.get(localStore.getLevelDataInstanceLevel(castId)).getData()
+				.get(this.dataField.getIndex());
 		if (data.contains("-") || data.isEmpty()) {
 			return 0f;
 		}

@@ -9,9 +9,9 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalcu
 
 public class ABActionPreDamageListenerLockDamageModifications implements ABAction {
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		CDamageCalculation damage = ((CDamageCalculation) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
 		damage.lock();
 	}
 }

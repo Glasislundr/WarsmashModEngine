@@ -26,8 +26,7 @@ public class ABActionIterateDestructablesInRangeOfLocation implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final AbilityPointTarget target = this.location.callback(caster, localStore, castId);
 		final Float rangeVal = this.range.callback(caster, localStore, castId);
 
@@ -36,7 +35,7 @@ public class ABActionIterateDestructablesInRangeOfLocation implements ABAction {
 			@Override
 			public boolean call(final CDestructable enumDest) {
 				if (enumDest.distance(target.getX(), target.getY()) < rangeVal) {
-					localStore.put(ABLocalStoreKeys.ENUMDESTRUCTABLE + castId, enumDest);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMDESTRUCTABLE, castId), enumDest);
 					for (final ABAction iterationAction : ABActionIterateDestructablesInRangeOfLocation.this.iterationActions) {
 						iterationAction.runAction(caster, localStore, castId);
 					}
@@ -44,7 +43,7 @@ public class ABActionIterateDestructablesInRangeOfLocation implements ABAction {
 				return false;
 			}
 		});
-		localStore.remove(ABLocalStoreKeys.ENUMDESTRUCTABLE + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMDESTRUCTABLE, castId));
 	}
 
 	@Override

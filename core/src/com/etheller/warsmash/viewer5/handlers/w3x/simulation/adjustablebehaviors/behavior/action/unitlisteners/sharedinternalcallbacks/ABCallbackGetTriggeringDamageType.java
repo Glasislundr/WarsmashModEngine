@@ -16,7 +16,8 @@ public class ABCallbackGetTriggeringDamageType extends ABDamageTypeCallback {
 
 	@Override
 	public CDamageType callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId)).getPrimaryDamageType();
+		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
+				.getPrimaryDamageType();
 	}
 
 }

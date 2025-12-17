@@ -28,7 +28,7 @@ public class ABActionAddTargetAllowed implements ABSingleAction {
 			final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);
 			final EnumSet<CTargetType> targetsAllowed = levelData
-					.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getTargetsAllowed();
+					.get(localStore.originAbility.getLevel() - 1).getTargetsAllowed();
 			targetsAllowed.add(this.targetType);
 		}
 	}

@@ -12,7 +12,7 @@ public class ABCallbackGetTargetedLocation extends ABLocationCallback {
 	@Override
 	public AbilityPointTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		final AbilityPointTarget target = (AbilityPointTarget) localStore
-				.get(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + castId);
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId));
 
 		return target;
 	}

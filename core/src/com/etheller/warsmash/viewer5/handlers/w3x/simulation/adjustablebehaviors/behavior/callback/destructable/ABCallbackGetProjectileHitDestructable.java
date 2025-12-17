@@ -9,7 +9,7 @@ public class ABCallbackGetProjectileHitDestructable extends ABDestructableCallba
 
 	@Override
 	public CDestructable callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CDestructable) localStore.get(ABLocalStoreKeys.PROJECTILEHITDEST+castId);
+		return (CDestructable) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId));
 	}
 
 }

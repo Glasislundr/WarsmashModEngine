@@ -62,35 +62,35 @@ public class ABDestructableBuff implements CDestructableBuff {
 
 	@Override
 	public void onAdd(CSimulation game, CDestructable dest) {
-		localStore.put(ABLocalStoreKeys.BUFFEDDEST + castId, this);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.BUFFEDDEST, castId), this);
 		if (onAddActions != null) {
 			for (ABAction action : onAddActions) {
 				action.runAction(this.caster, localStore, castId);
 			}
 		}
-		localStore.remove(ABLocalStoreKeys.BUFFEDDEST + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.BUFFEDDEST, castId));
 	}
 
 	@Override
 	public void onRemove(CSimulation game, CDestructable dest) {
-		localStore.put(ABLocalStoreKeys.BUFFEDDEST + castId, this);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.BUFFEDDEST, castId), this);
 		if (onRemoveActions != null) {
 			for (ABAction action : onRemoveActions) {
 				action.runAction(this.caster, localStore, castId);
 			}
 		}
-		localStore.remove(ABLocalStoreKeys.BUFFEDDEST + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.BUFFEDDEST, castId));
 	}
 
 	@Override
 	public void onDeath(CSimulation game, CDestructable dest) {
-		localStore.put(ABLocalStoreKeys.BUFFEDDEST + castId, this);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.BUFFEDDEST, castId), this);
 		if (onDeathActions != null) {
 			for (ABAction action : onDeathActions) {
 				action.runAction(this.caster, localStore, castId);
 			}
 		}
-		localStore.remove(ABLocalStoreKeys.BUFFEDDEST + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.BUFFEDDEST, castId));
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class ABActionTransformUnit implements ABAction {
 		ABAbilityBuilderAbility abil = localStore.originAbility;
 
 		if (baseId == null || altId == null) {
-			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 			return;
 		}
 
@@ -100,20 +100,20 @@ public class ABActionTransformUnit implements ABAction {
 				goldCost = targetType.getGoldCost() - u1.getUnitType().getGoldCost();
 				lumberCost = targetType.getLumberCost() - u1.getUnitType().getLumberCost();
 				if (goldCost > pl.getGold() || lumberCost > pl.getLumber()) {
-					localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 					return;
 				}
 			} else {
 				goldCost = targetType.getGoldCost();
 				lumberCost = targetType.getLumberCost();
 				if (goldCost > pl.getGold() || lumberCost > pl.getLumber()) {
-					localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 					return;
 				}
 			}
 			foodCost = Math.max(targetType.getFoodUsed() - u1.getUnitType().getFoodUsed(), 0);
 			if (foodCost > 0 && pl.getFoodUsed() + foodCost > pl.getFoodCap()) {
-				localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+				localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 				return;
 			}
 		}
@@ -172,7 +172,8 @@ public class ABActionTransformUnit implements ABAction {
 				orderId = addAlternateTagAfter ? activeabil.getBaseOrderId() : activeabil.getOffOrderId();
 			}
 
-			localStore.put(ABLocalStoreKeys.TRANSFORMINGTOALT + castId, addAlternateTagAfter);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.TRANSFORMINGTOALT, castId),
+					addAlternateTagAfter);
 			localStore.put(ABLocalStoreKeys.NEWBEHAVIOR,
 					new ABBehaviorFinishTransformation(caster, localStore, u1, abil, targetType, isKeepRatios, actions,
 							addAlternateTagAfter, orderId, perm, dur, transTime, landTime, atlAdDelay, altAdTime,

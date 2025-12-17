@@ -14,7 +14,7 @@ public class ABCallbackGetSecondBuffId extends ABIDCallback {
 	@Override
 	public War3ID callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		List<War3ID> buffs = ((List<ABAbilityBuilderAbilityTypeLevelData>) localStore.get(ABLocalStoreKeys.LEVELDATA))
-				.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getBuffs();
+				.get(localStore.getLevelDataInstanceLevel(castId)).getBuffs();
 
 		if (buffs != null && buffs.size() > 1) {
 			return buffs.get(1);

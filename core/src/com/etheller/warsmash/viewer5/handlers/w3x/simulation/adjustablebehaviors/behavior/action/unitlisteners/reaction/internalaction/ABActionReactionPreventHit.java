@@ -8,8 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 
 public class ABActionReactionPreventHit implements ABAction {
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		localStore.put(ABLocalStoreKeys.REACTIONALLOWHIT+castId, false);
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONALLOWHIT, castId), false);
 	}
 }

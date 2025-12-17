@@ -66,7 +66,7 @@ public class ABActionCreateUnitTargetedProjectile implements ABSingleAction {
 					(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theTarget, listener);
 		}
 
-		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 	}
 
 	@Override

@@ -18,12 +18,11 @@ public class ABActionIterateUnitsInQueue implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final Queue<CUnit> unitQueue = this.queue.callback(caster, localStore, castId);
 		final List<CUnit> unitList = new ArrayList<>(unitQueue);
 		for (final CUnit enumUnit : unitList) {
-			localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId), enumUnit);
 			for (final ABAction iterationAction : this.iterationActions) {
 				iterationAction.runAction(caster, localStore, castId);
 			}
@@ -32,7 +31,7 @@ public class ABActionIterateUnitsInQueue implements ABAction {
 				break;
 			}
 		}
-		localStore.remove(ABLocalStoreKeys.ENUMUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId));
 	}
 
 	@Override

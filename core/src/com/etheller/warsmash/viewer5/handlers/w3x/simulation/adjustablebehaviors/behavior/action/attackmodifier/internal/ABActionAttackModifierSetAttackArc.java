@@ -13,7 +13,8 @@ public class ABActionAttackModifierSetAttackArc implements ABAction {
 	private ABFloatCallback arc;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		if (arc != null) {
 			settings.setProjectileArc(arc.callback(caster, localStore, castId));
 		}

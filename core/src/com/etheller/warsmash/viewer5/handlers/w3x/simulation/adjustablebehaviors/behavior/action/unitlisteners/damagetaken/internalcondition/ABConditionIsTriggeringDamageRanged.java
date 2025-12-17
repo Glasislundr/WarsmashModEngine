@@ -7,10 +7,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 
 public class ABConditionIsTriggeringDamageRanged extends ABBooleanCallback {
-	
+
 	@Override
 	public Boolean callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC+castId)).getPrimaryDamageFlags().isRanged();
+		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
+				.getPrimaryDamageFlags().isRanged();
 	}
 
 }

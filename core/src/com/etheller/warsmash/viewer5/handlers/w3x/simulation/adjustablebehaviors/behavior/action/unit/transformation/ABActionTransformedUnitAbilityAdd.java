@@ -57,7 +57,7 @@ public class ABActionTransformedUnitAbilityAdd implements ABAction {
 		ABAbilityBuilderAbility abil = localStore.originAbility;
 
 		if (baseId == null || altId == null) {
-			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 			return;
 		}
 

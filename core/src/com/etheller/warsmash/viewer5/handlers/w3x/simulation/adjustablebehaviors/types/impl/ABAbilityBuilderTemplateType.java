@@ -34,7 +34,6 @@ public class ABAbilityBuilderTemplateType extends CAbilityType<ABAbilityBuilderA
 		ABLocalDataStore localStore = new ABMapLocalDataStore();
 		localStore.put(ABLocalStoreKeys.ABILITYEDITORDATA, this.abilityEditorData);
 		localStore.put(ABLocalStoreKeys.LEVELDATA, getLevelData());
-		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, 1);
 		localStore.put(ABLocalStoreKeys.ALIAS, getAlias());
 		
 		switch (parser.getTemplateType()) {

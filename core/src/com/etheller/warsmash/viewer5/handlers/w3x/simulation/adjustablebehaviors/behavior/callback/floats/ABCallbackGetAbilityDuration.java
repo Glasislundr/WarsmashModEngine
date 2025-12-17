@@ -16,17 +16,16 @@ public class ABCallbackGetAbilityDuration extends ABFloatCallback {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Float callback(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public Float callback(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA);
 		if (this.target != null) {
 			final CUnit tar = this.target.callback(caster, localStore, castId);
 			if (tar.isHero() || tar.isUnitType(CUnitTypeJass.RESISTANT)) {
-				return levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getDurationHero();
+				return levelData.get(localStore.getLevelDataInstanceLevel(castId)).getDurationHero();
 			}
 		}
-		return levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getDurationNormal();
+		return levelData.get(localStore.getLevelDataInstanceLevel(castId)).getDurationNormal();
 	}
 
 	@Override

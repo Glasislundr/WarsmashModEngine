@@ -19,7 +19,7 @@ public class ABCallbackGetAbilityCastTimeAsInteger extends ABIntegerCallback {
 		} else {
 			List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);
-			return (int) levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getCastTime();
+			return (int) levelData.get(localStore.getLevelDataInstanceLevel(castId)).getCastTime();
 		}
 	}
 

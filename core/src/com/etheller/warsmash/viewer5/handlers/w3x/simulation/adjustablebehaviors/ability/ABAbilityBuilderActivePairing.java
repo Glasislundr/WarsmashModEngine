@@ -18,6 +18,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorSendOrder;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.iterstructs.ABUnitAndRangeComparator;
@@ -29,8 +30,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.AbilityTargetC
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.CommandStringErrorKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.util.CommandStringErrorKeysEnum;
 
-public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
-		implements CPairingAbility {
+public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive implements CPairingAbility {
 	private ABBehavior behavior;
 
 	private War3ID pairUnitId = null;
@@ -56,7 +56,7 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 		if (this.castingPrimaryTag == null) {
 			this.castingPrimaryTag = PrimaryTag.STAND;
 		}
-		
+
 		this.allowCastlessDeactivate = false;
 	}
 
@@ -64,44 +64,47 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 
 		if (this.config.getSpecialFields() != null) {
 			if (this.config.getSpecialFields().getPairAbilityId() != null) {
-				this.pairAbilityId = this.config.getSpecialFields().getPairAbilityId().callback(unit, localStore, castId);
+				this.pairAbilityId = this.config.getSpecialFields().getPairAbilityId().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getSpecialFields().getPairUnitId() != null) {
-				this.pairUnitId = this.config.getSpecialFields().getPairUnitId().callback(unit, localStore, castId);
+				this.pairUnitId = this.config.getSpecialFields().getPairUnitId().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 
 			if (this.config.getSpecialFields().getAutoTargetPartner() != null) {
-				this.autoTargetPartner = this.config.getSpecialFields().getAutoTargetPartner().callback(unit, localStore,
-						castId);
+				this.autoTargetPartner = this.config.getSpecialFields().getAutoTargetPartner().callback(unit,
+						localStore, ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getSpecialFields().getPairSearchRadius() != null) {
 				this.pairSearchRadius = this.config.getSpecialFields().getPairSearchRadius().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 
 			if (this.config.getSpecialFields().getPairingOrderId() != null) {
 				this.internalOrderId = this.config.getSpecialFields().getPairingOrderId().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 
 			if (this.config.getSpecialFields().getPairingOffOrderId() != null) {
-				this.internalOffOrderId = this.config.getSpecialFields().getPairingOffOrderId().callback(unit, localStore,
-						castId);
+				this.internalOffOrderId = this.config.getSpecialFields().getPairingOffOrderId().callback(unit,
+						localStore, ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getSpecialFields().getMaxPartners() != null) {
-				this.maxPartners = this.config.getSpecialFields().getMaxPartners().callback(unit, localStore, castId);
+				this.maxPartners = this.config.getSpecialFields().getMaxPartners().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getSpecialFields().getOrderPairedUnit() != null) {
 				this.orderPairedUnit = this.config.getSpecialFields().getOrderPairedUnit().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getSpecialFields().getOrderPairedUnitOrderId() != null) {
 				this.orderPairedUnitOrderId = this.config.getSpecialFields().getOrderPairedUnitOrderId().callback(unit,
-						localStore, castId);
+						localStore, ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getSpecialFields().getOrderPairedUnitOffOrderId() != null) {
-				this.orderPairedUnitOffOrderId = this.config.getSpecialFields().getOrderPairedUnitOffOrderId().callback(unit,
-						localStore, castId);
+				this.orderPairedUnitOffOrderId = this.config.getSpecialFields().getOrderPairedUnitOffOrderId()
+						.callback(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -163,8 +166,7 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 	}
 
 	private boolean checkTargetInternalOrderId(final CSimulation game, final CUnit unit, final int orderId) {
-		return (((!this.active || this.separateOnAndOff)
-				&& orderId == this.getPairOrderId(game, unit))
+		return (((!this.active || this.separateOnAndOff) && orderId == this.getPairOrderId(game, unit))
 				|| ((this.toggleable && this.active) || this.separateOnAndOff)
 						&& orderId == this.getPairOffOrderId(game, unit));
 	}
@@ -179,9 +181,10 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 
 	@Override
 	public void internalBegin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityTarget noTarget) {
-		this.castId++;
+		this.castId = ABConstants.incrementCastId(this.castId);
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
-		//Just don't do this
+		// Just don't do this
 	}
 
 	// ----
@@ -262,7 +265,8 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 	// Targeted
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, CWidget target) {
-		this.castId++;
+		this.castId = ABConstants.incrementCastId(this.castId);
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 //		System.err.println(caster.getUnitType().getName() + " Received pair target order: " + orderId + " (Base: "
 //				+ this.getBaseOrderId() + ", Internal: " + this.getPairOrderId(game, caster) + ")");
@@ -283,8 +287,8 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 					return caster.pollNextOrderBehavior(game);
 				}
 			}
-			this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId, targetUnit);
-			this.localStore.put(ABLocalStoreKeys.ABILITYPAIREDUNIT + castId, targetUnit);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId), targetUnit);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYPAIREDUNIT, castId), targetUnit);
 			this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, caster.getCurrentBehavior());
 //			System.out.println("Starting targeted behavior");
 
@@ -294,8 +298,8 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 		} else if (checkTargetInternalOrderId(game, caster, orderId)) {
 //			System.err.println(caster.getUnitType().getName() + " Got internal order");
 			final CUnit targetUnit = target.visit(AbilityTargetVisitor.UNIT);
-			this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId, targetUnit);
-			this.localStore.put(ABLocalStoreKeys.ABILITYPAIREDUNIT + castId, targetUnit);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId), targetUnit);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYPAIREDUNIT, castId), targetUnit);
 			this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, caster.getCurrentBehavior());
 //			System.out.println("Starting internal targeted behavior with target: " + targetUnit);
 
@@ -311,8 +315,7 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 			AbilityTargetCheckReceiver<CWidget> receiver) {
 //		System.err.println(unit.getUnitType().getName() + " Checking can pair target order: " + orderId + " (Base: "
 //				+ this.getBaseOrderId() + ", Internal: " + this.getPairOrderId(game, unit) + ")");
-		if (checkTargetPrimeOrderId(game, unit, orderId)
-				|| checkTargetInternalOrderId(game, unit, orderId)) {
+		if (checkTargetPrimeOrderId(game, unit, orderId) || checkTargetInternalOrderId(game, unit, orderId)) {
 			final CUnit targetUnit = target.visit(AbilityTargetVisitor.UNIT);
 
 			if (targetUnit != null && unit.getPlayerIndex() != targetUnit.getPlayerIndex()) {

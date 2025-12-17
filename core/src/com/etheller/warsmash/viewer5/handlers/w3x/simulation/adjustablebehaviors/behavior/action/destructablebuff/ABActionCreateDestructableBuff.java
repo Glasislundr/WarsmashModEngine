@@ -9,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.ABDestructableBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
@@ -28,7 +29,11 @@ public class ABActionCreateDestructableBuff implements ABSingleAction {
 			isDispellable = dispellable.callback(caster, localStore, castId);
 		}
 		CDestructableBuff ability = new ABDestructableBuff(localStore.game.getHandleIdAllocator().createId(),
-				buffId.callback(caster, localStore, castId), (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL),
+				buffId.callback(caster, localStore, castId),
+				castId != ABConstants.NO_CAST_ID
+						? localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
+								int.class)
+						: localStore.originAbility.getLevel(),
 				localStore, onAddActions, onRemoveActions, onDeathActions, castId, caster, isDispellable);
 
 		localStore.put(ABLocalStoreKeys.LASTCREATEDDESTBUFF, ability);

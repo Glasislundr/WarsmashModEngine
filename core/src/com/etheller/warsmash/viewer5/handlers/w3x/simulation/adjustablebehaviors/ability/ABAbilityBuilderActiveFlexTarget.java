@@ -13,6 +13,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderBase;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderNoTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
@@ -33,28 +34,31 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 			ABLocalDataStore localStore) {
 		super(handleId, alias, code, levelData, config, localStore);
 	}
-	
+
 	private void setTargeted(CSimulation game, CUnit unit) {
 		if (config.getSpecialFields() != null && config.getSpecialFields().getTargetedSpell() != null) {
 			boolean result = true;
 			for (ABBooleanCallback condition : config.getSpecialFields().getTargetedSpell()) {
-				result = result && condition.callback(unit, localStore, castId);
+				result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 			this.targetedSpell = result;
 		}
 	}
+
 	private void setPointTarget(CSimulation game, CUnit unit) {
 		if (config.getSpecialFields() != null && config.getSpecialFields().getPointTargeted() != null) {
 			boolean result = true;
 			for (ABBooleanCallback condition : config.getSpecialFields().getPointTargeted()) {
-				result = result && condition.callback(unit, localStore, castId);
+				result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 			this.pointTarget = result;
 		}
 	}
+
 	protected void determineCastless(CUnit unit) {
-		if (this.item != null || this.config.getDisplayFields() != null && this.config.getDisplayFields().getCastlessNoTarget() != null
-				&& this.config.getDisplayFields().getCastlessNoTarget().callback(unit, localStore, castId)) {
+		if (this.item != null || this.config.getDisplayFields() != null
+				&& this.config.getDisplayFields().getCastlessNoTarget() != null && this.config.getDisplayFields()
+						.getCastlessNoTarget().callback(unit, localStore, ABConstants.NO_CAST_ID)) {
 			this.castless = true;
 			this.behavior = null;
 		} else {
@@ -64,6 +68,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 			}
 		}
 	}
+
 	private void setBehavior(final CUnit unit) {
 		if (this.targetedSpell) {
 			if (this.behavior == null || !(this.behavior instanceof ABBehaviorAbilityBuilderBase)) {
@@ -88,7 +93,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 		this.setTargeted(game, unit);
 		this.setPointTarget(game, unit);
 		this.setBehavior(unit);
-		
+
 	}
 
 	@Override
@@ -107,26 +112,33 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 	}
 
 	@Override
-	public boolean checkBeforeQueue(final CSimulation game, final CUnit caster, final int orderId,
-			boolean autoOrder, final AbilityTarget target) {
-		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
+	public boolean checkBeforeQueue(final CSimulation game, final CUnit caster, final int orderId, boolean autoOrder,
+			final AbilityTarget target) {
+		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTTARGETING, autoOrder);
 		if (!this.isTargetedSpell() && castless && orderId == this.getBaseOrderId()) {
 			this.runBeginCastingActions(game, caster, orderId);
 			this.runEndCastingActions(game, caster, orderId);
+			this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 			return false;
 		}
+		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 		return super.checkBeforeQueue(game, caster, orderId, autoOrder, target);
 	}
 
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, CWidget target) {
 		if (this.isTargetedSpell() && !this.isPointTarget()) {
-			this.castId++;
+			this.castId = ABConstants.incrementCastId(this.castId);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
+					this.getLevel());
 			this.behavior.setCastId(this.castId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
-			this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId, target.visit(AbilityTargetVisitor.UNIT));
-			this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId, target.visit(AbilityTargetVisitor.ITEM));
-			this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId, target.visit(AbilityTargetVisitor.DESTRUCTABLE));
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId),
+					target.visit(AbilityTargetVisitor.UNIT));
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId),
+					target.visit(AbilityTargetVisitor.ITEM));
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId),
+					target.visit(AbilityTargetVisitor.DESTRUCTABLE));
 			this.runOnOrderIssuedActions(game, caster, orderId);
 			return this.behavior.reset(game, target, orderId, autoOrder);
 		} else {
@@ -137,10 +149,12 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityPointTarget point) {
 		if (this.isTargetedSpell() && this.isPointTarget()) {
-			this.castId++;
+			this.castId = ABConstants.incrementCastId(this.castId);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
+					this.getLevel());
 			this.behavior.setCastId(this.castId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
-			localStore.put(ABLocalStoreKeys.ABILITYTARGETEDLOCATION+this.castId, point);
+			localStore.put(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + this.castId, point);
 			this.runOnOrderIssuedActions(game, caster, orderId);
 			return this.behavior.reset(game, point, orderId, autoOrder);
 		} else {
@@ -154,7 +168,9 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 			if (castless) {
 				return null;
 			} else {
-				this.castId++;
+				this.castId = ABConstants.incrementCastId(this.castId);
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
+						this.getLevel());
 				this.behavior.setCastId(this.castId);
 				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 				this.runOnOrderIssuedActions(game, caster, orderId);
@@ -167,18 +183,23 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 
 	@Override
 	public void internalBegin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityTarget target) {
-		this.castId++;
+		this.castId = ABConstants.incrementCastId(this.castId);
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, caster.getCurrentBehavior());
 		if (this.isTargetedSpell()) {
 			if (this.isPointTarget()) {
 				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
-				localStore.put(ABLocalStoreKeys.ABILITYTARGETEDLOCATION+this.castId, target.visit(AbilityTargetVisitor.POINT));
+				localStore.put(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + this.castId,
+						target.visit(AbilityTargetVisitor.POINT));
 				this.runOnOrderIssuedActions(game, caster, orderId);
 			} else {
 				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
-				this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId, target.visit(AbilityTargetVisitor.UNIT));
-				this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId, target.visit(AbilityTargetVisitor.ITEM));
-				this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId, target.visit(AbilityTargetVisitor.DESTRUCTABLE));
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId),
+						target.visit(AbilityTargetVisitor.UNIT));
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId),
+						target.visit(AbilityTargetVisitor.ITEM));
+				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId),
+						target.visit(AbilityTargetVisitor.DESTRUCTABLE));
 				this.runOnOrderIssuedActions(game, caster, orderId);
 			}
 		} else {

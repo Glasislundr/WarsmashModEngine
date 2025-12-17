@@ -5,6 +5,7 @@ import java.util.List;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CProjectile;
@@ -14,11 +15,12 @@ public class ABAbilityProjReactionListener implements CUnitAbilityProjReactionLi
 
 	private ABLocalDataStore localStore;
 	private List<ABAction> actions;
-	
-	private int triggerId = 0;
+
+	private int triggerId = ABConstants.STARTING_TRIGGER_ID;
 	private boolean useCastId;
-	
-	public ABAbilityProjReactionListener(ABLocalDataStore localStore, List<ABAction> actions, int castId, boolean useCastId) {
+
+	public ABAbilityProjReactionListener(ABLocalDataStore localStore, List<ABAction> actions, int castId,
+			boolean useCastId) {
 		this.localStore = localStore;
 		this.actions = actions;
 		this.useCastId = useCastId;
@@ -26,25 +28,30 @@ public class ABAbilityProjReactionListener implements CUnitAbilityProjReactionLi
 			this.triggerId = castId;
 		}
 	}
-	
+
 	@Override
 	public boolean onHit(final CSimulation simulation, CUnit source, CUnit target, CProjectile projectile) {
 		if (!this.useCastId) {
-			this.triggerId++;
+			this.triggerId = ABConstants.incrementTriggerId(triggerId);
+			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, this.triggerId),
+					this.localStore.originAbility.getLevel());
 		}
-		localStore.put(ABLocalStoreKeys.REACTIONALLOWHIT+triggerId, true);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONALLOWHIT, triggerId), true);
 		if (actions != null) {
-			localStore.put(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId, source);
-			localStore.put(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId, target);
-			localStore.put(ABLocalStoreKeys.ABILITYPROJ+triggerId, projectile);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONABILITYCASTER, triggerId), source);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONABILITYTARGET, triggerId), target);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYPROJ, triggerId), projectile);
 			for (ABAction action : actions) {
 				action.runAction(target, localStore, triggerId);
 			}
-			localStore.remove(ABLocalStoreKeys.REACTIONABILITYCASTER+triggerId);
-			localStore.remove(ABLocalStoreKeys.REACTIONABILITYTARGET+triggerId);
-			localStore.remove(ABLocalStoreKeys.ABILITYPROJ+triggerId);
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONABILITYCASTER, triggerId));
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONABILITYTARGET, triggerId));
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYPROJ, triggerId));
 		}
-		return (boolean) localStore.remove(ABLocalStoreKeys.REACTIONALLOWHIT+triggerId);
+		if (!this.useCastId) {
+			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, this.triggerId));
+		}
+		return (boolean) localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.REACTIONALLOWHIT, triggerId));
 	}
 
 }

@@ -7,10 +7,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.projectile.CAttackProjectile;
 
 public class ABCallbackGetReactionAttackProjectileDamage extends ABFloatCallback {
-	
+
 	@Override
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CAttackProjectile) localStore.get(ABLocalStoreKeys.ATTACKPROJ+castId)).getDamage();
+		return ((CAttackProjectile) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKPROJ, castId)))
+				.getDamage();
 	}
 
 }

@@ -17,6 +17,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.AbilityFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
@@ -33,18 +34,19 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	protected ABLocalDataStore localStore;
 
 	protected CItem item = null;
-	
+
 	protected float cooldown = 0;
 	protected float area = 0;
 	protected float range = 0;
 	protected float castTime = 0;
-	
+
 	protected Set<String> uniqueFlags = null;
 
 	private int visibleMenuId = 0;
 
-	public ABAbilityBuilderNoIcon(int handleId, War3ID code, War3ID alias, List<ABAbilityBuilderAbilityTypeLevelData> levelData,
-			ABAbilityBuilderConfiguration config, ABLocalDataStore localStore) {
+	public ABAbilityBuilderNoIcon(int handleId, War3ID code, War3ID alias,
+			List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABAbilityBuilderConfiguration config,
+			ABLocalDataStore localStore) {
 		super(handleId, code, alias);
 		this.levelData = levelData;
 		this.config = config;
@@ -54,12 +56,12 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 		final int levels = editorData.getFieldAsInteger(AbilityFields.LEVELS, 0);
 		localStore.put(ABLocalStoreKeys.ISABILITYLEVELED, levels > 1);
 	}
-	
+
 	private void addInitialUniqueFlags(CSimulation game, CUnit unit) {
 		if (this.config.getInitialUniqueFlags() != null && !this.config.getInitialUniqueFlags().isEmpty()) {
 			this.uniqueFlags = new HashSet<>();
 			for (ABStringCallback flag : this.config.getInitialUniqueFlags()) {
-				this.uniqueFlags.add(flag.callback(unit, localStore, 0));
+				this.uniqueFlags.add(flag.callback(unit, localStore, ABConstants.NO_CAST_ID));
 			}
 		}
 	}
@@ -71,38 +73,42 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 		this.range = levelDataLevel.getCastRange();
 		if (this.config.getOverrideFields() != null) {
 			if (this.config.getOverrideFields().getAreaOverride() != null) {
-				this.area = this.config.getOverrideFields().getAreaOverride().callback(unit, localStore, 0);
+				this.area = this.config.getOverrideFields().getAreaOverride().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getRangeOverride() != null) {
-				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore, 0);
+				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getCastTimeOverride() != null) {
-				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore, 0);
+				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getCooldownOverride() != null) {
-				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore, 0);
+				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 		}
 	}
-	
+
 	@Override
 	public int getAbilityIntField(String field) {
 		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
 		return editorData.getFieldValue(field);
 	}
-	
+
 	@Override
 	public float getAbilityFloatField(String field) {
 		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
 		return editorData.getFieldFloatValue(field);
 	}
-	
+
 	@Override
 	public String getAbilityStringField(String field) {
 		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
 		return editorData.getField(field);
 	}
-	
+
 	@Override
 	public boolean getAbilityBooleanField(String field) {
 		GameObject editorData = (GameObject) localStore.get(ABLocalStoreKeys.ABILITYEDITORDATA);
@@ -192,7 +198,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	public CItem getItem() {
 		return this.item;
 	}
-	
+
 	@Override
 	public boolean hasUniqueFlag(String flag) {
 		if (this.uniqueFlags != null) {
@@ -200,34 +206,34 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 		}
 		return false;
 	}
-	
+
 	public void addUniqueFlag(String flag) {
 		if (this.uniqueFlags == null) {
 			this.uniqueFlags = new HashSet<>();
 		}
 		this.uniqueFlags.add(flag);
 	}
-	
+
 	public void removeUniqueFlag(String flag) {
 		if (this.uniqueFlags != null) {
 			this.uniqueFlags.remove(flag);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getUniqueValue(String key, Class<T> cls) {
 		Object o = this.localStore.get(ABLocalStoreKeys.combineUniqueValueKey(key, this.getHandleId()));
 		if (o != null && o.getClass() == cls) {
-			return (T)o;
+			return (T) o;
 		}
 		return null;
 	}
-	
+
 	public void addUniqueValue(Object item, String key) {
 		this.localStore.put(ABLocalStoreKeys.combineUniqueValueKey(key, this.getHandleId()), item);
 	}
-	
+
 	public void removeUniqueValue(String key) {
 		this.localStore.remove(ABLocalStoreKeys.combineUniqueValueKey(key, this.getHandleId()));
 	}
@@ -235,11 +241,10 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	@Override
 	public void setLevel(CSimulation game, CUnit unit, int level) {
 		super.setLevel(game, unit, level);
-		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, level);
 		setSpellFields(game, unit);
 		if (config.getOnLevelChange() != null) {
 			for (ABAction action : config.getOnLevelChange()) {
-				action.runAction(unit, localStore, 0);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -251,7 +256,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 		localStore.originPlayer = game.getPlayer(unit.getPlayerIndex());
 		if (config.getOnAddAbility() != null) {
 			for (ABAction action : config.getOnAddAbility()) {
-				action.runAction(unit, localStore, 0);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -265,7 +270,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 		setSpellFields(game, unit);
 		if (config.getOnAddDisabledAbility() != null) {
 			for (ABAction action : config.getOnAddDisabledAbility()) {
-				action.runAction(unit, localStore, 0);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -274,7 +279,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	public void onRemove(CSimulation game, CUnit unit) {
 		if (config.getOnRemoveAbility() != null) {
 			for (ABAction action : config.getOnRemoveAbility()) {
-				action.runAction(unit, localStore, 0);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -283,7 +288,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	public void onRemoveDisabled(CSimulation game, CUnit unit) {
 		if (config.getOnRemoveDisabledAbility() != null) {
 			for (ABAction action : config.getOnRemoveDisabledAbility()) {
-				action.runAction(unit, localStore, 0);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -296,7 +301,7 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	public void onDeath(CSimulation game, CUnit unit) {
 		if (config.getOnDeathPreCast() != null) {
 			for (ABAction action : config.getOnDeathPreCast()) {
-				action.runAction(unit, localStore, 0);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -338,16 +343,11 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	public int getIconVisibleMenuId() {
 		return this.visibleMenuId;
 	}
-	
+
 	@Override
 	public void setIconVisibleMenuId(int menu) {
 		this.visibleMenuId = menu;
 	}
-	
-	
-	
-	
-	
 
 	// Unneeded Methods
 	@Override
@@ -375,20 +375,20 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	}
 
 	@Override
-	public void checkCanTarget(CSimulation game, CUnit unit, int orderId, boolean autoOrder,
-			CWidget target, AbilityTargetCheckReceiver<CWidget> receiver) {
+	public void checkCanTarget(CSimulation game, CUnit unit, int orderId, boolean autoOrder, CWidget target,
+			AbilityTargetCheckReceiver<CWidget> receiver) {
 		receiver.orderIdNotAccepted();
 	}
 
 	@Override
-	public void checkCanTarget(CSimulation game, CUnit unit, int orderId, boolean autoOrder,
-			AbilityPointTarget target, AbilityTargetCheckReceiver<AbilityPointTarget> receiver) {
+	public void checkCanTarget(CSimulation game, CUnit unit, int orderId, boolean autoOrder, AbilityPointTarget target,
+			AbilityTargetCheckReceiver<AbilityPointTarget> receiver) {
 		receiver.orderIdNotAccepted();
 	}
 
 	@Override
-	public void checkCanTargetNoTarget(CSimulation game, CUnit unit, int orderId,
-			boolean autoOrder, AbilityTargetCheckReceiver<Void> receiver) {
+	public void checkCanTargetNoTarget(CSimulation game, CUnit unit, int orderId, boolean autoOrder,
+			AbilityTargetCheckReceiver<Void> receiver) {
 		receiver.orderIdNotAccepted();
 	}
 

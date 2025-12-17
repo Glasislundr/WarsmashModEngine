@@ -9,7 +9,8 @@ public class ABCallbackGetAttackImpactLocation extends ABLocationCallback {
 
 	@Override
 	public AbilityPointTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return  (AbilityPointTarget) localStore.get(ABLocalStoreKeys.ATTACKIMPACTLOCATION+castId);
+		return (AbilityPointTarget) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKIMPACTLOCATION, castId));
 	}
 
 }

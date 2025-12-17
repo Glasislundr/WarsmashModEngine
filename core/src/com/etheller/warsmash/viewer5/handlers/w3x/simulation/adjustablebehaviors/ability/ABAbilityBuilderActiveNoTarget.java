@@ -9,6 +9,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CWidget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehavior;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
@@ -44,8 +45,8 @@ public class ABAbilityBuilderActiveNoTarget extends ABAbilityBuilderGenericActiv
 
 	protected void determineCastless(CUnit unit) {
 		if (this.item != null || this.config.getDisplayFields() != null
-				&& this.config.getDisplayFields().getCastlessNoTarget() != null
-				&& this.config.getDisplayFields().getCastlessNoTarget().callback(unit, localStore, castId)) {
+				&& this.config.getDisplayFields().getCastlessNoTarget() != null && this.config.getDisplayFields()
+						.getCastlessNoTarget().callback(unit, localStore, ABConstants.NO_CAST_ID)) {
 			this.castless = true;
 			this.behavior = null;
 		} else {
@@ -67,7 +68,7 @@ public class ABAbilityBuilderActiveNoTarget extends ABAbilityBuilderGenericActiv
 	@Override
 	public boolean checkBeforeQueue(final CSimulation game, final CUnit caster, final int orderId, boolean autoOrder,
 			final AbilityTarget target) {
-		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
+		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTTARGETING, autoOrder);
 
 //		System.err.println("Checking queue notarg level: " + active + " orderID : " + orderId + " offID: " + this.getOffOrderId());
 		if (castless && orderId == this.getBaseOrderId()) {
@@ -87,8 +88,10 @@ public class ABAbilityBuilderActiveNoTarget extends ABAbilityBuilderGenericActiv
 			caster.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_EFFECT, this, null);
 			caster.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_FINISH, this, null);
 			caster.fireSpellEvents(game, JassGameEventsWar3.EVENT_UNIT_SPELL_ENDCAST, this, null);
+			this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 			return false;
 		}
+		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 		return super.checkBeforeQueue(game, caster, orderId, autoOrder, target);
 	}
 
@@ -105,7 +108,8 @@ public class ABAbilityBuilderActiveNoTarget extends ABAbilityBuilderGenericActiv
 
 	@Override
 	public void internalBegin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityTarget target) {
-		this.castId++;
+		this.castId = ABConstants.incrementCastId(this.castId);
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		if (!castless) {
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 			this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, caster.getCurrentBehavior());

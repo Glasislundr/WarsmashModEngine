@@ -21,9 +21,9 @@ public class ABCallbackGetAbilityDataAsIDFromList extends ABIDCallback {
 	public War3ID callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
 		final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 				.get(ABLocalStoreKeys.LEVELDATA);
-		final int level = (int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL);
 
-		final String data = levelData.get(level - 1).getData().get(this.dataField.getIndex());
+		final String data = levelData.get(localStore.getLevelDataInstanceLevel(castId)).getData()
+				.get(this.dataField.getIndex());
 		if ((data == null) || "-".equals(data) || data.isBlank() || "_".equals(data)) {
 			return War3ID.NONE;
 		}

@@ -87,11 +87,11 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 			@Override
 			public void onLaunch(CSimulation game, CProjectile projectile, AbilityTarget target) {
 				if (onLaunch != null) {
-					localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId), projectile);
 					for (ABAction action : onLaunch) {
 						action.runAction(caster, localStore, castId);
 					}
-					localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
+					localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId));
 				}
 			}
 
@@ -100,18 +100,18 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 				if (onHit != null) {
 					CUnit targetUnit = target.visit(AbilityTargetVisitor.UNIT);
 					CDestructable targetDest = target.visit(AbilityTargetVisitor.DESTRUCTABLE);
-					localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
-					localStore.put(ABLocalStoreKeys.PROJECTILEHITUNIT + castId, targetUnit);
-					localStore.put(ABLocalStoreKeys.PROJECTILEHITDEST + castId, targetDest);
-					localStore.put(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId,
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId), projectile);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId), targetUnit);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId), targetDest);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId),
 							new AbilityPointTarget(projectile.getX(), projectile.getY()));
 					for (ABAction action : onHit) {
 						action.runAction(caster, localStore, castId);
 					}
-					localStore.remove(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);
-					localStore.remove(ABLocalStoreKeys.PROJECTILEHITDEST + castId);
-					localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
-					localStore.remove(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId);
+					localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId));
+					localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId));
+					localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId));
+					localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId));
 				}
 				startPerformJump(caster, localStore, castId, theTarget, multiBounce, hitUnits,
 						bounces.callback(caster, localStore, castId));
@@ -138,7 +138,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 					(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theTarget, listener);
 		}
 
-		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 	}
 
 	private void startPerformJump(final CUnit caster, final ABLocalDataStore localStore, final int castId,
@@ -181,7 +181,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (originUnitTarget.canReach(enumUnit, rangeVal) && (multiBounce || !hitUnits.contains(enumUnit))) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId), enumUnit);
 					if (condition == null || condition.callback(caster, localStore, castId)) {
 						foundUnits.add(enumUnit);
 					}
@@ -189,7 +189,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 				return false;
 			}
 		});
-		localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 
 		final CUnit jumpUnit;
 		if (foundUnits.size() > 0) {
@@ -216,11 +216,12 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 				@Override
 				public void onLaunch(CSimulation game, CProjectile projectile, AbilityTarget target) {
 					if (onLaunch != null) {
-						localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
+						localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId),
+								projectile);
 						for (ABAction action : onLaunch) {
 							action.runAction(caster, localStore, castId);
 						}
-						localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
+						localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId));
 					}
 				}
 
@@ -229,18 +230,21 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 					if (onHit != null) {
 						CUnit targetUnit = target.visit(AbilityTargetVisitor.UNIT);
 						CDestructable targetDest = target.visit(AbilityTargetVisitor.DESTRUCTABLE);
-						localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
-						localStore.put(ABLocalStoreKeys.PROJECTILEHITUNIT + castId, targetUnit);
-						localStore.put(ABLocalStoreKeys.PROJECTILEHITDEST + castId, targetDest);
-						localStore.put(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId,
+						localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId),
+								projectile);
+						localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId),
+								targetUnit);
+						localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId),
+								targetDest);
+						localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId),
 								new AbilityPointTarget(projectile.getX(), projectile.getY()));
 						for (ABAction action : onHit) {
 							action.runAction(caster, localStore, castId);
 						}
-						localStore.remove(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);
-						localStore.remove(ABLocalStoreKeys.PROJECTILEHITDEST + castId);
-						localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
-						localStore.remove(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId);
+						localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId));
+						localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId));
+						localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId));
+						localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId));
 					}
 					startPerformJump(caster, localStore, castId, jumpUnit, multiBounce, hitUnits,
 							bounces.callback(caster, localStore, castId));
@@ -267,7 +271,7 @@ public class ABActionCreateUnitTargetedBouncingProjectile implements ABAction {
 						(float) AbilityTarget.angleBetween(originUnitTarget, jumpUnit), jumpUnit, listener);
 			}
 
-			localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 		}
 
 	}

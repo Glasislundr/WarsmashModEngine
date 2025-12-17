@@ -23,8 +23,8 @@ public class ABProjectileListener implements CAbilityProjectileListener {
 	private ABLocalDataStore localStore;
 	private int castId;
 
-	public ABProjectileListener(List<ABAction> onLaunch, List<ABAction> onHit, CUnit caster, ABLocalDataStore localStore,
-			int castId) {
+	public ABProjectileListener(List<ABAction> onLaunch, List<ABAction> onHit, CUnit caster,
+			ABLocalDataStore localStore, int castId) {
 		super();
 		this.onLaunch = onLaunch;
 		this.onHit = onHit;
@@ -36,11 +36,11 @@ public class ABProjectileListener implements CAbilityProjectileListener {
 	@Override
 	public void onLaunch(CSimulation game, CProjectile projectile, AbilityTarget target) {
 		if (onLaunch != null) {
-			localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId), projectile);
 			for (ABAction action : onLaunch) {
 				action.runAction(caster, localStore, castId);
 			}
-			localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId));
 		}
 	}
 
@@ -49,18 +49,18 @@ public class ABProjectileListener implements CAbilityProjectileListener {
 		if (onHit != null) {
 			CUnit targetUnit = target.visit(AbilityTargetVisitor.UNIT);
 			CDestructable targetDest = target.visit(AbilityTargetVisitor.DESTRUCTABLE);
-			localStore.put(ABLocalStoreKeys.THISPROJECTILE + castId, projectile);
-			localStore.put(ABLocalStoreKeys.PROJECTILEHITUNIT + castId, targetUnit);
-			localStore.put(ABLocalStoreKeys.PROJECTILEHITDEST + castId, targetDest);
-			localStore.put(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId,
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId), projectile);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId), targetUnit);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId), targetDest);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId),
 					new AbilityPointTarget(projectile.getX(), projectile.getY()));
 			for (ABAction action : onHit) {
 				action.runAction(caster, localStore, castId);
 			}
-			localStore.remove(ABLocalStoreKeys.PROJECTILEHITUNIT + castId);
-			localStore.remove(ABLocalStoreKeys.PROJECTILEHITDEST + castId);
-			localStore.remove(ABLocalStoreKeys.THISPROJECTILE + castId);
-			localStore.remove(ABLocalStoreKeys.PROJECTILECURRENTLOC + castId);
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITUNIT, castId));
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEHITDEST, castId));
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THISPROJECTILE, castId));
+			localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILECURRENTLOC, castId));
 		}
 	}
 

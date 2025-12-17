@@ -21,12 +21,11 @@ public class ABActionIterateUnitsInGroup implements ABAction {
 	private List<ABAction> iterationActions;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		final Set<CUnit> unitSet = this.unitGroup.callback(caster, localStore, castId);
 		final List<CUnit> unitList = new ArrayList<>(unitSet);
 		for (final CUnit enumUnit : unitList) {
-			localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId), enumUnit);
 			for (final ABAction iterationAction : this.iterationActions) {
 				iterationAction.runAction(caster, localStore, castId);
 			}
@@ -35,7 +34,7 @@ public class ABActionIterateUnitsInGroup implements ABAction {
 				break;
 			}
 		}
-		localStore.remove(ABLocalStoreKeys.ENUMUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId));
 	}
 
 	@Override
@@ -117,8 +116,7 @@ public class ABActionIterateUnitsInGroup implements ABAction {
 			sb.append("call FlushChildLocalStore(" + jassTextGenerator.getTriggerLocalStore()
 					+ ", AB_LOCAL_STORE_KEY_ENUMUNIT + I2S(" + jassTextGenerator.getCastId() + "))");
 			jassTextGenerator.println(sb.toString());
-		}
-		else {
+		} else {
 			// else use ForGroup
 			final List<JassTextGeneratorStmt> modifiedActionList = new ArrayList<>(this.iterationActions);
 			modifiedActionList.add(0, new JassTextGeneratorCallStmt() {

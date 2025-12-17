@@ -12,10 +12,11 @@ public class ABActionAttackModifierSetAttackHoming implements ABAction {
 
 	private ABBooleanCallback homing;
 
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		if (homing != null) {
-			settings.setProjectileHomingEnabled(homing.callback(caster, localStore, castId));		}
+			settings.setProjectileHomingEnabled(homing.callback(caster, localStore, castId));
+		}
 	}
 }

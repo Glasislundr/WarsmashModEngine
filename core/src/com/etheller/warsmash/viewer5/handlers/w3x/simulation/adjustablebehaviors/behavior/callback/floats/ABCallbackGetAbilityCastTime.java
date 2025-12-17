@@ -20,7 +20,7 @@ public class ABCallbackGetAbilityCastTime extends ABFloatCallback {
 		} else {
 			final List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);
-			return levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1).getCastTime();
+			return levelData.get(localStore.getLevelDataInstanceLevel(castId)).getCastTime();
 		}
 	}
 

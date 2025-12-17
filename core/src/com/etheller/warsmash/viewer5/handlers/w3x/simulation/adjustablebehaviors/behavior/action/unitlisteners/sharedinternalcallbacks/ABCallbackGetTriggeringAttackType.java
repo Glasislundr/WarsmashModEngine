@@ -13,10 +13,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalcu
  *  
  */
 public class ABCallbackGetTriggeringAttackType extends ABAttackTypeCallback {
-	
+
 	@Override
 	public CAttackType callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC+castId)).getAttackType();
+		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
+				.getAttackType();
 	}
 
 }

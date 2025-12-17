@@ -892,6 +892,7 @@ public abstract class ABAbilityBuilderGsonBuilder {
 				.registerSubtype(ABConditionIsFlexAbilityNonPointTarget.class, "isFlexAbilityNonPointTarget")
 				.registerSubtype(ABConditionIsToggleAbilityActive.class, "isToggleAbilityActive")
 				.registerSubtype(ABConditionIsTransformingToAlternate.class, "isTransformingToAlternate")
+				.registerSubtype(ABConditionIsAutoCastTargeting.class, "isAutoCastTargeting")
 				.registerSubtype(ABConditionWasAutoCast.class, "wasAutoCast")
 				
 

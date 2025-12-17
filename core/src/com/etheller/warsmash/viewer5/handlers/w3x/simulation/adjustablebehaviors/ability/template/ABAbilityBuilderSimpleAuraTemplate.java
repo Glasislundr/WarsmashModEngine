@@ -62,7 +62,6 @@ public class ABAbilityBuilderSimpleAuraTemplate extends AbilityGenericSingleIcon
 	@Override
 	public void setLevel(CSimulation game, CUnit unit, int level) {
 		super.setLevel(game, unit, level);
-		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, level);
 		targetsAllowed = levelData.get(getLevel()).getTargetsAllowed();
 		range = levelData.get(getLevel()).getCastRange();
 	}

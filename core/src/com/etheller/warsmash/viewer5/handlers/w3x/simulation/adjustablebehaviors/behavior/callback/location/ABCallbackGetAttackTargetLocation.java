@@ -11,7 +11,8 @@ public class ABCallbackGetAttackTargetLocation extends ABLocationCallback {
 
 	@Override
 	public AbilityPointTarget callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		AbilityTarget tar = (AbilityTarget) localStore.get(ABLocalStoreKeys.ATTACKTARGET+castId);
+		AbilityTarget tar = (AbilityTarget) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKTARGET, castId));
 		if (tar.visit(AbilityTargetVisitor.POINT) != null) {
 			return tar.visit(AbilityTargetVisitor.POINT);
 		}

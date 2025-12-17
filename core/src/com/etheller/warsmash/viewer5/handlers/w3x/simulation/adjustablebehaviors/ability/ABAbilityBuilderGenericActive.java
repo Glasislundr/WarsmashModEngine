@@ -34,6 +34,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
@@ -86,7 +87,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	private ABManaDepletedCheckTimer timer;
 	private NonStackingStatBuff manaDrain;
 
-	protected int castId = 0;
+	protected int castId = ABConstants.STARTING_CAST_ID;
 	private War3ID onTooltipOverride = null;
 	private War3ID offTooltipOverride = null;
 	private EnumSet<CTargetType> targetsAllowed;
@@ -171,12 +172,11 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public void setLevel(CSimulation game, CUnit unit, int level) {
 		super.setLevel(game, unit, level);
-		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, level);
 		setSpellFields(game, unit);
 		determineToggleableFields(game, unit);
 		if (config.getOnLevelChange() != null) {
 			for (ABAction action : config.getOnLevelChange()) {
-				action.runAction(unit, this.localStore, castId);
+				action.runAction(unit, this.localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -187,7 +187,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		determineToggleableFields(game, unit);
 		if (config.getOnAddAbility() != null) {
 			for (ABAction action : config.getOnAddAbility()) {
-				action.runAction(unit, localStore, castId);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -202,7 +202,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		determineToggleableFields(game, unit);
 		if (config.getOnAddDisabledAbility() != null) {
 			for (ABAction action : config.getOnAddDisabledAbility()) {
-				action.runAction(unit, localStore, castId);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -211,7 +211,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	public void onRemoveDisabled(CSimulation game, CUnit unit) {
 		if (config.getOnRemoveDisabledAbility() != null) {
 			for (ABAction action : config.getOnRemoveDisabledAbility()) {
-				action.runAction(unit, localStore, castId);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -220,36 +220,40 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		if (this.config.getInitialUniqueFlags() != null && !this.config.getInitialUniqueFlags().isEmpty()) {
 			this.uniqueFlags = new HashSet<>();
 			for (ABStringCallback flag : this.config.getInitialUniqueFlags()) {
-				this.uniqueFlags.add(flag.callback(unit, localStore, 0));
+				this.uniqueFlags.add(flag.callback(unit, localStore, ABConstants.NO_CAST_ID));
 			}
 		}
 	}
 
 	private void determineToggleableFields(CSimulation game, CUnit unit) {
 		if (config.getDisplayFields() != null && config.getDisplayFields().getSeparateOnAndOff() != null) {
-			this.separateOnAndOff = config.getDisplayFields().getSeparateOnAndOff().callback(unit, localStore, castId);
+			this.separateOnAndOff = config.getDisplayFields().getSeparateOnAndOff().callback(unit, localStore,
+					ABConstants.NO_CAST_ID);
 		}
 		if (config.getDisplayFields() != null && config.getDisplayFields().getToggleable() != null) {
-			this.toggleable = config.getDisplayFields().getToggleable().callback(unit, localStore, castId);
+			this.toggleable = config.getDisplayFields().getToggleable().callback(unit, localStore,
+					ABConstants.NO_CAST_ID);
 		}
 		if (config.getDisplayFields() != null && config.getDisplayFields().getCastToggleOff() != null) {
 			this.allowCastlessDeactivate = !config.getDisplayFields().getCastToggleOff().callback(unit, localStore,
-					castId);
+					ABConstants.NO_CAST_ID);
 		}
 		if (config.getDisplayFields() != null && config.getDisplayFields().getAlternateUnitId() != null) {
-			if (unit.getTypeId()
-					.equals(config.getDisplayFields().getAlternateUnitId().callback(unit, localStore, castId))) {
+			if (unit.getTypeId().equals(config.getDisplayFields().getAlternateUnitId().callback(unit, localStore,
+					ABConstants.NO_CAST_ID))) {
 				this.active = true;
 			}
 		}
 		if (config.getSpecialFields() != null && config.getSpecialFields().getBufferManaRequired() != null) {
-			this.bufferMana = config.getSpecialFields().getBufferManaRequired().callback(unit, localStore, castId);
+			this.bufferMana = config.getSpecialFields().getBufferManaRequired().callback(unit, localStore,
+					ABConstants.NO_CAST_ID);
 		}
 		if (this.toggleable) {
 			localStore.put(ABLocalStoreKeys.ISTOGGLEDABILITY, this);
 			int manaPerSec = 0;
 			if (config.getSpecialFields() != null && config.getSpecialFields().getManaDrainedPerSecond() != null) {
-				manaPerSec = config.getSpecialFields().getManaDrainedPerSecond().callback(unit, localStore, castId);
+				manaPerSec = config.getSpecialFields().getManaDrainedPerSecond().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (manaPerSec != 0) {
 				if (manaDrain == null) {
@@ -267,8 +271,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			}
 
 			if (config.getDisplayFields() != null && config.getDisplayFields().getAlternateUnitId() != null) {
-				if (unit.getTypeId()
-						.equals(config.getDisplayFields().getAlternateUnitId().callback(unit, localStore, castId))) {
+				if (unit.getTypeId().equals(config.getDisplayFields().getAlternateUnitId().callback(unit, localStore,
+						ABConstants.NO_CAST_ID))) {
 					this.active = true;
 				}
 			}
@@ -284,53 +288,59 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		this.castTime = levelDataLevel.getCastTime();
 		if (this.config.getOverrideFields() != null) {
 			if (this.config.getOverrideFields().getAreaOverride() != null) {
-				this.area = this.config.getOverrideFields().getAreaOverride().callback(unit, localStore, castId);
+				this.area = this.config.getOverrideFields().getAreaOverride().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getRangeOverride() != null) {
-				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore, castId);
+				this.range = this.config.getOverrideFields().getRangeOverride().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getCastTimeOverride() != null) {
 				this.castTime = this.config.getOverrideFields().getCastTimeOverride().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getIgnoreCastTime() != null) {
 				this.ignoreCastTime = this.config.getOverrideFields().getIgnoreCastTime().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getCooldownOverride() != null) {
 				this.cooldown = this.config.getOverrideFields().getCooldownOverride().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getManaCostOverride() != null) {
 				this.manaCost = this.config.getOverrideFields().getManaCostOverride().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getAutocastTypeOverride() != null) {
 				this.autocastType = this.config.getOverrideFields().getAutocastTypeOverride().callback(unit, localStore,
-						castId);
+						ABConstants.NO_CAST_ID);
 			}
 
 			if (this.config.getOverrideFields().getOnTooltipOverride() != null) {
 				this.onTooltipOverride = this.config.getOverrideFields().getOnTooltipOverride().callback(unit,
-						localStore, castId);
+						localStore, ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getOffTooltipOverride() != null) {
 				this.offTooltipOverride = this.config.getOverrideFields().getOffTooltipOverride().callback(unit,
-						localStore, castId);
+						localStore, ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getPhysicalSpell() != null) {
-				this.physical = this.config.getOverrideFields().getPhysicalSpell().callback(unit, localStore, castId);
+				this.physical = this.config.getOverrideFields().getPhysicalSpell().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 				this.magic = this.physical ? false : this.magic; // Spells that just declare physical:true default to
 																	// magic:false
 			}
 			if (this.config.getOverrideFields().getMagicSpell() != null) {
-				this.magic = this.config.getOverrideFields().getMagicSpell().callback(unit, localStore, castId);
+				this.magic = this.config.getOverrideFields().getMagicSpell().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getDispel() != null) {
-				this.dispel = this.config.getOverrideFields().getDispel().callback(unit, localStore, castId);
+				this.dispel = this.config.getOverrideFields().getDispel().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 			if (this.config.getOverrideFields().getUniversalSpell() != null) {
-				this.universal = this.config.getOverrideFields().getUniversalSpell().callback(unit, localStore, castId);
+				this.universal = this.config.getOverrideFields().getUniversalSpell().callback(unit, localStore,
+						ABConstants.NO_CAST_ID);
 			}
 		}
 
@@ -362,17 +372,19 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		}
 
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getHideAreaCursor() != null) {
-			this.hideAreaCursor = this.config.getDisplayFields().getHideAreaCursor().callback(unit, localStore, castId);
+			this.hideAreaCursor = this.config.getDisplayFields().getHideAreaCursor().callback(unit, localStore,
+					ABConstants.NO_CAST_ID);
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getAreaCursorOverride() != null) {
 			this.areaCursorOverride = this.config.getDisplayFields().getAreaCursorOverride().callback(unit, localStore,
-					castId);
+					ABConstants.NO_CAST_ID);
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getIsMenu() != null) {
 			this.isMenu = this.config.getDisplayFields().getIsMenu().callback(unit, localStore, this.getLevel());
 			if (this.isMenu) {
 				if (this.config.getDisplayFields().getMenuId() != null) {
-					this.orderId = this.config.getDisplayFields().getMenuId().callback(unit, localStore, castId);
+					this.orderId = this.config.getDisplayFields().getMenuId().callback(unit, localStore,
+							ABConstants.NO_CAST_ID);
 				} else {
 					if (this.orderId == 0) {
 						this.orderId = this.getHandleId();
@@ -615,7 +627,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTON, autoCastOn);
 		if (this.config.getOnChangeAutoCast() != null) {
 			for (ABAction action : this.config.getOnChangeAutoCast()) {
-				action.runAction(caster, localStore, -1);
+				action.runAction(caster, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTON);
@@ -629,9 +641,9 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	protected ABBehavior createNoTargetBehavior(CUnit unit) {
 		ABBehavior beh = new ABBehaviorAbilityBuilderNoTarget(unit, localStore, this);
-		if (this.item != null
-				|| (this.config.getDisplayFields() != null && this.config.getDisplayFields().getInstantCast() != null
-						&& this.config.getDisplayFields().getInstantCast().callback(unit, localStore, castId))) {
+		if (this.item != null || (this.config.getDisplayFields() != null
+				&& this.config.getDisplayFields().getInstantCast() != null && this.config.getDisplayFields()
+						.getInstantCast().callback(unit, localStore, ABConstants.NO_CAST_ID))) {
 			beh.setInstant(true);
 		}
 		if (this.config.getSpecialFields() != null && this.config.getSpecialFields().getBehaviorCategory() != null) {
@@ -642,9 +654,9 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	protected ABBehavior createRangedBehavior(CUnit unit) {
 		ABBehavior beh = new ABBehaviorAbilityBuilderBase(unit, localStore, this);
-		if (this.item != null
-				|| (this.config.getDisplayFields() != null && this.config.getDisplayFields().getInstantCast() != null
-						&& this.config.getDisplayFields().getInstantCast().callback(unit, localStore, castId))) {
+		if (this.item != null || (this.config.getDisplayFields() != null
+				&& this.config.getDisplayFields().getInstantCast() != null && this.config.getDisplayFields()
+						.getInstantCast().callback(unit, localStore, ABConstants.NO_CAST_ID))) {
 			beh.setInstant(true);
 		}
 		if (this.config.getSpecialFields() != null && this.config.getSpecialFields().getBehaviorCategory() != null) {
@@ -719,7 +731,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			if (config.getExtraCastConditions() != null) {
 				boolean result = true;
 				for (ABBooleanCallback condition : config.getExtraCastConditions()) {
-					result = result && condition.callback(unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 				}
 				String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
 				if (result) {
@@ -743,7 +755,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public void checkCanTarget(final CSimulation game, final CUnit unit, final int orderId, boolean autoOrder,
 			final CWidget target, final AbilityTargetCheckReceiver<CWidget> receiver) {
-		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
+		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTTARGETING, autoOrder);
 		if (innerCheckCastOrderId(game, unit, orderId)) {
 			innerCheckCanTarget(game, unit, orderId, target, receiver);
 		} else if (orderId == OrderIds.smart) {
@@ -751,25 +763,26 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		} else {
 			receiver.orderIdNotAccepted();
 		}
+		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 	}
 
 	@Override
 	public void checkCanAutoTarget(final CSimulation game, final CUnit unit, final int orderId, final CWidget target,
 			final AbilityTargetCheckReceiver<CWidget> receiver) {
 		if (orderId == getBaseOrderId()) {
+			this.localStore.put(
+					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID),
+					target.visit(AbilityTargetVisitor.UNIT));
+			this.localStore.put(
+					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID),
+					target.visit(AbilityTargetVisitor.ITEM));
+			this.localStore.put(
+					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID),
+					target.visit(AbilityTargetVisitor.DESTRUCTABLE));
 			if (innerCheckCanTargetSpell(game, unit, orderId, target, receiver)) {
 				if (innerCheckTargetTargetable(game, unit, target, receiver)) {
 					if (innerCheckTargetInRange(unit, target)) {
-						this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + -1,
-								target.visit(AbilityTargetVisitor.UNIT));
-						this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDITEM + -1,
-								target.visit(AbilityTargetVisitor.ITEM));
-						this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + -1,
-								target.visit(AbilityTargetVisitor.DESTRUCTABLE));
 						String extraFailReason = innerCheckExtraAutoTargetConditions(game, unit, orderId);
-						this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDUNIT + -1);
-						this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + -1);
-						this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + -1);
 						if (extraFailReason != null) {
 							if (!extraFailReason.equals("unknown")) {
 								receiver.targetCheckFailed(extraFailReason);
@@ -784,6 +797,12 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 					}
 				}
 			}
+			this.localStore
+					.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID));
+			this.localStore
+					.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID));
+			this.localStore.remove(
+					ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID));
 		} else {
 			receiver.orderIdNotAccepted();
 		}
@@ -792,7 +811,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public void checkCanTarget(final CSimulation game, final CUnit unit, final int orderId, boolean autoOrder,
 			final AbilityPointTarget target, final AbilityTargetCheckReceiver<AbilityPointTarget> receiver) {
-		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
+		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTTARGETING, autoOrder);
 		if (innerCheckCastOrderId(game, unit, orderId)) {
 			innerCheckCanTarget(game, unit, orderId, target, receiver);
 		} else if (orderId == OrderIds.smart) {
@@ -800,6 +819,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		} else {
 			receiver.orderIdNotAccepted();
 		}
+		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 	}
 
 	@Override
@@ -808,9 +828,11 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		if (orderId == getBaseOrderId()) {
 			if (innerCheckCanTargetSpell(game, unit, orderId, target, receiver)) {
 				if (innerCheckTargetInRange(unit, target)) {
-					localStore.put(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + -1, target);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION,
+							ABConstants.NO_CAST_ID), target);
 					String extraFailReason = innerCheckExtraAutoTargetConditions(game, unit, orderId);
-					localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + -1);
+					localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION,
+							ABConstants.NO_CAST_ID));
 					if (extraFailReason != null) {
 						if (!extraFailReason.equals("unknown")) {
 							receiver.targetCheckFailed(extraFailReason);
@@ -832,7 +854,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public void checkCanTargetNoTarget(final CSimulation game, final CUnit unit, final int orderId, boolean autoOrder,
 			final AbilityTargetCheckReceiver<Void> receiver) {
-		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
+		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTTARGETING, autoOrder);
 		if ((orderId != 0) && ((orderId == getAutoCastOffOrderId()) || (orderId == getAutoCastOnOrderId()))) {
 			receiver.targetOk(null);
 		} else if (innerCheckCastOrderId(game, unit, orderId)) {
@@ -840,6 +862,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		} else {
 			receiver.orderIdNotAccepted();
 		}
+		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 	}
 
 	@Override
@@ -868,9 +891,12 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			AbilityTargetCheckReceiver<AbilityPointTarget> receiver) {
 		if (innerCheckCanTargetSpell(game, unit, orderId, target, receiver)) {
 			if (innerCheckTargetInRange(unit, target)) {
-				localStore.put(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + -1, target);
+				localStore.put(
+						ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, ABConstants.NO_CAST_ID),
+						target);
 				String extraFailReason = innerCheckExtraTargetConditions(game, unit, orderId);
-				localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + -1);
+				localStore.remove(
+						ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, ABConstants.NO_CAST_ID));
 				if (extraFailReason != null) {
 					if (!extraFailReason.equals("unknown")) {
 						receiver.targetCheckFailed(extraFailReason);
@@ -889,19 +915,17 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	protected void innerCheckCanTarget(CSimulation game, CUnit unit, int orderId, CWidget target,
 			AbilityTargetCheckReceiver<CWidget> receiver) {
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID),
+				target.visit(AbilityTargetVisitor.UNIT));
+		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID),
+				target.visit(AbilityTargetVisitor.ITEM));
+		this.localStore.put(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID),
+				target.visit(AbilityTargetVisitor.DESTRUCTABLE));
 		if (innerCheckCanTargetSpell(game, unit, orderId, target, receiver)) {
 			if (innerCheckTargetTargetable(game, unit, target, receiver)) {
 				if (innerCheckTargetInRange(unit, target)) {
-					this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + -1,
-							target.visit(AbilityTargetVisitor.UNIT));
-					this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDITEM + -1,
-							target.visit(AbilityTargetVisitor.ITEM));
-					this.localStore.put(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + -1,
-							target.visit(AbilityTargetVisitor.DESTRUCTABLE));
 					String extraFailReason = innerCheckExtraTargetConditions(game, unit, orderId);
-					this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDUNIT + -1);
-					this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + -1);
-					this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + -1);
 					if (extraFailReason != null) {
 						if (!extraFailReason.equals("unknown")) {
 							receiver.targetCheckFailed(extraFailReason);
@@ -916,6 +940,12 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 				}
 			}
 		}
+		this.localStore
+				.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, ABConstants.NO_CAST_ID));
+		this.localStore
+				.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, ABConstants.NO_CAST_ID));
+		this.localStore.remove(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, ABConstants.NO_CAST_ID));
 	}
 
 	@Override
@@ -944,7 +974,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		if (config.getExtraTargetConditions() != null) {
 			boolean result = true;
 			for (ABBooleanCallback condition : config.getExtraTargetConditions()) {
-				result = result && condition.callback(unit, localStore, -1);
+				result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 			String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
 			if (result) {
@@ -966,12 +996,12 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			boolean result = true;
 			if (config.getExtraTargetConditions() != null) {
 				for (ABBooleanCallback condition : config.getExtraTargetConditions()) {
-					result = result && condition.callback(unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 				}
 			}
 			if (config.getExtraAutoTargetConditions() != null) {
 				for (ABBooleanCallback condition : config.getExtraAutoTargetConditions()) {
-					result = result && condition.callback(unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 				}
 			}
 			String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
@@ -995,7 +1025,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 			boolean result = true;
 			if (config.getExtraAutoNoTargetConditions() != null) {
 				for (ABBooleanCallback condition : config.getExtraAutoNoTargetConditions()) {
-					result = result && condition.callback(unit, localStore, -1);
+					result = result && condition.callback(unit, localStore, ABConstants.NO_CAST_ID);
 				}
 			}
 			String failReason = (String) localStore.remove(ABLocalStoreKeys.CANTUSEREASON);
@@ -1029,7 +1059,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getFoodCost() != null) {
 			return this.config.getDisplayFields().getFoodCost().callback(this.localStore.originUnit, localStore,
-					castId);
+					ABConstants.NO_CAST_ID);
 		}
 		return 0;
 	}
@@ -1041,7 +1071,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getGoldCost() != null) {
 			return this.config.getDisplayFields().getGoldCost().callback(this.localStore.originUnit, localStore,
-					castId);
+					ABConstants.NO_CAST_ID);
 		}
 		return 0;
 	}
@@ -1053,7 +1083,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		}
 		if (this.config.getDisplayFields() != null && this.config.getDisplayFields().getLumberCost() != null) {
 			return this.config.getDisplayFields().getLumberCost().callback(this.localStore.originUnit, localStore,
-					castId);
+					ABConstants.NO_CAST_ID);
 		}
 		return 0;
 	}
@@ -1065,7 +1095,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		}
 		if (config.getOnRemoveAbility() != null) {
 			for (ABAction action : config.getOnRemoveAbility()) {
-				action.runAction(unit, localStore, castId);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -1077,7 +1107,7 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 		}
 		if (config.getOnDeathPreCast() != null) {
 			for (ABAction action : config.getOnDeathPreCast()) {
-				action.runAction(unit, localStore, castId);
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
 			}
 		}
 	}
@@ -1146,7 +1176,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	@Override
 	public void activate(final CSimulation game, final CUnit caster) {
-		Boolean failed = (Boolean) this.localStore.get(ABLocalStoreKeys.FAILEDTOCAST + castId);
+		Boolean failed = (Boolean) this.localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId));
 		if (failed != null && failed) {
 			System.err.println("Failed to cast!");
 			return;
@@ -1166,7 +1197,8 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	@Override
 	public void deactivate(final CSimulation game, final CUnit caster) {
-		Boolean failed = (Boolean) this.localStore.get(ABLocalStoreKeys.FAILEDTOCAST + castId);
+		Boolean failed = (Boolean) this.localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId));
 		if (failed != null && failed) {
 			System.err.println("Failed to cast!");
 			return;
@@ -1187,12 +1219,14 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	@Override
 	public boolean checkBeforeQueue(final CSimulation game, final CUnit caster, final int orderId, boolean autoOrder,
 			final AbilityTarget target) {
-		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
+		this.localStore.put(ABLocalStoreKeys.ISAUTOCASTTARGETING, autoOrder);
 //		System.err.println("Checking queue top level: " + active + " orderID : " + orderId + " offID: " + this.getOffOrderId());
 		if (this.allowCastlessDeactivate && this.toggleable && this.active && orderId == this.getOffOrderId()) {
 			this.deactivate(game, caster);
+			this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 			return false;
 		}
+		this.localStore.remove(ABLocalStoreKeys.ISAUTOCASTTARGETING);
 		return super.checkBeforeQueue(game, caster, orderId, autoOrder, target);
 	}
 
@@ -1277,10 +1311,10 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 
 	@Override
 	public void cleanupInputs(int theCastId) {
-		this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDUNIT + theCastId);
-		this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + theCastId);
-		this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDITEM + theCastId);
-		this.localStore.remove(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + theCastId);
+		this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, theCastId));
+		this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, theCastId));
+		this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, theCastId));
+		this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, theCastId));
 		this.localStore.remove(ABLocalStoreKeys.PREVIOUSBEHAVIOR);
 	}
 

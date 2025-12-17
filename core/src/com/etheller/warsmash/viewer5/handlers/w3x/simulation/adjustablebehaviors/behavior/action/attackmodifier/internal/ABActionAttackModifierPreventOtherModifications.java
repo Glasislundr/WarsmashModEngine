@@ -10,7 +10,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.repl
 public class ABActionAttackModifierPreventOtherModifications implements ABAction {
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitPriorityLoopData loop = (CUnitPriorityLoopData) localStore.get(ABLocalStoreKeys.ATTACKMODLOOP + castId);
+		CUnitPriorityLoopData loop = (CUnitPriorityLoopData) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKMODLOOP, castId));
 		if (loop != null)
 			loop.preventAllOtherModifications();
 	}

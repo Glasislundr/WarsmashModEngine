@@ -14,7 +14,7 @@ public class ABActionSetAutoTargetUnit implements ABSingleAction {
 
 	@Override
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		localStore.put(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId,
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId),
 				this.unit.callback(caster, localStore, castId));
 	}
 

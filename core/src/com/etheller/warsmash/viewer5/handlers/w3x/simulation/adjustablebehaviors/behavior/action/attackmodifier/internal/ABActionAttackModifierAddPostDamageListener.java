@@ -13,7 +13,8 @@ public class ABActionAttackModifierAddPostDamageListener implements ABAction {
 	private ABAttackPostDamageListenerCallback listener;
 
 	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
-		CUnitAttackSettings settings = (CUnitAttackSettings) localStore.get(ABLocalStoreKeys.ATTACKSETTINGS + castId);
+		CUnitAttackSettings settings = (CUnitAttackSettings) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ATTACKSETTINGS, castId));
 		settings.addPostDamageListener(listener.callback(caster, localStore, castId));
 	}
 }

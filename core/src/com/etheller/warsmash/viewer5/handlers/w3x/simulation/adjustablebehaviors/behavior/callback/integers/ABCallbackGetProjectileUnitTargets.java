@@ -10,7 +10,7 @@ public class ABCallbackGetProjectileUnitTargets extends ABIntegerCallback {
 
 	@Override
 	public Integer callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (Integer) localStore.get(ABLocalStoreKeys.PROJECTILEUNITTARGETS + castId);
+		return (Integer) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PROJECTILEUNITTARGETS, castId));
 	}
 
 	@Override

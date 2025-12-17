@@ -36,9 +36,9 @@ public class ABActionIterateUnitsInRangeOfLocationMatchingCondition implements A
 			@Override
 			public boolean call(final CUnit enumUnit) {
 				if (enumUnit.canReach(target, rangeVal)) {
-					localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId), enumUnit);
 					if (condition == null || condition.callback(caster, localStore, castId)) {
-						localStore.put(ABLocalStoreKeys.ENUMUNIT + castId, enumUnit);
+						localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId), enumUnit);
 						for (ABAction iterationAction : iterationActions) {
 							iterationAction.runAction(caster, localStore, castId);
 						}
@@ -47,8 +47,8 @@ public class ABActionIterateUnitsInRangeOfLocationMatchingCondition implements A
 				return false;
 			}
 		});
-		localStore.remove(ABLocalStoreKeys.ENUMUNIT + castId);
-		localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId));
+		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 	}
 
 	@Override

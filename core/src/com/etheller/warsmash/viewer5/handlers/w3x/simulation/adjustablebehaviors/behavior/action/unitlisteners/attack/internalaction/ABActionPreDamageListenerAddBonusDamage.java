@@ -40,7 +40,8 @@ public class ABActionPreDamageListenerAddBonusDamage implements ABAction {
 			theAttackType = attackType.callback(caster, localStore, castId);
 		}
 
-		CDamageCalculation damage = ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId));
+		CDamageCalculation damage = ((CDamageCalculation) localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)));
 
 		CDamageFlags theFlags = null;
 		if (inheritFlags == null || inheritFlags.callback(caster, localStore, castId)) {

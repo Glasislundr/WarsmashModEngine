@@ -34,8 +34,7 @@ public class ABConditionIsUnitValidTarget extends ABBooleanCallback {
 		} else {
 			List<ABAbilityBuilderAbilityTypeLevelData> levelData = (List<ABAbilityBuilderAbilityTypeLevelData>) localStore
 					.get(ABLocalStoreKeys.LEVELDATA);
-			targetsAllowed = levelData.get(((int) localStore.get(ABLocalStoreKeys.CURRENTLEVEL)) - 1)
-					.getTargetsAllowed();
+			targetsAllowed = levelData.get(localStore.getLevelDataInstanceLevel(castId)).getTargetsAllowed();
 		}
 
 		if (targetsAllowed.isEmpty()) {

@@ -8,7 +8,7 @@ public class ABCallbackGetKillingUnit extends ABUnitCallback {
 
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.KILLINGUNIT + castId);
+		return (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.KILLINGUNIT, castId));
 	}
 
 }

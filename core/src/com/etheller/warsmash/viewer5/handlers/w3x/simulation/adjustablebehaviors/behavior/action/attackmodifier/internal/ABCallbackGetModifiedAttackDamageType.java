@@ -8,10 +8,11 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUni
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
 
 public class ABCallbackGetModifiedAttackDamageType extends ABDamageTypeCallback {
-	
+
 	@Override
 	public CDamageType callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.THEATTACK+castId)).getWeaponType().getDamageType();
+		return ((CUnitAttack) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, castId)))
+				.getWeaponType().getDamageType();
 	}
 
 }

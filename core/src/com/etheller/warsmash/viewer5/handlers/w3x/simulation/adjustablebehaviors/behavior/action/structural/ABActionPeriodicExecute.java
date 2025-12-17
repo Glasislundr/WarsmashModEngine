@@ -22,26 +22,27 @@ public class ABActionPeriodicExecute implements ABAction {
 	private ABCallback unique;
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
 		float nextActiveTick = 0;
 		Object u = null;
 		if (this.unique != null) {
 			u = this.unique.callback(caster, localStore, castId);
-			if (localStore.containsKey(ABLocalStoreKeys.PERIODICNEXTTICK + castId + "$" + u)) {
-				nextActiveTick = (float) localStore.get(ABLocalStoreKeys.PERIODICNEXTTICK + castId + "$" + u);
+			if (localStore
+					.containsKey(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$" + u)) {
+				nextActiveTick = (float) localStore
+						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$" + u);
 			}
-		}
-		else {
-			if (localStore.containsKey(ABLocalStoreKeys.PERIODICNEXTTICK + castId)) {
-				nextActiveTick = (float) localStore.get(ABLocalStoreKeys.PERIODICNEXTTICK + castId);
+		} else {
+			if (localStore.containsKey(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId))) {
+				nextActiveTick = (float) localStore
+						.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId));
 			}
 		}
 
 		final int currentTick = localStore.game.getGameTurnTick();
 		int iter = 0;
 		boolean run = true;
-		while (run && currentTick >= (int)nextActiveTick && iter < HARD_LOOP_CAP) {
+		while (run && currentTick >= (int) nextActiveTick && iter < HARD_LOOP_CAP) {
 			if (nextActiveTick <= 0) {
 				if ((this.initialTick != null) && this.initialTick.callback(caster, localStore, castId)) {
 					for (final ABAction periodicAction : this.periodicActions) {
@@ -55,8 +56,7 @@ public class ABActionPeriodicExecute implements ABAction {
 				}
 				nextActiveTick = currentTick + (this.delaySeconds.callback(caster, localStore, castId)
 						/ WarsmashConstants.SIMULATION_STEP_TIME);
-			}
-			else {
+			} else {
 				for (final ABAction periodicAction : this.periodicActions) {
 					periodicAction.runAction(caster, localStore, castId);
 					final Boolean brk = (Boolean) localStore.remove(ABLocalStoreKeys.BREAK);
@@ -72,10 +72,10 @@ public class ABActionPeriodicExecute implements ABAction {
 		}
 
 		if (this.unique != null) {
-			localStore.put(ABLocalStoreKeys.PERIODICNEXTTICK + castId + "$" + u, nextActiveTick);
-		}
-		else {
-			localStore.put(ABLocalStoreKeys.PERIODICNEXTTICK + castId, nextActiveTick);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId) + "$" + u,
+					nextActiveTick);
+		} else {
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PERIODICNEXTTICK, castId), nextActiveTick);
 		}
 	}
 
@@ -85,15 +85,13 @@ public class ABActionPeriodicExecute implements ABAction {
 		if (this.unique != null) {
 			uniquenessKeyExpression = "I2S(" + jassTextGenerator.getCastId() + ") + \"$\" + "
 					+ this.unique.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			uniquenessKeyExpression = "I2S(" + jassTextGenerator.getCastId() + ")";
 		}
 		String initialTickExpression;
 		if (this.initialTick != null) {
 			initialTickExpression = this.initialTick.generateJassEquivalent(jassTextGenerator);
-		}
-		else {
+		} else {
 			initialTickExpression = "false";
 		}
 

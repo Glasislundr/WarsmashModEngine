@@ -7,6 +7,7 @@ import com.etheller.warsmash.parsers.jass.JassTextGenerator;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABSingleAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
 public class ABActionCleanUpCastInstance implements ABSingleAction {
 
@@ -15,7 +16,7 @@ public class ABActionCleanUpCastInstance implements ABSingleAction {
 			final int castId) {
 		final Set<String> keySet = new HashSet<>(localStore.keySet());
 		for (final String key : keySet) {
-			if (key.contains("#" + castId)) {
+			if (key.contains(ABLocalStoreKeys.combineKey("#", castId))) {
 				localStore.remove(key);
 			}
 		}

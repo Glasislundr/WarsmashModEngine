@@ -32,7 +32,6 @@ public class ABAbilityBuilderAbilityType extends CAbilityType<ABAbilityBuilderAb
 		ABLocalDataStore localStore = new ABMapLocalDataStore();
 		localStore.put(ABLocalStoreKeys.ABILITYEDITORDATA, this.abilityEditorData);
 		localStore.put(ABLocalStoreKeys.LEVELDATA, getLevelData());
-		localStore.put(ABLocalStoreKeys.CURRENTLEVEL, 1);
 		localStore.put(ABLocalStoreKeys.ALIAS, getAlias());
 		localStore.put(ABLocalStoreKeys.CODE, getCode());
 		

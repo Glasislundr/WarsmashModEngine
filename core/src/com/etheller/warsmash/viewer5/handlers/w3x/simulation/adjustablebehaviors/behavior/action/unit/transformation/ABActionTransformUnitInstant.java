@@ -70,7 +70,7 @@ public class ABActionTransformUnitInstant implements ABAction {
 		}
 
 		if (baseId == null || altId == null) {
-			localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+			localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 			return;
 		}
 
@@ -103,20 +103,20 @@ public class ABActionTransformUnitInstant implements ABAction {
 				goldCost = targetType.getGoldCost() - u1.getUnitType().getGoldCost();
 				lumberCost = targetType.getLumberCost() - u1.getUnitType().getLumberCost();
 				if (goldCost > pl.getGold() || lumberCost > pl.getLumber()) {
-					localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 					return;
 				}
 			} else {
 				goldCost = targetType.getGoldCost();
 				lumberCost = targetType.getLumberCost();
 				if (goldCost > pl.getGold() || lumberCost > pl.getLumber()) {
-					localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+					localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 					return;
 				}
 			}
 			foodCost = Math.max(targetType.getFoodUsed() - u1.getUnitType().getFoodUsed(), 0);
 			if (foodCost > 0 && pl.getFoodUsed() + foodCost > pl.getFoodCap()) {
-				localStore.put(ABLocalStoreKeys.FAILEDTOCAST + castId, true);
+				localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.FAILEDTOCAST, castId), true);
 				return;
 			}
 		}
@@ -145,7 +145,7 @@ public class ABActionTransformUnitInstant implements ABAction {
 			theBuffId = buffId.callback(caster, localStore, castId);
 		}
 
-		localStore.put(ABLocalStoreKeys.TRANSFORMINGTOALT + castId, addAlternateTagAfter);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.TRANSFORMINGTOALT, castId), addAlternateTagAfter);
 		if (transTime > 0) {
 			ABTransformationHandler.playMorphAnimation(u1, addAlternateTagAfter);
 			new ABDelayInstantTransformationTimer(caster, localStore, u1, actions, addAlternateTagAfter, transTime,

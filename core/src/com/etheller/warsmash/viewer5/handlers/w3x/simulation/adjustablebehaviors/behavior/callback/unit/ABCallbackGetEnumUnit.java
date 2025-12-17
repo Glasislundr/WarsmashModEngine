@@ -10,7 +10,7 @@ public class ABCallbackGetEnumUnit extends ABUnitCallback {
 
 	@Override
 	public CUnit callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return (CUnit) localStore.get(ABLocalStoreKeys.ENUMUNIT + castId);
+		return (CUnit) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ENUMUNIT, castId));
 	}
 
 	@Override

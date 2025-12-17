@@ -6,7 +6,6 @@ public class ABLocalStoreKeys {
 	public static final String LEVELDATA = "_levelData";
 	public static final String ALIAS = "_alias";
 	public static final String CODE = "_code";
-	public static final String CURRENTLEVEL = "_currentLevel";
 	public static final String BUFF = "_buff";
 	public static final String ITEMSLOT = "_itemSlot";
 	public static final String ITERATORCOUNT = "_i";
@@ -15,6 +14,8 @@ public class ABLocalStoreKeys {
 
 	public static final String PREVIOUSBEHAVIOR = "_previousBehavior";
 	public static final String NEWBEHAVIOR = "_newBehavior";
+
+	public static final String CASTINSTANCELEVEL = "_castInLvl#";
 
 	public static final String FAILEDTOCAST = "_failedToCast#";
 	public static final String TRANSFORMINGTOALT = "_transformingToAlt#";
@@ -25,6 +26,7 @@ public class ABLocalStoreKeys {
 
 	public static final String CANTUSEREASON = "_cantUseReason";
 
+	public static final String ISAUTOCASTTARGETING = "_isAutoCastTar";
 	public static final String ISAUTOCAST = "_isAutoCast#";
 
 	public static final String ISTOGGLEDABILITY = "_toggledAbility";
@@ -203,7 +205,7 @@ public class ABLocalStoreKeys {
 	public static String combineKey(String key, int castId) {
 		return key + castId;
 	}
-	
+
 	public static String combineUserKey(String key, int castId) {
 		return "__" + key;
 	}

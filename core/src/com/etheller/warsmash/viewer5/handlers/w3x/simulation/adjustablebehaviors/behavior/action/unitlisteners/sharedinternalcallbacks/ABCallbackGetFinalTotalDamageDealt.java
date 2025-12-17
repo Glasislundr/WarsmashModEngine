@@ -16,7 +16,7 @@ public class ABCallbackGetFinalTotalDamageDealt extends ABFloatCallback {
 
 	@Override
 	public Float callback(CUnit caster, ABLocalDataStore localStore, final int castId) {
-		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.DAMAGECALC + castId))
+		return ((CDamageCalculation) localStore.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.DAMAGECALC, castId)))
 				.computeFinalDamage(localStore.game, caster);
 	}
 

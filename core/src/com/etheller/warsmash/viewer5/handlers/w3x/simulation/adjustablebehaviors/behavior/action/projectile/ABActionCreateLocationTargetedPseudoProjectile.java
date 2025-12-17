@@ -122,13 +122,12 @@ public class ABActionCreateLocationTargetedPseudoProjectile implements ABSingleA
 				this.canHitTarget, this.onHit, caster, localStore, castId);
 
 		final CProjectile proj = localStore.game.createPseudoProjectile(theSource,
-				this.id.callback(caster, localStore, castId), theEffectType, theEffectArtIndex,
-				sourceLocation.getX(), sourceLocation.getY(),
-				(float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed, theCollisionInterval,
-				theArtSkip, isHoming, theTarget, theMaxHits, theHitsPerTarget, theStartingRadius, theEndingRadius,
-				listener, isProvideCounts);
+				this.id.callback(caster, localStore, castId), theEffectType, theEffectArtIndex, sourceLocation.getX(),
+				sourceLocation.getY(), (float) AbilityTarget.angleBetween(sourceLocation, theTarget), theSpeed,
+				theCollisionInterval, theArtSkip, isHoming, theTarget, theMaxHits, theHitsPerTarget, theStartingRadius,
+				theEndingRadius, listener, isProvideCounts);
 
-		localStore.put(ABLocalStoreKeys.LASTCREATEDPROJECTILE + castId, proj);
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.LASTCREATEDPROJECTILE, castId), proj);
 	}
 
 	@Override

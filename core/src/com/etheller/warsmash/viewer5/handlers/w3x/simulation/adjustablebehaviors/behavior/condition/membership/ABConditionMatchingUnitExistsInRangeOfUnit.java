@@ -32,9 +32,10 @@ public class ABConditionMatchingUnitExistsInRangeOfUnit extends ABBooleanCallbac
 				if (originUnitTarget.canReach(enumUnit, rangeVal)) {
 					if (ur.getUnit() == null) {
 						if (condition != null) {
-							localStore.put(ABLocalStoreKeys.MATCHINGUNIT + castId, enumUnit);
+							localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId),
+									enumUnit);
 							boolean result = condition.callback(caster, localStore, castId);
-							localStore.remove(ABLocalStoreKeys.MATCHINGUNIT + castId);
+							localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.MATCHINGUNIT, castId));
 							if (result) {
 								ur.setUnit(enumUnit);
 							}

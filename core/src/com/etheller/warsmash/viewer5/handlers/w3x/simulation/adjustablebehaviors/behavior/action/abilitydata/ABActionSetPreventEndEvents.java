@@ -10,9 +10,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 public class ABActionSetPreventEndEvents implements ABSingleAction {
 
 	@Override
-	public void runAction(final CUnit caster, final ABLocalDataStore localStore,
-			final int castId) {
-		localStore.put(ABLocalStoreKeys.PREVENTENDEVENTS+castId, true);
+	public void runAction(final CUnit caster, final ABLocalDataStore localStore, final int castId) {
+		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.PREVENTENDEVENTS, castId), true);
 	}
 
 	@Override
