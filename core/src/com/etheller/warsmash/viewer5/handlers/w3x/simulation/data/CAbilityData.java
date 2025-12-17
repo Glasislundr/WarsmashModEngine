@@ -13,6 +13,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityGenericDoNothing;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.cargohold.CAbilityDropInstant;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.item.CAbilityItemChestOfGold;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.item.CAbilityItemExperienceGain;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.item.CAbilityItemFigurineSummon;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.item.CAbilityItemHeal;
@@ -87,12 +88,12 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.def
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionStandDown;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionWispHarvest;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.jass.CAbilityTypeJassDefinition;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderConfiguration;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderDupe;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderParser;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderParserUtil;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.parser.AbilityBuilderType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.types.definitions.impl.CAbilityTypeDefinitionAbilityTemplateBuilder;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderDupe;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParser;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParserUtil;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.definitions.impl.ABAbilityBuilderTemplateTypeDefinition;
 
 public class CAbilityData {
 
@@ -265,6 +266,8 @@ public class CAbilityData {
 				(handleId, alias) -> new CAbilityItemPermanentLifeGain(handleId, alias)));
 		this.codeToAbilityTypeDefinition.put(War3ID.fromString("AIem"), new CAbilityTypeDefinitionSpellBase(
 				(handleId, alias) -> new CAbilityItemExperienceGain(handleId, alias)));
+		this.codeToAbilityTypeDefinition.put(War3ID.fromString("AIgo"), new CAbilityTypeDefinitionSpellBase(
+				(handleId, alias) -> new CAbilityItemChestOfGold(handleId, alias)));
 		this.codeToAbilityTypeDefinition.put(War3ID.fromString("AIlm"),
 				new CAbilityTypeDefinitionSpellBase((handleId, alias) -> new CAbilityItemLevelGain(handleId, alias)));
 		this.codeToAbilityTypeDefinition.put(War3ID.fromString("Acar"), new CAbilityTypeDefinitionCargoHold());
@@ -285,22 +288,22 @@ public class CAbilityData {
 
 
 		try {
-			final List<AbilityBuilderParser> inheritingAbilities = new ArrayList<>();
-			final Map<String, AbilityBuilderParser> previousAbilityParsers = new HashMap<>();
+			final List<ABAbilityBuilderParser> inheritingAbilities = new ArrayList<>();
+			final Map<String, ABAbilityBuilderParser> previousAbilityParsers = new HashMap<>();
 			
-			AbilityBuilderParserUtil.loadAbilityBuilderFiles(behavior -> {
-				if (behavior.getType().equals(AbilityBuilderType.INHERIT)) {
+			ABAbilityBuilderParserUtil.loadAbilityBuilderFiles(behavior -> {
+				if (behavior.getType().equals(ABAbilityBuilderType.INHERIT)) {
 					inheritingAbilities.add(behavior);
-				} else if (behavior.getType().equals(AbilityBuilderType.TEMPLATE)) {
-					for (AbilityBuilderDupe dupe : behavior.getIds()) {
+				} else if (behavior.getType().equals(ABAbilityBuilderType.TEMPLATE)) {
+					for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
 						previousAbilityParsers.put(dupe.getId(), behavior);
 						this.codeToAbilityTypeDefinition.put(War3ID.fromString(dupe.getId()),
-								new CAbilityTypeDefinitionAbilityTemplateBuilder(behavior));
+								new ABAbilityBuilderTemplateTypeDefinition(behavior));
 					}
 				} else {
-					for (AbilityBuilderDupe dupe : behavior.getIds()) {
+					for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
 						previousAbilityParsers.put(dupe.getId(), behavior);
-						AbilityBuilderConfiguration config = new AbilityBuilderConfiguration(behavior, dupe);
+						ABAbilityBuilderConfiguration config = new ABAbilityBuilderConfiguration(behavior, dupe);
 						this.codeToAbilityTypeDefinition.put(War3ID.fromString(config.getId()),
 								config.createDefinition());
 					}
@@ -309,30 +312,30 @@ public class CAbilityData {
 			
 			
 			int prevIter = 1;
-			List<AbilityBuilderParser> loopInheritingAbilities = inheritingAbilities;
+			List<ABAbilityBuilderParser> loopInheritingAbilities = inheritingAbilities;
 			while (loopInheritingAbilities.size() > 0) {
-				List<AbilityBuilderParser> iter = loopInheritingAbilities;
+				List<ABAbilityBuilderParser> iter = loopInheritingAbilities;
 				loopInheritingAbilities = new ArrayList<>();
 				
 				if (prevIter == 0) {
-					for (AbilityBuilderParser parser : iter) {
+					for (ABAbilityBuilderParser parser : iter) {
 						System.err.println("Couldn't parse INHERIT ability due to no parent ability definition: " + parser.getIds().get(0).getId());
 					}
 					break;
 				}
 				prevIter = 0;
 				
-				for (AbilityBuilderParser parser : iter) {
+				for (ABAbilityBuilderParser parser : iter) {
 					if (parser.getParentId() == null) {
 						System.err.println("Couldn't parse INHERIT ability due to missing parent ID: " + parser.getIds().get(0).getId());
 						continue;
 					}
-					AbilityBuilderParser parent = previousAbilityParsers.get(parser.getParentId());
+					ABAbilityBuilderParser parent = previousAbilityParsers.get(parser.getParentId());
 					if (parent != null) {
 						parser.updateFromParent(parent);
-						for (AbilityBuilderDupe dupe : parser.getIds()) {
+						for (ABAbilityBuilderDupe dupe : parser.getIds()) {
 							previousAbilityParsers.put(dupe.getId(), parser);
-							AbilityBuilderConfiguration config = new AbilityBuilderConfiguration(parser, dupe);
+							ABAbilityBuilderConfiguration config = new ABAbilityBuilderConfiguration(parser, dupe);
 							this.codeToAbilityTypeDefinition.put(War3ID.fromString(config.getId()),
 									config.createDefinition());
 							prevIter++;
@@ -344,25 +347,25 @@ public class CAbilityData {
 			}
 			
 			if (WarsmashConstants.ABILITY_COMPATIBILITY != null && WarsmashConstants.ABILITY_COMPATIBILITY.size() > 0) {
-				final List<AbilityBuilderParser> inheritingCompatAbilities = new ArrayList<>();
+				final List<ABAbilityBuilderParser> inheritingCompatAbilities = new ArrayList<>();
 				boolean all = WarsmashConstants.ABILITY_COMPATIBILITY.contains("all");
 
-				AbilityBuilderParserUtil.loadAbilityBuilderFiles(behavior -> {
-					if (behavior.getType().equals(AbilityBuilderType.INHERIT)) {
+				ABAbilityBuilderParserUtil.loadAbilityBuilderFiles(behavior -> {
+					if (behavior.getType().equals(ABAbilityBuilderType.INHERIT)) {
 						inheritingCompatAbilities.add(behavior);
-					} else if (behavior.getType().equals(AbilityBuilderType.TEMPLATE)) {
-						for (AbilityBuilderDupe dupe : behavior.getIds()) {
+					} else if (behavior.getType().equals(ABAbilityBuilderType.TEMPLATE)) {
+						for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
 							if (all || WarsmashConstants.ABILITY_COMPATIBILITY.contains(dupe.getId())) {
 								previousAbilityParsers.put(dupe.getId(), behavior);
 								this.codeToAbilityTypeDefinition.put(War3ID.fromString(dupe.getId()),
-										new CAbilityTypeDefinitionAbilityTemplateBuilder(behavior));
+										new ABAbilityBuilderTemplateTypeDefinition(behavior));
 							}
 						}
 					} else {
-						for (AbilityBuilderDupe dupe : behavior.getIds()) {
+						for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
 							if (all || WarsmashConstants.ABILITY_COMPATIBILITY.contains(dupe.getId())) {
 								previousAbilityParsers.put(dupe.getId(), behavior);
-								AbilityBuilderConfiguration config = new AbilityBuilderConfiguration(behavior, dupe);
+								ABAbilityBuilderConfiguration config = new ABAbilityBuilderConfiguration(behavior, dupe);
 								this.codeToAbilityTypeDefinition.put(War3ID.fromString(config.getId()),
 										config.createDefinition());
 							}
@@ -371,31 +374,31 @@ public class CAbilityData {
 				}, "abilityBehaviors_compatibility");
 				
 				prevIter = 1;
-				List<AbilityBuilderParser> loopInheritingCompatAbilities = inheritingCompatAbilities;
+				List<ABAbilityBuilderParser> loopInheritingCompatAbilities = inheritingCompatAbilities;
 				while (loopInheritingCompatAbilities.size() > 0) {
-					List<AbilityBuilderParser> iter = loopInheritingCompatAbilities;
+					List<ABAbilityBuilderParser> iter = loopInheritingCompatAbilities;
 					loopInheritingCompatAbilities = new ArrayList<>();
 					
 					if (prevIter == 0) {
-						for (AbilityBuilderParser parser : iter) {
+						for (ABAbilityBuilderParser parser : iter) {
 							System.err.println("Couldn't parse INHERIT ability due to no parent ability definition: " + parser.getIds().get(0).getId());
 						}
 						break;
 					}
 					prevIter = 0;
 					
-					for (AbilityBuilderParser parser : iter) {
+					for (ABAbilityBuilderParser parser : iter) {
 						if (parser.getParentId() == null) {
 							System.err.println("Couldn't parse INHERIT ability due to missing parent ID: " + parser.getIds().get(0).getId());
 							continue;
 						}
-						AbilityBuilderParser parent = previousAbilityParsers.get(parser.getParentId());
+						ABAbilityBuilderParser parent = previousAbilityParsers.get(parser.getParentId());
 						if (parent != null) {
 							parser.updateFromParent(parent);
-							for (AbilityBuilderDupe dupe : parser.getIds()) {
+							for (ABAbilityBuilderDupe dupe : parser.getIds()) {
 								if (all || WarsmashConstants.ABILITY_COMPATIBILITY.contains(dupe.getId())) {
 									previousAbilityParsers.put(dupe.getId(), parser);
-									AbilityBuilderConfiguration config = new AbilityBuilderConfiguration(parser, dupe);
+									ABAbilityBuilderConfiguration config = new ABAbilityBuilderConfiguration(parser, dupe);
 									this.codeToAbilityTypeDefinition.put(War3ID.fromString(config.getId()),
 											config.createDefinition());
 									prevIter++;
@@ -421,7 +424,7 @@ public class CAbilityData {
 		this.codeToAbilityTypeDefinition.put(war3id, whichAbilityType);
 	}
 
-	public void registerAbilityBuilderType(final War3ID war3id, final AbilityBuilderConfiguration configuration) {
+	public void registerAbilityBuilderType(final War3ID war3id, final ABAbilityBuilderConfiguration configuration) {
 		this.codeToAbilityTypeDefinition.put(war3id, configuration.createDefinition());
 	}
 

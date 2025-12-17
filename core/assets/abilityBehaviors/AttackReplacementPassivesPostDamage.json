@@ -37,7 +37,7 @@
 							"type": "getDamageTypeFromString",
 							"id": {
 								"type": "rawString",
-								"value": "ENHANCED"
+								"value": "SONIC"
 							}
 						},
 						"damage": {
@@ -238,7 +238,7 @@
 						"damage": {
 							"type": "f*",
 							"value1": {
-								"type": "getTotalDamageDealt"
+								"type": "getFinalTotalDamageDealt"
 							},
 							"value2": {
 								"type": "getAbilityDataAsFloat",

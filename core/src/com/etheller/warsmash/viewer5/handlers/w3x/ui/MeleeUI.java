@@ -163,7 +163,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.upgrade.CAbilityUpgrade;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.ability.AbilityBuilderActiveAbility;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.ABAbilityBuilderActiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDefenseType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CUpgradeClass;
@@ -2258,7 +2258,7 @@ public class MeleeUI implements CUnitStateListener, CommandButtonListener, Comma
 		}
 
 		@Override
-		public Void accept(final AbilityBuilderActiveAbility ability) {
+		public Void accept(final ABAbilityBuilderActiveAbility ability) {
 			final float uiAreaOfEffect = ability.getUIAreaOfEffect();
 			if (Float.isNaN(uiAreaOfEffect)) {
 				handleTargetCursor(ability);

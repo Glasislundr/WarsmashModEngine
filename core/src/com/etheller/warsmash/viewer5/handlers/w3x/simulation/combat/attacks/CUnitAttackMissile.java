@@ -11,10 +11,10 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetWidgetVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CWeaponType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListenerDamageModResult;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.replacement.CUnitAttackSettings;
 
 public class CUnitAttackMissile extends CUnitAttack {
@@ -83,6 +83,10 @@ public class CUnitAttackMissile extends CUnitAttack {
 		this.projectileSpeed = projectileSpeed;
 	}
 
+	public CDamageFlags getBaseAttackDamageFlags() {
+		return ATTACK_FLAGS;
+	}
+
 	@Override
 	public void launch(final CSimulation simulation, final CUnit unit, final AbilityTarget target, final float damage,
 			final CUnitAttackListener attackListener) {
@@ -96,14 +100,12 @@ public class CUnitAttackMissile extends CUnitAttack {
 			final CUnitAttackListener attackListener, final CUnitAttackSettings settings) {
 		final CWidget widget = target.visit(AbilityTargetWidgetVisitor.INSTANCE);
 		if (widget != null) {
-			CUnitAttackPreDamageListenerDamageModResult modDamage = runPreDamageListeners(cSimulation, source, target,
+			CDamageCalculation modDamage = runPreDamageListeners(cSimulation, source, target,
 					target.visit(AbilityTargetVisitor.POINT) != null ? target.visit(AbilityTargetVisitor.POINT)
 							: new AbilityPointTarget(x, y),
 					damage, settings);
-			float damageDealt = widget.damage(cSimulation, source, damageFlags, getAttackType(),
-					getWeaponType().getDamageType(), getWeaponSound(), modDamage.computeFinalDamage(),
-					modDamage.getBonusDamage());
-			runPostDamageListeners(cSimulation, source, target, damageDealt, settings);
+			widget.damage(cSimulation, modDamage);
+			runPostDamageListeners(cSimulation, target, modDamage, settings);
 			attackListener.onHit(target, damage);
 		}
 	}

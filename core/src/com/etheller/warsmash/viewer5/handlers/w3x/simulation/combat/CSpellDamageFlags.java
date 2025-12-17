@@ -6,6 +6,15 @@ public class CSpellDamageFlags extends CBaseDamageFlags {
 		super();
 		this.setRanged(true);
 	}
+	
+	private CSpellDamageFlags(CSpellDamageFlags base) {
+		super(base);
+	}
+	
+	@Override
+	public CDamageFlags copy() {
+		return new CSpellDamageFlags(this);
+	}
 
 	@Override
 	public boolean isAttack() {

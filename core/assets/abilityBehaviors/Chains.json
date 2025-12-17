@@ -67,6 +67,13 @@
 							"type": "rawString",
 							"value": "amount"
 						}
+					},
+					"damageType": {
+						"type": "getDamageTypeFromString",
+						"id": {
+							"type": "rawString",
+							"value": "LIGHTNING"
+						}
 					}
 				},{
 					"type": "storeValueLocally",

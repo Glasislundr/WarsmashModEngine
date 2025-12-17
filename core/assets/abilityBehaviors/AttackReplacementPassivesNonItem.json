@@ -25,6 +25,20 @@
 						"value": {
 							"type": "getAbilityDataAsFloat",
 							"dataField": "C"
+						},
+						"attackType": {
+							"type": "getAttackTypeFromString",
+							"id": {
+								"type": "rawString",
+								"value": "SPELLS"
+							}
+						},
+						"damageType": {
+							"type": "getDamageTypeFromString",
+							"id": {
+								"type": "rawString",
+								"value": "MAGIC"
+							}
 						}
 					},{
 						"type": "if",
@@ -412,6 +426,13 @@
 									"type": "rawString",
 									"value": "incinerate"
 								}
+							},
+							"damageType": {
+								"type": "getDamageTypeFromString",
+								"id": {
+									"type": "rawString",
+									"value": "FIRE"
+								}
 							}
 					}],
 					"elseActions": [{
@@ -419,6 +440,13 @@
 						"value": {
 							"type": "getAbilityDataAsFloat",
 							"dataField": "A"
+						},
+						"damageType": {
+							"type": "getDamageTypeFromString",
+							"id": {
+								"type": "rawString",
+								"value": "FIRE"
+							}
 						}
 					}]
 				},{

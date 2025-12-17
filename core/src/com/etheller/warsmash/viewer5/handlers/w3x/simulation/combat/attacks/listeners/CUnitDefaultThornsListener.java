@@ -3,6 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.lis
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CSpellDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CDamageType;
@@ -21,16 +22,24 @@ public class CUnitDefaultThornsListener implements CUnitAttackDamageTakenListene
 	}
 
 	@Override
-	public void onDamage(final CSimulation simulation, CUnit attacker, CUnit target, final CDamageFlags flags,
-			CDamageType damageType, float damage, float bonusDamage, float trueDamage) {
-		if (damageType == CDamageType.NORMAL && !flags.isRanged() && target.canBeTargetedBy(simulation, attacker, ENEMY_TARGET)
+	public int getPriority(CSimulation simulation, CUnit target, CDamageCalculation damage) {
+		return 0;
+	}
+
+	@Override
+	public void onDamage(CSimulation simulation, CUnit target, CDamageCalculation damage) {
+		if (damage.getSource() != null && damage.getPrimaryDamageType() == CDamageType.NORMAL
+				&& !damage.getPrimaryDamageFlags().isRanged()
+				&& target.canBeTargetedBy(simulation, damage.getSource(), ENEMY_TARGET)
+				&& damage.computeRawTotalDamage() > 0
 				&& (!simulation.getGameplayConstants().isMagicImmuneResistsThorns()
-						|| !attacker.isUnitType(CUnitTypeJass.MAGIC_IMMUNE))) {
+						|| !damage.getSource().isUnitType(CUnitTypeJass.MAGIC_IMMUNE))) {
 			float thornsAmount = amount;
 			if (percentage) {
-				thornsAmount *= damage;
+				thornsAmount *= damage.getPrimaryAmount();
+				thornsAmount = Math.max(thornsAmount, 1);
 			}
-			attacker.damage(simulation, target, DAMAGE_FLAGS, CAttackType.SPELLS, CDamageType.DEFENSIVE,
+			damage.getSource().damage(simulation, target, DAMAGE_FLAGS, CAttackType.SPELLS, CDamageType.DEFENSIVE,
 					CWeaponSoundTypeJass.WHOKNOWS.name(), thornsAmount);
 		}
 	}

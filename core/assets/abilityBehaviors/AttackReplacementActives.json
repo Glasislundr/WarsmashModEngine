@@ -14,6 +14,13 @@
 				"value": {
 					"type": "getAbilityDataAsFloat",
 					"dataField": "A"
+				},
+				"damageType": {
+					"type": "getDamageTypeFromString",
+					"id": {
+						"type": "rawString",
+						"value": "FIRE"
+					}
 				}
 			}]
 		},
@@ -154,6 +161,13 @@
 					"value": {
 						"type": "getAbilityDataAsFloat",
 						"dataField": "A"
+					},
+					"damageType": {
+						"type": "getDamageTypeFromString",
+						"id": {
+							"type": "rawString",
+							"value": "FIRE"
+						}
 					}
 			}],
 			"onModify": [{
@@ -192,6 +206,13 @@
 					"value": {
 						"type": "getAbilityDataAsFloat",
 						"dataField": "A"
+					},
+					"damageType": {
+						"type": "getDamageTypeFromString",
+						"id": {
+							"type": "rawString",
+							"value": "MAGIC"
+						}
 					}
 				},{
 					"type": "createTimedBuff",
@@ -456,6 +477,13 @@
 					"value": {
 						"type": "getAbilityDataAsFloat",
 						"dataField": "A"
+					},
+					"damageType": {
+						"type": "getDamageTypeFromString",
+						"id": {
+							"type": "rawString",
+							"value": "COLD"
+						}
 					}
 				},{
 					"type": "createTimedBuff",
@@ -648,6 +676,13 @@
 									"type": "rawString",
 									"value": "incinerate"
 								}
+							},
+							"damageType": {
+								"type": "getDamageTypeFromString",
+								"id": {
+									"type": "rawString",
+									"value": "FIRE"
+								}
 							}
 					}],
 					"elseActions": [{
@@ -655,6 +690,13 @@
 						"value": {
 							"type": "getAbilityDataAsFloat",
 							"dataField": "A"
+						},
+						"damageType": {
+							"type": "getDamageTypeFromString",
+							"id": {
+								"type": "rawString",
+								"value": "FIRE"
+							}
 						}
 					}]
 				},{
@@ -909,6 +951,13 @@
 					"value": {
 						"type": "getAbilityDataAsFloat",
 						"dataField": "A"
+					},
+					"damageType": {
+						"type": "getDamageTypeFromString",
+						"id": {
+							"type": "rawString",
+							"value": "POISON"
+						}
 					}
 				},{
 					"type": "createTimedBuff",
@@ -1061,6 +1110,13 @@
 								"damage": {
 									"type": "getAbilityDataAsFloat",
 									"dataField": "B"
+								},
+								"damageType": {
+									"type": "getDamageTypeFromString",
+									"id": {
+										"type": "rawString",
+										"value": "POISON"
+									}
 								}
 							}],
 							"delaySeconds": {

@@ -1,7 +1,5 @@
 package com.etheller.warsmash.parsers.jass.scope;
 
-import java.util.Map;
-
 import com.etheller.interpreter.ast.scope.TriggerExecutionScope;
 import com.etheller.interpreter.ast.scope.trigger.Trigger;
 import com.etheller.warsmash.util.War3ID;
@@ -14,7 +12,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.COrderButton;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.COrderButton.JassOrderButtonType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.core.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayerJass;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.region.CRegion;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
@@ -90,7 +89,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 	private JassOrderButtonType spellAbilityTargetType; // Warsmash only
 	private COrderButton spellAbilityOrderCommandCard; // Warsmash only
 	private String enumFilePath; // Warsmash only
-	private Map<String, Object> triggerLocalStore; // warsmash only
+	private ABLocalDataStore triggerLocalStore; // warsmash only
 	private int triggerCastId; // Warsmash only
 	private float damageTaken;
 	private CUnit damageSource;
@@ -450,7 +449,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		return this.enumFilePath;
 	}
 
-	public Map<String, Object> getTriggerLocalStore() {
+	public ABLocalDataStore getTriggerLocalStore() {
 		return this.triggerLocalStore;
 	}
 
@@ -585,13 +584,14 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 	}
 
 	public static CommonTriggerExecutionScope unitDeathScope(final JassGameEventsWar3 triggerEventId,
-			final Trigger trigger, final CUnit dyingUnit, final CUnit killingUnit) {
+			final Trigger trigger, final CUnit dyingUnit, final CUnit killingUnit, final CPlayerJass player) {
 		final CommonTriggerExecutionScope scope = new CommonTriggerExecutionScope(trigger, TriggerExecutionScope.EMPTY);
 		scope.dyingUnit = dyingUnit;
 		scope.triggerWidget = dyingUnit;
 		scope.triggeringUnit = dyingUnit;
 		scope.killingUnit = killingUnit;
 		scope.triggerEventId = triggerEventId;
+		scope.triggeringPlayer = player;
 		return scope;
 	}
 
@@ -720,13 +720,14 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 	}
 
 	public static CommonTriggerExecutionScope unitResearchFinishScope(final JassGameEventsWar3 triggerEventId,
-			final Trigger trigger, final CUnit researchingUnit, final War3ID researched) {
+			final Trigger trigger, final CUnit researchingUnit, final War3ID researched, final CPlayerJass player) {
 		final CommonTriggerExecutionScope scope = new CommonTriggerExecutionScope(trigger, TriggerExecutionScope.EMPTY);
 		scope.triggerWidget = researchingUnit;
 		scope.triggeringUnit = researchingUnit;
 		scope.researchingUnit = researchingUnit;
 		scope.researched = researched.getValue();
 		scope.triggerEventId = triggerEventId;
+		scope.triggeringPlayer = player;
 		return scope;
 	}
 
@@ -928,7 +929,7 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		return scope;
 	}
 
-	public static TriggerExecutionScope abilityBuilder(final CUnit caster, final Map<String, Object> localStore,
+	public static TriggerExecutionScope abilityBuilder(final CUnit caster, final ABLocalDataStore localStore,
 			final int castId) {
 		final CommonTriggerExecutionScope scope = new CommonTriggerExecutionScope(null, TriggerExecutionScope.EMPTY);
 		scope.spellAbilityUnit = caster;
@@ -937,12 +938,16 @@ public class CommonTriggerExecutionScope extends TriggerExecutionScope {
 		scope.triggerCastId = castId;
 		// TODO: below: makes it easier on the outside, but it still is very bad for
 		// performance
-		scope.spellTargetUnit = (CUnit) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDUNIT + castId);
-		scope.spellTargetItem = (CItem) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDITEM + castId);
-		scope.spellTargetDestructable = (CDestructable) localStore
-				.get(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE + castId);
-		scope.spellTargetPoint = (AbilityPointTarget) localStore.get(ABLocalStoreKeys.ABILITYTARGETEDLOCATION + castId);
-		scope.spellAbility = (CAbility) localStore.get(ABLocalStoreKeys.ABILITY);
+		scope.spellTargetUnit = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDUNIT, castId), CUnit.class);
+		scope.spellTargetItem = localStore
+				.get(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDITEM, castId), CItem.class);
+		scope.spellTargetDestructable = localStore.get(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDDESTRUCTABLE, castId), CDestructable.class);
+		scope.spellTargetPoint = localStore.get(
+				ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ABILITYTARGETEDLOCATION, castId),
+				AbilityPointTarget.class);
+		scope.spellAbility = localStore.originAbility;
 		scope.spellAbilityId = (War3ID) localStore.get(ABLocalStoreKeys.ALIAS);
 		return scope;
 	}

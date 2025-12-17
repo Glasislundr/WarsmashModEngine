@@ -7,5 +7,14 @@ public class CGenericDamageFlags extends CBaseDamageFlags {
 		this.setAttack(attack);
 		this.setRanged(ranged);
 	}
+	
+	private CGenericDamageFlags(CGenericDamageFlags base) {
+		super(base);
+	}
+	
+	@Override
+	public CDamageFlags copy() {
+		return new CGenericDamageFlags(this);
+	}
 
 }

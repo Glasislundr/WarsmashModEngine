@@ -54,8 +54,8 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.nightelf.
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityPointTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTargetVisitor;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.ABGenericTimedBuff;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.buff.CPausedTickingBuff;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.ABGenericTimedBuff;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.CPausedTickingBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.BehaviorAbilityVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.BehaviorTargetUnitVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CBehavior;
@@ -73,6 +73,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.CRangedBe
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.build.AbilityDisableWhileUpgradingVisitor;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors.harvest.CBehaviorReturnResources;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageFlags;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDefenseType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CRegenType;
@@ -81,9 +82,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CWeaponType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUnitAttack;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackDamageTakenListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackDamageTakenModificationListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackDamageTakenModificationListenerDamageModResult;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackEvasionListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackFinalDamageTakenModificationListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPostDamageListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitAttackPreDamageListenerPriority;
@@ -94,7 +93,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.list
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDefaultAccuracyCheckListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDefaultEtherealDamageModListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDefaultLifestealListener;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDefaultMagicImmuneDamageModListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDefaultSleepListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDefaultThornsListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.replacement.CUnitAttackModifier;
@@ -284,7 +282,6 @@ public class CUnit extends CWidget {
 	private final Map<CUnitAttackPreDamageListenerPriority, List<CUnitAttackPreDamageListener>> preDamageListeners = new HashMap<>();
 	private final List<CUnitAttackPostDamageListener> postDamageListeners = new ArrayList<>();
 	private final List<CUnitAttackDamageTakenModificationListener> damageTakenModificationListeners = new ArrayList<>();
-	private final List<CUnitAttackFinalDamageTakenModificationListener> finalDamageTakenModificationListeners = new ArrayList<>();
 	private final List<CUnitAttackDamageTakenListener> damageTakenListeners = new ArrayList<>();
 	private final Map<CUnitDeathReplacementEffectPriority, List<CUnitDeathReplacementEffect>> deathReplacementEffects = new HashMap<>();
 	private final List<CUnitAttackEvasionListener> evasionListeners = new ArrayList<>();
@@ -323,7 +320,6 @@ public class CUnit extends CWidget {
 	private boolean constructionBlocked;
 
 	private List<String> uniqueFlags = null;
-
 
 	public CUnit(final int handleId, final int playerIndex, final float x, final float y, final float life,
 			final War3ID typeId, final float facing, final float mana, final int maximumLife, final float lifeRegen,
@@ -815,17 +811,6 @@ public class CUnit extends CWidget {
 				}
 			}
 			setMagicImmune(isMagicImmune);
-			if (isMagicImmune) {
-				if (!this.finalDamageTakenModificationListeners
-						.contains(CUnitDefaultMagicImmuneDamageModListener.INSTANCE)) {
-					addFinalDamageTakenModificationListener(CUnitDefaultMagicImmuneDamageModListener.INSTANCE);
-				}
-			} else {
-				if (this.finalDamageTakenModificationListeners
-						.contains(CUnitDefaultMagicImmuneDamageModListener.INSTANCE)) {
-					removeFinalDamageTakenModificationListener(CUnitDefaultMagicImmuneDamageModListener.INSTANCE);
-				}
-			}
 			break;
 		case MORPH_IMMUNE:
 			boolean isMorphImmune = false;
@@ -3242,13 +3227,11 @@ public class CUnit extends CWidget {
 		return groundDistance;
 	}
 
-	public boolean checkForMiss(final CSimulation simulation, final CUnit source, final boolean isAttack,
-			final boolean isRanged, final CAttackType attackType, final CDamageType damageType, final float damage,
-			final float bonusDamage) {
+	public boolean checkForMiss(final CSimulation simulation, final CDamageCalculation damage) {
 		boolean miss = false;
-		if (isAttack) {
+		if (damage.getPrimaryDamageFlags().isAttack()) {
 			for (final CUnitAttackEvasionListener listener : new ArrayList<>(this.evasionListeners)) {
-				miss = miss || listener.onAttack(simulation, source, this, isAttack, isRanged, damageType);
+				miss = miss || listener.onAttack(simulation, this, damage);
 			}
 		}
 		return miss;
@@ -3372,13 +3355,10 @@ public class CUnit extends CWidget {
 	public float damage(final CSimulation simulation, final CUnit source, final CDamageFlags flags,
 			final CAttackType attackType, final CDamageType damageType, final String weaponSoundType,
 			final float damage) {
-		return this.damage(simulation, source, flags, attackType, damageType, weaponSoundType, damage, 0);
-	}
-
-	@Override
-	public float damage(final CSimulation simulation, final CUnit source, final CDamageFlags flags,
-			final CAttackType attackType, final CDamageType damageType, final String weaponSoundType,
-			final float damage, final float bonusDamage) {
+		if (!(this.damageTakenModificationListeners.isEmpty() && this.damageTakenListeners.isEmpty())) {
+			return this.damage(simulation,
+					new CDamageCalculation(source, damage, attackType, damageType, flags, weaponSoundType));
+		}
 		final boolean wasDead = isDead();
 		if (wasDead) {
 			return 0;
@@ -3391,60 +3371,129 @@ public class CUnit extends CWidget {
 				&& simulation.getGameplayConstants().isInvulnerableSummonsTakeDispelDamage()
 				&& this.isUnitType(CUnitTypeJass.SUMMONED))))) {
 
-			final CUnitAttackDamageTakenModificationListenerDamageModResult result = new CUnitAttackDamageTakenModificationListenerDamageModResult(
-					damage, bonusDamage);
-			for (final CUnitAttackDamageTakenModificationListener listener : this.damageTakenModificationListeners) {
-				listener.onDamage(simulation, source, this, flags, attackType, damageType, result);
-			}
+			trueDamage = CDamageCalculation.calculateDamageByArmor(simulation, this, attackType, damageType, damage,
+					flags);
 
-			final float damageRatioFromArmorClass = simulation.getGameplayConstants().getDamageRatioAgainst(attackType,
-					(this.isBuilding() && this.isConstructing()) ? CDefenseType.NORMAL : getDefenseType());
-			final float damageRatioFromDefense;
-			final float defense = this.currentDefense;
-			if (damageType != CDamageType.NORMAL || (this.isBuilding() && this.isConstructing())) {
-				damageRatioFromDefense = 1.0f;
-			} else if (defense >= 0) {
-				damageRatioFromDefense = 1f - ((defense * simulation.getGameplayConstants().getDefenseArmor())
-						/ (1 + (simulation.getGameplayConstants().getDefenseArmor() * defense)));
-			} else {
-				damageRatioFromDefense = 2f
-						- (float) StrictMath.pow(1f - simulation.getGameplayConstants().getDefenseArmor(), -defense);
-			}
-			trueDamage = damageRatioFromArmorClass * damageRatioFromDefense * result.computeFinalDamage();
+			this.callPreDamageEvents(source, trueDamage);
 
-			for (final CUnitAttackFinalDamageTakenModificationListener listener : new ArrayList<>(
-					this.finalDamageTakenModificationListeners)) {
-				trueDamage = listener.onDamage(simulation, source, this, flags, attackType, damageType, trueDamage);
-			}
+			this.damageModifyHp(trueDamage, flags.isNonlethal());
+		}
+		this.callPostDamageEvents(simulation, wasDead, source, flags.isExplode(), weaponSoundType);
+		return trueDamage;
+	}
 
-			final List<CWidgetEvent> eventList = getEventList(JassGameEventsWar3.EVENT_UNIT_DAMAGED);
-			if (eventList != null) {
-				for (final CWidgetEvent event : eventList) {
-					event.fire(this, CommonTriggerExecutionScope.unitDamageTakenScope(
-							JassGameEventsWar3.EVENT_UNIT_DAMAGED, event.getTrigger(), this, source, trueDamage));
+	@Override
+	public float damage(final CSimulation simulation, final CDamageCalculation damage) {
+		final boolean wasDead = isDead();
+		if (wasDead) {
+			return 0;
+		}
+		if (damage.isImmuneToDamage(simulation, this)) {
+			return 0;
+		}
+		float trueDamage = 0;
+
+		damage.resetLoop();
+		int maxPriority = 0;
+		int priorityMask = 0;
+		int i = 0;
+		boolean firstLoop = true;
+		while (i <= maxPriority) {
+			if (i == 0 || (priorityMask & (1 << (i < 31 ? i : 31))) != 0) {
+				damage.startLoop(i);
+				for (int j = this.damageTakenModificationListeners.size() - 1; j >= 0; j--) {
+					CUnitAttackDamageTakenModificationListener listener = this.damageTakenModificationListeners.get(j);
+					int prio = listener.getPriority(simulation, this, damage);
+					if (firstLoop) {
+						if (prio > maxPriority) {
+							maxPriority = prio;
+						}
+						priorityMask |= 1 << (prio < 31 ? prio : 31);
+					}
+					if (prio == i && !damage.isSkipCurrentLevel()) {
+						damage.applyMultiplier();
+						listener.onDamage(simulation, this, damage);
+					}
+				}
+				if (damage.isEndLoop()) {
+					break;
 				}
 			}
+			i++;
+			firstLoop = false;
+		}
 
-			final boolean wasAboveMax = this.life > this.maximumLife;
-			this.life -= trueDamage;
-			if ((result.computeFinalDamage() < 0) && !wasAboveMax && (this.life > this.maximumLife)) {
-				// NOTE wasAboveMax is for that weird life drain power to drain above max... to
-				// be honest that's a crazy mechanic anyway so I didn't test whether it works
-				// yet
-				this.life = this.maximumLife;
+		trueDamage = damage.computeFinalDamage(simulation, this);
+
+		this.callPreDamageEvents(damage.getSource(), trueDamage);
+
+		this.damageModifyHp(trueDamage, false);
+
+		damage.resetLoop();
+		maxPriority = 0;
+		priorityMask = 0;
+		i = 0;
+		firstLoop = true;
+		while (i <= maxPriority) {
+			if (i == 0 || (priorityMask & (1 << (i < 31 ? i : 31))) != 0) {
+				damage.startLoop(i);
+				for (int j = this.damageTakenListeners.size() - 1; j >= 0; j--) {
+					CUnitAttackDamageTakenListener listener = this.damageTakenListeners.get(j);
+					int prio = listener.getPriority(simulation, this, damage);
+					if (firstLoop) {
+						if (prio > maxPriority) {
+							maxPriority = prio;
+						}
+						priorityMask |= 1 << (prio < 31 ? prio : 31);
+					}
+					if (prio == i && !damage.isSkipCurrentLevel()) {
+						listener.onDamage(simulation, this, damage);
+					}
+				}
+				if (damage.isEndLoop()) {
+					break;
+				}
 			}
-			if (flags.isNonlethal() && this.life < 1) {
-				this.life = 1;
+			i++;
+			firstLoop = false;
+		}
+
+		this.callPostDamageEvents(simulation, wasDead, damage.getSource(), damage.isExplode(),
+				damage.getWeaponSoundType());
+		return trueDamage;
+	}
+
+	private void callPreDamageEvents(CUnit source, float damage) {
+		final List<CWidgetEvent> eventList = getEventList(JassGameEventsWar3.EVENT_UNIT_DAMAGED);
+		if (eventList != null) {
+			for (final CWidgetEvent event : eventList) {
+				event.fire(this, CommonTriggerExecutionScope.unitDamageTakenScope(JassGameEventsWar3.EVENT_UNIT_DAMAGED,
+						event.getTrigger(), this, source, damage));
 			}
-			this.stateNotifier.lifeChanged();
 		}
-		for (final CUnitAttackDamageTakenListener listener : new ArrayList<>(this.damageTakenListeners)) {
-			listener.onDamage(simulation, source, this, flags, damageType, damage, bonusDamage, trueDamage);
+	}
+
+	private void damageModifyHp(float trueDamage, boolean isNonLethal) {
+		final boolean wasAboveMax = this.life > this.maximumLife;
+		this.life -= trueDamage;
+		if ((trueDamage < 0) && !wasAboveMax && (this.life > this.maximumLife)) {
+			// NOTE wasAboveMax is for that weird life drain power to drain above max... to
+			// be honest that's a crazy mechanic anyway so I didn't test whether it works
+			// yet
+			this.life = this.maximumLife;
 		}
+		if (isNonLethal && this.life < 1) {
+			this.life = 1;
+		}
+		this.stateNotifier.lifeChanged();
+	}
+
+	private void callPostDamageEvents(CSimulation simulation, boolean wasDead, CUnit source, final boolean isExplode,
+			String weaponSoundType) {
 		simulation.unitDamageEvent(this, weaponSoundType, this.unitType.getArmorType());
 		if (isDead()) {
 			if (!wasDead) {
-				if (flags.isExplode()) {
+				if (isExplode) {
 					this.setExplodesOnDeath(true);
 				}
 				kill(simulation, source);
@@ -3480,7 +3529,6 @@ public class CUnit extends CWidget {
 				}
 			}
 		}
-		return trueDamage;
 	}
 
 	private void kill(final CSimulation simulation, final CUnit source) {
@@ -3626,7 +3674,7 @@ public class CUnit extends CWidget {
 		if (eventList != null) {
 			for (final CWidgetEvent event : eventList) {
 				event.fire(this, CommonTriggerExecutionScope.unitDeathScope(JassGameEventsWar3.EVENT_UNIT_DEATH,
-						event.getTrigger(), this, source));
+						event.getTrigger(), this, source, simulation.getPlayer(this.playerIndex)));
 			}
 		}
 		simulation.getPlayer(this.playerIndex).fireUnitDeathEvents(this, source);
@@ -5117,9 +5165,12 @@ public class CUnit extends CWidget {
 			return isBuilding();
 
 		case FLYING:
-			return this.targetedAs.contains(CTargetType.AIR);
+			return this.unitType.getMovementType() == PathingGrid.MovementType.FLY;
 		case GROUND:
-			return this.targetedAs.contains(CTargetType.GROUND);
+			return this.unitType.getMovementType() == PathingGrid.MovementType.FOOT
+					|| this.unitType.getMovementType() == PathingGrid.MovementType.FOOT_NO_COLLISION
+					|| this.unitType.getMovementType() == PathingGrid.MovementType.HORSE
+					|| this.unitType.getMovementType() == PathingGrid.MovementType.HOVER;
 
 		case ATTACKS_FLYING:
 			for (final CUnitAttack attack : getCurrentAttacks()) {
@@ -5721,7 +5772,7 @@ public class CUnit extends CWidget {
 			for (int i = eventList.size() - 1; i >= 0; i--) {
 				CWidgetEvent event = eventList.get(i);
 				event.fire(this, CommonTriggerExecutionScope.unitResearchFinishScope(
-						JassGameEventsWar3.EVENT_UNIT_RESEARCH_FINISH, event.getTrigger(), this, researched));
+						JassGameEventsWar3.EVENT_UNIT_RESEARCH_FINISH, event.getTrigger(), this, researched, game.getPlayer(this.playerIndex)));
 			}
 		}
 		game.getPlayer(this.playerIndex).fireResearchFinishEvents(this, game, researched);
@@ -5964,16 +6015,6 @@ public class CUnit extends CWidget {
 
 	public void removeDamageTakenModificationListener(final CUnitAttackDamageTakenModificationListener listener) {
 		this.damageTakenModificationListeners.remove(listener);
-	}
-
-	public void addFinalDamageTakenModificationListener(
-			final CUnitAttackFinalDamageTakenModificationListener listener) {
-		this.finalDamageTakenModificationListeners.add(0, listener);
-	}
-
-	public void removeFinalDamageTakenModificationListener(
-			final CUnitAttackFinalDamageTakenModificationListener listener) {
-		this.finalDamageTakenModificationListeners.remove(listener);
 	}
 
 	public void addDamageTakenListener(final CUnitAttackDamageTakenListener listener) {

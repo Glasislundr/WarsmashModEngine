@@ -193,6 +193,13 @@
 									"damage": {
 										"type": "getAbilityDataAsFloat",
 										"dataField": "A"
+									},
+									"damageType": {
+										"type": "getDamageTypeFromString",
+										"id": {
+											"type": "rawString",
+											"value": "UNIVERSAL"
+										}
 									}
 								}],
 								"delaySeconds": {
@@ -582,6 +589,13 @@
 											"damage": {
 												"type": "getAbilityDataAsFloat",
 												"dataField": "A"
+											},
+											"damageType": {
+												"type": "getDamageTypeFromString",
+												"id": {
+													"type": "rawString",
+													"value": "POISON"
+												}
 											}
 										}],
 										"delaySeconds": {

@@ -1,7 +1,7 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.behaviors;
 
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorAbilityBuilderBase;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilitybuilder.behavior.CBehaviorAbilityBuilderNoTarget;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderBase;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderNoTarget;
 
 public class BehaviorNextBehaviorVisitor implements CBehaviorVisitor<CRangedBehavior> {
 	public static final BehaviorNextBehaviorVisitor INSTANCE = new BehaviorNextBehaviorVisitor();
@@ -22,12 +22,12 @@ public class BehaviorNextBehaviorVisitor implements CBehaviorVisitor<CRangedBeha
 	}
 
 	@Override
-	public CRangedBehavior accept(CBehaviorAbilityBuilderBase target) {
+	public CRangedBehavior accept(ABBehaviorAbilityBuilderBase target) {
 		return null;
 	}
 
 	@Override
-	public CRangedBehavior accept(CBehaviorAbilityBuilderNoTarget target) {
+	public CRangedBehavior accept(ABBehaviorAbilityBuilderNoTarget target) {
 		return null;
 	}
 	

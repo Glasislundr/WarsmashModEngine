@@ -1105,6 +1105,9 @@ public class CUnitData {
 			final GameObject unitType) {
 		CUnitType unitTypeInstance = this.unitIdToUnitType.get(typeId);
 		if (unitTypeInstance == null) {
+			unitTypeInstance = this.unitIdToUnitTypeLightweight.get(typeId);
+		}
+		if (unitTypeInstance == null) {
 			final String legacyName = getLegacyName(unitType);
 			final int life = unitType.getFieldAsInteger(HIT_POINT_MAXIMUM, 0);
 			final float lifeRegen = unitType.getFieldAsFloat(HIT_POINT_REGEN, 0);

@@ -6,6 +6,15 @@ public class CAttackDamageFlags extends CBaseDamageFlags {
 		super();
 		this.setRanged(ranged);
 	}
+	
+	private CAttackDamageFlags(CAttackDamageFlags base) {
+		super(base);
+	}
+	
+	@Override
+	public CDamageFlags copy() {
+		return new CAttackDamageFlags(this);
+	}
 
 	@Override
 	public boolean isAttack() {

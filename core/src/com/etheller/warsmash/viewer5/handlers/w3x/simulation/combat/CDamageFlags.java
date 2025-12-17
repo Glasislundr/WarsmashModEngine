@@ -30,4 +30,6 @@ public interface CDamageFlags {
 
 	void setPassLimitedMagicImmune(boolean limitedMagicImmune);
 
+	CDamageFlags copy();
+
 }

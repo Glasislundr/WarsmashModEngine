@@ -55,16 +55,16 @@
 										"target": {
 											"type": "getBuffedUnit"
 										},
+										"damage": {
+											"type": "getAbilityDataAsFloat",
+											"dataField": "E"
+										},
 										"damageType": {
 											"type": "getDamageTypeFromString",
 											"id": {
 												"type": "rawString",
-												"value": "SHADOW_STRIKE"
+												"value": "SLOW_POISON"
 											}
-										},
-										"damage": {
-											"type": "getAbilityDataAsFloat",
-											"dataField": "E"
 										}
 									},{
 										"type": "createNumericFloatingTextOnUnit",

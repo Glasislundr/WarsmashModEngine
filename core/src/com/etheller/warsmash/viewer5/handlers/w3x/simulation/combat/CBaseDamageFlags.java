@@ -14,6 +14,10 @@ public abstract class CBaseDamageFlags implements CDamageFlags {
 	public CBaseDamageFlags() {
 	}
 
+	protected CBaseDamageFlags(CBaseDamageFlags base) {
+		this.flags = base.flags;
+	}
+
 	@Override
 	public boolean isAttack() {
 		return (this.flags & ATTACK) != 0;

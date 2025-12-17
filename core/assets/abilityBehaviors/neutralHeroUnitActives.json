@@ -13,7 +13,7 @@
 			}
 		},
 		"onAddAbility": [{
-				"type": "createFinalDamageTakenModificationListener",
+				"type": "createDamageTakenModificationListener",
 				"actions": [{
 						"type": "storeValueLocally",
 						"key": {
@@ -21,7 +21,7 @@
 							"value": "maxAbsorb"
 						},
 						"valueToStore": {
-							"type": "f/",
+							"type": "f*",
 							"value1": {
 								"type": "getUnitCurrentMana",
 								"unit": {
@@ -40,7 +40,7 @@
 							"value1": {
 								"type": "f*",
 								"value1": {
-									"type": "getTotalDamageDealt"
+									"type": "getRawTotalDamageDealt"
 								},
 								"value2": {
 									"type": "getAbilityDataAsFloat",
@@ -82,11 +82,11 @@
 									"type": "getListenerUnit"
 								},
 								"amount": {
-									"type": "f*",
+									"type": "f/",
 									"value1": {
 										"type": "f*",
 										"value1": {
-											"type": "getTotalDamageDealt"
+											"type": "getRawTotalDamageDealt"
 										},
 										"value2": {
 											"type": "getAbilityDataAsFloat",
@@ -103,7 +103,7 @@
 								"amount": {
 									"type": "f*",
 									"value1": {
-										"type": "getTotalDamageDealt"
+										"type": "getRawTotalDamageDealt"
 									},
 									"value2": {
 										"type": "getAbilityDataAsFloat",
@@ -135,12 +135,12 @@
 					"type": "getLastCreatedBuff"
 				}
 			},{
-				"type": "addFinalDamageTakenModificationListener",
-				"target": {
+				"type": "addDamageTakenModificationListener",
+				"targetUnit": {
 					"type": "getCastingUnit"
 				},
 				"listener": {
-					"type": "getLastCreatedFinalDamageTakenModificationListener"
+					"type": "getLastCreatedDamageTakenModificationListener"
 				}
 		}],
 		"onDeactivate": [{
@@ -152,12 +152,12 @@
 					"type": "getLastCreatedBuff"
 				}
 			},{
-				"type": "removeFinalDamageTakenModificationListener",
-				"target": {
+				"type": "removeDamageTakenModificationListener",
+				"targetUnit": {
 					"type": "getCastingUnit"
 				},
 				"listener": {
-					"type": "getLastCreatedFinalDamageTakenModificationListener"
+					"type": "getLastCreatedDamageTakenModificationListener"
 				}
 		}]
 	},{
