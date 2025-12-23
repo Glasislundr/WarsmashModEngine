@@ -49,6 +49,7 @@ import com.etheller.warsmash.parsers.fdf.datamodel.TextJustify;
 import com.etheller.warsmash.parsers.fdf.datamodel.Vector4Definition;
 import com.etheller.warsmash.parsers.fdf.frames.AbstractRenderableFrame;
 import com.etheller.warsmash.parsers.fdf.frames.AbstractUIFrame;
+import com.etheller.warsmash.parsers.fdf.frames.BuffIconTextureFrame;
 import com.etheller.warsmash.parsers.fdf.frames.FilterModeTextureFrame;
 import com.etheller.warsmash.parsers.fdf.frames.GlueTextButtonFrame;
 import com.etheller.warsmash.parsers.fdf.frames.SetPoint;
@@ -780,7 +781,7 @@ public class MeleeUI implements CUnitStateListener, CommandButtonListener, Comma
 					this.simpleInfoPanelUnitDetail);
 			buffBarIcon.setWidth(GameUI.convertX(this.uiViewport, 0.015f));
 			buffBarIcon.setHeight(GameUI.convertY(this.uiViewport, 0.015f));
-			final TextureFrame barIconTex = new TextureFrame("SmashBuffStatusBarIcon" + i + "Texture", buffBarIcon,
+			final BuffIconTextureFrame barIconTex = new BuffIconTextureFrame("SmashBuffStatusBarIcon" + i + "Texture", buffBarIcon,
 					false, TextureFrame.DEFAULT_TEX_COORDS);
 			barIconTex.setSetAllPoints(true);
 			buffBarIcon.setIconFrame(barIconTex);
@@ -3614,13 +3615,15 @@ public class MeleeUI implements CUnitStateListener, CommandButtonListener, Comma
 	}
 
 	@Override
-	public void buff(final Texture icon, final int level, final String tip, final String uberTip,
+	public BuffBarIcon buff(final Texture icon, final int level, final String tip, final String uberTip,
 			final boolean positive, final boolean leveled) {
 		if ((this.selectedUnit == null) || !this.selectedUnit.getSimulationUnit().isBuilding()) {
 			if (this.currentBuffBarIconIndex < this.buffBarIcons.length) {
 				this.buffBarIcons[this.currentBuffBarIconIndex++].set(icon, tip, uberTip, positive, leveled, level);
+				return this.buffBarIcons[this.currentBuffBarIconIndex-1];
 			}
 		}
+		return null;
 	}
 
 	@Override

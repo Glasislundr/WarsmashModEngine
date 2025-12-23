@@ -11,6 +11,7 @@ public abstract class ABGenericTimedBuff extends ABBuff {
 	private final float duration;
 	private int currentTick = 0;
 	private int expireTick;
+	private int gameStartTick = 0;
 
 	public ABGenericTimedBuff(int handleId, War3ID alias, ABLocalDataStore localStore, CAbility sourceAbility,
 			CUnit sourceUnit, float duration, boolean showTimedLifeBar, boolean leveled, boolean positive,
@@ -44,6 +45,7 @@ public abstract class ABGenericTimedBuff extends ABBuff {
 		} else {
 			final int durationTicks = (int) (this.duration / WarsmashConstants.SIMULATION_STEP_TIME);
 			expireTick = durationTicks;
+			this.gameStartTick = game.getGameTurnTick();
 		}
 	}
 
@@ -86,5 +88,11 @@ public abstract class ABGenericTimedBuff extends ABBuff {
 
 	public void updateExpiration(final CSimulation game, final CUnit unit) {
 		this.currentTick = 0;
+		this.gameStartTick = game.getGameTurnTick();
+	}
+
+	@Override
+	public int getExpireTick() {
+		return this.expireTick + this.gameStartTick;
 	}
 }

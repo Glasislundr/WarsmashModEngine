@@ -2,8 +2,10 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation;
 
 import java.util.Arrays;
 
+import com.etheller.warsmash.parsers.fdf.frames.BuffIconTextureFrame;
 import com.etheller.warsmash.units.DataTable;
 import com.etheller.warsmash.units.Element;
+import com.etheller.warsmash.util.WarsmashConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CAttackType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDefenseType;
 
@@ -33,12 +35,12 @@ public class CGameplayConstants {
 	private final float foggedAttackRevealRadius;
 
 	private final float defenseArmor;
-	
+
 	private final boolean canDisableDivineShield;
 
 	private final float[] etherealDamageBonus;
 	private final boolean etherealDamageBonusAlly;
-	
+
 	private final float frostAttackSpeedDecrease;
 	private final float frostMoveSpeedDecrease;
 
@@ -159,7 +161,7 @@ public class CGameplayConstants {
 		this.fogFlashTime = miscData.getFieldFloatValue("FogFlashTime");
 		this.dyingRevealRadius = miscData.getFieldFloatValue("DyingRevealRadius");
 		this.foggedAttackRevealRadius = miscData.getFieldFloatValue("FoggedAttackRevealRadius");
-		
+
 		this.canDisableDivineShield = miscData.getFieldValue("CanDeactivateDivineShield") != 0;
 
 		final CDefenseType[] defenseTypeOrder = { CDefenseType.SMALL, CDefenseType.MEDIUM, CDefenseType.LARGE,
@@ -222,7 +224,7 @@ public class CGameplayConstants {
 			}
 		}
 		this.etherealDamageBonusAlly = miscData.getFieldValue("EtherealDamageBonusAlly") != 0;
-		
+
 		this.frostAttackSpeedDecrease = miscData.getFieldFloatValue("FrostAttackSpeedDecrease");
 		this.frostMoveSpeedDecrease = miscData.getFieldFloatValue("FrostMoveSpeedDecrease");
 
@@ -332,6 +334,13 @@ public class CGameplayConstants {
 
 		this.chanceToMiss = miscData.getFieldFloatValue("ChanceToMiss");
 		this.missDamageReduction = miscData.getFieldFloatValue("MissDamageReduction");
+
+		if (miscData.hasField("FadeBuffMinDuration")) {
+			BuffIconTextureFrame.EXPIRE_DIF = (int) (miscData.getFieldFloatValue("FadeBuffMinDuration")
+					/ WarsmashConstants.SIMULATION_STEP_TIME);
+			BuffIconTextureFrame.MIN_ALPHA = miscData.getFieldFloatValue("FadeBuffMinAlpha")
+					/ miscData.getFieldFloatValue("FadeBuffMaxAlpha");
+		}
 	}
 
 	public float getAttackHalfAngle() {

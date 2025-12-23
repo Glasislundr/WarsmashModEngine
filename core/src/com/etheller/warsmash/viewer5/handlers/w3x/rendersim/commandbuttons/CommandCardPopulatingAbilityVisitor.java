@@ -1,10 +1,11 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.rendersim.commandbuttons;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.etheller.warsmash.parsers.fdf.GameUI;
+import com.etheller.warsmash.parsers.fdf.frames.BuffIconTextureFrame;
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.rendersim.ability.AbilityDataUI;
 import com.etheller.warsmash.viewer5.handlers.w3x.rendersim.ability.AbilityUI;
@@ -53,6 +54,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.CUni
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.orders.OrderIds;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CAllianceType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.CPlayer;
+import com.etheller.warsmash.viewer5.handlers.w3x.ui.BuffBarIcon;
 
 public class CommandCardPopulatingAbilityVisitor implements CAbilityVisitor<Void> {
 	private static final boolean ENABLE_PLACEHOLDERS = false;
@@ -69,7 +71,7 @@ public class CommandCardPopulatingAbilityVisitor implements CAbilityVisitor<Void
 	private final CommandCardActivationReceiverPreviewCallback previewCallback = new CommandCardActivationReceiverPreviewCallback();
 	private GameUI gameUI;
 	private boolean hasCancel;
-	private Set<String> buffVisibleGroups;
+	private Map<String, BuffBarIcon> buffVisibleGroups;
 
 	public CommandCardPopulatingAbilityVisitor reset(final CSimulation game, final GameUI gameUI, final CUnit unit,
 			final CommandButtonListener commandButtonListener, final AbilityDataUI abilityDataUI,
@@ -84,7 +86,7 @@ public class CommandCardPopulatingAbilityVisitor implements CAbilityVisitor<Void
 		this.localPlayerIndex = localPlayerIndex;
 		this.hasStop = false;
 		this.hasCancel = false;
-		this.buffVisibleGroups = new HashSet<>();
+		this.buffVisibleGroups = new HashMap<>();
 		this.previewCallback.setup(this.game.getUnitData(), this.game.getUpgradeData(), this.gameUI.getTemplates());
 		return this;
 	}
@@ -423,14 +425,30 @@ public class CommandCardPopulatingAbilityVisitor implements CAbilityVisitor<Void
 			} else {
 				if (buff.isIconShowing()) {
 					String group = buff.getVisibilityGroup();
-					if (group != null && this.buffVisibleGroups.contains(group)) {
-						return;
+					if (group != null) {
+						BuffBarIcon icon = this.buffVisibleGroups.get(group);
+						if (icon != null) {
+							if (icon.isLeveled() && buff.getLevel() > icon.getLevel()) {
+								icon.setIconFrameTexture(iconUI.getIcon());
+								icon.setLevel(buff.getLevel());
+								icon.setPositive(buff.isPositive());
+								icon.setToolTip(iconUI.getToolTip());
+								icon.setUberTip(iconUI.getUberTip());
+							}
+							if (buff.getExpireTick() > icon.getExpireTick()) {
+								icon.setExpireTick(this.game, buff.getExpireTick());
+							}
+							return;
+						}
 					}
 					if (iconUI != null) {
-						this.commandButtonListener.buff(iconUI.getIcon(), buff.getLevel(), iconUI.getToolTip(),
+						BuffBarIcon icon = this.commandButtonListener.buff(iconUI.getIcon(), buff.getLevel(), iconUI.getToolTip(),
 								iconUI.getUberTip(), buff.isPositive(), buff.isLeveled());
+						if (buff.getExpireTick() > 0) {
+							icon.setExpireTick(this.game, buff.getExpireTick());
+						}
+						this.buffVisibleGroups.put(group, icon);
 					}
-					this.buffVisibleGroups.add(group);
 				}
 			}
 		}

@@ -109,4 +109,9 @@ public abstract class CBuffTimed extends AbstractCBuff {
 		final int remaining = Math.max(0, this.expireTick - currentTick);
 		return remaining * WarsmashConstants.SIMULATION_STEP_TIME;
 	}
+	
+	@Override
+	public int getExpireTick() {
+		return this.expireTick;
+	}
 }

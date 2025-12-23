@@ -93,6 +93,12 @@ public class CBuffJass extends AbstractCBuff implements CBuff {
 				"getDurationRemaining", IntegerJassValue.ZERO);
 		return value.visit(IntegerJassValueVisitor.getInstance());
 	}
+	
+	@Override
+	public int getExpireTick() {
+		//TODO
+		return 0;
+	}
 
 	@Override
 	public float getDurationMax() {

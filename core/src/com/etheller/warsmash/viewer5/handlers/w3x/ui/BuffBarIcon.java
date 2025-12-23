@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.etheller.warsmash.parsers.fdf.GameUI;
-import com.etheller.warsmash.parsers.fdf.frames.TextureFrame;
+import com.etheller.warsmash.parsers.fdf.frames.BuffIconTextureFrame;
 import com.etheller.warsmash.parsers.fdf.frames.UIFrame;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.ui.command.AbstractClickableActionFrame;
 import com.etheller.warsmash.viewer5.handlers.w3x.ui.command.ClickableActionFrame;
 
 public class BuffBarIcon extends AbstractClickableActionFrame implements ClickableActionFrame {
-	private TextureFrame iconFrame;
+	private BuffIconTextureFrame iconFrame;
 
 	private String toolTip;
 	private String uberTip;
@@ -23,11 +24,16 @@ public class BuffBarIcon extends AbstractClickableActionFrame implements Clickab
 		super(name, parent);
 	}
 
-	public void setIconFrame(final TextureFrame iconFrame) {
+	public void setIconFrame(final BuffIconTextureFrame iconFrame) {
 		this.iconFrame = iconFrame;
 	}
 
-	public void set(final Texture texture, final String toolTip, final String uberTip, final boolean positive, final boolean leveled, final int level) {
+	public void setIconFrameTexture(final Texture texture) {
+		this.iconFrame.setTexture(texture);
+	}
+
+	public void set(final Texture texture, final String toolTip, final String uberTip, final boolean positive,
+			final boolean leveled, final int level) {
 		this.iconFrame.setTexture(texture);
 		this.positive = positive;
 		this.leveled = leveled;
@@ -40,6 +46,7 @@ public class BuffBarIcon extends AbstractClickableActionFrame implements Clickab
 	public void clear(/* final Texture texture */) {
 //		this.iconFrame.setTexture(texture);
 		setVisible(false);
+		this.iconFrame.clearExpireTick();
 //		setVisible(true);
 	}
 
@@ -93,6 +100,26 @@ public class BuffBarIcon extends AbstractClickableActionFrame implements Clickab
 		} else {
 			this.uberTip = "|c007d7d7dLevel:|r " + this.level;
 		}
+	}
+
+	public boolean isPositive() {
+		return positive;
+	}
+
+	public void setPositive(boolean positive) {
+		this.positive = positive;
+	}
+
+	public boolean isLeveled() {
+		return leveled;
+	}
+
+	public float getExpireTick() {
+		return this.iconFrame.getExpireTick();
+	}
+
+	public void setExpireTick(CSimulation game, int expireTick) {
+		this.iconFrame.setExpireTick(game, expireTick);
 	}
 
 	@Override

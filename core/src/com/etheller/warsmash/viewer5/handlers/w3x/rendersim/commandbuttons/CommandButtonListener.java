@@ -1,6 +1,7 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.rendersim.commandbuttons;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.etheller.warsmash.viewer5.handlers.w3x.ui.BuffBarIcon;
 
 public interface CommandButtonListener {
 //	String getToolTip();
@@ -39,7 +40,7 @@ public interface CommandButtonListener {
 			char hotkey, int goldCost, int lumberCost, int foodCost, int manaCost, float cooldownRemaining,
 			float cooldownMax, int numberOverlay);
 
-	void buff(Texture icon, int level, String tip, String uberTip, boolean positive, boolean leveled);
+	BuffBarIcon buff(Texture icon, int level, String tip, String uberTip, boolean positive, boolean leveled);
 
 	void timedLifeBar(int level, String toolTip, float durationRemaining, float durationMax);
 }

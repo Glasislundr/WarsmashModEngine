@@ -126,6 +126,11 @@ public class CBuffImmolationCaster extends AbstractCBuff {
 	public float getDurationMax() {
 		return 0;
 	}
+	
+	@Override
+	public int getExpireTick() {
+		return 0;
+	}
 
 	@Override
 	public boolean isTimedLifeBar() {

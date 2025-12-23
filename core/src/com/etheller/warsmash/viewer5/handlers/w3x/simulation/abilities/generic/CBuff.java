@@ -8,6 +8,8 @@ public interface CBuff extends CAliasedLevelingAbility {
 	float getDurationRemaining(CSimulation game, CUnit unit);
 
 	float getDurationMax();
+	
+	int getExpireTick();
 
 	boolean isTimedLifeBar();
 	

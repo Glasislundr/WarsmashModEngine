@@ -53,6 +53,11 @@ public class ABGenericAuraBuff extends ABBuff {
 	public float getDurationMax() {
 		return 0;
 	}
+	
+	@Override
+	public int getExpireTick() {
+		return 0;
+	}
 
 	@Override
 	public void onTick(CSimulation game, CUnit unit) {
