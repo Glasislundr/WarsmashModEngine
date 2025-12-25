@@ -6,6 +6,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.attacks.listeners.CUnitDeathReplacementEffect;
@@ -34,7 +35,7 @@ public class ABDeathReplacementEffect implements CUnitDeathReplacementEffect {
 	public CUnitDeathReplacementStacking onDeath(CSimulation simulation, CUnit unit, CUnit killer,
 			CUnitDeathReplacementResult result) {
 		if (!this.useCastId) {
-			this.triggerId = ABConstants.incrementTriggerId(triggerId);
+			this.triggerId = ABUtilities.incrementTriggerId(triggerId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, this.triggerId),
 					this.localStore.originAbility.getLevel());
 		}

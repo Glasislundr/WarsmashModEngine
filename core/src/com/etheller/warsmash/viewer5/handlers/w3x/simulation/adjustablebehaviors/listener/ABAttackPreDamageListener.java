@@ -7,6 +7,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting.AbilityTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
@@ -36,7 +37,7 @@ public class ABAttackPreDamageListener implements CUnitAttackPreDamageListener {
 	public void onAttack(CSimulation simulation, AbilityTarget target, AbilityPointTarget attackImpactLocation,
 			CUnitAttack attack, CUnitAttackSettings settings, CDamageCalculation calc) {
 		if (!this.useCastId) {
-			this.triggerId = ABConstants.incrementTriggerId(triggerId);
+			this.triggerId = ABUtilities.incrementTriggerId(triggerId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, this.triggerId),
 					this.localStore.originAbility.getLevel());
 		}

@@ -19,6 +19,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehavior;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorSendOrder;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.iterstructs.ABUnitAndRangeComparator;
@@ -181,7 +182,7 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 
 	@Override
 	public void internalBegin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityTarget noTarget) {
-		this.castId = ABConstants.incrementCastId(this.castId);
+		this.castId = ABUtilities.incrementCastId(this.castId);
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 		// Just don't do this
@@ -265,7 +266,7 @@ public class ABAbilityBuilderActivePairing extends ABAbilityBuilderGenericActive
 	// Targeted
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, CWidget target) {
-		this.castId = ABConstants.incrementCastId(this.castId);
+		this.castId = ABUtilities.incrementCastId(this.castId);
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.ISAUTOCAST, castId), autoOrder);
 //		System.err.println(caster.getUnitType().getName() + " Received pair target order: " + orderId + " (Base: "

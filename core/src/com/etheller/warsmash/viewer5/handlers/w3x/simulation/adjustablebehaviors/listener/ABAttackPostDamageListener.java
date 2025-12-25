@@ -8,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.targeting
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.integers.ABIntegerCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CDamageCalculation;
@@ -77,7 +78,7 @@ public class ABAttackPostDamageListener implements CUnitAttackPostDamageListener
 		localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.THEATTACK, this.triggerId));
 		if (!this.useCastId) {
 			this.localStore.remove(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, this.triggerId));
-			this.triggerId = ABConstants.incrementTriggerId(triggerId);
+			this.triggerId = ABUtilities.incrementTriggerId(triggerId);
 		}
 	}
 

@@ -14,6 +14,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.ABBehaviorAbilityBuilderNoTarget;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
@@ -128,7 +129,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, CWidget target) {
 		if (this.isTargetedSpell() && !this.isPointTarget()) {
-			this.castId = ABConstants.incrementCastId(this.castId);
+			this.castId = ABUtilities.incrementCastId(this.castId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
 					this.getLevel());
 			this.behavior.setCastId(this.castId);
@@ -149,7 +150,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 	@Override
 	public CBehavior begin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityPointTarget point) {
 		if (this.isTargetedSpell() && this.isPointTarget()) {
-			this.castId = ABConstants.incrementCastId(this.castId);
+			this.castId = ABUtilities.incrementCastId(this.castId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
 					this.getLevel());
 			this.behavior.setCastId(this.castId);
@@ -168,7 +169,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 			if (castless) {
 				return null;
 			} else {
-				this.castId = ABConstants.incrementCastId(this.castId);
+				this.castId = ABUtilities.incrementCastId(this.castId);
 				this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId),
 						this.getLevel());
 				this.behavior.setCastId(this.castId);
@@ -183,7 +184,7 @@ public class ABAbilityBuilderActiveFlexTarget extends ABAbilityBuilderGenericAct
 
 	@Override
 	public void internalBegin(CSimulation game, CUnit caster, int orderId, boolean autoOrder, AbilityTarget target) {
-		this.castId = ABConstants.incrementCastId(this.castId);
+		this.castId = ABUtilities.incrementCastId(this.castId);
 		this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, castId), this.getLevel());
 		this.localStore.put(ABLocalStoreKeys.PREVIOUSBEHAVIOR, caster.getCurrentBehavior());
 		if (this.isTargetedSpell()) {

@@ -8,6 +8,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.listeners.CUnitAbilityEffectReactionListener;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABConstants;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 
@@ -32,7 +33,7 @@ public class ABAbilityEffectReactionListener implements CUnitAbilityEffectReacti
 	@Override
 	public boolean onHit(final CSimulation simulation, CUnit source, CUnit target, CAbility ability) {
 		if (!this.useCastId) {
-			this.triggerId = ABConstants.incrementTriggerId(triggerId);
+			this.triggerId = ABUtilities.incrementTriggerId(triggerId);
 			this.localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, this.triggerId),
 					this.localStore.originAbility.getLevel());
 		}
