@@ -14,7 +14,6 @@ public class ABStatBuffFromDataField {
 	private ABDataFieldLetter targetRangeField;
 	
 	private transient NonStackingStatBuff buff;
-	private transient NonStackingStatBuff secondAtkBuff;
 	
 	public ABStatBuffFromDataField(ABStatBuffFromDataField statBuff) {
 		this.type = statBuff.getType();
@@ -72,12 +71,6 @@ public class ABStatBuffFromDataField {
 	}
 	public void setBuff(NonStackingStatBuff buff) {
 		this.buff = buff;
-	}
-	public NonStackingStatBuff getSecondAtkBuff() {
-		return secondAtkBuff;
-	}
-	public void setSecondAtkBuff(NonStackingStatBuff secondAtkBuff) {
-		this.secondAtkBuff = secondAtkBuff;
 	}
 	
 	public NonStackingStatBuffType convertToNonStackingType(ABAbilityBuilderAbilityTypeLevelData abilityData) {

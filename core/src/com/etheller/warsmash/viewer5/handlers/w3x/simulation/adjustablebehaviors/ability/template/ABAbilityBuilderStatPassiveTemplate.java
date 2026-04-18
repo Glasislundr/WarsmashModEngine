@@ -1,17 +1,17 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.ability.template;
 
 import java.util.List;
+
 import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.AbilityGenericSingleIconPassiveAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.CBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.ABPermanentPassiveBuff;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStatBuffFromDataField;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.impl.ABAbilityBuilderAbilityTypeLevelData;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.unit.NonStackingStatBuffType;
 
 public class ABAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIconPassiveAbility {
@@ -49,48 +49,10 @@ public class ABAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIco
 
 	private void removeExistingBuffs(CSimulation game, ABStatBuffFromDataField statBuff) {
 		this.caster.removeNonStackingStatBuff(game, statBuff.getBuff());
-		if (statBuff.getSecondAtkBuff() != null) {
-			this.caster.removeNonStackingStatBuff(game, statBuff.getSecondAtkBuff());
-		}
 	}
 
 	private void createNewBuffs(ABStatBuffFromDataField parsedBuff) {
-		NonStackingStatBuffType type = parsedBuff.convertToNonStackingType(levelData.get(getLevel() - 1));
-		NonStackingStatBuff newBuff = null;
-		switch (type) {
-		case RNGDATK:
-		case RNGDATKPCT:
-			newBuff = new NonStackingStatBuff(type, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			break;
-		case MELEEATK:
-		case MELEEATKPCT:
-			newBuff = new NonStackingStatBuff(type, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			break;
-		case ALLATK:
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.MELEEATK, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.RNGDATK, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setSecondAtkBuff(newBuff);
-			break;
-		case ALLATKPCT:
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.MELEEATKPCT, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.RNGDATKPCT, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setSecondAtkBuff(newBuff);
-			break;
-		default:
-			newBuff = new NonStackingStatBuff(type, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-		}
+		ABUtilities.updateStatBuffFromDataField(parsedBuff, levelData.get(getLevel() - 1), auraStackingKey);
 	}
 
 	@Override
@@ -101,42 +63,12 @@ public class ABAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIco
 			if (type == null) {
 				continue;
 			}
-			switch (type) {
-			case ALLATK:
-				if (statBuff.getSecondAtkBuff() == null) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-				} else if (statBuff.getBuff().getBuffType() != NonStackingStatBuffType.MELEEATK) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-				} else {
-					statBuff.getBuff().setValue(Float.parseFloat(
-							levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex())));
-				}
-				break;
-			case ALLATKPCT:
-				if (statBuff.getSecondAtkBuff() == null) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-				} else if (statBuff.getBuff().getBuffType() != NonStackingStatBuffType.MELEEATKPCT) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-				} else {
-					statBuff.getBuff().setValue(Float.parseFloat(
-							levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex())));
-				}
-				break;
-			default:
-				if (statBuff.getSecondAtkBuff() != null) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-				} else if (type != statBuff.getBuff().getBuffType()) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-				} else {
-					statBuff.getBuff().setValue(Float.parseFloat(
-							levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex())));
-				}
+			if (type != statBuff.getBuff().getBuffType()) {
+				removeExistingBuffs(game, statBuff);
+				createNewBuffs(statBuff);
+			} else {
+				statBuff.getBuff().setValue(Float
+						.parseFloat(levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex())));
 			}
 			if (statBuff.getBuff().getBuffType().isHeroStat()) {
 				caster.computeDerivedHeroFields(game, statBuff.getBuff().getBuffType());

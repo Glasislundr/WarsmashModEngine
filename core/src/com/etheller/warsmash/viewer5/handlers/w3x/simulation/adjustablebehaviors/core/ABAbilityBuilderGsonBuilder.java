@@ -730,6 +730,7 @@ public abstract class ABAbilityBuilderGsonBuilder {
 		unitCallbackTypeFactory.registerSubtype(ABCallbackGetCastingUnit.class, "getCastingUnit")
 				.registerSubtype(ABCallbackGetBuffCastingUnit.class, "getBuffCastingUnit")
 				.registerSubtype(ABCallbackGetBuffedUnit.class, "getBuffedUnit")
+				.registerSubtype(ABCallbackGetAuraUnit.class, "getAuraUnit")
 				.registerSubtype(ABCallbackGetListenerUnit.class, "getListenerUnit")
 				.registerSubtype(ABCallbackGetEnumUnit.class, "getEnumUnit")
 				.registerSubtype(ABCallbackGetCompUnit1.class, "getCompUnit1")

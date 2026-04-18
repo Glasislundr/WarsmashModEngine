@@ -74,6 +74,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.players.vision.CPla
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.region.CRegionManager;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.state.FalseTimeOfDay;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimer;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers.CTimed;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.JassGameEventsWar3;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CEffectType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.trigger.enumtypes.CFogState;
@@ -115,9 +116,9 @@ public class CSimulation implements CPlayerAPI, CFogMaskSettings {
 	private final Map<Integer, CDestructable> handleIdToDestructable = new HashMap<>();
 	private final Map<Integer, CItem> handleIdToItem = new HashMap<>();
 	private final Map<Integer, CAbility> handleIdToAbility = new HashMap<>();
-	private final LinkedList<CTimer> activeTimers = new LinkedList<>();
-	private final List<CTimer> addedTimers = new ArrayList<>();
-	private final List<CTimer> removedTimers = new ArrayList<>();
+	private final LinkedList<CTimed> activeTimers = new LinkedList<>();
+	private final List<CTimed> addedTimers = new ArrayList<>();
+	private final List<CTimed> removedTimers = new ArrayList<>();
 	private final List<Trigger> addedOnTickTriggers = new ArrayList<>();
 	private final List<Trigger> removedOnTickTriggers = new ArrayList<>();
 	private final LinkedList<Trigger> onTickTriggers = new LinkedList<>();
@@ -266,21 +267,21 @@ public class CSimulation implements CPlayerAPI, CFogMaskSettings {
 		return this.destructables;
 	}
 
-	public void registerTimer(final CTimer timer) {
+	public void registerTimer(final CTimed timer) {
 		this.addedTimers.add(timer);
 	}
 
-	public void unregisterTimer(final CTimer timer) {
+	public void unregisterTimer(final CTimed timer) {
 		this.removedTimers.add(timer);
 	}
 
-	private void internalRegisterTimer(final CTimer timer) {
+	private void internalRegisterTimer(final CTimed timer) {
 		if (this.activeTimers.contains(timer)) {
 			this.activeTimers.remove(timer);
 		}
-		final ListIterator<CTimer> listIterator = this.activeTimers.listIterator();
+		final ListIterator<CTimed> listIterator = this.activeTimers.listIterator();
 		while (listIterator.hasNext()) {
-			final CTimer nextTimer = listIterator.next();
+			final CTimed nextTimer = listIterator.next();
 			if (nextTimer.getEngineFireTick() > timer.getEngineFireTick()) {
 				listIterator.previous();
 				listIterator.add(timer);
@@ -290,7 +291,7 @@ public class CSimulation implements CPlayerAPI, CFogMaskSettings {
 		this.activeTimers.addLast(timer);
 	}
 
-	public void internalUnregisterTimer(final CTimer timer) {
+	public void internalUnregisterTimer(final CTimed timer) {
 		this.activeTimers.remove(timer);
 	}
 
@@ -593,16 +594,16 @@ public class CSimulation implements CPlayerAPI, CFogMaskSettings {
 		final float timeOfDayAfter = getGameTimeOfDay();
 		this.daytime = (timeOfDayAfter >= this.gameplayConstants.getDawnTimeGameHours())
 				&& (timeOfDayAfter < this.gameplayConstants.getDuskTimeGameHours());
-		for (final CTimer timer : this.addedTimers) {
+		for (final CTimed timer : this.addedTimers) {
 			internalRegisterTimer(timer);
 		}
 		this.addedTimers.clear();
-		for (final CTimer timer : this.removedTimers) {
+		for (final CTimed timer : this.removedTimers) {
 			internalUnregisterTimer(timer);
 		}
 		this.removedTimers.clear();
-		final Set<CTimer> timers = new HashSet<>();
-		for (final CTimer timer : this.activeTimers) {
+		final Set<CTimed> timers = new HashSet<>();
+		for (final CTimed timer : this.activeTimers) {
 			if (!timers.add(timer)) {
 				throw new IllegalStateException("Duplicate timer add: " + timer);
 			}

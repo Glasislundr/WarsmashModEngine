@@ -392,6 +392,14 @@ public class ABAbilityBuilderParser {
 		this.templateFields.setTemplateType(templateType);
 	}
 
+	public ABBooleanCallback getAuraTargetCondition() {
+		return templateFields.getAuraTargetCondition();
+	}
+
+	public void setAuraTargetCondition(ABBooleanCallback auraTargetCondition) {
+		this.templateFields.setAuraTargetCondition(auraTargetCondition);
+	}
+
 	public List<ABAction> getAddToAuraActions() {
 		return templateFields.getAddToAuraActions();
 	}

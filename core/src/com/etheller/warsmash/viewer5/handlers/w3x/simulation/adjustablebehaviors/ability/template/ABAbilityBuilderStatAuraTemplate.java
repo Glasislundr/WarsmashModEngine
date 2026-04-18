@@ -93,62 +93,37 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 	private void removeExistingBuffs(CSimulation game, ABStatBuffFromDataField statBuff) {
 		for (CUnit unit : auraGroup) {
 			unit.removeNonStackingStatBuff(game, statBuff.getBuff());
-			if (statBuff.getSecondAtkBuff() != null) {
-				unit.removeNonStackingStatBuff(game, statBuff.getSecondAtkBuff());
-			}
 		}
 	}
 
 	private void addNewBuffs(CSimulation game, ABStatBuffFromDataField statBuff) {
 		for (CUnit unit : auraGroup) {
 			unit.addNonStackingStatBuff(game, statBuff.getBuff());
-			if (statBuff.getSecondAtkBuff() != null) {
-				unit.addNonStackingStatBuff(game, statBuff.getSecondAtkBuff());
-			}
 		}
 	}
 
 	private void createNewBuffs(ABStatBuffFromDataField parsedBuff) {
-		NonStackingStatBuffType type = parsedBuff.convertToNonStackingType(levelData.get(getLevel() - 1));
+		ABAbilityBuilderAbilityTypeLevelData currentLevelData = levelData.get(getLevel() - 1);
+		NonStackingStatBuffType type = parsedBuff.convertToNonStackingType(currentLevelData);
 		NonStackingStatBuff newBuff = null;
 		switch (type) {
 		case RNGDATK:
 		case RNGDATKPCT:
 			newBuff = new NonStackingStatBuff(type, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
+					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
 			parsedBuff.setBuff(newBuff);
 			targetRange = true;
 			break;
 		case MELEEATK:
 		case MELEEATKPCT:
 			newBuff = new NonStackingStatBuff(type, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
+					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
 			parsedBuff.setBuff(newBuff);
 			targetMelee = true;
-			break;
-		case ALLATK:
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.MELEEATK, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.RNGDATK, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setSecondAtkBuff(newBuff);
-			targetMelee = true;
-			targetRange = true;
-			break;
-		case ALLATKPCT:
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.MELEEATKPCT, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.RNGDATKPCT, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setSecondAtkBuff(newBuff);
-			targetMelee = true;
-			targetRange = true;
 			break;
 		default:
 			newBuff = new NonStackingStatBuff(type, this.auraStackingKey, Float
-					.parseFloat(levelData.get(getLevel() - 1).getData().get(parsedBuff.getDataField().getIndex())));
+					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
 			parsedBuff.setBuff(newBuff);
 			targetMelee = true;
 			targetRange = true;
@@ -168,65 +143,26 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 			if (type == null) {
 				continue;
 			}
-			switch (type) {
-			case ALLATK:
-				if (statBuff.getSecondAtkBuff() == null) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-					addNewBuffs(game, statBuff);
-				} else if (statBuff.getBuff().getBuffType() != NonStackingStatBuffType.MELEEATK) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-					addNewBuffs(game, statBuff);
+			if (type != statBuff.getBuff().getBuffType()) {
+				removeExistingBuffs(game, statBuff);
+				createNewBuffs(statBuff);
+				addNewBuffs(game, statBuff);
+			} else {
+				float parsedFloat;
+				try {
+					parsedFloat = Float.parseFloat(
+							levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex()));
+				} catch (NumberFormatException exc) {
+					parsedFloat = 0;
+				}
+				statBuff.getBuff().setValue(parsedFloat);
+				if (type == NonStackingStatBuffType.MELEEATK || type == NonStackingStatBuffType.MELEEATKPCT) {
+					targetMelee = true;
+				} else if (type == NonStackingStatBuffType.RNGDATK || type == NonStackingStatBuffType.RNGDATKPCT) {
+					targetRange = true;
 				} else {
-					statBuff.getBuff().setValue(Float.parseFloat(
-							levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex())));
 					targetMelee = true;
 					targetRange = true;
-				}
-				break;
-			case ALLATKPCT:
-				if (statBuff.getSecondAtkBuff() == null) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-					addNewBuffs(game, statBuff);
-				} else if (statBuff.getBuff().getBuffType() != NonStackingStatBuffType.MELEEATKPCT) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-					addNewBuffs(game, statBuff);
-				} else {
-					statBuff.getBuff().setValue(Float.parseFloat(
-							levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex())));
-					targetMelee = true;
-					targetRange = true;
-				}
-				break;
-			default:
-				if (statBuff.getSecondAtkBuff() != null) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-					addNewBuffs(game, statBuff);
-				} else if (type != statBuff.getBuff().getBuffType()) {
-					removeExistingBuffs(game, statBuff);
-					createNewBuffs(statBuff);
-					addNewBuffs(game, statBuff);
-				} else {
-					float parsedFloat;
-					try {
-						parsedFloat = Float.parseFloat(
-								levelData.get(getLevel() - 1).getData().get(statBuff.getDataField().getIndex()));
-					} catch (NumberFormatException exc) {
-						parsedFloat = 0;
-					}
-					statBuff.getBuff().setValue(parsedFloat);
-					if (type == NonStackingStatBuffType.MELEEATK || type == NonStackingStatBuffType.MELEEATKPCT) {
-						targetMelee = true;
-					} else if (type == NonStackingStatBuffType.RNGDATK || type == NonStackingStatBuffType.RNGDATKPCT) {
-						targetRange = true;
-					} else {
-						targetMelee = true;
-						targetRange = true;
-					}
 				}
 			}
 			for (CUnit unitA : auraGroup) {
@@ -302,9 +238,6 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 	public void addUnitToAura(CSimulation game, CUnit unit) {
 		for (ABStatBuffFromDataField statBuff : this.statBuffDataFields) {
 			unit.addNonStackingStatBuff(game, statBuff.getBuff());
-			if (statBuff.getSecondAtkBuff() != null) {
-				unit.addNonStackingStatBuff(game, statBuff.getSecondAtkBuff());
-			}
 		}
 		if (buff != null) {
 			unit.addNonStackingDisplayBuff(game, auraStackingKey, buff);
@@ -318,9 +251,6 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 		}
 		for (ABStatBuffFromDataField statBuff : this.statBuffDataFields) {
 			unit.removeNonStackingStatBuff(game, statBuff.getBuff());
-			if (statBuff.getSecondAtkBuff() != null) {
-				unit.removeNonStackingStatBuff(game, statBuff.getSecondAtkBuff());
-			}
 		}
 		auraGroup.remove(unit);
 	}

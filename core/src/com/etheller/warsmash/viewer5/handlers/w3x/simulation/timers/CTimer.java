@@ -3,7 +3,7 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.timers;
 import com.etheller.warsmash.util.WarsmashConstants;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 
-public abstract class CTimer {
+public abstract class CTimer implements CTimed {
 	private int engineFireTick;
 	private int scheduleTick;
 	private float timeoutTime;
@@ -36,6 +36,7 @@ public abstract class CTimer {
 	/**
 	 * @param simulation
 	 */
+	@Override
 	public void start(final CSimulation simulation) {
 		this.running = true;
 		final int currentTick = simulation.getGameTurnTick();
@@ -57,16 +58,19 @@ public abstract class CTimer {
 		simulation.registerTimer(this);
 	}
 
+	@Override
 	public void pause(final CSimulation simulation) {
 		this.remainingTimeAfterPause = getRemaining(simulation);
 		simulation.unregisterTimer(this);
 	}
 	
+	@Override
 	public void kill(final CSimulation simulation) {
 		this.pause(simulation);
 		this.repeats = false;
 	}
 
+	@Override
 	public void resume(final CSimulation simulation) {
 		if (this.remainingTimeAfterPause == 0) {
 			start(simulation);
@@ -91,12 +95,14 @@ public abstract class CTimer {
 		this.repeats = repeats;
 	}
 
+	@Override
 	public int getEngineFireTick() {
 		return this.engineFireTick;
 	}
 
 	public abstract void onFire(final CSimulation simulation);
 
+	@Override
 	public void fire(final CSimulation simulation) {
 		// its implied that we will have "unregisterTimer" happen automatically
 		// before this is called

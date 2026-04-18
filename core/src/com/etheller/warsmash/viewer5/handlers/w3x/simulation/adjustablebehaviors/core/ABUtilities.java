@@ -25,40 +25,8 @@ public class ABUtilities {
 			buffStackingKey = NonStackingStatBuff.ALLOW_STACKING_KEY;
 		}
 		NonStackingStatBuffType type = parsedBuff.convertToNonStackingType(currentLevelData);
-		NonStackingStatBuff newBuff = null;
-		switch (type) {
-		case RNGDATK:
-		case RNGDATKPCT:
-			newBuff = new NonStackingStatBuff(type, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			break;
-		case MELEEATK:
-		case MELEEATKPCT:
-			newBuff = new NonStackingStatBuff(type, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			break;
-		case ALLATK:
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.MELEEATK, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.RNGDATK, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setSecondAtkBuff(newBuff);
-			break;
-		case ALLATKPCT:
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.MELEEATKPCT, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-			newBuff = new NonStackingStatBuff(NonStackingStatBuffType.RNGDATKPCT, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setSecondAtkBuff(newBuff);
-			break;
-		default:
-			newBuff = new NonStackingStatBuff(type, buffStackingKey, Float
-					.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
-			parsedBuff.setBuff(newBuff);
-		}
+		NonStackingStatBuff newBuff = new NonStackingStatBuff(type, buffStackingKey, Float
+				.parseFloat(currentLevelData.getData().get(parsedBuff.getDataField().getIndex())));
+		parsedBuff.setBuff(newBuff);
 	}
 }

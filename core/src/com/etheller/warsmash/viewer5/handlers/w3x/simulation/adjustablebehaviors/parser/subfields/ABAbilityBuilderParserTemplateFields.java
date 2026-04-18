@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderTemplateType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABMeleeRangeTargetOverride;
@@ -13,6 +14,7 @@ public class ABAbilityBuilderParserTemplateFields {
 	//Template only
 	private ABAbilityBuilderTemplateType templateType;
 	//Aura template
+	private ABBooleanCallback auraTargetCondition;
 	private List<ABAction> addToAuraActions;
 	private List<ABAction> updateAuraLevelActions;
 	private List<ABAction> removeFromAuraActions;
@@ -27,6 +29,8 @@ public class ABAbilityBuilderParserTemplateFields {
 		if (this.templateType == null)
 			this.templateType = parent.templateType;
 
+		if (this.auraTargetCondition == null)
+			this.auraTargetCondition = parent.auraTargetCondition;
 		if (this.addToAuraActions == null)
 			this.addToAuraActions = parent.addToAuraActions;
 		if (this.updateAuraLevelActions == null)
@@ -51,6 +55,14 @@ public class ABAbilityBuilderParserTemplateFields {
 
 	public void setTemplateType(ABAbilityBuilderTemplateType templateType) {
 		this.templateType = templateType;
+	}
+
+	public ABBooleanCallback getAuraTargetCondition() {
+		return auraTargetCondition;
+	}
+
+	public void setAuraTargetCondition(ABBooleanCallback auraTargetCondition) {
+		this.auraTargetCondition = auraTargetCondition;
 	}
 
 	public List<ABAction> getAddToAuraActions() {

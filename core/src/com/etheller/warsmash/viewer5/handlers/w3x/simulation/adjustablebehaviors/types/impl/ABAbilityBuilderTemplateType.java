@@ -18,12 +18,13 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABMapLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParser;
 
-public class ABAbilityBuilderTemplateType extends CAbilityType<ABAbilityBuilderAbilityTypeLevelData>  {
+public class ABAbilityBuilderTemplateType extends CAbilityType<ABAbilityBuilderAbilityTypeLevelData> {
 
 	private ABAbilityBuilderParser parser;
 	private GameObject abilityEditorData;
-	
-	public ABAbilityBuilderTemplateType(War3ID alias, War3ID code, GameObject abilityEditorData, List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABAbilityBuilderParser parser) {
+
+	public ABAbilityBuilderTemplateType(War3ID alias, War3ID code, GameObject abilityEditorData,
+			List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABAbilityBuilderParser parser) {
 		super(alias, code, levelData);
 		this.parser = parser;
 		this.abilityEditorData = abilityEditorData;
@@ -35,17 +36,23 @@ public class ABAbilityBuilderTemplateType extends CAbilityType<ABAbilityBuilderA
 		localStore.put(ABLocalStoreKeys.ABILITYEDITORDATA, this.abilityEditorData);
 		localStore.put(ABLocalStoreKeys.LEVELDATA, getLevelData());
 		localStore.put(ABLocalStoreKeys.ALIAS, getAlias());
-		
+		localStore.put(ABLocalStoreKeys.CODE, getCode());
+
 		switch (parser.getTemplateType()) {
 		case PASSIVE_STATS:
-			return new ABAbilityBuilderStatPassiveTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore, parser.getStatBuffsFromDataFields());
+			return new ABAbilityBuilderStatPassiveTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
+					parser.getStatBuffsFromDataFields());
 		case AURA_STATS:
-			return new ABAbilityBuilderStatAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore, parser.getStatBuffsFromDataFields(), parser.getMeleeRangeTargetOverride());
+			return new ABAbilityBuilderStatAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
+					parser.getStatBuffsFromDataFields(), parser.getMeleeRangeTargetOverride());
 		case AURA_SIMPLE:
-			return new ABAbilityBuilderSimpleAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore, parser.getAbilityIdsToAddPerLevel(), parser.getLevellingAbilityIdsToAdd());
+			return new ABAbilityBuilderSimpleAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
+					parser.getAbilityIdsToAddPerLevel(), parser.getLevellingAbilityIdsToAdd());
 		case AURA:
 		default:
-			return new ABAbilityBuilderAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore, parser.getAddToAuraActions(), parser.getUpdateAuraLevelActions(), parser.getRemoveFromAuraActions());
+			return new ABAbilityBuilderAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
+					parser.getOnAddDisabledAbility(), parser.getAuraTargetCondition(), parser.getAddToAuraActions(),
+					parser.getUpdateAuraLevelActions(), parser.getRemoveFromAuraActions());
 		}
 	}
 
