@@ -284,6 +284,10 @@ public final class GameUI extends AbstractUIFrame implements UIFrame {
 
 	public UIFrame createFrame(final String name, final UIFrame owner, final int priority, final int createContext) {
 		final FrameDefinition frameDefinition = this.templates.getFrame(name);
+		if (frameDefinition == null) {
+			System.out.println("Failed to load frame " + name);
+			return null;
+		}
 		final UIFrame inflatedFrame = inflate(frameDefinition, owner, null, frameDefinition.has("DecorateFileNames"));
 		if (owner == this) {
 			add(inflatedFrame);
