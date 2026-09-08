@@ -36,7 +36,11 @@ public class ABLocalStoreKeys {
 	
 	
 	// Aura Template
+	public static final String LASTCREATEDAURA = "_lastCreatedAura";
 	public static final String AURAGROUP = "_auraGroup";
+	public static final String AURAEFFECT = "_auraEff";
+	public static final String AURADEST = "_auraDest";
+	public static final String AURAITEM = "_auraItem";
 	
 	// FX names
 	public static final String LASTCREATEDFX = "_lastCreatedFx";

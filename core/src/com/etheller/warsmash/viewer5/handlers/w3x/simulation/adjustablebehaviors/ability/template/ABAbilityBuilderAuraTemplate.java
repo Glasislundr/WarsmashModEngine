@@ -20,6 +20,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABUtilities;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABAttackRangeTargetExclusion;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStatBuffFromDataField;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.timer.ABAuraEffect;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.impl.ABAbilityBuilderAbilityTypeLevelData;
@@ -56,24 +57,25 @@ public class ABAbilityBuilderAuraTemplate extends AbilityGenericSingleIconPassiv
 	public ABAbilityBuilderAuraTemplate(int handleId, War3ID code, War3ID alias,
 			List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABLocalDataStore localStore,
 			List<ABAction> onAddDisabledAbility, ABBooleanCallback condition, List<ABAction> addToAuraActions,
-			List<ABAction> updateAuraLevelActions, List<ABAction> removeFromAuraActions) {
+			List<ABAction> updateAuraLevelActions, List<ABAction> removeFromAuraActions,
+			List<ABStatBuffFromDataField> statBuffDataFields, ABAttackRangeTargetExclusion meleeRangeTargetOverride) {
 		super(code, alias, handleId);
 		this.levelData = levelData;
 		this.localStore = localStore;
 		this.onAddDisabledAbility = onAddDisabledAbility;
-		this.condition = new ABTemplateAuraTargeting(condition);
+		this.condition = new ABTemplateAuraTargeting(condition, meleeRangeTargetOverride);
 		this.addToAuraActions = addToAuraActions;
 		this.updateAuraLevelActions = updateAuraLevelActions;
 		this.removeFromAuraActions = removeFromAuraActions;
 
 		ABAbilityBuilderAbilityTypeLevelData lData = this.levelData.get(getLevel() - 1);
-		this.statBuffDataFields = new ArrayList<>();
-		for (ABStatBuffFromDataField statBuff : statBuffDataFields) {
-			this.statBuffDataFields.add(new ABStatBuffFromDataField(statBuff));
-		}
 		if (!lData.getBuffs().isEmpty()) {
 			War3ID buffId = lData.getBuffs().get(0);
 			this.auraStackingKey = buffId.asStringValue();
+		}
+		this.statBuffDataFields = new ArrayList<>();
+		for (ABStatBuffFromDataField statBuff : statBuffDataFields) {
+			this.statBuffDataFields.add(new ABStatBuffFromDataField(statBuff));
 		}
 		for (ABStatBuffFromDataField statBuff : this.statBuffDataFields) {
 			ABUtilities.updateStatBuffFromDataField(statBuff, lData, auraStackingKey);
@@ -112,6 +114,7 @@ public class ABAbilityBuilderAuraTemplate extends AbilityGenericSingleIconPassiv
 		this.aura = new ABAuraEffect(localStore, ABConstants.AURA_CAST_ID, unit,
 				levelData.get(getLevel() - 1).getCastRange(), condition, addBuffList, removeBuffList, true,
 				updateLevelList, null, this.getLevel());
+		localStore.put(ABLocalStoreKeys.AURAEFFECT, this.aura);
 
 		this.addBuff = new ABTemplateActionAddBuff(buff);
 		addBuffList.add(addBuff);
