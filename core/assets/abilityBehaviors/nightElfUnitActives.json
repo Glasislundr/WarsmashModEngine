@@ -1,6 +1,6 @@
 {
 	"abilityList": [{
-		"ids": [{"id":"Aroa", "castId": "roar"},{"id":"ANbr", "castId": "battleroar"}],
+		"ids": [{"id":"Aroa", "castId": "roar"}],
 		"type": "NORMAL_NOTARGET",
 		"reuseActions": {
 			"setupBuffs": [{
