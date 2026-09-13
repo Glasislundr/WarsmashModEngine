@@ -10,6 +10,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnitTypeRequiremen
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.CAbilityType;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.CAbilityTypeDefinition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.AbstractCAbilityTypeDefinition;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParser;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.impl.ABAbilityBuilderAbilityTypeLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.impl.ABAbilityBuilderTemplateType;
@@ -19,9 +20,9 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.data.CUnitData;
 public class ABAbilityBuilderTemplateTypeDefinition
 		extends AbstractCAbilityTypeDefinition<ABAbilityBuilderAbilityTypeLevelData> implements CAbilityTypeDefinition {
 
-	private ABAbilityBuilderParser parser;
+	private ABAbilityBuilderConfiguration parser;
 
-	public ABAbilityBuilderTemplateTypeDefinition(ABAbilityBuilderParser abilityBuilderParser) {
+	public ABAbilityBuilderTemplateTypeDefinition(ABAbilityBuilderConfiguration abilityBuilderParser) {
 		super();
 		this.parser = abilityBuilderParser;
 	}

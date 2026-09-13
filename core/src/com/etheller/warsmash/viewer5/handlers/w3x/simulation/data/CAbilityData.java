@@ -28,6 +28,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.nightelf.
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.nightelf.root.CAbilityEntangleGoldMine;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.human.bloodmage.phoenix.CAbilitySummonPhoenix;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.human.mountainking.CAbilityThunderBolt;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.human.paladin.CAbilityResurrect;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.neutral.beastmaster.CAbilitySummonGrizzly;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.neutral.beastmaster.CAbilitySummonHawk;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.neutral.beastmaster.CAbilitySummonQuilbeast;
@@ -41,9 +42,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.ni
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.nightelf.moonpriestess.CAbilitySummonOwlScout;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.nightelf.warden.CAbilityBlink;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.orc.blademaster.CAbilityWhirlWind;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.orc.farseer.CAbilityChainLightning;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.orc.farseer.CAbilityFeralSpirit;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.orc.taurenchieftain.CAbilityWarStomp;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.undead.deathknight.CAbilityDarkRitual;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.undead.deathknight.CAbilityDeathCoil;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.skills.undead.deathknight.CAbilityDeathPact;
@@ -58,7 +57,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.def
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionCargoHoldEntangledMine;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionCarrionSwarmDummy;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionChannelTest;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionColdArrows;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionDrop;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionGoldMine;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.impl.CAbilityTypeDefinitionGoldMineOverlayed;
@@ -93,7 +91,6 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParser;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParserUtil;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.definitions.impl.ABAbilityBuilderTemplateTypeDefinition;
 
 public class CAbilityData {
 
@@ -294,12 +291,6 @@ public class CAbilityData {
 			ABAbilityBuilderParserUtil.loadAbilityBuilderFiles(behavior -> {
 				if (behavior.getType().equals(ABAbilityBuilderType.INHERIT)) {
 					inheritingAbilities.add(behavior);
-				} else if (behavior.getType().equals(ABAbilityBuilderType.TEMPLATE)) {
-					for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
-						previousAbilityParsers.put(dupe.getId(), behavior);
-						this.codeToAbilityTypeDefinition.put(War3ID.fromString(dupe.getId()),
-								new ABAbilityBuilderTemplateTypeDefinition(behavior));
-					}
 				} else {
 					for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
 						previousAbilityParsers.put(dupe.getId(), behavior);
@@ -353,14 +344,6 @@ public class CAbilityData {
 				ABAbilityBuilderParserUtil.loadAbilityBuilderFiles(behavior -> {
 					if (behavior.getType().equals(ABAbilityBuilderType.INHERIT)) {
 						inheritingCompatAbilities.add(behavior);
-					} else if (behavior.getType().equals(ABAbilityBuilderType.TEMPLATE)) {
-						for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
-							if (all || WarsmashConstants.ABILITY_COMPATIBILITY.contains(dupe.getId())) {
-								previousAbilityParsers.put(dupe.getId(), behavior);
-								this.codeToAbilityTypeDefinition.put(War3ID.fromString(dupe.getId()),
-										new ABAbilityBuilderTemplateTypeDefinition(behavior));
-							}
-						}
 					} else {
 						for (ABAbilityBuilderDupe dupe : behavior.getIds()) {
 							if (all || WarsmashConstants.ABILITY_COMPATIBILITY.contains(dupe.getId())) {

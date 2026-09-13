@@ -2529,29 +2529,14 @@ public class CUnit extends CWidget {
 							if (this.constructionProgress >= gameplayConstants.getHeroReviveTime(
 									trainedUnitType.getBuildTime(), revivingHero.getHeroData().getHeroLevel())) {
 								this.constructionProgress = 0;
-								revivingHero.getHeroData().setReviving(false);
-								revivingHero.getHeroData().setAwaitingRevive(false);
-								revivingHero.corpse = false;
-								revivingHero.boneCorpse = false;
-								revivingHero.deathTurnTick = 0;
-								revivingHero.setX(getX());
-								revivingHero.setY(getY());
-								game.getWorldCollision().addUnit(revivingHero);
-								revivingHero.setPoint(getX(), getY(), game.getWorldCollision(),
-										game.getRegionManager());
-								revivingHero.setHidden(false);
-								revivingHero.setLife(game,
-										revivingHero.getMaximumLife() * gameplayConstants.getHeroReviveLifeFactor());
-								revivingHero.setMana(
+								revivingHero.resurrect(game,
+										revivingHero.getMaximumLife() * gameplayConstants.getHeroReviveLifeFactor(),
 										(revivingHero.getMaximumMana() * gameplayConstants.getHeroReviveManaFactor())
 												+ (gameplayConstants.getHeroReviveManaStart()
-														* trainedUnitType.getManaInitial()));
-								// dont add food cost to player 2x
-								revivingHero.setFoodUsed(trainedUnitType.getFoodUsed());
-								final CPlayer player = game.getPlayer(this.playerIndex);
-								player.setUnitFoodMade(revivingHero, trainedUnitType.getFoodMade());
-								// NOTE: Dont "add techtree unlocked" here, because hero doesn't lose that
-								// status upon death
+														* trainedUnitType.getManaInitial()),
+										false);
+								revivingHero.setPoint(getX(), getY(), game.getWorldCollision(),
+										game.getRegionManager());
 								// nudge the trained unit out around us
 								revivingHero.nudgeAround(game, this);
 								game.unitRepositioned(revivingHero); // dont blend animation
@@ -4034,17 +4019,49 @@ public class CUnit extends CWidget {
 		setMana(Math.min(getMana() + manaToRegain, getMaximumMana()));
 	}
 
-	public void resurrect(final CSimulation simulation) {
+	public void resurrect(final CSimulation simulation, final float life, final Float mana, final boolean addFood) {
+		if (life <= 0) {
+			return;
+		}
 		simulation.getWorldCollision().removeUnit(this);
 		this.corpse = false;
 		this.boneCorpse = false;
 		this.deathTurnTick = 0;
 		this.explodesOnDeath = false;
 		this.explodesOnDeathBuffId = null;
-		setLife(simulation, getMaximumLife());
+		setLife(simulation, life);
+		if (mana != null) {
+			setMana(mana);
+		}
 		simulation.getWorldCollision().addUnit(this);
-		simulation.unitUpdatedType(this, this.typeId, true); // clear out some state
+
+		final CPlayer player = simulation.getPlayer(this.playerIndex);
+		player.setUnitFoodMade(this, this.getUnitType().getFoodMade());
+		if (addFood) {
+			// Left out for Hero revival and certain spells
+			player.setUnitFoodUsed(this, this.getUnitType().getFoodUsed());
+		} else {
+			this.setFoodUsed(this.getUnitType().getFoodUsed());
+		}
+
 		this.unitAnimationListener.playAnimation(true, PrimaryTag.STAND, SequenceUtils.EMPTY, 0.0f, true);
+		CAbilityHero heroData = this.getHeroData();
+		if (heroData != null) {
+			heroData.setReviving(false);
+			heroData.setAwaitingRevive(false);
+			this.setHidden(false);
+		} else {
+			// Heroes don't lose techtree on death but other units do
+			player.addTechtreeUnlocked(simulation, this.typeId);
+		}
+
+		simulation.unitUpdatedType(this, this.typeId, true); // clear out some state
+
+		for (int i = this.abilities.size() - 1; i >= 0; i--) {
+			// okay if it removes self from this during onResurrect() because of reverse
+			// iteration order
+			this.abilities.get(i).onResurrect(simulation, this);
+		}
 	}
 
 	private static final class AutocastTargetFinderEnum implements CUnitEnumFunction {
@@ -5420,7 +5437,7 @@ public class CUnit extends CWidget {
 			return removeCheesyStateModBuff(game, StateModBuffType.SLEEPING);
 		case DEAD:
 			if (isDead()) {
-				resurrect(game);
+				resurrect(game, this.getMaxLife(), null, true);
 				return true;
 			}
 			return false;
@@ -5771,8 +5788,10 @@ public class CUnit extends CWidget {
 		if (eventList != null) {
 			for (int i = eventList.size() - 1; i >= 0; i--) {
 				CWidgetEvent event = eventList.get(i);
-				event.fire(this, CommonTriggerExecutionScope.unitResearchFinishScope(
-						JassGameEventsWar3.EVENT_UNIT_RESEARCH_FINISH, event.getTrigger(), this, researched, game.getPlayer(this.playerIndex)));
+				event.fire(this,
+						CommonTriggerExecutionScope.unitResearchFinishScope(
+								JassGameEventsWar3.EVENT_UNIT_RESEARCH_FINISH, event.getTrigger(), this, researched,
+								game.getPlayer(this.playerIndex)));
 			}
 		}
 		game.getPlayer(this.playerIndex).fireResearchFinishEvents(this, game, researched);

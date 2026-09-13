@@ -69,6 +69,10 @@ public class CAbilityStandDown extends AbstractGenericSingleIconNoSmartActiveAbi
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isToggleOn() {
 		return false;
 	}

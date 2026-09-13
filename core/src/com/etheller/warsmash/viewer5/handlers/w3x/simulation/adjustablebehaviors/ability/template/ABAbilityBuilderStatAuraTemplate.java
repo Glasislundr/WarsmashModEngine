@@ -17,7 +17,7 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic.C
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.buff.ABGenericAuraBuff;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABMeleeRangeTargetOverride;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABAttackRangeTargetExclusion;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStatBuffFromDataField;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.impl.ABAbilityBuilderAbilityTypeLevelData;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.combat.CTargetType;
@@ -46,7 +46,7 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 
 	private boolean targetMelee = false;
 	private boolean targetRange = false;
-	private ABMeleeRangeTargetOverride rangeOverride;
+//	private ABMeleeRangeTargetOverride rangeOverride;
 
 	private String auraStackingKey;
 
@@ -59,11 +59,11 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 
 	public ABAbilityBuilderStatAuraTemplate(int handleId, War3ID code, War3ID alias,
 			List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABLocalDataStore localStore,
-			List<ABStatBuffFromDataField> statBuffDataFields, ABMeleeRangeTargetOverride meleeRangeTargetOverride) {
+			List<ABStatBuffFromDataField> statBuffDataFields, ABAttackRangeTargetExclusion meleeRangeTargetOverride) {
 		super(code, alias, handleId);
 		this.levelData = levelData;
 		this.localStore = localStore;
-		this.rangeOverride = meleeRangeTargetOverride;
+//		this.rangeOverride = meleeRangeTargetOverride;
 		this.targetsAllowed = levelData.get(getLevel() - 1).getTargetsAllowed();
 		this.range = levelData.get(getLevel() - 1).getArea();
 		this.auraStackingKey = "";
@@ -82,10 +82,10 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 			createNewBuffs(statBuff);
 		}
 
-		if (this.rangeOverride != null) {
-			this.targetMelee = this.rangeOverride.isTargetMelee();
-			this.targetRange = this.rangeOverride.isTargetRange();
-		}
+//		if (this.rangeOverride != null) {
+//			this.targetMelee = this.rangeOverride.isTargetMelee();
+//			this.targetRange = this.rangeOverride.isTargetRange();
+//		}
 
 		this.leveled = levelData.size() > 1;
 	}
@@ -173,10 +173,10 @@ public class ABAbilityBuilderStatAuraTemplate extends AbilityGenericSingleIconPa
 				}
 			}
 		}
-		if (this.rangeOverride != null) {
-			this.targetMelee = this.rangeOverride.isTargetMelee();
-			this.targetRange = this.rangeOverride.isTargetRange();
-		}
+//		if (this.rangeOverride != null) {
+//			this.targetMelee = this.rangeOverride.isTargetMelee();
+//			this.targetRange = this.rangeOverride.isTargetRange();
+//		}
 	}
 
 	@Override

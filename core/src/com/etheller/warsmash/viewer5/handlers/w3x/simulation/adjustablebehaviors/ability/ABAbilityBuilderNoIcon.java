@@ -307,6 +307,15 @@ public class ABAbilityBuilderNoIcon extends AbstractGenericNoIconAbility impleme
 	}
 
 	@Override
+	public void onResurrect(CSimulation game, CUnit unit) {
+		if (config.getOnResurrect() != null) {
+			for (ABAction action : config.getOnResurrect()) {
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
+			}
+		}
+	}
+
+	@Override
 	public <T> T visit(final CAbilityVisitor<T> visitor) {
 		return visitor.accept(this);
 	}

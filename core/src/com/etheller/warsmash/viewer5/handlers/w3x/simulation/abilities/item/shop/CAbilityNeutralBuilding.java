@@ -147,6 +147,10 @@ public class CAbilityNeutralBuilding extends AbstractGenericAliasedAbility {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public void onCancelFromQueue(final CSimulation game, final CUnit unit, final int orderId) {
 		// TODO Auto-generated method stub
 

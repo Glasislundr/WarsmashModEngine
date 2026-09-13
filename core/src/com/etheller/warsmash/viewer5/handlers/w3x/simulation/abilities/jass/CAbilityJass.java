@@ -113,6 +113,10 @@ public class CAbilityJass extends AbstractGenericAliasedAbility implements CExte
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public void onCancelFromQueue(final CSimulation game, final CUnit unit, final int orderId) {
 		for (final CAbilityOrderButtonJass orderButton : this.orderButtons) {
 			if (orderButton.getOrderId() == orderId) {

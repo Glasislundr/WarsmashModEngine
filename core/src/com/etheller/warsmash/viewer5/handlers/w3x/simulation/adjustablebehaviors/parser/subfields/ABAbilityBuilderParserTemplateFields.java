@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.etheller.warsmash.util.War3ID;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderTemplateType;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABMeleeRangeTargetOverride;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABAttackRangeTargetExclusion;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStatBuffFromDataField;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStateModFromDataField;
 
 public class ABAbilityBuilderParserTemplateFields {
 	//Template only
@@ -18,12 +20,18 @@ public class ABAbilityBuilderParserTemplateFields {
 	private List<ABAction> addToAuraActions;
 	private List<ABAction> updateAuraLevelActions;
 	private List<ABAction> removeFromAuraActions;
+	
+	private ABBooleanCallback positiveAura;
+	private ABStringCallback stackingKey;
+	private ABBooleanCallback hideAbilityIcon;
+	private ABBooleanCallback hideBuffIcon;
 	//Simple Aura Template
 	private Map<Integer,List<War3ID>> abilityIdsToAddPerLevel;
 	private List<War3ID> levellingAbilityIdsToAdd;
 	//StatList
 	private List<ABStatBuffFromDataField> statBuffsFromDataFields;
-	private ABMeleeRangeTargetOverride meleeRangeTargetOverride;
+	private List<ABStateModFromDataField> stateModsFromDataFields;
+	private ABAttackRangeTargetExclusion attackRangeTargetExclusion;
 
 	public void updateFromParent(ABAbilityBuilderParserTemplateFields parent) {
 		if (this.templateType == null)
@@ -45,8 +53,12 @@ public class ABAbilityBuilderParserTemplateFields {
 
 		if (this.statBuffsFromDataFields == null)
 			this.statBuffsFromDataFields = parent.statBuffsFromDataFields;
-		if (this.meleeRangeTargetOverride == null)
-			this.meleeRangeTargetOverride = parent.meleeRangeTargetOverride;
+		if (this.stateModsFromDataFields == null)
+			this.stateModsFromDataFields = parent.stateModsFromDataFields;
+		if (this.attackRangeTargetExclusion == null)
+			this.attackRangeTargetExclusion = parent.attackRangeTargetExclusion;
+		if (this.positiveAura == null)
+			this.positiveAura = parent.positiveAura;
 	}
 
 	public ABAbilityBuilderTemplateType getTemplateType() {
@@ -89,6 +101,38 @@ public class ABAbilityBuilderParserTemplateFields {
 		this.removeFromAuraActions = removeFromAuraActions;
 	}
 
+	public ABBooleanCallback getPositiveAura() {
+		return positiveAura;
+	}
+
+	public void setPositiveAura(ABBooleanCallback positiveAura) {
+		this.positiveAura = positiveAura;
+	}
+
+	public ABStringCallback getStackingKey() {
+		return stackingKey;
+	}
+
+	public void setStackingKey(ABStringCallback stackingKey) {
+		this.stackingKey = stackingKey;
+	}
+
+	public ABBooleanCallback getHideAbilityIcon() {
+		return hideAbilityIcon;
+	}
+
+	public void setHideAbilityIcon(ABBooleanCallback hideAbilityIcon) {
+		this.hideAbilityIcon = hideAbilityIcon;
+	}
+
+	public ABBooleanCallback getHideBuffIcon() {
+		return hideBuffIcon;
+	}
+
+	public void setHideBuffIcon(ABBooleanCallback hideBuffIcon) {
+		this.hideBuffIcon = hideBuffIcon;
+	}
+
 	public Map<Integer, List<War3ID>> getAbilityIdsToAddPerLevel() {
 		return abilityIdsToAddPerLevel;
 	}
@@ -113,11 +157,20 @@ public class ABAbilityBuilderParserTemplateFields {
 		this.statBuffsFromDataFields = statBuffsFromDataFields;
 	}
 
-	public ABMeleeRangeTargetOverride getMeleeRangeTargetOverride() {
-		return meleeRangeTargetOverride;
+	public List<ABStateModFromDataField> getStateModsFromDataFields() {
+		return stateModsFromDataFields;
 	}
 
-	public void setMeleeRangeTargetOverride(ABMeleeRangeTargetOverride meleeRangeTargetOverride) {
-		this.meleeRangeTargetOverride = meleeRangeTargetOverride;
+	public void setStateModsFromDataFields(List<ABStateModFromDataField> stateModsFromDataFields) {
+		this.stateModsFromDataFields = stateModsFromDataFields;
 	}
+
+	public ABAttackRangeTargetExclusion getAttackRangeTargetExclusion() {
+		return attackRangeTargetExclusion;
+	}
+
+	public void setAttackRangeTargetExclusion(ABAttackRangeTargetExclusion attackRangeTargetExclusion) {
+		this.attackRangeTargetExclusion = attackRangeTargetExclusion;
+	}
+
 }

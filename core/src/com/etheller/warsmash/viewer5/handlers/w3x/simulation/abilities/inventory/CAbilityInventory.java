@@ -547,4 +547,8 @@ public class CAbilityInventory extends AbstractGenericNoIconAbility {
 		}
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
 }

@@ -153,4 +153,8 @@ public abstract class AbstractGenericSingleIconActiveAbility extends AbstractGen
 	public void onDeath(final CSimulation game, final CUnit cUnit) {
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
 }

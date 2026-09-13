@@ -13,8 +13,9 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderParserTemplateFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderSpecialConfigFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderSpecialDisplayFields;
-import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABMeleeRangeTargetOverride;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABAttackRangeTargetExclusion;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStatBuffFromDataField;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStateModFromDataField;
 
 public class ABAbilityBuilderParser {
 
@@ -41,6 +42,7 @@ public class ABAbilityBuilderParser {
 	private List<ABAction> onActivate;
 	private List<ABAction> onDeactivate;
 	private List<ABAction> onChangeAutoCast;
+	private List<ABAction> onResurrect;
 
 	private List<ABAction> onLevelChange;
 
@@ -135,6 +137,8 @@ public class ABAbilityBuilderParser {
 			this.onDeactivate = parent.onDeactivate;
 		if (this.onChangeAutoCast == null)
 			this.onChangeAutoCast = parent.onChangeAutoCast;
+		if (this.onResurrect == null)
+			this.onResurrect = parent.onResurrect;
 		if (this.onLevelChange == null)
 			this.onLevelChange = parent.onLevelChange;
 		if (this.onBeginCasting == null)
@@ -328,6 +332,14 @@ public class ABAbilityBuilderParser {
 		this.onChangeAutoCast = onChangeAutoCast;
 	}
 
+	public List<ABAction> getOnResurrect() {
+		return onResurrect;
+	}
+
+	public void setOnResurrect(List<ABAction> onResurrect) {
+		this.onResurrect = onResurrect;
+	}
+
 	public List<ABAction> getOnBeginCasting() {
 		return onBeginCasting;
 	}
@@ -448,12 +460,28 @@ public class ABAbilityBuilderParser {
 		this.templateFields.setStatBuffsFromDataFields(statBuffsFromDataFields);
 	}
 
-	public ABMeleeRangeTargetOverride getMeleeRangeTargetOverride() {
-		return templateFields.getMeleeRangeTargetOverride();
+	public List<ABStateModFromDataField> getStateModsFromDataFields() {
+		return templateFields.getStateModsFromDataFields();
 	}
 
-	public void setMeleeRangeTargetOverride(ABMeleeRangeTargetOverride meleeRangeTargetOverride) {
-		this.templateFields.setMeleeRangeTargetOverride(meleeRangeTargetOverride);
+	public void setStateModsFromDataFields(List<ABStateModFromDataField> stateModsFromDataFields) {
+		this.templateFields.setStateModsFromDataFields(stateModsFromDataFields);
+	}
+
+	public ABAttackRangeTargetExclusion getAttackRangeTargetExclusion() {
+		return this.templateFields.getAttackRangeTargetExclusion();
+	}
+
+	public void setAttackRangeTargetExclusion(ABAttackRangeTargetExclusion attackRangeTargetExclusion) {
+		this.templateFields.setAttackRangeTargetExclusion(attackRangeTargetExclusion);
+	}
+
+	public ABBooleanCallback getPositiveAura() {
+		return this.templateFields.getPositiveAura();
+	}
+
+	public void setPositiveAura(ABBooleanCallback positiveAura) {
+		this.templateFields.setPositiveAura(positiveAura);
 	}
 
 	public List<ABStringCallback> getInitialUniqueFlags() {
@@ -462,5 +490,9 @@ public class ABAbilityBuilderParser {
 
 	public void setInitialUniqueFlags( List<ABStringCallback> initialUniqueFlags) {
 		this.initialUniqueFlags = initialUniqueFlags;
+	}
+
+	public ABAbilityBuilderParserTemplateFields getTemplateFields() {
+		return templateFields;
 	}
 }

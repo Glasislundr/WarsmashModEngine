@@ -136,6 +136,10 @@ public class CAbilityColdArrows extends AbstractGenericAliasedAbility {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isPhysical() {
 		return false;
 	}

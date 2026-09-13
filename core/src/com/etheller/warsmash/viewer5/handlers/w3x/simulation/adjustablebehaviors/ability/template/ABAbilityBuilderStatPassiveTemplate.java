@@ -89,7 +89,6 @@ public class ABAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIco
 			unit.addNonStackingDisplayBuff(game, auraStackingKey, buff);
 		}
 		this.caster = unit;
-		game.getAbilityData().createAbility(getAlias(), game.getHandleIdAllocator().createId());
 
 		for (ABStatBuffFromDataField statBuff : this.statBuffDataFields) {
 			unit.addNonStackingStatBuff(game, statBuff.getBuff());
@@ -117,6 +116,17 @@ public class ABAbilityBuilderStatPassiveTemplate extends AbilityGenericSingleIco
 	@Override
 	public void onDeath(CSimulation game, CUnit unit) {
 		removeBuffFromUnit(game, unit);
+	}
+
+	@Override
+	public void onResurrect(CSimulation game, CUnit unit) {
+		if (this.buff != null) {
+			unit.addNonStackingDisplayBuff(game, auraStackingKey, buff);
+		}
+		
+		for (ABStatBuffFromDataField statBuff : this.statBuffDataFields) {
+			unit.addNonStackingStatBuff(game, statBuff.getBuff());
+		}
 	}
 
 }

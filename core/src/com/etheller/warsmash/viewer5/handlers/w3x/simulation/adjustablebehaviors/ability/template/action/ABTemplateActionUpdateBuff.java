@@ -37,6 +37,8 @@ public class ABTemplateActionUpdateBuff implements ABAction {
 		localStore.put(ABLocalStoreKeys.combineKey(ABLocalStoreKeys.CASTINSTANCELEVEL, ABConstants.AURA_CAST_ID),
 				level);
 
+		this.ability.updateLevelBasedCalculatedFields(caster);
+
 		List<War3ID> buffList = this.levelData.get(level - 1).getBuffs();
 		War3ID buffId = null;
 		if (buffList != null && !buffList.isEmpty()) {
@@ -48,8 +50,7 @@ public class ABTemplateActionUpdateBuff implements ABAction {
 			ability.setBuff(ability.createBuff(localStore.game, buffId, localStore.originUnit));
 		}
 		
-		aura.setRange(levelData.get(level - 1).getCastRange());
-		aura.setLevel(level);
+		aura.setRange(levelData.get(level - 1).getArea());
 		if (updateAuraLevelActions != null) {
 			for (ABAction action : updateAuraLevelActions) {
 				action.runAction(caster, localStore, castId);

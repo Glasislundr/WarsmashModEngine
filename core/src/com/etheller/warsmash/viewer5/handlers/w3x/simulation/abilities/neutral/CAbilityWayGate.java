@@ -67,6 +67,10 @@ public class CAbilityWayGate extends AbstractGenericAliasedAbility
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public void onCancelFromQueue(CSimulation game, CUnit unit, int orderId) {
 
 	}

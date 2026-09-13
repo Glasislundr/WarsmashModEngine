@@ -274,6 +274,10 @@ public final class CAbilityQueue extends AbstractCAbility {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isPhysical() {
 		return false;
 	}

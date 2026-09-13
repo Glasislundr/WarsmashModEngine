@@ -63,6 +63,10 @@ public class CAbilityMoonWell extends CAbilitySpellBase implements CAutocastAbil
 		removeWaterRenderComponent();
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
 	private void disableManaRegen(final CUnit unit) {
 		if (this.manaRegenActive) {
 			unit.setManaRegen(0);

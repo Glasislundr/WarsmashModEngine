@@ -8618,7 +8618,7 @@ public class Jass2 {
 					(arguments, globalScope, triggerScope) -> {
 						final CUnit targetUnit = nullable(arguments, 0, ObjectJassValueVisitor.getInstance());
 						if ((targetUnit != null) && targetUnit.isDead()) {
-							targetUnit.resurrect(this.simulation);
+							targetUnit.resurrect(this.simulation, targetUnit.getMaxLife(), null, true);
 						}
 						return null;
 					});

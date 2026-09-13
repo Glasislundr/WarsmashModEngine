@@ -1,6 +1,7 @@
 package com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.generic;
 
 import com.etheller.warsmash.util.War3ID;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CSimulation;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.CUnit;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbility;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.CAbilityCategory;
@@ -77,6 +78,11 @@ public abstract class AbstractCBuff extends AbstractGenericAliasedAbility implem
 	public CUnit getSourceUnit() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void onResurrect(CSimulation simulation, CUnit cUnit) {
+		// Do Nothing, because Buffs are cleared on death
 	}
 
 }

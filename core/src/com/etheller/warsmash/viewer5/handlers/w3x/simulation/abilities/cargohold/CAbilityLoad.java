@@ -82,6 +82,10 @@ public class CAbilityLoad extends AbstractGenericSingleIconActiveAbility impleme
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isToggleOn() {
 		return false;
 	}

@@ -3,7 +3,7 @@
 		"ids": [{"id":"AHad"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
 			"statBuffsFromDataFields": [{
 				"type": "DEF",
 				"dataField": "A",
@@ -14,7 +14,20 @@
 		"ids": [{"id":"AHab"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
+			"auraTargetCondition": {
+				"type": "i>",
+				"value1": {
+					"type": "getUnitMaximumMp",
+					"unit": {
+						"type": "getAuraUnit"
+					}
+				},
+				"value2": {
+					"type": "rawInteger",
+					"value": 0
+				}
+			},
 			"statBuffsFromDataFields": [{
 				"type": "MPGEN",
 				"dataField": "A",
@@ -25,7 +38,7 @@
 		"ids": [{"id":"AOae"},{"id":"Aasl"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
 			"statBuffsFromDataFields": [{
 					"type": "ATKSPD",
 					"dataField": "B"
@@ -39,7 +52,7 @@
 		"ids": [{"id":"AUau"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
 			"statBuffsFromDataFields": [{
 				"type": "MVSPD",
 				"dataField": "A",
@@ -54,10 +67,16 @@
 		"ids": [{"id":"AUav"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
-			"meleeRangeTargetOverride": {
-				"targetMelee": true,
-				"targetRange": false
+			"templateType": "AURA",
+			"attackRangeTargetExclusion": {
+				"excludeRange": {
+					"type": "rawBoolean",
+					"value": "true"
+				},
+				"excludeNoAttack": {
+					"type": "rawBoolean",
+					"value": "true"
+				}
 			},
 			"statBuffsFromDataFields": [{
 				"type": "HPSTEAL",
@@ -68,7 +87,7 @@
 		"ids": [{"id":"AEah"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
 			"statBuffsFromDataFields": [{
 				"type": "THORNS",
 				"dataField": "A",
@@ -79,7 +98,11 @@
 		"ids": [{"id":"AEar"},{"id":"AOac"},{"id":"Aakb"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
+			"attackRangeTargetExclusion": {
+				"targetMeleeField": "B",
+				"targetRangeField": "C"
+			},
 			"statBuffsFromDataFields": [{
 				"type": "ATK",
 				"dataField": "A",
@@ -92,7 +115,24 @@
 		"ids": [{"id":"Aoar"},{"id":"Aabr"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
+			"auraTargetCondition": {
+				"type": "not",
+				"condition": {
+					"type": "isUnitMaxHp",
+					"unit": {
+						"type": "getAuraUnit"
+					}
+				}
+			},
+			"hideAbilityIcon": {
+				"type": "rawBoolean",
+				"value": "true"
+			},
+			"hideBuffIcon": {
+				"type": "rawBoolean",
+				"value": "true"
+			},
 			"statBuffsFromDataFields": [{
 				"type": "MAXHPGEN",
 				"dataField": "A",
@@ -103,7 +143,24 @@
 		"ids": [{"id":"Aarm"}],
 		"type": "TEMPLATE",
 		"templateFields": {
-			"templateType": "AURA_STATS",
+			"templateType": "AURA",
+			"auraTargetCondition": {
+				"type": "not",
+				"condition": {
+					"type": "isUnitMaxMp",
+					"unit": {
+						"type": "getAuraUnit"
+					}
+				}
+			},
+			"hideAbilityIcon": {
+				"type": "rawBoolean",
+				"value": "true"
+			},
+			"hideBuffIcon": {
+				"type": "rawBoolean",
+				"value": "true"
+			},
 			"statBuffsFromDataFields": [{
 				"type": "MAXMPGEN",
 				"dataField": "A",

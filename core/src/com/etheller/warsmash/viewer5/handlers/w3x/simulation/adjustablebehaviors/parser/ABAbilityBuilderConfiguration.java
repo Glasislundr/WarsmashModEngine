@@ -3,14 +3,21 @@ package com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehavior
 import java.util.List;
 import java.util.Map;
 
+import com.etheller.warsmash.util.War3ID;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.autocast.AutocastType;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.abilities.types.definitions.CAbilityTypeDefinition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.callback.strings.ABStringCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.behavior.condition.ABBooleanCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABAction;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.core.ABCallback;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderOverrideFields;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderParserTemplateFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderSpecialConfigFields;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.subfields.ABAbilityBuilderSpecialDisplayFields;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABAttackRangeTargetExclusion;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStatBuffFromDataField;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.template.ABStateModFromDataField;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.definitions.impl.ABAbilityBuilderTemplateTypeDefinition;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.types.definitions.impl.ABAbilityBuilderTypeDefinition;
 
 public class ABAbilityBuilderConfiguration {
@@ -43,6 +50,7 @@ public class ABAbilityBuilderConfiguration {
 	private List<ABAction> onActivate;
 	private List<ABAction> onDeactivate;
 	private List<ABAction> onChangeAutoCast;
+	private List<ABAction> onResurrect;
 	
 	private List<ABAction> onLevelChange;
 
@@ -55,6 +63,9 @@ public class ABAbilityBuilderConfiguration {
 	private Map<String, ABCallback> reuseCallbacks;
 
 	private List<ABStringCallback> initialUniqueFlags;
+	
+	//Template only
+	private ABAbilityBuilderParserTemplateFields templateFields;
 
 	public ABAbilityBuilderConfiguration(ABAbilityBuilderParser parser, ABAbilityBuilderDupe dupe) {
 		this.id = dupe.getId();
@@ -83,6 +94,7 @@ public class ABAbilityBuilderConfiguration {
 		this.onActivate = parser.getOnActivate();
 		this.onDeactivate = parser.getOnDeactivate();
 		this.onChangeAutoCast = parser.getOnChangeAutoCast();
+		this.setOnResurrect(parser.getOnResurrect());
 		
 		this.onLevelChange = parser.getOnLevelChange();
 
@@ -95,9 +107,14 @@ public class ABAbilityBuilderConfiguration {
 		this.setReuseCallbacks(parser.getReuseCallbacks());
 		
 		this.setInitialUniqueFlags(parser.getInitialUniqueFlags());
+		
+		this.templateFields = parser.getTemplateFields();
 	}
 	
-	public ABAbilityBuilderTypeDefinition createDefinition() {
+	public CAbilityTypeDefinition createDefinition() {
+		if (this.type == ABAbilityBuilderType.TEMPLATE) {
+			return new ABAbilityBuilderTemplateTypeDefinition(this);
+		}
 		return new ABAbilityBuilderTypeDefinition(this);
 	}
 
@@ -317,6 +334,14 @@ public class ABAbilityBuilderConfiguration {
 		this.onChangeAutoCast = onChangeAutoCast;
 	}
 
+	public List<ABAction> getOnResurrect() {
+		return onResurrect;
+	}
+
+	public void setOnResurrect(List<ABAction> onResurrect) {
+		this.onResurrect = onResurrect;
+	}
+
 	public List<ABAction> getOnLevelChange() {
 		return onLevelChange;
 	}
@@ -379,6 +404,66 @@ public class ABAbilityBuilderConfiguration {
 
 	public void setInitialUniqueFlags( List<ABStringCallback> initialUniqueFlags) {
 		this.initialUniqueFlags = initialUniqueFlags;
+	}
+
+	public ABAbilityBuilderParserTemplateFields getTemplateFields() {
+		return templateFields;
+	}
+
+	public ABAbilityBuilderTemplateType getTemplateType() {
+		return templateFields.getTemplateType();
+	}
+
+	public ABBooleanCallback getAuraTargetCondition() {
+		return templateFields.getAuraTargetCondition();
+	}
+
+	public List<ABAction> getAddToAuraActions() {
+		return templateFields.getAddToAuraActions();
+	}
+
+	public List<ABAction> getUpdateAuraLevelActions() {
+		return templateFields.getUpdateAuraLevelActions();
+	}
+
+	public List<ABAction> getRemoveFromAuraActions() {
+		return templateFields.getRemoveFromAuraActions();
+	}
+
+	public ABBooleanCallback getPositiveAura() {
+		return this.templateFields.getPositiveAura();
+	}
+
+	public ABStringCallback getStackingKey() {
+		return this.templateFields.getStackingKey();
+	}
+
+	public ABBooleanCallback getHideAbilityIcon() {
+		return this.templateFields.getHideAbilityIcon();
+	}
+
+	public ABBooleanCallback getHideBuffIcon() {
+		return this.templateFields.getHideBuffIcon();
+	}
+
+	public Map<Integer, List<War3ID>> getAbilityIdsToAddPerLevel() {
+		return templateFields.getAbilityIdsToAddPerLevel();
+	}
+
+	public List<War3ID> getLevellingAbilityIdsToAdd() {
+		return templateFields.getLevellingAbilityIdsToAdd();
+	}
+
+	public List<ABStatBuffFromDataField> getStatBuffsFromDataFields() {
+		return templateFields.getStatBuffsFromDataFields();
+	}
+
+	public List<ABStateModFromDataField> getStateModsFromDataFields() {
+		return templateFields.getStateModsFromDataFields();
+	}
+
+	public ABAttackRangeTargetExclusion getAttackRangeTargetExclusion() {
+		return this.templateFields.getAttackRangeTargetExclusion();
 	}
 
 }

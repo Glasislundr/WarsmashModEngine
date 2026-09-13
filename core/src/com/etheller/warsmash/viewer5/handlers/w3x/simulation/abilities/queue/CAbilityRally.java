@@ -126,6 +126,10 @@ public class CAbilityRally extends AbstractCAbility implements CLevelingAbility 
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isPhysical() {
 		return false;
 	}

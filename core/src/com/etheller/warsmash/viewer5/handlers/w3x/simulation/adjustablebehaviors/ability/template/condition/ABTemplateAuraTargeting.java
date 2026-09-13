@@ -53,4 +53,16 @@ public class ABTemplateAuraTargeting extends ABBooleanCallback {
 		}
 	}
 
+	public void updateExclusions(ABAttackRangeTargetExclusion attackRangeTargetExcludes) {
+		if (attackRangeTargetExcludes != null) {
+			this.excludeMelee = attackRangeTargetExcludes.isExcludeMelee();
+			this.excludeRange = attackRangeTargetExcludes.isExcludeRange();
+			this.excludeNoAttacks = attackRangeTargetExcludes.isExcludeNoAttack();
+		} else {
+			this.excludeMelee = false;
+			this.excludeRange = false;
+			this.excludeNoAttacks = false;
+		}
+	}
+
 }

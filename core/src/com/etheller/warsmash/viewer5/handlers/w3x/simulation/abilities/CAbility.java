@@ -26,6 +26,8 @@ public interface CAbility extends CAbilityView, CExtensibleHandle {
 
 	void onDeath(CSimulation game, CUnit cUnit);
 
+	void onResurrect(CSimulation simulation, CUnit cUnit);
+	
 	/*
 	 * should fire for "permanent" abilities that are kept across unit type change
 	 */

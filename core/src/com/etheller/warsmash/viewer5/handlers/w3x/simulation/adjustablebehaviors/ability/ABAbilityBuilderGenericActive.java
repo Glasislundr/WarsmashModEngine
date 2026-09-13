@@ -1113,6 +1113,15 @@ public abstract class ABAbilityBuilderGenericActive extends AbstractGenericSingl
 	}
 
 	@Override
+	public void onResurrect(CSimulation game, CUnit unit) {
+		if (config.getOnResurrect() != null) {
+			for (ABAction action : config.getOnResurrect()) {
+				action.runAction(unit, localStore, ABConstants.NO_CAST_ID);
+			}
+		}
+	}
+
+	@Override
 	public void runOnOrderIssuedActions(final CSimulation game, final CUnit caster, int orderId) {
 		if (config.getOnOrderIssued() != null) {
 			for (ABAction action : config.getOnOrderIssued()) {

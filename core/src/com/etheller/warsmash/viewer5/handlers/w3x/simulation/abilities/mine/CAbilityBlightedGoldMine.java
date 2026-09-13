@@ -77,6 +77,10 @@ public class CAbilityBlightedGoldMine extends CAbilityOverlayedMine {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public void onTick(final CSimulation game, final CUnit unit) {
 		if (this.currentActiveMinerCount > 0) {
 			final float currentInterval = this.intervalDuration

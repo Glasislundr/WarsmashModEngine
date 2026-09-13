@@ -109,6 +109,10 @@ public class CAbilityItemPermanentStatGain extends AbstractGenericNoIconAbility 
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public int getBaseOrderId() {
 		return OrderIds.itemstatgain;
 	}

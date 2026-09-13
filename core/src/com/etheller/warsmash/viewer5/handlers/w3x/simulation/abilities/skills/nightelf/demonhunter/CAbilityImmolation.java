@@ -70,6 +70,10 @@ public class CAbilityImmolation extends AbstractGenericSingleIconNoSmartActiveAb
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public void onRemove(final CSimulation game, final CUnit unit) {
 	}
 

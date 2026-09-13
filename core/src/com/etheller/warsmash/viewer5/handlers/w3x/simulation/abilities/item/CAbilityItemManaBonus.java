@@ -94,6 +94,10 @@ public class CAbilityItemManaBonus extends CAbilitySpellBase {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public int getBaseOrderId() {
 		return 0;
 	}

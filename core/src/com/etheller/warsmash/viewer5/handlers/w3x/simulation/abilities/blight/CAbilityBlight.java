@@ -62,6 +62,10 @@ public class CAbilityBlight extends AbstractGenericNoIconAbility {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public void onCancelFromQueue(final CSimulation game, final CUnit unit, final int orderId) {
 	}
 

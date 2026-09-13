@@ -48,7 +48,7 @@ public class CAbilityResurrect extends CAbilityNoTargetSpellBase {
 					}
 				});
 		for (final CUnit unit : unitsToResurrect) {
-			unit.resurrect(simulation);
+			unit.resurrect(simulation, unit.getMaxLife(), null, true);
 			simulation.createTemporarySpellEffectOnUnit(unit, getAlias(), CEffectType.TARGET);
 		}
 		simulation.createTemporarySpellEffectOnUnit(caster, getAlias(), CEffectType.CASTER);

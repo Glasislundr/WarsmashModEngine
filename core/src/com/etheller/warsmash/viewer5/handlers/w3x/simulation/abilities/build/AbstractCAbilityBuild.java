@@ -153,6 +153,10 @@ public abstract class AbstractCAbilityBuild extends AbstractCAbility implements 
 	public void onDeath(final CSimulation game, final CUnit cUnit) {
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
 	public static boolean isBuildLocationObstructed(CSimulation simulation, CUnitType unitTypeToCreate, BufferedImage buildingPathingPixelMap, boolean canBeBuiltOnThem, float targetX, float targetY, CUnit worker, BuildOnBuildingIntersector buildOnBuildingIntersector) {
 		boolean buildLocationObstructed = false;
 		if (canBeBuiltOnThem) {

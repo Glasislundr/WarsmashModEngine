@@ -65,6 +65,10 @@ public class CAbilityBuildInProgress extends AbstractCAbility {
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public CBehavior begin(final CSimulation game, final CUnit caster, final int orderId, boolean autoOrder, final CWidget target) {
 		return null;
 	}

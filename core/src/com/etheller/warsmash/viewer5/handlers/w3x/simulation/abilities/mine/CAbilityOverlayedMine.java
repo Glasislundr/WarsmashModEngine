@@ -34,6 +34,15 @@ public abstract class CAbilityOverlayedMine extends AbstractGenericNoIconAbility
 		}
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+		// Not sure about this?
+		if (this.parentGoldMineUnit != null && !this.parentGoldMineUnit.isHidden()) {
+			this.parentGoldMineUnit.setHidden(true);
+			this.parentGoldMineUnit.setPaused(true);
+		}
+	}
+
 	public void setGold(final int gold) {
 		if (this.parentGoldMineAbility != null) {
 			this.parentGoldMineAbility.setGold(gold);

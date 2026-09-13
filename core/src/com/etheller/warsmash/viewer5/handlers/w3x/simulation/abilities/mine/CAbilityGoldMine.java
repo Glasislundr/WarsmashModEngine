@@ -166,6 +166,10 @@ public class CAbilityGoldMine extends AbstractGenericNoIconAbility implements CA
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isBaseMine() {
 		return true;
 	}

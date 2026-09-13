@@ -160,8 +160,8 @@ public abstract class CUnitAttack {
 			if (buffForKey == null) {
 				continue;
 			}
-			int otherAtkBonus = (int) (this.totalBaseDamage * buffForKey)
-					+ (int) Math.ceil(((this.totalDamageDice * (1 + this.damageSidesPerDie)) / 2) * buffForKey);
+			int otherAtkBonus = (int) ((this.totalBaseDamage
+					+ ((this.totalDamageDice * (1 + this.damageSidesPerDie)) / 2)) * buffForKey + 0.5);
 			if (otherAtkBonus == 0) {
 				otherAtkBonus = (int) (buffForKey / Math.abs(buffForKey));
 			}
@@ -407,7 +407,7 @@ public abstract class CUnitAttack {
 	public float getTotalAttackSpeedPercent() {
 		return this.totalAttackSpeedPercent;
 	}
-	
+
 	public abstract CDamageFlags getBaseAttackDamageFlags();
 
 	public abstract void launch(CSimulation simulation, CUnit unit, AbilityTarget target, float damage,
@@ -438,15 +438,13 @@ public abstract class CUnitAttack {
 						&& settings.getPreDamageListeners() != null) {
 					for (CUnitAttackPreDamageListener listener : settings.getPreDamageListeners()) {
 						if (!calc.isSkipCurrentLevel()) {
-							listener.onAttack(simulation, target, attackImpactLocation, this, settings,
-									calc);
+							listener.onAttack(simulation, target, attackImpactLocation, this, settings, calc);
 						}
 					}
 				} else {
 					for (CUnitAttackPreDamageListener listener : attacker.getPreDamageListenersForPriority(priority)) {
 						if (!calc.isSkipCurrentLevel()) {
-							listener.onAttack(simulation, target, attackImpactLocation, this, settings,
-									calc);
+							listener.onAttack(simulation, target, attackImpactLocation, this, settings, calc);
 						}
 					}
 				}

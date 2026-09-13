@@ -88,6 +88,10 @@ public class CAbilityKaboom extends CAbilityUnitOrPointTargetSpellBase implement
 		}
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
 	private void explode(final CSimulation simulation, final CUnit caster) {
 		final float radius = StrictMath.max(partialDamageRadius, fullDamageRadius);
 		simulation.getWorldCollision().enumUnitsInRange(caster.getX(), caster.getY(), radius, (enumUnit) -> {

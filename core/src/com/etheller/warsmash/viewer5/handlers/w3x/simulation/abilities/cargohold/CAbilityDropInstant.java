@@ -86,6 +86,10 @@ public class CAbilityDropInstant extends AbstractGenericSingleIconNoSmartActiveA
 	}
 
 	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
+	@Override
 	public boolean isToggleOn() {
 		return false;
 	}

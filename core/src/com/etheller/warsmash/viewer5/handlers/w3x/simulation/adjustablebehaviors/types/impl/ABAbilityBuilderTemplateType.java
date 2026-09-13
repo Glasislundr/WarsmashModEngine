@@ -16,17 +16,18 @@ import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalDataStore;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABLocalStoreKeys;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.datastore.ABMapLocalDataStore;
+import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderConfiguration;
 import com.etheller.warsmash.viewer5.handlers.w3x.simulation.adjustablebehaviors.parser.ABAbilityBuilderParser;
 
 public class ABAbilityBuilderTemplateType extends CAbilityType<ABAbilityBuilderAbilityTypeLevelData> {
 
-	private ABAbilityBuilderParser parser;
+	private ABAbilityBuilderConfiguration config;
 	private GameObject abilityEditorData;
 
 	public ABAbilityBuilderTemplateType(War3ID alias, War3ID code, GameObject abilityEditorData,
-			List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABAbilityBuilderParser parser) {
+			List<ABAbilityBuilderAbilityTypeLevelData> levelData, ABAbilityBuilderConfiguration parser) {
 		super(alias, code, levelData);
-		this.parser = parser;
+		this.config = parser;
 		this.abilityEditorData = abilityEditorData;
 	}
 
@@ -38,21 +39,19 @@ public class ABAbilityBuilderTemplateType extends CAbilityType<ABAbilityBuilderA
 		localStore.put(ABLocalStoreKeys.ALIAS, getAlias());
 		localStore.put(ABLocalStoreKeys.CODE, getCode());
 
-		switch (parser.getTemplateType()) {
+		switch (config.getTemplateType()) {
 		case PASSIVE_STATS:
 			return new ABAbilityBuilderStatPassiveTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
-					parser.getStatBuffsFromDataFields());
+					config.getStatBuffsFromDataFields());
 		case AURA_STATS:
 			return new ABAbilityBuilderStatAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
-					parser.getStatBuffsFromDataFields(), parser.getMeleeRangeTargetOverride());
+					config.getStatBuffsFromDataFields(), config.getAttackRangeTargetExclusion());
 		case AURA_SIMPLE:
 			return new ABAbilityBuilderSimpleAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
-					parser.getAbilityIdsToAddPerLevel(), parser.getLevellingAbilityIdsToAdd());
+					config.getAbilityIdsToAddPerLevel(), config.getLevellingAbilityIdsToAdd());
 		case AURA:
 		default:
-			return new ABAbilityBuilderAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), localStore,
-					parser.getOnAddDisabledAbility(), parser.getAuraTargetCondition(), parser.getAddToAuraActions(),
-					parser.getUpdateAuraLevelActions(), parser.getRemoveFromAuraActions());
+			return new ABAbilityBuilderAuraTemplate(handleId, getCode(), getAlias(), getLevelData(), config, localStore);
 		}
 	}
 

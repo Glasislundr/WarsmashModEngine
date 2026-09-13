@@ -130,6 +130,10 @@ public class CAbilityCargoHold extends AbstractGenericNoIconAbility {
 		unloadAllInstant(game, unit);
 	}
 
+	@Override
+	public void onResurrect(final CSimulation game, final CUnit cUnit) {
+	}
+
 	public int getCargoCapacity() {
 		return this.cargoCapacity;
 	}
